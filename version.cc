@@ -6,15 +6,14 @@
 #include <sstream>
 #include "version.h"
 
+#define SIGEN_VER_NUM  "2.6.3"
+#define SIGEN_VER_DATE "Sat Jun 20 01:10:55 EDT 2015"
+
 namespace sigen
 {
-    static const char* VER_NUM_MAJ = "2.6";
-    static const char* VER_NUM_MIN = "2";
-    static const char* VER_DATE = __DATE__ " " __TIME__;
-
-    std::string version()
+    const char* version()
     {
-        return std::string(VER_NUM_MAJ) + VER_NUM_MIN + " (" + VER_DATE + ")";
+        return (SIGEN_VER_NUM " (" SIGEN_VER_DATE ")");
     }
 
 } // namespace
