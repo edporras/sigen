@@ -82,8 +82,10 @@ int main(int argc, char* argv[])
 	 pat.addProgram( service_id, pmt_pid );
       }
 
+      // for debug output
       DUMP(pat);
 
+      // this builds the binary section data onto the TStream object
       pat.buildSections(t);
    }
 

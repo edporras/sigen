@@ -1,3 +1,7 @@
+# change as needed
+CC	= clang
+AR      = ar rv
+
 # Library Name (does not include "main" symbol)
 MODULE_NAME = sigen
 LIB_NAME = lib$(MODULE_NAME).a
@@ -82,11 +86,9 @@ OBJS    = $(SRCS:.cc=.o)
 
 # commands used here
 #
-AR      = ar rv
 CP      = cp -p -f
-CC	= g++
 DEPEND  = makedepend -f.depend -m
-DEPENDFLAGS = -I../ -I/usr/include/c++/4.2.1 -I/usr/include/c++/4.2.1/i686-apple-darwin10/ -I/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/
+DEPENDFLAGS = -I../
 MKDIR	= -mkdir -p
 RANLIB  = ranlib
 RM      = rm -f
