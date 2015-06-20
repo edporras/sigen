@@ -1,0 +1,31 @@
+# DO NOT DELETE
+
+main.o: ../sigen/sigen.h
+main.o: ../sigen/types.h
+main.o: ../sigen/dvb_defs.h
+main.o: ../sigen/version.h
+main.o: ../sigen/tstream.h
+main.o: ../sigen/packetizer.h
+main.o: ../sigen/utc.h
+main.o: ../sigen/util.h
+main.o: ../sigen/dump.h
+main.o: ../sigen/table.h
+main.o: ../sigen/nit.h
+main.o: ../sigen/bat.h
+main.o: ../sigen/sdt.h
+main.o: ../sigen/pat.h
+main.o: ../sigen/pmt.h
+main.o: ../sigen/cat.h
+main.o: ../sigen/eit.h
+main.o: ../sigen/tdt.h
+main.o: ../sigen/tot.h
+main.o: ../sigen/other_tables.h
+main.o: ../sigen/descriptor.h
+main.o: ../sigen/dvb_desc.h
+main.o: ../sigen/stream_desc.h
+main.o: ../sigen/nit_desc.h
+main.o: ../sigen/linkage_desc.h
+main.o: ../sigen/sdt_desc.h
+main.o: ../sigen/pmt_desc.h
+main.o: ../sigen/ssu_desc.h
+main.o: ../sigen/eit_desc.h

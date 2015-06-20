@@ -1,0 +1,50 @@
+# DO NOT DELETE
+
+tstream.o: dump.h tstream.h ../sigen/types.h util.h
+packetizer.o: types.h packetizer.h ../sigen/types.h tstream.h
+utc.o: utc.h ../sigen/types.h
+util.o: util.h ../sigen/types.h
+table.o: types.h table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h
+table.o: descriptor.h ../sigen/table.h ../sigen/tstream.h tstream.h
+descriptor.o: descriptor.h ../sigen/table.h ../sigen/tstream.h
+descriptor.o: ../sigen/types.h
+pat.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h pat.h
+pat.o: ../sigen/table.h tstream.h
+pmt.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h pmt.h
+pmt.o: ../sigen/table.h descriptor.h ../sigen/tstream.h tstream.h
+cat.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h cat.h
+cat.o: ../sigen/table.h tstream.h descriptor.h ../sigen/tstream.h
+nit.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h descriptor.h
+nit.o: ../sigen/table.h ../sigen/tstream.h tstream.h nit.h
+sdt.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h descriptor.h
+sdt.o: ../sigen/table.h ../sigen/tstream.h tstream.h sdt.h
+eit.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h descriptor.h
+eit.o: ../sigen/table.h ../sigen/tstream.h tstream.h eit.h ../sigen/utc.h
+tdt.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h tstream.h
+tdt.o: tdt.h ../sigen/utc.h
+tot.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h tstream.h
+tot.o: tot.h ../sigen/utc.h ../sigen/table.h descriptor.h ../sigen/tstream.h
+bat.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h descriptor.h
+bat.o: ../sigen/table.h ../sigen/tstream.h tstream.h bat.h
+other_tables.o: table.h ../sigen/types.h ../sigen/util.h ../sigen/dump.h
+other_tables.o: tstream.h other_tables.h ../sigen/table.h
+stream_desc.o: descriptor.h ../sigen/table.h ../sigen/tstream.h
+stream_desc.o: ../sigen/types.h stream_desc.h ../sigen/descriptor.h tstream.h
+stream_desc.o: util.h
+dvb_desc.o: descriptor.h ../sigen/table.h ../sigen/tstream.h ../sigen/types.h
+dvb_desc.o: tstream.h dvb_desc.h ../sigen/descriptor.h ../sigen/utc.h util.h
+nit_desc.o: descriptor.h ../sigen/table.h ../sigen/tstream.h ../sigen/types.h
+nit_desc.o: tstream.h nit_desc.h ../sigen/descriptor.h ../sigen/dvb_defs.h
+linkage_desc.o: descriptor.h ../sigen/table.h ../sigen/tstream.h
+linkage_desc.o: ../sigen/types.h tstream.h linkage_desc.h
+linkage_desc.o: ../sigen/descriptor.h
+pmt_desc.o: descriptor.h ../sigen/table.h ../sigen/tstream.h ../sigen/types.h
+pmt_desc.o: pmt_desc.h ../sigen/descriptor.h ../sigen/util.h tstream.h util.h
+sdt_desc.o: descriptor.h ../sigen/table.h ../sigen/tstream.h ../sigen/types.h
+sdt_desc.o: sdt_desc.h ../sigen/util.h ../sigen/descriptor.h tstream.h util.h
+eit_desc.o: descriptor.h ../sigen/table.h ../sigen/tstream.h ../sigen/types.h
+eit_desc.o: eit_desc.h ../sigen/descriptor.h tstream.h util.h
+ssu_desc.o: descriptor.h ../sigen/table.h ../sigen/tstream.h ../sigen/types.h
+ssu_desc.o: ssu_desc.h ../sigen/linkage_desc.h ../sigen/descriptor.h
+ssu_desc.o: ../sigen/pmt_desc.h ../sigen/util.h tstream.h util.h
+version.o: version.h

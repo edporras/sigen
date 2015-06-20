@@ -1,4 +1,4 @@
-TOP	= ../..
+TOP	= ../
 LIBDIR	= $(TOP)/sigen
 INCDIR	= $(TOP)/
 
