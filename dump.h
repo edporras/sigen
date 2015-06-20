@@ -8,6 +8,7 @@
 
 #ifdef ENABLE_DUMP
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <sigen/types.h>
@@ -341,8 +342,8 @@ namespace sigen {
 #endif
 } // sigen namespace
 
-    // enable dumps to cout
-#define DUMP(o) o.dump(cout)
+    // enable dumps to cerr
+#define DUMP(o) o.dump(std::cerr)
 
 // ifdef ENABLE_DUMP
 #else

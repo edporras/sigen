@@ -1,11 +1,10 @@
 //
-// sigen library tests
+// usage examples
 //
 
 #include <iostream>
 #include <sigen/sigen.h> // this header includes all the required object headers
 
-using namespace std;
 using namespace sigen;
 
 namespace data
@@ -14,7 +13,6 @@ namespace data
     const ui16 xport_stream_id = 0x10;
     const int num_services = 10;
 }
-using namespace data;
 
 //
 // sample for building a stream with an NIT and a TDT
@@ -31,7 +29,7 @@ int main(int argc, char* argv[])
    else
       for (int i = 1; i < argc; i++)
       {
-	 string arg = argv[i];
+         std::string arg = argv[i];
 
 	 if (arg == "-nit")
 	    flags |= NIT_F;
@@ -53,7 +51,7 @@ int main(int argc, char* argv[])
 	    flags |= TDT_F;
 	 else if (arg == "-h")
          {
-             cerr << argv[0] << " linked against sigen library v" << sigen::version() << endl;
+             std::cerr << argv[0] << " linked against sigen library v" << sigen::version() << std::endl;
              return -1;
          }
       }
@@ -65,16 +63,16 @@ int main(int argc, char* argv[])
    {
       // build the pat object..
       // current_next & reserved_bits default to true
-      PAT pat( xport_stream_id, 0x01 );
+      PAT pat( data::xport_stream_id, 0x01 );
 
       // override the default maximum section length.. (optional)
       pat.setMaxSectionLen( 900 );
 
       // add the services (programs).. first, set the network pid (required for
       // some systems)
-      pat.addNetworkPid( network_pid );
+      pat.addNetworkPid( data::network_pid );
 
-      for (int i = 0; i < num_services; i++)
+      for (int i = 0; i < data::num_services; i++)
       {
 	 // each service has an id and pmt pid associated with it..
 	 // get it from somehwere..
@@ -157,7 +155,7 @@ int main(int argc, char* argv[])
       nit.addNetworkDesc( *nnd );
 
       // another one
-      string s(259, 'c');
+      std::string s(259, 'c');
       NetworkNameDesc *nd2 = new NetworkNameDesc(s);
       nit.addNetworkDesc( *nd2 );
 
@@ -167,8 +165,8 @@ int main(int argc, char* argv[])
 
       // multiling net name
       MultilingualNetworkNameDesc *mlnnd = new MultilingualNetworkNameDesc;
-      mlnnd->addLanguage("fre", "Le Idiot");
-      mlnnd->addLanguage("spa", "El Idiota");
+      mlnnd->addLanguage("fre", "La France");
+      mlnnd->addLanguage("spa", "La Francia");
 
       nit.addNetworkDesc( *mlnnd );
 
@@ -256,7 +254,7 @@ int main(int argc, char* argv[])
       StuffingDesc *stuff1 = new StuffingDesc( 'z', 200 );
       sdt.addServiceDesc( *stuff1 );
 
-      string s(259, 'd');
+      std::string s(259, 'd');
       StuffingDesc *stuff2 = new StuffingDesc( s );
       sdt.addServiceDesc( *stuff2 );
 
@@ -285,7 +283,6 @@ int main(int argc, char* argv[])
       mlsnd->addLanguage("ita", "Radio France 5", "Some Service 5");
       mlsnd->addLanguage("rus", "Radio France 6", "Some Service 6");
       mlsnd->addLanguage("chi", "Radio France 7", "Some Service 7");
-      mlsnd->addLanguage("jap", "Radio France 8 YEAH", "Some Service 8");
 
       sdt.addServiceDesc( *mlsnd );
 
@@ -383,7 +380,7 @@ int main(int argc, char* argv[])
       MaximumBitrateDesc *mbd = new MaximumBitrateDesc( 0x234243 );
       cat.addDesc( *mbd );
 
-      CopyrightDesc *crd = new CopyrightDesc( 0x88990011, "(c) 2001 Elguapo's dot net");
+      CopyrightDesc *crd = new CopyrightDesc( 0x88990011, "(c) 2001 ep");
       cat.addDesc( *crd );
 
       MultiplexBufferUtilizationDesc *mbud = new MultiplexBufferUtilizationDesc( false, 0xefff, 0x27 );
@@ -440,7 +437,7 @@ int main(int argc, char* argv[])
 
       cat.addDesc( *prd );
 
-      ShortEventDesc *sed = new ShortEventDesc( "eng", "Life is Beautiful", "Sad sad story set in WWII");
+      ShortEventDesc *sed = new ShortEventDesc( "eng", "Fight Club", "An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker.");
       cat.addDesc( *sed );
 
       ShortSmoothingBufferDesc *smbd = new ShortSmoothingBufferDesc( 0x1, 0x4, "What is a smoothing buffer?");
@@ -476,7 +473,7 @@ int main(int argc, char* argv[])
    // Section. Alternatively, you can have direct access to the binary
    // data by invoking getBinaryData().. regardless, iterate throguh
    // the list and do whatever you need like so:
-   for (list<Section *>::const_iterator s_iter = t.section_list.begin();
+   for (std::list<Section *>::const_iterator s_iter = t.section_list.begin();
 	s_iter != t.section_list.end();
 	s_iter++)
    {
