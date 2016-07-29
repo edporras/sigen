@@ -1,0 +1,75 @@
+# what flags you want to pass to the C compiler & linker
+AM_CXXFLAGS = -DENABLE_DUMP
+
+#AM_LDFLAGS =
+
+#sigen_LDADD =
+
+# this lists the binaries to produce, the (non-PHONY, binary) targets in
+# the previous manual Makefile
+lib_LTLIBRARIES = libsigen.la
+libsigen_la_SOURCES = \
+	bat.cc \
+	cat.cc \
+	descriptor.cc \
+	dump.cc \
+	dvb_desc.cc \
+	eit.cc \
+	eit_desc.cc \
+	linkage_desc.cc \
+	nit.cc \
+	nit_desc.cc \
+	other_tables.cc \
+	packetizer.cc \
+	pat.cc \
+	pmt.cc \
+	pmt_desc.cc \
+	sdt.cc \
+	sdt_desc.cc \
+	ssu_desc.cc \
+	stream_desc.cc \
+	table.cc \
+	tdt.cc \
+	tot.cc \
+	tstream.cc \
+	utc.cc \
+	util.cc \
+	version.cc
+
+libsigenincludedir = $(includedir)/sigen
+libsigeninclude_HEADERS = \
+	bat.h \
+	cat.h \
+	descriptor.h \
+	dump.h \
+	dvb_defs.h \
+	dvb_desc.h \
+	eit.h \
+	eit_desc.h \
+	linkage_desc.h \
+	nit.h \
+	nit_desc.h \
+	other_tables.h \
+	packetizer.h \
+	pat.h \
+	pmt.h \
+	pmt_desc.h \
+	sdt.h \
+	sdt_desc.h \
+	sigen.h \
+	ssu_desc.h \
+	stream_desc.h \
+	table.h \
+	tdt.h \
+	tot.h \
+	tstream.h \
+	types.h \
+	utc.h \
+	util.h \
+	version.h
+
+
+#if ENABLE_DUMP
+# include md5 code if openssl was not found
+#pdftoedn_SOURCES += bzflag_md5.cc
+#endif

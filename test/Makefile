@@ -1,6 +1,5 @@
-TOP	= ../
-LIBDIR	= $(TOP)/sigen
-INCDIR	= $(TOP)/
+LIBDIR	=
+INCDIR	=
 
 LIBDEPS	= $(LIBDIR)/libsigen.a
 PROJLIBS =
@@ -29,7 +28,7 @@ CFLAGS  = $(DEBUGFLAGS) $(CCFLAGS) $(ALLDEFINES) $(ALLINCLUDES)
 LDFLAGS = $(ALLDEFINES) $(LDINCS) $(PTFLAGS)
 
 # the project files
-EXEC	= libtest
+EXEC	= sigentest
 SRCS	= main.cc
 OBJS	= $(SRCS:.cc=.o)
 
@@ -60,4 +59,3 @@ strip:
 depend::
 	$(DEPEND) $(DEPENDFLAGS) --  -- $(SRCS)
 
-include .depend

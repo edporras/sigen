@@ -17,52 +17,11 @@ so I could make changes to it if needed.
 Building
 ========
 
-(Apologies for the fugly Makefile but this is all we needed back then.)
-
-Edit the Makefile and define the following to enable / disable the
-feature:
-
-  `-DENABLE_DUMP`: forces inclusion of methods and functions for
-  outputing table / descriptor dump data to a c++ ostream.  All table
-  / descriptor classes are defined with a `dump(ostream&)` method for
-  this purpose.  For debugging, etc. to stdout, use the `DUMP()` macro
-  defined in dump.h which is included only when this feature is
-  enabled (calls to dump data are not compiled otherwise).
-
-  Of course, you can choose to dump to a file by passing an `ofstream`
-  as the argument to the dump methods.
-
-  `-DTRACE`: internal debug macro.  You shouldn't need to use this
-  unless you're curious or, worse yet, bored. :)
-
-Then build:
-
 ```
-  cd sigen
+  autoreconf -i
+  ./configure
   make
 ```
-
-To install into global include / lib paths, you should define the
-variables `GLOBAL_INCLUDE_PATH` and `GLOBAL_LIB_PATH`.  For example,
-under bash:
-
-```
-   export GLOBAL_INCLUDE_PATH="~/include"
-   export GLOBAL_LIB_PATH="~/lib"
-```
-
-Then, install with the command:
-
-```
-  make install
-```
-
-This will take care of creating a directory named `sigen` in the
-include path and copying the necessary headers into it.  Then it will
-copy `libsigen.a` into the lib path.  You should use these global ones
-to compile and link against instead of the library's work source
-directory.
-
 
 Sample Usage
 ============
