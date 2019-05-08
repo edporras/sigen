@@ -3,7 +3,10 @@
 //
 
 #include <iostream>
-#include <sigen/sigen.h> // this header includes all the required object headers
+#include <fstream>
+#include <sstream>
+#define ENABLE_DUMP
+#include "../src/sigen.h" // this header includes all the required object headers
 
 using namespace sigen;
 
@@ -12,6 +15,51 @@ namespace data
     const ui16 network_pid = 0x20;
     const ui16 xport_stream_id = 0x10;
     const int num_services = 10;
+
+
+    bool write_bin(const TStream& ts, const std::string& basename)
+    {
+        ts.write(basename + ".ts");
+        return true;
+    }
+
+    bool cmp_bin(const TStream& ts, const std::string& filename)
+    {
+        std::ifstream inf(filename, std::ifstream::binary);
+        if (!inf.is_open()) {
+            std::cerr << "Error opening file " << filename << " for read" << std::endl;
+            return false;
+        }
+
+        // determine the size
+        inf.seekg (0, std::ios::end);
+        size_t size = inf.tellg();
+
+        if (size == 0) {
+            std::cerr << "Error: file " << filename << " is empty" << std::endl;
+            return false;
+        }
+
+        uint8_t *blob = new uint8_t[size];
+        inf.seekg(0, std::ios::beg);
+        inf.read(reinterpret_cast<char*>(blob), size);
+        inf.close();
+
+        // compare
+        std::ostringstream os;
+        //        ts.write(os);
+        std::for_each(ts.section_list.begin(), ts.section_list.end(),
+                      [&](const Section* section) {
+                          const ui8* sec_data = section->getBinaryData();
+                          os << sec_data;
+                      } );
+
+        bool cmp = std::memcmp(os.str().c_str(), blob, size);
+
+        delete [] blob;
+        return cmp;
+    }
+
 }
 
 //
@@ -230,6 +278,8 @@ int main(int argc, char* argv[])
 
       DUMP(nit);
       nit.buildSections(t);
+
+      return (data::cmp_bin(t, "nit.ts") ? 0 : -1);
    }
 
    if (flags & SDT_F)
@@ -468,20 +518,6 @@ int main(int argc, char* argv[])
 
    // debug
    DUMP(t);
-
-   // we now have a TStream that holds a list<Section *>.. each
-   // Section holds an ui8[] with the data. we can write it to an
-   // ostream (file, etc) by using the write method defined by
-   // Section. Alternatively, you can have direct access to the binary
-   // data by invoking getBinaryData().. regardless, iterate throguh
-   // the list and do whatever you need like so:
-   for (std::list<Section *>::const_iterator s_iter = t.section_list.begin();
-	s_iter != t.section_list.end();
-	s_iter++)
-   {
-      // const Section& section = *(*s_iter);
-      // const ui8* sec_data = section.getBinaryData();
-   }
 
    return 0;
 }

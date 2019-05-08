@@ -1,6 +1,7 @@
 Must do:
 
-1. Tables need to provide MAX_SIZE to base class for checking with incLength.
+1. replace PtrWrapper with unique_ptr.
+2. Tables need to provide MAX_SIZE to base class for checking with incLength.
 	Related:
 
 	Stuffing table must check it does not exceed max sec size
