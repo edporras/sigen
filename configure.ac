@@ -33,5 +33,5 @@ AC_TYPE_UINT8_T
 # Checks for library functions.
 AC_CHECK_FUNCS([memset])
 
-#AC_CONFIG_FILES([test/Makefile])
+AC_CONFIG_FILES([tests/Makefile])
 AC_OUTPUT

@@ -5,6 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstring>
+#include <algorithm>
 #define ENABLE_DUMP
 #include "../src/sigen.h" // this header includes all the required object headers
 
@@ -12,97 +14,96 @@ using namespace sigen;
 
 namespace data
 {
-    const ui16 network_pid = 0x20;
-    const ui16 xport_stream_id = 0x10;
-    const int num_services = 10;
+   const ui16 network_pid = 0x20;
+   const ui16 xport_stream_id = 0x10;
+   const int num_services = 10;
 
 
-    bool write_bin(const TStream& ts, const std::string& basename)
-    {
-        ts.write(basename + ".ts");
-        return true;
-    }
+   bool write_bin(const TStream& ts, const std::string& basename)
+   {
+      ts.write(basename + ".ts");
+      return true;
+   }
 
-    bool cmp_bin(const TStream& ts, const std::string& filename)
-    {
-        std::ifstream inf(filename, std::ifstream::binary);
-        if (!inf.is_open()) {
-            std::cerr << "Error opening file " << filename << " for read" << std::endl;
-            return false;
-        }
+   int cmp_bin(const TStream& ts, const std::string& filename)
+   {
+      std::ifstream inf(filename.c_str(), std::ifstream::binary);
+      if (!inf.is_open()) {
+         std::cerr << "Error opening file " << filename << " for read" << std::endl;
+         return false;
+      }
 
-        // determine the size
-        inf.seekg (0, std::ios::end);
-        size_t size = inf.tellg();
+      // determine the size
+      inf.seekg (0, std::ios::end);
+      size_t size = inf.tellg();
 
-        if (size == 0) {
-            std::cerr << "Error: file " << filename << " is empty" << std::endl;
-            return false;
-        }
+      if (size == 0) {
+         std::cerr << "Error: file " << filename << " is empty" << std::endl;
+         return false;
+      }
 
-        uint8_t *blob = new uint8_t[size];
-        inf.seekg(0, std::ios::beg);
-        inf.read(reinterpret_cast<char*>(blob), size);
-        inf.close();
+      char *blob = new char[size];
+      inf.seekg(0, std::ios::beg);
+      inf.read(blob, size);
+      inf.close();
+      std::cerr << "read " << size << " bytes, data: " << blob << std::endl;
 
-        // compare
-        std::ostringstream os;
-        //        ts.write(os);
-        std::for_each(ts.section_list.begin(), ts.section_list.end(),
-                      [&](const Section* section) {
-                          const ui8* sec_data = section->getBinaryData();
-                          os << sec_data;
-                      } );
+      // compare
+      std::ostringstream os;
+      std::for_each(ts.section_list.begin(), ts.section_list.end(),
+                    [&](const Section* section) {
+                       section->write(os);
+                    } );
+      std::cerr << "os size: " << os.str().length() << ", data: " << os.str() << std::endl;
+      int cmp = std::memcmp(os.str().c_str(), blob, size);
 
-        bool cmp = std::memcmp(os.str().c_str(), blob, size);
-
-        delete [] blob;
-        return cmp;
-    }
-
+      delete [] blob;
+      return cmp;
+   }
 }
 
 //
-// sample for building a stream with an NIT and a TDT
+// sample for building a stream
 //
 int main(int argc, char* argv[])
 {
    enum { NIT_F = 0x001, SDT_F = 0x002, CAT_F = 0x004,
-	  PAT_F = 0x008, PMT_F = 0x010, BAT_F = 0x020,
-	  EIT_F = 0x040, TDT_F = 0x100, TOT_F = 0x200 };
+          PAT_F = 0x008, PMT_F = 0x010, BAT_F = 0x020,
+          EIT_F = 0x040, TDT_F = 0x100, TOT_F = 0x200 };
    ui16 flags = 0;
 
    if (argc == 1)
       flags = 0xffff;
-   else
+   else {
       for (int i = 1; i < argc; i++)
       {
          std::string arg = argv[i];
 
-	 if (arg == "-nit")
-	    flags |= NIT_F;
-	 else if (arg == "-sdt")
-	    flags |= SDT_F;
-	 else if (arg == "-cat")
-	    flags |= CAT_F;
-	 else if (arg == "-pat")
-	    flags |= PAT_F;
-	 else if (arg == "-pmt")
-	    flags |= PMT_F;
-	 else if (arg == "-bat")
-	    flags |= BAT_F;
-	 else if (arg == "-eit")
-	    flags |= EIT_F;
-	 else if (arg == "-tot")
-	    flags |= TOT_F;
-	 else if (arg == "-tdt")
-	    flags |= TDT_F;
-	 else if (arg == "-h")
+         if (arg == "-nit")
+            flags |= NIT_F;
+         else if (arg == "-sdt")
+            flags |= SDT_F;
+         else if (arg == "-cat")
+            flags |= CAT_F;
+         else if (arg == "-pat")
+            flags |= PAT_F;
+         else if (arg == "-pmt")
+            flags |= PMT_F;
+         else if (arg == "-bat")
+            flags |= BAT_F;
+         else if (arg == "-eit")
+            flags |= EIT_F;
+         else if (arg == "-tot")
+            flags |= TOT_F;
+         else if (arg == "-tdt")
+            flags |= TDT_F;
+         else if (arg == "-h")
          {
-             std::cerr << argv[0] << " linked against sigen library v" << sigen::version() << std::endl;
-             return -1;
+            std::cerr << argv[0] << " linked against sigen library v" << sigen::version() << std::endl;
+            return -1;
          }
       }
+   }
 
    // sections are built onto here
    TStream t;
@@ -122,12 +123,12 @@ int main(int argc, char* argv[])
 
       for (int i = 0; i < data::num_services; i++)
       {
-	 // each service has an id and pmt pid associated with it..
-	 // get it from somehwere..
-	 ui16 service_id = 100 + i;
-	 ui16 pmt_pid = 200 + i;
+         // each service has an id and pmt pid associated with it..
+         // get it from somehwere..
+         ui16 service_id = 100 + i;
+         ui16 pmt_pid = 200 + i;
 
-	 pat.addProgram( service_id, pmt_pid );
+         pat.addProgram( service_id, pmt_pid );
       }
 
       // for debug output
@@ -192,6 +193,8 @@ int main(int argc, char* argv[])
       // dumpage
       DUMP(pmt);
       pmt.buildSections(t);
+
+      return data::cmp_bin(t, "reference/pmt.ts");
    }
 
    if (flags & NIT_F)
@@ -215,8 +218,8 @@ int main(int argc, char* argv[])
 
       // multiling net name
       MultilingualNetworkNameDesc *mlnnd = new MultilingualNetworkNameDesc;
-      mlnnd->addLanguage("fre", "La France");
-      mlnnd->addLanguage("spa", "La Francia");
+      mlnnd->addLanguage("fre", "France");
+      mlnnd->addLanguage("spa", "Francia");
 
       nit.addNetworkDesc( *mlnnd );
 
@@ -231,15 +234,15 @@ int main(int argc, char* argv[])
 
       TerrestrialDeliverySystemDesc *tdsd;
       tdsd = new TerrestrialDeliverySystemDesc( 0x1111, 0x44, 0xff,
-						0x11, 0xff, 0x33,
-						0xff, 0x22, false);
+                                                0x11, 0xff, 0x33,
+                                                0xff, 0x22, false);
 
       nit.addXportStreamDesc( *tdsd );
 
       ServiceListDesc *sld1 = new ServiceListDesc;
 
       for (int i = 0; i < 50; i++)
-	 sld1->addService( i + 100, 0x01 );
+         sld1->addService( i + 100, 0x01 );
 
       nit.addXportStreamDesc( *sld1 );
 
@@ -260,26 +263,26 @@ int main(int argc, char* argv[])
 
       ServiceListDesc *sld2 = new ServiceListDesc;
       for (int i = 0; i < 50; i++)
-	 sld2->addService( i + 200, 0x02 );
+         sld2->addService( i + 200, 0x02 );
 
       nit.addXportStreamDesc( *sld2 );
 
       AnnouncementSupportDesc *asd;
       asd = new AnnouncementSupportDesc(AnnouncementSupportDesc::EMERGENCY_ALARM_AS |
-					AnnouncementSupportDesc::WEATHER_FLASH_AS);
+                                        AnnouncementSupportDesc::WEATHER_FLASH_AS);
       asd->addAnnouncement( AnnouncementSupportDesc::EMERGENCY_ALARM,
-			    AnnouncementSupportDesc::SERVICE_AUDIO_STREAM,
-			    0x1000, 0x1200, 0x400, 0x3 );
+                            AnnouncementSupportDesc::SERVICE_AUDIO_STREAM,
+                            0x1000, 0x1200, 0x400, 0x3 );
       asd->addAnnouncement( AnnouncementSupportDesc::WEATHER_FLASH,
-			    AnnouncementSupportDesc::DIFFERENT_SERVICE,
-			    0x1100, 0x1300, 0x402, 0x3 );
+                            AnnouncementSupportDesc::DIFFERENT_SERVICE,
+                            0x1100, 0x1300, 0x402, 0x3 );
 
       nit.addXportStreamDesc( *asd );
 
       DUMP(nit);
       nit.buildSections(t);
 
-      return (data::cmp_bin(t, "nit.ts") ? 0 : -1);
+      return data::cmp_bin(t, "reference/nit.ts");
    }
 
    if (flags & SDT_F)
@@ -290,8 +293,8 @@ int main(int argc, char* argv[])
       sdt.addService(200, true, true, 1, false);
 
       ServiceDesc *sd = new ServiceDesc( 0xfe,
-					 "My provider name is OSCAR and the point of this is to test if really long strings are truncated correctly so I must add even more data here",
-					 "my service name is HOMER and the point of this is to test if really really long strings are really really truncated correctly");
+                                         "My provider name is XYZ and the point of this is to test if really long strings are truncated correctly so I must add even more data here",
+                                         "my service name is ABC and the point of this is to test if really really long strings are really really truncated correctly");
       sdt.addServiceDesc( *sd );
 
       CountryAvailabilityDesc *cad = new CountryAvailabilityDesc(true);
@@ -321,7 +324,7 @@ int main(int argc, char* argv[])
       sdt.addServiceDesc( *ltod );
 
       TelephoneDesc *td = new TelephoneDesc(true, 0x5, "123-", "1234567-", "123-",
-					    "1234567-", "123456789012345-");
+                                            "1234567-", "123456789012345-");
       sdt.addServiceDesc( *td );
 
       // another service
@@ -348,6 +351,8 @@ int main(int argc, char* argv[])
 
       DUMP(sdt);
       sdt.buildSections(t);
+
+      return data::cmp_bin(t, "reference/sdt.ts");
    }
 
    if (flags & BAT_F)
@@ -356,6 +361,8 @@ int main(int argc, char* argv[])
 
       DUMP(bat);
       bat.buildSections(t);
+
+      return data::cmp_bin(t, "reference/bat.ts");
    }
 
 
@@ -365,15 +372,17 @@ int main(int argc, char* argv[])
 
       DUMP(eit);
       eit.buildSections(t);
+
+      return data::cmp_bin(t, "reference/eit.ts");
    }
 
    if (flags & TOT_F)
    {
-      TOT tot; // TOT with current time in utc field
+      TOT tot(UTC(1, 22, 1999, 10, 0, 0));
       CAIdentifierDesc *caid = new CAIdentifierDesc;
 
       for (int i = 0; i < 30; i++)
-	 caid->addSystemId( i + 0x3000 );
+         caid->addSystemId( i + 0x3000 );
 
       tot.addDesc( *caid );
 
@@ -406,6 +415,8 @@ int main(int argc, char* argv[])
 
       DUMP(tot);
       tot.buildSections(t);
+
+      return data::cmp_bin(t, "reference/tot.ts");
    }
 
    if (flags & CAT_F)
@@ -420,7 +431,7 @@ int main(int argc, char* argv[])
       cat.addDesc( *vsd1 );
 
       VideoStreamDesc *vsd2 = new VideoStreamDesc( false, 0x09, false, true,
-						   0x88, 0x2, true );
+                                                   0x88, 0x2, true );
       cat.addDesc( *vsd2 );
 
       CADesc *CAd = new CADesc( 0x4653, 0x1234, "this is a test" );
@@ -504,16 +515,20 @@ int main(int argc, char* argv[])
 
       DUMP(cat);
       cat.buildSections(t);
+
+      return data::cmp_bin(t, "reference/cat.ts");
    }
 
    if (flags & TDT_F)
    {
       // TDT
-      TDT tdt;
+      TDT tdt(UTC(1, 22, 1999, 10, 0, 0));
 
       DUMP(tdt);
 
       tdt.buildSections(t);
+
+      return data::cmp_bin(t, "reference/tdt.ts");
    }
 
    // debug
