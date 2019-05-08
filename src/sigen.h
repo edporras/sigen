@@ -4,34 +4,34 @@
 
 #pragma once
 
-#include <sigen/types.h>
-#include <sigen/dvb_defs.h>
-#include <sigen/version.h>
+#include "types.h"
+#include "dvb_defs.h"
+#include "version.h"
 
-#include <sigen/tstream.h>
-#include <sigen/packetizer.h>
-#include <sigen/utc.h>
-#include <sigen/util.h>
-#include <sigen/dump.h>
+#include "tstream.h"
+#include "packetizer.h"
+#include "utc.h"
+#include "util.h"
+#include "dump.h"
 
-#include <sigen/table.h>
-#include <sigen/nit.h>
-#include <sigen/bat.h>
-#include <sigen/sdt.h>
-#include <sigen/pat.h>
-#include <sigen/pmt.h>
-#include <sigen/cat.h>
-#include <sigen/eit.h>
-#include <sigen/tdt.h>
-#include <sigen/tot.h>
-#include <sigen/other_tables.h>
+#include "table.h"
+#include "nit.h"
+#include "bat.h"
+#include "sdt.h"
+#include "pat.h"
+#include "pmt.h"
+#include "cat.h"
+#include "eit.h"
+#include "tdt.h"
+#include "tot.h"
+#include "other_tables.h"
 
-#include <sigen/descriptor.h>
-#include <sigen/dvb_desc.h>
-#include <sigen/stream_desc.h>
-#include <sigen/nit_desc.h>
-#include <sigen/linkage_desc.h>
-#include <sigen/sdt_desc.h>
-#include <sigen/pmt_desc.h>
-#include <sigen/ssu_desc.h>
-#include <sigen/eit_desc.h>
+#include "descriptor.h"
+#include "dvb_desc.h"
+#include "stream_desc.h"
+#include "nit_desc.h"
+#include "linkage_desc.h"
+#include "sdt_desc.h"
+#include "pmt_desc.h"
+#include "ssu_desc.h"
+#include "eit_desc.h"
