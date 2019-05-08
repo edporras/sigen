@@ -1,8 +1,11 @@
 .bak
 *.o
 *.lo
+*.la
 *.obj
 *.log
+*.old
+*.trs
 lib*.a
 lib*.so
 lib*.dylib
@@ -23,6 +26,7 @@ install-sh
 missing
 stamp-h1
 .deps
+.libs
 autom4te.cache
 ltmain.sh
-sigentest
+test_table_gen
