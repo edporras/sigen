@@ -24,7 +24,7 @@
 
 // rules to include headers necessary for uint32_t, etc.
 #ifdef __linux__
-//#include <stdint.h>
+#include <stdint.h>
 #endif
 
 typedef uint32_t ui32;
