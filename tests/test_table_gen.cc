@@ -317,7 +317,7 @@ int main(int argc, char* argv[])
       sdt.addServiceDesc( *tsed );
 
       LocalTimeOffsetDesc *ltod = new LocalTimeOffsetDesc;
-      UTC t2;
+      UTC t2(1, 22, 1999, 10, 0, 0);
       ltod->addTimeOffset( "eng", 0x22, true, 0x1234, t2, 0x4321 );
       ltod->addTimeOffset( "fre", 0x23, true, 0x5678, t2, 0x8765 );
 
