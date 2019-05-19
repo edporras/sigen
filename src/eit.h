@@ -75,7 +75,7 @@ namespace sigen {
    protected:
       // only derived classes can build this type
       EIT(ui8 tid, ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni, bool rsrvd) :
-        PSITable(tid, sid, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
+         PSITable(tid, sid, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
          xport_stream_id(xsid),
          original_network_id(onid)
       { }
@@ -133,7 +133,7 @@ namespace sigen {
    public:
       PF_EIT(ui16 sid, ui16 xsid, ui16 onid, PF_EIT::Type type, ui8 ver,
              bool cni = true, bool rsrvd = true) :
-        EIT(type, sid, xsid, onid, ver, cni, rsrvd) { }
+         EIT(type, sid, xsid, onid, ver, cni, rsrvd) { }
 
       // present event utility functions
       bool addPresentEvent(ui16 evid, UTC time, BCDTime dur, ui8 rs, bool fca) {
@@ -172,13 +172,13 @@ namespace sigen {
    struct PF_EITActual : public PF_EIT
    {
       PF_EITActual(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true, bool rsrvd = true) :
-        PF_EIT(sid, xsid, onid, PF_EIT::ACTUAL, ver, cni, rsrvd) { }
+         PF_EIT(sid, xsid, onid, PF_EIT::ACTUAL, ver, cni, rsrvd) { }
    };
 
    struct PF_EITOther : public PF_EIT
    {
       PF_EITOther(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true, bool rsrvd = true) :
-        PF_EIT(sid, xsid, onid, PF_EIT::OTHER, ver, cni, rsrvd) { }
+         PF_EIT(sid, xsid, onid, PF_EIT::OTHER, ver, cni, rsrvd) { }
    };
 
 

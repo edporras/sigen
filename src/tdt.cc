@@ -27,34 +27,34 @@
 
 namespace sigen
 {
-    //
-    // writes the table to a stream
-    //
-    void TDT::buildSections(TStream &strm) const
-    {
-        Section *s = strm.getNewSection( getMaxSectionLen() );
+   //
+   // writes the table to a stream
+   //
+   void TDT::buildSections(TStream &strm) const
+   {
+      Section *s = strm.getNewSection( getMaxSectionLen() );
 
-        STable::buildSections(*s);
+      STable::buildSections(*s);
 
-        s->set16Bits( utc.mjd );
-        s->set08Bits( utc.time.getBCDHour() );
-        s->set08Bits( utc.time.getBCDMinute() );
-        s->set08Bits( utc.time.getBCDSecond() );
-    }
+      s->set16Bits( utc.mjd );
+      s->set08Bits( utc.time.getBCDHour() );
+      s->set08Bits( utc.time.getBCDMinute() );
+      s->set08Bits( utc.time.getBCDSecond() );
+   }
 
-    //
-    // debug routine
-    //
+   //
+   // debug routine
+   //
 #ifdef ENABLE_DUMP
-    void TDT::dump(std::ostream &o) const
-    {
-        // table header
-        dumpHeader( o, TDT_DUMP_S );
+   void TDT::dump(std::ostream &o) const
+   {
+      // table header
+      dumpHeader( o, TDT_DUMP_S );
 
-        // the UTC data
-        identStr(o, UTC_S);
-        o << utc << std::endl;
-    }
+      // the UTC data
+      identStr(o, UTC_S);
+      o << utc << std::endl;
+   }
 #endif
 
 } // namespace

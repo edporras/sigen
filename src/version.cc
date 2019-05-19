@@ -27,8 +27,8 @@
 
 namespace sigen
 {
-    const char* version()
-    {
-        return SIGEN_VERSION;
-    }
+   const char* version()
+   {
+      return SIGEN_VERSION;
+   }
 } // namespace

@@ -34,7 +34,7 @@ namespace sigen {
    //
    class NIT : public PSITable
    {
- private:
+   private:
       enum { BASE_LEN = 9, MAX_SEC_LEN = 1024 };
 
       // the transport stream struct
@@ -71,29 +71,29 @@ namespace sigen {
       // state of reserved bits
       NIT(ui16 network_id, NIT::Type type, ui8 ver, bool cni = true,
           bool rsrvd = true) :
-       PSITable((ui8) type, network_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
-          network_desc_length(0),
-          xport_stream_loop_length(0)
+         PSITable((ui8) type, network_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
+         network_desc_length(0),
+         xport_stream_loop_length(0)
       { }
 
-       // utility
-       bool addNetworkDesc(Descriptor &);
-       bool addXportStream(ui16 xs_id, ui16 on_id);
-       bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &);
-       bool addXportStreamDesc(Descriptor &); // adds it to the last stream added
+      // utility
+      bool addNetworkDesc(Descriptor &);
+      bool addXportStream(ui16 xs_id, ui16 on_id);
+      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &);
+      bool addXportStreamDesc(Descriptor &); // adds it to the last stream added
 
-       // dump to stdout routines
+      // dump to stdout routines
 #ifdef ENABLE_DUMP
-       virtual void dump(std::ostream &) const;
+      virtual void dump(std::ostream &) const;
 #endif
 
    protected:
-       bool addXportStreamDesc(XportStream& , Descriptor &, ui16);
-       virtual bool writeSection(Section& , ui8, ui16 &) const;
-       bool writeXportStream(Section& , const XportStream& , ui16 &, ui16 &) const;
+      bool addXportStreamDesc(XportStream& , Descriptor &, ui16);
+      virtual bool writeSection(Section& , ui8, ui16 &) const;
+      bool writeXportStream(Section& , const XportStream& , ui16 &, ui16 &) const;
 
 #ifdef ENABLE_DUMP
-       void dumpXportStreams(std::ostream &) const;
+      void dumpXportStreams(std::ostream &) const;
 #endif
    };
 

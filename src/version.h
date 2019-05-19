@@ -25,5 +25,4 @@
 namespace sigen {
    // library version
    const char* version();
-
 } // sigen namespace

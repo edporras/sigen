@@ -53,9 +53,9 @@ namespace sigen {
 
          // constructor
          Service(ui16 sid, bool esf, bool epff, ui8 rs, bool fca, bool rsrvd) :
-           id(sid), desc_loop_length(0), running_status(rs),
-         eit_schedule(esf), eit_present_following(epff),
-         free_ca_mode(fca), reserved(rsrvd) {}
+            id(sid), desc_loop_length(0), running_status(rs),
+            eit_schedule(esf), eit_present_following(epff),
+            free_ca_mode(fca), reserved(rsrvd) {}
 
          // utility
          void buildSections(Section &) const;
@@ -76,8 +76,8 @@ namespace sigen {
       // constructor
       SDT(ui16 xport_str_id, ui16 orig_network_id, SDT::Type type, ui8 ver,
           bool cni = true, bool rsrvd = true) :
-        PSITable((ui8) type, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
-        original_network_id(orig_network_id)
+         PSITable((ui8) type, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
+         original_network_id(orig_network_id)
       { }
 
       // utility
@@ -98,12 +98,12 @@ namespace sigen {
 
    struct SDTActual : public SDT {
       SDTActual(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-        SDT(xport_str_id, orig_network_id, SDT::ACTUAL, ver, cni, rsrvd) { }
+         SDT(xport_str_id, orig_network_id, SDT::ACTUAL, ver, cni, rsrvd) { }
    };
 
    struct SDTOther : public SDT {
       SDTOther(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-        SDT(xport_str_id, orig_network_id, SDT::OTHER, ver, cni, rsrvd) { }
+         SDT(xport_str_id, orig_network_id, SDT::OTHER, ver, cni, rsrvd) { }
    };
 
 } // sigen namespace

@@ -60,7 +60,7 @@ namespace sigen {
       SSULinkageDesc(ui16 xsid, ui16 onid, ui16 sid) :
          LinkageDesc(xsid, onid, sid, LinkageDesc::SSUS),
          OUI_data_length(0)
-         { incLength( BASE_LEN ); }
+      { incLength( BASE_LEN ); }
 
       // utility
       bool addOUI(ui32 OUI) { return addOUI( OUIData(OUI) ); } // with empty selector bytes
@@ -101,7 +101,7 @@ namespace sigen {
       SSUScanLinkageDesc(ui16 xsid, ui16 onid, ui16 sid, TableType t_type) :
          LinkageDesc(xsid, onid, sid, LinkageDesc::TS_SSU_BAT_OR_NIT),
          table_type(t_type)
-         { }
+      { }
 
       virtual Descriptor *clone() const { return new SSUScanLinkageDesc(*this); }
       virtual void buildSections(Section&) const;
@@ -153,8 +153,8 @@ namespace sigen {
 
 
       // constructor
-   SSUDataBroadcastIdDesc() : DataBroadcastIdDesc(SSU_SERVICE_DATA_BROADCAST_ID),
-      OUI_data_len(0)
+      SSUDataBroadcastIdDesc() : DataBroadcastIdDesc(SSU_SERVICE_DATA_BROADCAST_ID),
+                                 OUI_data_len(0)
       {
          incLength(sizeof(OUI_data_len));
       }

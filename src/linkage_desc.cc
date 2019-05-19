@@ -99,50 +99,50 @@ namespace sigen {
       }
    }
 
-      //
-      // write to the section
-      //
-      void MobileHandoverLinkageDesc::buildSections(Section &s) const
-      {
-         LinkageDesc::buildSections(s);
+   //
+   // write to the section
+   //
+   void MobileHandoverLinkageDesc::buildSections(Section &s) const
+   {
+      LinkageDesc::buildSections(s);
 
-         s.set08Bits( hand_over_type << 4 |
-                      rbits(reserved, 0x7) << 1 |
-                      origin_type );
+      s.set08Bits( hand_over_type << 4 |
+                   rbits(reserved, 0x7) << 1 |
+                   origin_type );
 
-         if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED) {
-            s.set16Bits( network_id );
-         }
-
-         if (origin_type == MobileHandoverLinkageDesc::NIT) {
-            s.set16Bits( initial_service_id );
-         }
-
-         s.setBits( private_data );
+      if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED) {
+         s.set16Bits( network_id );
       }
+
+      if (origin_type == MobileHandoverLinkageDesc::NIT) {
+         s.set16Bits( initial_service_id );
+      }
+
+      s.setBits( private_data );
+   }
 
 
 #ifdef ENABLE_DUMP
-      //
-      // stdout
-      void MobileHandoverLinkageDesc::dump(std::ostream &o) const
-      {
-         LinkageDesc::dump(o);
+   //
+   // stdout
+   void MobileHandoverLinkageDesc::dump(std::ostream &o) const
+   {
+      LinkageDesc::dump(o);
 
-         identStr( o, HAND_OVER_TYPE_S, hand_over_type );
-         identStr( o, RESERVED_FU_S, rbits(reserved, 0x7) );
-         identStr( o, ORIGIN_TYPE_S, origin_type );
+      identStr( o, HAND_OVER_TYPE_S, hand_over_type );
+      identStr( o, RESERVED_FU_S, rbits(reserved, 0x7) );
+      identStr( o, ORIGIN_TYPE_S, origin_type );
 
-         if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED) {
-            identStr( o, NETWORK_ID_S, network_id, true );
-         }
-
-         if (origin_type == MobileHandoverLinkageDesc::NIT) {
-            identStr( o, INITIAL_SERV_ID_S, initial_service_id, true );
-         }
-
-         identStr(o, PVT_DATA_S, private_data);
+      if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED) {
+         identStr( o, NETWORK_ID_S, network_id, true );
       }
+
+      if (origin_type == MobileHandoverLinkageDesc::NIT) {
+         identStr( o, INITIAL_SERV_ID_S, initial_service_id, true );
+      }
+
+      identStr(o, PVT_DATA_S, private_data);
+   }
 #endif
 
 } // namespace sigen
