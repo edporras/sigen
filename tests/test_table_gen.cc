@@ -7,7 +7,6 @@
 #include <sstream>
 #include <cstring>
 #include <algorithm>
-#define ENABLE_DUMP
 #include "../src/sigen.h" // this header includes all the required object headers
 
 using namespace sigen;

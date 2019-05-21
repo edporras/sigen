@@ -23,16 +23,15 @@
 
 #pragma once
 
-#ifdef ENABLE_DUMP
-
 #include <iostream>
 #include <string>
 #include <vector>
 #include "types.h"
-
-namespace sigen {
+#include "config.h"
 
 #ifdef ENABLE_DUMP
+
+namespace sigen {
 
    class LanguageCode;
 
@@ -356,14 +355,10 @@ namespace sigen {
 
    void dumpData(std::ostream &, const ui8 *data, ui16 len);
    void dumpBytes(std::ostream &o, const std::vector<ui8>& v);
-#endif
 } // sigen namespace
 
-// enable dumps to cerr
-#define DUMP(o) o.dump(std::cerr)
-
-// ifdef ENABLE_DUMP
+  // enable dumps to cerr
+  #define DUMP(o) o.dump(std::cerr)
 #else
-#define DUMP(o) // disable dumps
-// ifdef ENABLE_DUMP
+  #define DUMP(o) // disable dumps
 #endif

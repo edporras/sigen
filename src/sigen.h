@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "types.h"
 #include "dvb_defs.h"
 #include "version.h"

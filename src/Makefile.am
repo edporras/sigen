@@ -1,5 +1,5 @@
 # what flags you want to pass to the C compiler & linker
-AM_CXXFLAGS = -DENABLE_DUMP
+AM_CXXFLAGS = $(SIGEN_BUILD_CPPFLAGS)
 
 #AM_LDFLAGS =
 
@@ -12,7 +12,6 @@ libsigen_la_SOURCES = \
 	bat.cc \
 	cat.cc \
 	descriptor.cc \
-	dump.cc \
 	dvb_desc.cc \
 	eit.cc \
 	eit_desc.cc \
@@ -69,7 +68,6 @@ libsigeninclude_HEADERS = \
 	version.h
 
 
-#if ENABLE_DUMP
-# include md5 code if openssl was not found
-#pdftoedn_SOURCES += bzflag_md5.cc
-#endif
+if ENABLE_DUMP_SRC
+libsigen_la_SOURCES += dump.cc
+endif

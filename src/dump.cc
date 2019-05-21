@@ -21,8 +21,6 @@
 // library if ENABLE_DUMP is defined in the Makefile
 // -----------------------------------
 
-#ifdef ENABLE_DUMP
-
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -538,7 +536,5 @@ namespace sigen
          identStr(o, outstr[s], data_str.str(), cr, false);
       }
    }
-
-#endif
 
 } // namespace

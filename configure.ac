@@ -27,7 +27,7 @@ LT_INIT
 
 AC_CONFIG_SRCDIR([src/bat.cc])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile])
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_DEFINE_UNQUOTED([SIGEN_VERSION], ["sigen_version"], [Explicitly named version])
@@ -48,8 +48,16 @@ AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 
+# ENABLE_DUMP on / off. On by default but can be disabled with --disable-text-dump option
+AC_ARG_ENABLE([text-dump], AS_HELP_STRING([--disable-text-dump], [Disable text dump output]))
+AS_IF([test "x$enable_text_dump" != "xno"], [
+   AC_DEFINE([ENABLE_DUMP], [1], [enable text dump output])
+])
+
+# for the makefiles
+AM_CONDITIONAL([ENABLE_DUMP_SRC], [test "x$enable_text_dump" != "xno"])
+
 # Checks for library functions.
 AC_CHECK_FUNCS([memset])
 
-AC_CONFIG_FILES([tests/Makefile])
 AC_OUTPUT
