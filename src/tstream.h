@@ -49,16 +49,17 @@ namespace sigen {
       // checks if len bytes can fit
       bool lengthFits(ui16 len) const { return ((data_length + len) <= size); }
 
-      // prohibit
-      Section(const Section &);
-      Section &operator=(const Section &);
-
    public:
       enum { CRC_LEN = 4 };
 
       // constructor / destructor
       Section(ui16 section_size);
       ~Section() { delete [] data; }
+      // prohibit
+      Section(const Section &) = delete;
+      Section(const Section &&) = delete;
+      Section &operator=(const Section &) = delete;
+      Section &operator=(const Section &&) = delete;
 
       // accessors
       const ui8 *getBinaryData() const { return data; }
@@ -102,14 +103,14 @@ namespace sigen {
    //
    class TStream
    {
-   private:
-      // prohibit
-      TStream(const TStream &);
-      TStream &operator=(const TStream &);
-
    public:
       TStream() { }
       ~TStream();
+      // prohibit
+      TStream(const TStream &) = delete;
+      TStream(const TStream &&) = delete;
+      TStream &operator=(const TStream &) = delete;
+      TStream &operator=(const TStream &&) = delete;
 
       // the linked-list of sections
       std::list<Section *> section_list;

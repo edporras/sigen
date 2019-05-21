@@ -50,11 +50,6 @@ namespace sigen {
          transport_scrambling_control : 2,
          adaptation_field_control : 2;
 
-      // prohibit
-      MpgPacketizer();
-      MpgPacketizer(const MpgPacketizer &);
-      MpgPacketizer &operator=(const MpgPacketizer &);
-
    public:
       enum ScramblingControl_t { NOT_SCRAMBLED = 0x00 }; // 0x01-0x11 user def'd
       enum AdaptationField_t {
@@ -66,6 +61,12 @@ namespace sigen {
 
       // constructor
       MpgPacketizer(const std::string &out_file, ui8 cont_count);
+      // prohibit
+      MpgPacketizer() = delete;
+      MpgPacketizer(const MpgPacketizer &) = delete;
+      MpgPacketizer(const MpgPacketizer &&) = delete;
+      MpgPacketizer &operator=(const MpgPacketizer &) = delete;
+      MpgPacketizer &operator=(const MpgPacketizer &&) = delete;
 
       void setFlags(bool transport_err_ind, bool transport_pri) {
          transport_error_indicator = transport_err_ind;

@@ -35,9 +35,7 @@ namespace sigen {
 
    //
    // abstract superclass for both tables and descriptors
-   class Table {
-
-   public:
+   struct Table {
       virtual ~Table() { }
 
 #ifdef ENABLE_DUMP
@@ -62,10 +60,6 @@ namespace sigen {
       ui16 length;                    // data length (not including CRC and
       // 3-byte header (STable::BASE_LEN))
 
-      // prohibit
-      STable(const STable&);
-      STable& operator=(const STable&);
-
    protected:
       bool reserved;                   // state of the reserved flags
 
@@ -87,6 +81,12 @@ namespace sigen {
 
    public:
       virtual ~STable() {}
+
+      // prohibit
+      STable(const STable&) = delete;
+      STable(const STable&&) = delete;
+      STable& operator=(const STable&) = delete;
+      STable& operator=(const STable&&) = delete;
 
       // accessors
       ui8 getId() const { return id; }
