@@ -296,7 +296,8 @@ namespace sigen {
          Descriptor(TAG, BASE_LEN),
          peak_rate( pk_rate ),
          min_overall_smoothing_rate( min_osr ),
-         max_overall_smoothing_buffer( max_osb )
+         max_overall_smoothing_buffer( max_osb ),
+         reserved(rsrvd)
       { }
 
       virtual Descriptor* clone() const {
