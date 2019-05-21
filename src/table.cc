@@ -144,7 +144,7 @@ namespace sigen
       ui16 sec_bytes = 0;
       State_t state = MALLOC_SEC;
 
-      Section *s = NULL;
+      Section *s = nullptr;
       // this table's sections - this is NOT a list of PtrWrappers as we
       // don't want to delete the elements in the list automatically - we
       // just need a temporary holder to update each section's

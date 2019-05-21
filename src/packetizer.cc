@@ -75,7 +75,7 @@ namespace sigen
          // set the packet ptr to point to this packet
          if (header_size != 0)
          {
-            getHeader(&packet[0], NULL, // section_data,
+            getHeader(&packet[0], nullptr, // section_data,
                       payload_unit_start_indicator, pid);
             tptr = &packet[header_size];
          }

@@ -133,8 +133,8 @@ namespace sigen
       bool done, exit;
       static bool bd_done = false;
       static State_t op_state = WRITE_HEAD;
-      static const Descriptor *bd = NULL;
-      static const XportStream *ts = NULL;
+      static const Descriptor *bd = nullptr;
+      static const XportStream *ts = nullptr;
       static std::list<PtrWrapper<Descriptor> >::const_iterator bd_iter = bouquet_desc.begin();
       static std::list<PtrWrapper<XportStream> >::const_iterator ts_iter = xport_streams.begin();
 
@@ -213,7 +213,7 @@ namespace sigen
                  else
                  {
                     bd_done = true;
-                    bd = NULL;
+                    bd = nullptr;
                     // fall through
                  }
               }
@@ -286,7 +286,7 @@ namespace sigen
               {
                  // no more network descriptors or transport streams, so
                  // all sections are done!
-                 ts = NULL;
+                 ts = nullptr;
                  bd_done = false;
                  op_state = WRITE_HEAD;
                  exit = done = true;
@@ -327,7 +327,7 @@ namespace sigen
       ui8 *ts_desc_len_pos = 0;
       ui16 d_len, ts_desc_len = 0;
       bool exit, done;
-      static const Descriptor *tsd = NULL;
+      static const Descriptor *tsd = nullptr;
       static std::list<PtrWrapper<Descriptor> >::const_iterator tsd_iter = ts.desc_list.begin();
 
       exit = done = false;
@@ -373,7 +373,7 @@ namespace sigen
               else
               {
                  // no more descriptors.. done writing this xport stream,
-                 tsd = NULL;
+                 tsd = nullptr;
                  op_state = WRITE_HEAD;
                  exit = done = true;
                  break;

@@ -54,7 +54,7 @@ namespace sigen
       bool done, exit;
       static bool d_done = false;
       static State_t op_state = WRITE_HEAD;
-      static const Descriptor *d = NULL;
+      static const Descriptor *d = nullptr;
       static std::list<PtrWrapper<Descriptor> >::const_iterator d_iter = desc_list.begin();
 
       // associate the iterators to the list
@@ -108,7 +108,7 @@ namespace sigen
                  else
                  {
                     // no more descriptors so all sections are done!
-                    d = NULL;
+                    d = nullptr;
                     d_done = false;
                     op_state = WRITE_HEAD;
                     exit = done = true;

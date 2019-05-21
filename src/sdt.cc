@@ -107,7 +107,7 @@ namespace sigen
 
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
-      static const Service *serv = NULL;
+      static const Service *serv = nullptr;
       static std::list<PtrWrapper<Service> >::const_iterator s_iter = service_list.begin();
 
       // init
@@ -178,7 +178,7 @@ namespace sigen
               {
                  // done with all services.. all sections are done!
                  op_state = WRITE_HEAD;
-                 serv = NULL;
+                 serv = nullptr;
                  exit = done = true;
                  break;
               }
@@ -212,7 +212,7 @@ namespace sigen
       ui16 desc_loop_len = 0;
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
-      static const Descriptor *d = NULL;
+      static const Descriptor *d = nullptr;
       static std::list<PtrWrapper<Descriptor> >::const_iterator d_iter = service.desc_list.begin();
 
       // set the descriptor list iterator to this service's
@@ -261,7 +261,7 @@ namespace sigen
               }
               else
               {
-                 d = NULL;
+                 d = nullptr;
                  op_state = WRITE_HEAD;
                  exit = done = true;
                  break;

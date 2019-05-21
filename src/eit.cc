@@ -188,7 +188,7 @@ namespace sigen
 
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
-      static const Event *event = NULL;
+      static const Event *event = nullptr;
       static std::list<PtrWrapper<Event> >::const_iterator ev_iter = event_list.begin();
 
       // init
@@ -267,7 +267,7 @@ namespace sigen
               {
                  // done with all services.. all sections are done!
                  op_state = WRITE_HEAD;
-                 event = NULL;
+                 event = nullptr;
                  exit = done = true;
                  break;
               }
@@ -301,7 +301,7 @@ namespace sigen
       ui16 desc_loop_len = 0;
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
-      static const Descriptor *d = NULL;
+      static const Descriptor *d = nullptr;
       static std::list<PtrWrapper<Descriptor> >::const_iterator d_iter;
 
       // set the descriptor list iterator to this event's
@@ -358,7 +358,7 @@ namespace sigen
               }
               else
               {
-                 d = NULL;
+                 d = nullptr;
                  op_state = WRITE_HEAD;
                  exit = done = true;
                  break;

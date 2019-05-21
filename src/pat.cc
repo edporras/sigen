@@ -49,7 +49,7 @@ namespace sigen
 
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
-      static const Program *p = NULL;
+      static const Program *p = nullptr;
       static std::list<PtrWrapper<Program> >::const_iterator p_iter = program_list.begin();
 
       // init
@@ -99,7 +99,7 @@ namespace sigen
               {
                  // done with all programs.. all sections are done!
                  op_state = WRITE_HEAD;
-                 p = NULL;
+                 p = nullptr;
                  exit = done = true;
                  break;
               }
