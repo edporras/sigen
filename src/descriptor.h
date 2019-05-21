@@ -123,19 +123,7 @@ namespace sigen {
       StringDataDesc(ui8 tag, const std::string &d) :
          Descriptor(tag, BASE_LEN),
          data( incLength(d) ) {
-#ifdef SHOW_MEM_MGMT
-         cerr << "building: \"" << data << "\"" << endl;
-#endif
       }
-
-#ifdef SHOW_MEM_MGMT
-      StringDataDesc(const StringDataDesc &d) : data(d.data) {
-         cerr << "copying :\"" << data << "\"" << endl; }
-      StringDataDesc &operator=(const StringDataDesc &d)  {
-         if (this != &d) data = d.data;
-         cerr << "assigning :\"" << data << "\"" << endl; return *this; }
-      ~StringDataDesc() { cerr << "freeing: \"" << data << "\"" << endl; }
-#endif
 
       // utility functions
       virtual void buildSections(Section &s) const {
