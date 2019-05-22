@@ -18,7 +18,7 @@
 # SOFTWARE.
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-m4_define([sigen_version],[2.6.4])
+m4_define([sigen_version],[2.6.5])
 
 AC_PREREQ([2.69])
 AC_INIT([sigen], [sigen_version], [ep@digressed.net])
@@ -37,7 +37,6 @@ AC_PROG_CXX
 AC_PROG_CC
 
 AX_CXX_COMPILE_STDCXX_11
-
 
 # Checks for header files.
 
