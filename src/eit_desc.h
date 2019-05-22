@@ -52,7 +52,6 @@ namespace sigen {
                     bool rsrvd = true);
 
       // util
-      virtual Descriptor *clone() const { return new ComponentDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -89,7 +88,6 @@ namespace sigen {
       ContentDesc() : Descriptor(TAG, BASE_LEN) { }
 
       // utility
-      virtual Descriptor *clone() const { return new ContentDesc(*this); }
       bool addContent(ui8 nl1, ui8 nl2, ui8 un1, ui8 un2);
       virtual void buildSections(Section&) const;
 
@@ -186,10 +184,6 @@ namespace sigen {
          component_tag(ctag) {}
 
       // utility
-      virtual Descriptor *clone() const {
-         return new MultilingualComponentDesc(*this);
-      }
-
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -224,7 +218,6 @@ namespace sigen {
       ParentalRatingDesc() : Descriptor(TAG, BASE_LEN) { }
 
       // utility
-      virtual Descriptor *clone() const { return new ParentalRatingDesc(*this); }
       bool addRating(const std::string& code, ui8 r);
       virtual void buildSections(Section&) const;
 
@@ -258,8 +251,7 @@ namespace sigen {
          reserved(rsrvd)
       { }
 
-      // util
-      virtual Descriptor *clone() const { return new PDCDesc(*this); }
+      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -286,8 +278,7 @@ namespace sigen {
       ShortEventDesc(const std::string& code, const std::string& ev_name,
                      const std::string& text);
 
-      // util
-      virtual Descriptor *clone() const { return new ShortEventDesc(*this); }
+      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -315,9 +306,6 @@ namespace sigen {
                                const std::string& dvb_reserved = "");
 
       // utility
-      virtual Descriptor *clone() const {
-         return new ShortSmoothingBufferDesc(*this);
-      }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -347,9 +335,6 @@ namespace sigen {
          ref_service_id(sid), ref_event_id(evid) {}
 
       // utility
-      virtual Descriptor* clone() const {
-         return new TimeShiftedEventDesc(*this);
-      }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP

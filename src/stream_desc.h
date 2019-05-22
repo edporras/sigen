@@ -51,7 +51,6 @@ namespace sigen {
          free_format_flag(fff), id(ID), reserved(rsrvd), layer(l)  { }
 
       // utility
-      virtual Descriptor *clone() const { return new AudioStreamDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -82,7 +81,6 @@ namespace sigen {
          private_data( incLength(data) ) { }
 
       // utility
-      virtual Descriptor *clone() const { return new CADesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -111,7 +109,6 @@ namespace sigen {
          identifier(ci), info( incLength(data) ) { }
 
       // utility
-      virtual Descriptor *clone() const { return new CopyrightDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -145,11 +142,6 @@ namespace sigen {
       // constructor
       DataStreamAlignmentDesc(ui8 type) :
          PrimitiveDatatypeDesc<ui8>(TAG, type) { }
-
-      // utility
-      virtual Descriptor *clone() const {
-         return new DataStreamAlignmentDesc(*this);
-      }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -189,7 +181,6 @@ namespace sigen {
          reserved(rsrvd) { }
 
       // utility
-      virtual Descriptor* clone() const { return new HierarchyDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -219,7 +210,6 @@ namespace sigen {
          max_gop_len(mgl) { }
 
       // utility
-      virtual Descriptor* clone() const { return new IBPDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -257,8 +247,6 @@ namespace sigen {
       ISO639LanguageDesc() : Descriptor(TAG, BASE_LEN) {}
 
       // utility
-      virtual Descriptor *clone() const { return new ISO639LanguageDesc(*this); }
-
       bool addLanguage(const std::string& code, ui8 audio_type);
       virtual void buildSections(Section&) const;
 
@@ -291,7 +279,6 @@ namespace sigen {
          maximum_bitrate(max_br), reserved(rsrvd) { }
 
       // utility
-      virtual Descriptor *clone() const { return new MaximumBitrateDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -323,9 +310,6 @@ namespace sigen {
          LTW_offset_lb(ltw_o_lb), LTW_offset_ub(ltw_o_ub) { }
 
       // utility
-      virtual Descriptor *clone() const {
-         return new MultiplexBufferUtilizationDesc(*this);
-      }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -348,11 +332,6 @@ namespace sigen {
       // constructor
       PrivateDataIndicatorDesc(ui32 pdi) :
          PrimitiveDatatypeDesc<ui32>(TAG, pdi) { }
-
-      // utility
-      virtual Descriptor *clone() const {
-         return new PrivateDataIndicatorDesc( *this );
-      }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -381,7 +360,6 @@ namespace sigen {
          identifier(fi), info( incLength(data) ) { }
 
       // utility
-      virtual Descriptor *clone() const { return new RegistrationDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -410,7 +388,6 @@ namespace sigen {
          sb_leak_rate(sblr), sb_size(size), reserved(rsrvd)  { }
 
       // utility
-      virtual Descriptor *clone() const { return new SmoothingBufferDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -438,7 +415,6 @@ namespace sigen {
          leak_valid_flag(lvf), reserved(rsrvd)  { }
 
       // utility
-      virtual Descriptor *clone() const { return new STDDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -471,7 +447,6 @@ namespace sigen {
          reserved(rsrvd) { }
 
       // utility
-      virtual Descriptor *clone() const { return new SystemClockDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -500,9 +475,6 @@ namespace sigen {
          horizontal_size(hs), vertical_size(vs), pel_aspect_ratio(par) { }
 
       // utility
-      virtual Descriptor *clone() const {
-         return new TargetBackgroundGridDesc(*this);
-      }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -549,7 +521,6 @@ namespace sigen {
          frame_rate_code(frc), chroma_format(cf), reserved(rsrvd) { }
 
       // utility
-      virtual Descriptor *clone() const { return new VideoStreamDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -579,7 +550,6 @@ namespace sigen {
          horizontal_offset(ho), vertical_offset(vo), window_priority(wp) { }
 
       // utility
-      virtual Descriptor *clone() const { return new VideoWindowDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP

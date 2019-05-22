@@ -59,9 +59,6 @@ namespace sigen {
       MultilingualServiceNameDesc() : Descriptor(TAG, BASE_LEN) {}
 
       // utility
-      virtual Descriptor *clone() const {
-         return new MultilingualServiceNameDesc(*this);
-      }
       bool addLanguage(const std::string& code, const std::string& prov_name,
                        const std::string& serv_name);
 
@@ -103,7 +100,6 @@ namespace sigen {
       NVODReferenceDesc() : Descriptor(TAG, BASE_LEN) {}
 
       // utility
-      virtual Descriptor* clone() const { return new  NVODReferenceDesc(*this); }
       bool addIdentifiers(ui16 xsid, ui16 onid, ui16 sid);
 
       virtual void buildSections(Section&) const;
@@ -141,7 +137,6 @@ namespace sigen {
       { }
 
       // utility
-      Descriptor *clone() const { return new ServiceDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -164,9 +159,6 @@ namespace sigen {
       // constructor
       TimeShiftedServiceDesc(ui16 sid) :
          PrimitiveDatatypeDesc<ui16>(TAG, sid) {}
-
-      // utility
-      Descriptor *clone() const { return new TimeShiftedServiceDesc( *this ); }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {

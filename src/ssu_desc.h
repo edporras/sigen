@@ -67,7 +67,6 @@ namespace sigen {
       bool addOUI(ui32 OUI, const std::vector<ui8>& bytes) { return addOUI( OUIData(OUI, bytes) ); }
       bool setPrivateData(const std::vector<ui8>& bytes);
 
-      virtual Descriptor *clone() const { return new SSULinkageDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -103,7 +102,6 @@ namespace sigen {
          table_type(t_type)
       { }
 
-      virtual Descriptor *clone() const { return new SSUScanLinkageDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -160,10 +158,6 @@ namespace sigen {
       }
 
       // utility
-      virtual Descriptor* clone() const {
-         return new SSUDataBroadcastIdDesc( *this );
-      }
-
       bool addOUI(ui32 oui, ui8 upd_type, ui8 uvf, ui8 uv, const std::vector<ui8>& sel_bytes);
       bool setPrivateData(const std::string& priv_data);
 

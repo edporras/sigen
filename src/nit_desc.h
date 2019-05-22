@@ -79,10 +79,6 @@ namespace sigen {
       ui8 fecInner() const { return _fec_inner; }
       ui8 fecOuter() const { return _fec_outer; }
 
-      virtual Descriptor* clone() const {
-         return new CableDeliverySystemDesc(*this);
-      }
-
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -132,10 +128,6 @@ namespace sigen {
       ui8 polarisation() const { return _polarisation; }
       ui8 fecInner() const { return _fec_inner; }
       bool westEastFlag() const { return _west_east; }
-
-      virtual Descriptor* clone() const {
-         return new SatelliteDeliverySystemDesc(*this);
-      }
 
       virtual void buildSections(Section&) const;
 
@@ -192,10 +184,6 @@ namespace sigen {
       ui8 codeRateLPStream() const { return _cr_LP_stream; }
       ui8 guardInterval() const { return _guard_interval; }
       bool otherFrequencyFlag() const { return _other_freq_flag; }
-
-      virtual Descriptor* clone() const {
-         return new TerrestrialDeliverySystemDesc(*this);
-      }
 
       virtual void buildSections(Section&) const;
 
@@ -295,10 +283,6 @@ namespace sigen {
 
       virtual void buildSections(Section&) const;
 
-      virtual Descriptor* clone() const {
-         return new AnnouncementSupportDesc(*this);
-      }
-
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
@@ -363,10 +347,6 @@ namespace sigen {
       bool addLinkSubCell(ui8 cid_ext, ui32 xposer_freq);
 
       virtual void buildSections(Section&) const;
-
-      virtual Descriptor* clone() const {
-         return new CellFrequencyLinkDesc(*this);
-      }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
@@ -451,10 +431,6 @@ namespace sigen {
 
       virtual void buildSections(Section&) const;
 
-      virtual Descriptor* clone() const {
-         return new CellListDesc(*this);
-      }
-
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
@@ -498,10 +474,6 @@ namespace sigen {
          coding_type(ct) { }
 
       // utility functions
-      virtual Descriptor* clone() const {
-         return new FrequencyListDesc(*this);
-      }
-
       bool addFrequency(ui32 f);
       virtual void buildSections(Section&) const;
 
@@ -523,11 +495,6 @@ namespace sigen {
       // constructor
       MultilingualNetworkNameDesc() : MultilingualTextDesc(TAG, BASE_LEN) {}
 
-      // utlity
-      virtual Descriptor *clone() const {
-         return new MultilingualNetworkNameDesc(*this);
-      }
-
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
          dumpData(o, MULTILING_NET_NAME_D_S, NETWORK_NAME_S );
@@ -546,9 +513,6 @@ namespace sigen {
 
       // constructor
       NetworkNameDesc(const std::string& name) : StringDataDesc(TAG, name) { }
-
-      // utility functions
-      virtual Descriptor *clone() const { return new NetworkNameDesc(*this); }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {

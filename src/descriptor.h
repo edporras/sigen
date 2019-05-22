@@ -46,13 +46,16 @@ namespace sigen {
          tag(t), total_length(l + BASE_LEN) { }
 
    public:
+      Descriptor(const Descriptor&) = delete;
+      Descriptor(const Descriptor&&) = delete;
+      Descriptor& operator=(const Descriptor&) = delete;
+      Descriptor& operator=(const Descriptor&&) = delete;
       virtual ~Descriptor() { }
 
       // getter methods
       ui16 length() const { return total_length; } // total bytes
 
       // utility methods
-      virtual Descriptor* clone() const = 0;
       virtual void buildSections(Section &) const;
 
    protected:

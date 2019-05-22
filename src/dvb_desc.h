@@ -44,9 +44,6 @@ namespace sigen {
       // constructor
       BouquetNameDesc(const std::string& data) : StringDataDesc(TAG, data) { }
 
-      // utility
-      virtual Descriptor *clone() const { return new BouquetNameDesc(*this); }
-
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
          dumpData( o, BOUQUET_NAME_D_S, DATA_S);
@@ -70,8 +67,6 @@ namespace sigen {
       CAIdentifierDesc() : Descriptor(TAG, BASE_LEN) {}
 
       // utility methods
-      virtual Descriptor *clone() const { return new CAIdentifierDesc(*this); }
-
       bool addSystemId(ui16);
       virtual void buildSections(Section&) const;
 
@@ -101,9 +96,6 @@ namespace sigen {
          country_availability_flag(caf), reserved(rsrvd) {}
 
       // utility
-      virtual Descriptor *clone() const {
-         return new CountryAvailabilityDesc(*this);
-      }
       bool addCountry(const std::string&);
 
       virtual void buildSections(Section&) const;
@@ -137,8 +129,7 @@ namespace sigen {
          selector_byte( incLength(sel_byte) ), text( incLength(txt) ),
          code(lang_code), data_broadcast_id(db_id), component_tag(ctag) { }
 
-      // utility - commented for now to prevent instances of this desc
-      virtual Descriptor *clone() const { return new DataBroadcastDesc(*this); }
+      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -158,9 +149,6 @@ namespace sigen {
 
       // constructor
       DSNGDesc(const std::string& data) : StringDataDesc(TAG, data) { }
-
-      // utility
-      virtual Descriptor *clone() const { return new DSNGDesc(*this); }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const { dumpData( o, DSNG_D_S, DATA_S); }
@@ -205,7 +193,6 @@ namespace sigen {
          Descriptor(TAG, BASE_LEN) {}
 
       // utility
-      virtual Descriptor *clone() const { return new LocalTimeOffsetDesc(*this); }
       bool addTimeOffset(const LanguageCode& code, ui8 country_region_id,
                          bool offset_polarity, ui16 lt_offset,
                          const UTC& time_of_change, ui16 next_time_offset);
@@ -263,11 +250,6 @@ namespace sigen {
       // constructor
       MultilingualBouquetNameDesc() : MultilingualTextDesc(TAG, BASE_LEN) {}
 
-      // utility methods
-      virtual Descriptor* clone() const {
-         return new MultilingualBouquetNameDesc(*this);
-      }
-
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
          dumpData(o, MULTILING_BOUQUET_NAME_D_S, BOUQUET_NAME_S );
@@ -300,11 +282,7 @@ namespace sigen {
          reserved(rsrvd)
       { }
 
-      virtual Descriptor* clone() const {
-         return new PartialTransportStreamDesc(*this);
-      }
-
-      // utility functions
+      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -326,11 +304,6 @@ namespace sigen {
 
       // constructor
       PrivateDataSpecifierDesc(ui32 d) : PrimitiveDatatypeDesc<ui32>(TAG, d) {}
-
-      // utility functions
-      virtual Descriptor *clone() const {
-         return new PrivateDataSpecifierDesc( *this );
-      }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -364,9 +337,7 @@ namespace sigen {
       // constructor
       ServiceListDesc() : Descriptor(TAG, BASE_LEN) { }
 
-      // utility functions
-      virtual Descriptor* clone() const { return new ServiceListDesc(*this); }
-
+      // utility
       bool addService(ui16 service_id, ui8 service_type);
       virtual void buildSections(Section&) const;
 
@@ -392,9 +363,6 @@ namespace sigen {
          StringDataDesc( TAG, std::string(len, c) ) { }
       StuffingDesc(const std::string& data) : StringDataDesc( TAG, data ) {}
 
-      // utility
-      virtual Descriptor* clone() const { return new StuffingDesc(*this); }
-
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
          dumpData( o, STUFFING_D_S, DATA_S );
@@ -417,9 +385,6 @@ namespace sigen {
       // constructor for other types
       TransportStreamDesc(const std::string& data) :
          StringDataDesc( TAG, data ) {}
-
-      // utility
-      virtual Descriptor* clone() const { return new TransportStreamDesc(*this); }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -467,7 +432,6 @@ namespace sigen {
                     bool rsrvd = true);
 
       // utility functions
-      virtual Descriptor *clone() const { return new TelephoneDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP

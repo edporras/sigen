@@ -60,10 +60,6 @@ namespace sigen {
       // utility
       void setValue(flag_t key, ui8 value);
 
-      virtual Descriptor* clone() const {
-         return new AC3Desc( *this );
-      }
-
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -109,11 +105,6 @@ namespace sigen {
       AncillaryDataDesc(ui8 ancillary_data_identifier) :
          PrimitiveDatatypeDesc<ui8>(TAG, ancillary_data_identifier) {}
 
-      // utility
-      virtual Descriptor* clone() const {
-         return new AncillaryDataDesc( *this );
-      }
-
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
          dumpData( o, ANCILLARY_DATA_D_S, ANCILLARY_DATA_IDENT_S );
@@ -152,11 +143,6 @@ namespace sigen {
          data_broadcast_id(db_id)
       {}
 
-      // utility
-      virtual Descriptor* clone() const {
-         return new DataBroadcastIdDesc( *this );
-      }
-
       // set private data bytes
       bool setSelectorBytes(const std::vector<ui8>& bytes);
 
@@ -188,7 +174,6 @@ namespace sigen {
          original_network_id(onid), xport_stream_id(xsid), new_service_id(sid) {}
 
       // utility
-      virtual Descriptor* clone() const { return new ServiceMoveDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -211,11 +196,6 @@ namespace sigen {
 
       // constructor
       StreamIdentifierDesc(ui8 c_tag) : PrimitiveDatatypeDesc<ui8>(TAG, c_tag) {}
-
-      // utility
-      virtual Descriptor* clone() const {
-         return new StreamIdentifierDesc( *this );
-      }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -254,7 +234,6 @@ namespace sigen {
       SubtitlingDesc() : Descriptor(TAG, BASE_LEN) {}
 
       // utility
-      virtual Descriptor* clone() const { return new SubtitlingDesc(*this); }
       bool addSubtitling(const std::string& lang_code, ui8 type, ui16 c_page_id,
                          ui16 a_page_id);
       virtual void buildSections(Section&) const;
@@ -306,7 +285,6 @@ namespace sigen {
       TeletextDesc() : Descriptor(TAG, BASE_LEN) {}
 
       // utility
-      virtual Descriptor* clone() const { return new TeletextDesc(*this); }
       bool addTeletext(const std::string& lang_code, ui8 type, ui8 mag_num,
                        ui8 page_num);
       virtual void buildSections(Section&) const;

@@ -74,7 +74,6 @@ namespace sigen {
       { }
 
       // utility
-      virtual Descriptor *clone() const { return new LinkageDesc(*this); }
       virtual void buildSections(Section&) const;
 
       bool setPrivateData(const std::vector<ui8>& data);
@@ -121,7 +120,6 @@ namespace sigen {
                                 bool rsrv = true);
 
       // utility
-      virtual Descriptor *clone() const { return new MobileHandoverLinkageDesc(*this); }
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
