@@ -44,7 +44,7 @@ namespace sigen
          return false;
 
       // we can fit it, so let's try to add it
-      xport_stream_list.push_back(std::unique_ptr<XportStream>(new XportStream(xsid, onid, sid, eid, rs)));
+      xport_stream_list.push_back(std::make_unique<XportStream>(xsid, onid, sid, eid, rs));
       return true;
    }
 

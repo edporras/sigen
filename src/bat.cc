@@ -57,7 +57,7 @@ namespace sigen
       if ( !incLength(XportStream::BASE_LEN) )
          return false;
 
-      xport_streams.push_back(std::unique_ptr<XportStream>(new XportStream(xport_stream_id, original_network_id)));
+      xport_streams.push_back(std::make_unique<XportStream>(xport_stream_id, original_network_id));
 
       // increment the lengths
       xport_stream_loop_length += XportStream::BASE_LEN;

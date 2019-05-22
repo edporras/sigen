@@ -37,7 +37,7 @@ namespace sigen
       if ( !incLength(Program::BASE_LEN) )
          return false;
 
-      program_list.push_back( std::unique_ptr<Program>(new Program(sid, pid)) );
+      program_list.push_back( std::make_unique<Program>(sid, pid) );
       return true;
    }
 

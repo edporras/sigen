@@ -32,7 +32,7 @@ namespace sigen
       if ( !incLength(ElementaryStream::BASE_LEN) )
          return false;
 
-      es_list.push_back(std::unique_ptr<ElementaryStream>(new ElementaryStream(elem_pid, type)));
+      es_list.push_back(std::make_unique<ElementaryStream>(elem_pid, type));
       return true;
    }
 

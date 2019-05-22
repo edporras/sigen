@@ -39,7 +39,7 @@ namespace sigen
       if ( !incLength( Service::BASE_LEN) )
          return false;
 
-      service_list.push_back(std::unique_ptr<Service>(new Service(sid, esf, epff, rs, fca, reserved)));
+      service_list.push_back(std::make_unique<Service>(sid, esf, epff, rs, fca, reserved));
       return true;
    }
 
