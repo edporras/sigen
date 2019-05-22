@@ -41,7 +41,10 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      network_desc.push_back(&d);
+      // take ownership and store it
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      network_desc.push_back(std::move(dp));
 
       // increment the network_desc_loop lengths
       network_desc_length += d_len;
@@ -105,7 +108,9 @@ namespace sigen
    //
    bool NIT::addXportStreamDesc(XportStream& xs, Descriptor& d, ui16 d_len)
    {
-      xs.desc_list.push_back(PtrWrapper<Descriptor>(&d));
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      xs.desc_list.push_back(std::move(dp));
       xport_stream_loop_length += d_len;
       xs.desc_length += d_len;
       return true;
@@ -131,7 +136,7 @@ namespace sigen
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *nd = nullptr;
       static const XportStream *ts = nullptr;
-      static std::list<PtrWrapper<Descriptor> >::const_iterator nd_iter = network_desc.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator nd_iter = network_desc.begin();
       static std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter = xport_streams.begin();
 
       // associate the iterators to the lists.. once they reach the
@@ -189,7 +194,7 @@ namespace sigen
                  // fetch the next network descriptor
                  if (nd_iter != network_desc.end())
                  {
-                    nd = (*nd_iter++)();
+                    nd = (*nd_iter++).get();
 
 #ifdef TRACE
                     cerr << "##### looking at: " << std::endl;
@@ -274,7 +279,7 @@ namespace sigen
                  // at least one
                  if (ts->desc_list.size() > 0)
                  {
-                    const Descriptor *d = (*ts->desc_list.begin())();
+                    const Descriptor *d = (*ts->desc_list.begin()).get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + XportStream::BASE_LEN + d->length()) >
@@ -347,7 +352,7 @@ namespace sigen
       ui16 d_len, ts_desc_len = 0;
       bool exit, done;
       static const Descriptor *tsd = nullptr;
-      static std::list<PtrWrapper<Descriptor> >::const_iterator tsd_iter = ts.desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = ts.desc_list.begin();
 
       exit = done = false;
 
@@ -380,7 +385,7 @@ namespace sigen
               if (tsd_iter != ts.desc_list.end())
               {
                  // ... fetch the next one
-                 tsd = (*tsd_iter++)();
+                 tsd = (*tsd_iter++).get();
 
                  // make sure we can fit it
                  if ( (sec_bytes + tsd->length()) > getMaxDataLen() )

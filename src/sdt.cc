@@ -88,7 +88,10 @@ namespace sigen
    //
    bool SDT::addServiceDesc(Service& serv, Descriptor &d, ui16 d_len)
    {
-      serv.desc_list.push_back( PtrWrapper<Descriptor>(&d) );
+      // take ownership and store it
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      serv.desc_list.push_back( std::move(dp) );
       serv.desc_loop_length += d_len;
       return true;
    }
@@ -143,7 +146,7 @@ namespace sigen
 
                  if (serv->desc_list.size() > 0)
                  {
-                    const Descriptor *d = serv->desc_list.front()();
+                    const Descriptor *d = serv->desc_list.front().get();
 
                     // check if we can fit it with at least one descriptor
                     if (sec_bytes + Service::BASE_LEN + d->length() >
@@ -209,7 +212,7 @@ namespace sigen
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *d = nullptr;
-      static std::list<PtrWrapper<Descriptor> >::const_iterator d_iter = service.desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = service.desc_list.begin();
 
       // set the descriptor list iterator to this service's
       // descriptor list
@@ -243,7 +246,7 @@ namespace sigen
            case GET_DESC:
               if (d_iter != service.desc_list.end())
               {
-                 d = (*d_iter++)();
+                 d = (*d_iter++).get();
 
                  // make sure we can fit it
                  if (sec_bytes + d->length() > getMaxDataLen())
@@ -348,10 +351,8 @@ namespace sigen
       s.set16Bits( (running_status << 13) | (free_ca_mode << 12) |
                    (desc_loop_length & 0x0fff) );
 
-      std::list<PtrWrapper<Descriptor> >::const_iterator d_iter = desc_list.begin();
-
-      while (d_iter != desc_list.end())
-         (*d_iter++)()->buildSections(s);
+      for (const std::unique_ptr<Descriptor>& dp : desc_list)
+         (*dp).buildSections(s);
    }
 
 } // namespace sigen

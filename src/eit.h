@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "table.h"
 #include "utc.h"
@@ -51,7 +52,7 @@ namespace sigen {
          ui8 running_status : 3;
          bool free_CA_mode;
 
-         std::list<PtrWrapper<Descriptor> > desc_list; // descriptor's list
+         std::list<std::unique_ptr<Descriptor> > desc_list; // descriptor's list
 
          // constructor
          Event(ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs,
@@ -65,7 +66,6 @@ namespace sigen {
 
          // utility
          void buildSections(Section &) const;
-         Event *clone() const { return new Event(*this); }
       };
 
       // common EIT data members begin here
@@ -92,14 +92,14 @@ namespace sigen {
 
    protected:
       // event/descriptor add routines
-      bool addEvent(std::list<PtrWrapper<Event> > &, ui16, UTC, BCDTime, ui8,
+      bool addEvent(std::list<std::unique_ptr<Event> > &, ui16, UTC, BCDTime, ui8,
                     bool);
-      bool addEventDesc(std::list<PtrWrapper<Event> > &, ui16, Descriptor &);
-      bool addEventDesc(std::list<PtrWrapper<Event> > &, Descriptor &);
+      bool addEventDesc(std::list<std::unique_ptr<Event> > &, ui16, Descriptor &);
+      bool addEventDesc(std::list<std::unique_ptr<Event> > &, Descriptor &);
       bool addEventDesc(Event& , Descriptor &, ui16);
 
       // table builder routines
-      bool writeSection(Section& s, const std::list<PtrWrapper<Event> > &e_list,
+      bool writeSection(Section& s, const std::list<std::unique_ptr<Event> > &e_list,
                         ui8 last_tid,
                         ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
                         ui16 &sec_bytes) const;
@@ -108,7 +108,7 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dumpHeader(std::ostream &) const = 0;
       virtual void dumpEvents(std::ostream &) const = 0;
-      void dumpEventList(std::ostream &, const std::list<PtrWrapper<Event> > &) const;
+      void dumpEventList(std::ostream &, const std::list<std::unique_ptr<Event> > &) const;
 #endif
 
       // dummy function - we use a different writeSection for EIT's,
@@ -128,7 +128,7 @@ namespace sigen {
 
    private:
       enum { PRESENT, FOLLOWING };
-      std::list<PtrWrapper<Event> > event_list[2]; // present = 0, following = 1
+      std::list<std::unique_ptr<Event> > event_list[2]; // present = 0, following = 1
 
    public:
       PF_EIT(ui16 sid, ui16 xsid, ui16 onid, PF_EIT::Type type, ui8 ver,
@@ -193,7 +193,7 @@ namespace sigen {
    private:
       enum { ACTUAL_BASE = 0x50, OTHER_BASE_0x60 };
 
-      std::list<PtrWrapper<Event> > event_list;
+      std::list<std::unique_ptr<Event> > event_list;
 
 //   ES_EIT(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true,
 //	 bool rsrvd = true) :

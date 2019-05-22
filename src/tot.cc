@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include "table.h"
 #include "tstream.h"
@@ -72,7 +73,10 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      desc_list.push_back(&d);
+      // take ownership and store it
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      desc_list.push_back(std::move(dp));
 
       // increment the table and network_desc_loop lengths
       desc_loop_length += d_len;
@@ -99,10 +103,8 @@ namespace sigen
       s->set16Bits( rbits(reserved, ~LEN_MASK) | (desc_loop_length & LEN_MASK) );
 
       // descriptors
-      std::list<PtrWrapper<Descriptor> >::const_iterator desc_iter = desc_list.begin();
-
-      while (desc_iter != desc_list.end())
-         (*desc_iter++)()->buildSections(*s);
+      for (const std::unique_ptr<Descriptor>& dp : desc_list)
+         (*dp).buildSections(*s);
 
       // crc it
       s->calcCrc();

@@ -66,21 +66,16 @@ namespace sigen
    //
    // dumps the contents of a descriptor loop
    //
-   void STable::dumpDescLoop(const std::list<PtrWrapper<Descriptor> > &desc_list,
+   void STable::dumpDescLoop(const std::list<std::unique_ptr<Descriptor> > &desc_list,
                              std::ostream &o)
    {
       if (desc_list.size() > 0)
       {
          incOutLevel();
 
-         // build an iterator to go throughal descriptors
-         std::list<PtrWrapper<Descriptor> >::const_iterator d_iter = desc_list.begin();
-
-         // as long as there's some left
-         while (d_iter != desc_list.end())
+         for (const std::unique_ptr<Descriptor>& dp : desc_list)
          {
-            // fetch the next one and dump it
-            (*d_iter++)()->dump(o);
+            dp->dump(o);
             o << std::endl;
          }
          o << std::endl;
@@ -145,10 +140,7 @@ namespace sigen
       State_t state = MALLOC_SEC;
 
       Section *s = nullptr;
-      // this table's sections - this is NOT a list of PtrWrappers as we
-      // don't want to delete the elements in the list automatically - we
-      // just need a temporary holder to update each section's
-      // last_section field
+      // this table's sections
       std::list<Section *> table_sections;
 
       // add each field while it still fits in this section

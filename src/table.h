@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "types.h"
 #include "util.h"
@@ -117,7 +118,7 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       virtual void dumpHeader(std::ostream &o, STRID) const;
-      static void dumpDescLoop(const std::list<PtrWrapper<Descriptor> > &,
+      static void dumpDescLoop(const std::list<std::unique_ptr<Descriptor> > &,
                                std::ostream &);
 #endif
    };

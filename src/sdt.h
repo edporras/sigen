@@ -50,7 +50,7 @@ namespace sigen {
             free_ca_mode,
             reserved;
 
-         std::list<PtrWrapper<Descriptor> > desc_list; // descriptor's list
+         std::list<std::unique_ptr<Descriptor> > desc_list; // descriptor's list
 
          // constructor
          Service(ui16 sid, bool esf, bool epff, ui8 rs, bool fca, bool rsrvd) :

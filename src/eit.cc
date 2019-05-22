@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include "table.h"
 #include "descriptor.h"
@@ -37,18 +38,15 @@ namespace sigen
    // adds an event to the passed list...
    // protected function to be used by the derived classes
    //
-   bool EIT::addEvent(std::list<PtrWrapper<Event> > &e_list, ui16 evid,
+   bool EIT::addEvent(std::list<std::unique_ptr<Event> > &e_list, ui16 evid,
                       UTC time, BCDTime dur, ui8 rs, bool fca)
    {
       // make sure we can fit it
       if ( !incLength( Event::BASE_LEN) )
          return false;
 
-      // create a new event object
-      Event *event = new Event(evid, time, dur, rs, fca);
-
       // add the event to the list
-      e_list.push_back( PtrWrapper<Event>(event) );
+      e_list.push_back(std::make_unique<Event>(evid, time, dur, rs, fca));
       return true;
    }
 
@@ -58,7 +56,7 @@ namespace sigen
    // adds a descriptor to event with the specified id..
    // protected function to be used by the derived classes
    //
-   bool EIT::addEventDesc(std::list<PtrWrapper<Event> > &e_list, ui16 evid,
+   bool EIT::addEventDesc(std::list<std::unique_ptr<Event> > &e_list, ui16 evid,
                           Descriptor &d)
    {
       ui16 d_len = d.length();
@@ -68,11 +66,9 @@ namespace sigen
          return false;
 
       // look for the id in the list.. if found, add the descriptor to it
-      for ( std::list<PtrWrapper<Event> >::iterator ev_iter = e_list.begin();
-            ev_iter != e_list.end();
-            ev_iter++ )
+      for (std::unique_ptr<Event>& ep : e_list)
       {
-         Event& event = *(*ev_iter);
+         Event& event = *ep;
          if (event.id == evid)
             return addEventDesc(event, d, d_len);
       }
@@ -85,7 +81,7 @@ namespace sigen
    // adds the descriptor to the last event added
    // protected function to be used by the derived classes
    //
-   bool EIT::addEventDesc(std::list<PtrWrapper<Event> > &e_list, Descriptor &d)
+   bool EIT::addEventDesc(std::list<std::unique_ptr<Event> > &e_list, Descriptor &d)
    {
       ui16 d_len = d.length();
 
@@ -108,7 +104,11 @@ namespace sigen
    {
       // we don't check if it can fit here since it should have
       // been done before we were called (protected function)
-      event.desc_list.push_back( PtrWrapper<Descriptor>(&d) );
+
+      // take ownership and store it
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      event.desc_list.push_back( std::move(dp) );
 
       event.desc_loop_length += d_len;
       return true;
@@ -134,16 +134,14 @@ namespace sigen
    //
    // dumps the passed event list
    //
-   void EIT::dumpEventList(std::ostream &o, const std::list<PtrWrapper<Event> > &e_list) const
+   void EIT::dumpEventList(std::ostream &o, const std::list<std::unique_ptr<Event> > &e_list) const
    {
       // display the event list
       incOutLevel();
 
-      for ( std::list<PtrWrapper<Event> >::const_iterator ev_iter = e_list.begin();
-            ev_iter != e_list.end();
-            ev_iter++ )
+      for (const std::unique_ptr<Event>& ep : e_list)
       {
-         const Event& event = *(*ev_iter);
+         const Event& event = *ep;
 
          o << std::hex;
          identStr(o, EVENT_ID_S, event.id);
@@ -179,7 +177,7 @@ namespace sigen
    // anybody calling the other one
    //
    bool EIT::writeSection(Section& section,
-                          const std::list<PtrWrapper<Event> > &event_list,
+                          const std::list<std::unique_ptr<Event> > &event_list,
                           ui8 last_tid,
                           ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
                           ui16 &sec_bytes) const
@@ -189,7 +187,7 @@ namespace sigen
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
       static const Event *event = nullptr;
-      static std::list<PtrWrapper<Event> >::const_iterator ev_iter = event_list.begin();
+      static std::list<std::unique_ptr<Event> >::const_iterator ev_iter = event_list.begin();
 
       // init
       exit = done = false;
@@ -232,11 +230,11 @@ namespace sigen
               // fetch the next event
               if (ev_iter != event_list.end())
               {
-                 event = (*ev_iter++)();
+                 event = (*ev_iter++).get();
 
                  if (event->desc_list.size() > 0)
                  {
-                    const Descriptor *d = event->desc_list.front()();
+                    const Descriptor *d = event->desc_list.front().get();
 
                     // check if we can fit it with at least one descriptor
                     if (sec_bytes + Event::BASE_LEN + d->length() >
@@ -302,7 +300,7 @@ namespace sigen
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *d = nullptr;
-      static std::list<PtrWrapper<Descriptor> >::const_iterator d_iter;
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter;
 
       // set the descriptor list iterator to this event's
       // descriptor list
@@ -344,7 +342,7 @@ namespace sigen
            case GET_DESC:
               if (d_iter != event.desc_list.end())
               {
-                 d = (*d_iter++)();
+                 d = (*d_iter++).get();
 
                  // make sure we can fit it
                  if (sec_bytes + d->length() > getMaxDataLen())
@@ -470,10 +468,8 @@ namespace sigen
                    desc_loop_length );
 
       // descriptor loop
-      std::list<PtrWrapper<Descriptor> >::const_iterator d_iter = desc_list.begin();
-
-      while (d_iter != desc_list.end())
-         (*d_iter++)()->buildSections(s);
+      for (const std::unique_ptr<Descriptor>& dp : desc_list)
+         (*dp).buildSections(s);
    }
 
 

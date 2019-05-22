@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include "table.h"
 #include "cat.h"
@@ -37,7 +38,10 @@ namespace sigen
       if ( !incLength( d.length() ) )
          return false;
 
-      desc_list.push_back( PtrWrapper<Descriptor>(&d) );
+      // take ownership and store it
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      desc_list.push_back( std::move(dp) );
       return true;
    }
 
@@ -55,7 +59,7 @@ namespace sigen
       static bool d_done = false;
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *d = nullptr;
-      static std::list<PtrWrapper<Descriptor> >::const_iterator d_iter = desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = desc_list.begin();
 
       // associate the iterators to the list
       if (!d_done)
@@ -91,7 +95,7 @@ namespace sigen
                  // fetch the next descriptor
                  if (d_iter != desc_list.end())
                  {
-                    d = (*d_iter++)();
+                    d = (*d_iter++).get();
 
                     // check if we can fit it in this section
                     if (sec_bytes + d->length() > getMaxDataLen())

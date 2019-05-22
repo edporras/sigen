@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "utc.h"
 #include "table.h"
@@ -43,7 +44,7 @@ namespace sigen {
       enum { BASE_LEN = 7, MAX_SEC_LEN = 1024, TID = 0x73 };
 
       ui16 desc_loop_length;
-      std::list<PtrWrapper<Descriptor> > desc_list; // descriptor's list
+      std::list<std::unique_ptr<Descriptor> > desc_list; // descriptor's list
 
    public:
       enum { PID = 0x14 };

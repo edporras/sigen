@@ -20,7 +20,10 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      desc_list.push_back( PtrWrapper<Descriptor>(&d) );
+      // take ownership and store it
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      desc_list.push_back( std::move(dp) );
       program_info_length += d_len;
       return true;
    }
@@ -77,7 +80,10 @@ namespace sigen
    //
    bool PMT::addElemStreamDesc(ElementaryStream& stream, Descriptor &d, ui16 d_len)
    {
-      stream.desc_list.push_back( PtrWrapper<Descriptor>(&d) );
+      // take ownership and store it
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      stream.desc_list.push_back( std::move(dp) );
       stream.es_info_length += d_len;
       return true;
    }
@@ -100,7 +106,7 @@ namespace sigen
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *pd = nullptr;
       static const ElementaryStream *ts = nullptr;
-      static std::list<PtrWrapper<Descriptor> >::const_iterator pd_iter = desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator pd_iter = desc_list.begin();
       static std::list<std::unique_ptr<ElementaryStream> >::const_iterator ts_iter = es_list.begin();
 
       // associate the iterators to the list
@@ -155,7 +161,7 @@ namespace sigen
                  // fetch the next program descriptor
                  if (pd_iter != desc_list.end())
                  {
-                    pd = (*pd_iter++)();
+                    pd = (*pd_iter++).get();
 
                     // check if we can fit it in this section
                     if (sec_bytes + pd->length() > getMaxDataLen())
@@ -204,7 +210,7 @@ namespace sigen
                  // at least one
                  if (ts->desc_list.size() > 0)
                  {
-                    const Descriptor *d = (*ts->desc_list.begin())();
+                    const Descriptor *d = (*ts->desc_list.begin()).get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + PMT::ElementaryStream::BASE_LEN + d->length()) >
@@ -272,7 +278,7 @@ namespace sigen
       ui16 d_len, ts_desc_len = 0;
       bool exit, done;
       static const Descriptor *tsd = nullptr;
-      static std::list<PtrWrapper<Descriptor> >::const_iterator tsd_iter = stream.desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = stream.desc_list.begin();
 
       exit = done = false;
 
@@ -303,7 +309,7 @@ namespace sigen
            case GET_DESC:
               if (tsd_iter != stream.desc_list.end())
               {
-                 tsd = (*tsd_iter++)();
+                 tsd = (*tsd_iter++).get();
 
                  // make sure we can fit it
                  if ( (sec_bytes + tsd->length()) > getMaxDataLen() )

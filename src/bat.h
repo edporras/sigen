@@ -48,7 +48,7 @@ namespace sigen {
          ui16 id,                    // transport stream id
             original_network_id,
             desc_length;
-         std::list<PtrWrapper<Descriptor> > desc_list;  // descriptors
+         std::list<std::unique_ptr<Descriptor> > desc_list;  // descriptors
 
          // constructor
          XportStream(ui16 tsid, ui16 onid) :
@@ -62,7 +62,7 @@ namespace sigen {
       ui16 bouquet_desc_length,
          xport_stream_loop_length;
 
-      std::list<PtrWrapper<Descriptor> > bouquet_desc;   // bouquet descriptors
+      std::list<std::unique_ptr<Descriptor> > bouquet_desc;   // bouquet descriptors
       std::list<std::unique_ptr<XportStream> > xport_streams; // transport streams
 
    public:

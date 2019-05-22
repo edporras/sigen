@@ -48,7 +48,7 @@ namespace sigen {
          ui16 es_info_length,
             elementary_pid : 13;
          ui8 type;
-         std::list<PtrWrapper<Descriptor> > desc_list;
+         std::list<std::unique_ptr<Descriptor> > desc_list;
 
          // constructor
          ElementaryStream(ui16 epid, ui8 t) :
@@ -59,7 +59,7 @@ namespace sigen {
       // instance variables
       ui16 program_info_length,
          pcr_pid : 13;
-      std::list<PtrWrapper<Descriptor> > desc_list;            // program descriptors
+      std::list<std::unique_ptr<Descriptor> > desc_list;       // program descriptors
       std::list<std::unique_ptr<ElementaryStream> > es_list;   // the list of streams
 
    public:
