@@ -36,7 +36,7 @@ AC_DEFINE_UNQUOTED([SIGEN_VERSION], ["sigen_version"], [Explicitly named version
 AC_PROG_CXX
 AC_PROG_CC
 
-AX_CXX_COMPILE_STDCXX_11
+AX_CXX_COMPILE_STDCXX_14
 
 # Checks for header files.
 
