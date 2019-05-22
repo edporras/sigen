@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "table.h"
 #include "util.h"
@@ -53,16 +54,13 @@ namespace sigen {
          ElementaryStream(ui16 epid, ui8 t) :
             es_info_length(0), elementary_pid(epid), type(t)
          { }
-
-         // utility
-         ElementaryStream* clone() const { return new ElementaryStream(*this); }
       };
 
       // instance variables
       ui16 program_info_length,
          pcr_pid : 13;
-      std::list<PtrWrapper<Descriptor> > desc_list;       // program descriptors
-      std::list<PtrWrapper<ElementaryStream> > es_list;   // the list of streams
+      std::list<PtrWrapper<Descriptor> > desc_list;            // program descriptors
+      std::list<std::unique_ptr<ElementaryStream> > es_list;   // the list of streams
 
    public:
 

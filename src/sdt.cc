@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <list>
+#include <utility>
 #include "table.h"
 #include "descriptor.h"
 #include "tstream.h"
@@ -38,9 +39,7 @@ namespace sigen
       if ( !incLength( Service::BASE_LEN) )
          return false;
 
-      Service *s = new Service(sid, esf, epff, rs, fca, reserved);
-
-      service_list.push_back(PtrWrapper<Service>(s));
+      service_list.push_back(std::unique_ptr<Service>(new Service(sid, esf, epff, rs, fca, reserved)));
       return true;
    }
 
@@ -57,14 +56,14 @@ namespace sigen
          return false;
 
       // look for the id in the list
-      for ( std::list<PtrWrapper<Service> >::iterator s_iter = service_list.begin();
+      for ( std::list<std::unique_ptr<Service> >::iterator s_iter = service_list.begin();
             s_iter != service_list.end();
             s_iter++ )
       {
-         Service& service = *(*s_iter);
+         Service* service = (*s_iter).get();
 
-         if (service.id == sid)
-            return addServiceDesc(service, d, d_len);
+         if (service->id == sid)
+            return addServiceDesc(*service, d, d_len);
       }
       return false;
    }
@@ -108,7 +107,7 @@ namespace sigen
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
       static const Service *serv = nullptr;
-      static std::list<PtrWrapper<Service> >::const_iterator s_iter = service_list.begin();
+      static std::list<std::unique_ptr<Service> >::const_iterator s_iter = service_list.begin();
 
       // init
       done = exit = false;
@@ -143,7 +142,7 @@ namespace sigen
               // fetch the next service
               if (s_iter != service_list.end())
               {
-                 serv = (*s_iter++)();
+                 serv = (*s_iter++).get();
 
                  if (serv->desc_list.size() > 0)
                  {
@@ -312,7 +311,7 @@ namespace sigen
       incOutLevel();
       headerStr(o, SERVICE_LIST_S, false);
 
-      for ( std::list<PtrWrapper<Service> >::const_iterator s_iter = service_list.begin();
+      for ( std::list<std::unique_ptr<Service> >::const_iterator s_iter = service_list.begin();
             s_iter != service_list.end();
             s_iter++ )
       {

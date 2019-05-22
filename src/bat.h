@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "table.h"
 #include "util.h"
@@ -55,8 +56,6 @@ namespace sigen {
 
          // utility methods
          int length() const { return desc_length + BASE_LEN; }
-
-         XportStream *clone() const { return new XportStream(*this); }
       };
 
       // BAT members
@@ -64,7 +63,7 @@ namespace sigen {
          xport_stream_loop_length;
 
       std::list<PtrWrapper<Descriptor> > bouquet_desc;   // bouquet descriptors
-      std::list<PtrWrapper<XportStream> > xport_streams; // transport streams
+      std::list<std::unique_ptr<XportStream> > xport_streams; // transport streams
 
    public:
       enum { PID = 0x11 };

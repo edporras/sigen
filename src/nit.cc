@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include "table.h"
 #include "descriptor.h"
@@ -56,10 +57,8 @@ namespace sigen
       if ( !incLength(XportStream::BASE_LEN) )
          return false;
 
-      XportStream *xs = new XportStream(xport_stream_id, original_network_id);
-
       // add it to the link list
-      xport_streams.push_back( PtrWrapper<XportStream>(xs) );
+      xport_streams.push_back(std::unique_ptr<XportStream>(new XportStream(xport_stream_id, original_network_id)));
 
       // increment the lengths
       xport_stream_loop_length += XportStream::BASE_LEN;
@@ -77,14 +76,14 @@ namespace sigen
          return false;
 
       // lookup the transport_stream by the passed id
-      for ( std::list<PtrWrapper<XportStream> >::iterator xs_iter = xport_streams.begin();
+      for ( std::list<std::unique_ptr<XportStream> >::iterator xs_iter = xport_streams.begin();
             xs_iter != xport_streams.end();
             xs_iter++ )
       {
-         XportStream& xs = *(*xs_iter);
+         XportStream* xs = (*xs_iter).get();
 
-         if ( (xs.id == xsid) && (xs.original_network_id == on_id) )
-            return addXportStreamDesc(xs, d, d_len);
+         if ( (xs->id == xsid) && (xs->original_network_id == on_id) )
+            return addXportStreamDesc(*xs, d, d_len);
       }
       return false;
    }
@@ -136,7 +135,7 @@ namespace sigen
       static const Descriptor *nd = nullptr;
       static const XportStream *ts = nullptr;
       static std::list<PtrWrapper<Descriptor> >::const_iterator nd_iter = network_desc.begin();
-      static std::list<PtrWrapper<XportStream> >::const_iterator ts_iter = xport_streams.begin();
+      static std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter = xport_streams.begin();
 
       // associate the iterators to the lists.. once they reach the
       // end, they'll take care to reset themselves
@@ -272,7 +271,7 @@ namespace sigen
               // fetch a transport stream
               if (ts_iter != xport_streams.end())
               {
-                 ts = (*ts_iter++)();
+                 ts = (*ts_iter++).get();
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
@@ -467,7 +466,7 @@ namespace sigen
 
       // display each transport stream's data & descriptors
       incOutLevel();
-      for ( std::list<PtrWrapper<XportStream> >::const_iterator ts_iter = xport_streams.begin();
+      for ( std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter = xport_streams.begin();
             ts_iter != xport_streams.end();
             ts_iter++ )
       {

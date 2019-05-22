@@ -3,6 +3,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include "table.h"
 #include "pmt.h"
@@ -31,8 +32,7 @@ namespace sigen
       if ( !incLength(ElementaryStream::BASE_LEN) )
          return false;
 
-      ElementaryStream *stream = new ElementaryStream(elem_pid, type);
-      es_list.push_back( PtrWrapper<ElementaryStream>(stream) );
+      es_list.push_back(std::unique_ptr<ElementaryStream>(new ElementaryStream(elem_pid, type)));
       return true;
    }
 
@@ -47,14 +47,14 @@ namespace sigen
          return false;
 
       // look for the stream
-      for ( std::list<PtrWrapper<ElementaryStream> >::iterator s_iter = es_list.begin();
+      for ( std::list<std::unique_ptr<ElementaryStream> >::iterator s_iter = es_list.begin();
             s_iter != es_list.end();
             s_iter++ )
       {
-         ElementaryStream& stream = *(*s_iter);
+         ElementaryStream* stream = (*s_iter).get();
 
-         if (stream.elementary_pid == elem_pid)
-            return addElemStreamDesc(stream, d, d_len);
+         if (stream->elementary_pid == elem_pid)
+            return addElemStreamDesc(*stream, d, d_len);
       }
       return false;
    }
@@ -103,7 +103,7 @@ namespace sigen
       static const Descriptor *pd = nullptr;
       static const ElementaryStream *ts = nullptr;
       static std::list<PtrWrapper<Descriptor> >::const_iterator pd_iter = desc_list.begin();
-      static std::list<PtrWrapper<ElementaryStream> >::const_iterator ts_iter = es_list.begin();
+      static std::list<std::unique_ptr<ElementaryStream> >::const_iterator ts_iter = es_list.begin();
 
       // associate the iterators to the list
       if (!d_done)
@@ -200,7 +200,7 @@ namespace sigen
               // fetch a transport stream
               if (ts_iter != es_list.end())
               {
-                 ts = (*ts_iter++)();
+                 ts = (*ts_iter++).get();
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
@@ -368,11 +368,9 @@ namespace sigen
       incOutLevel(); // indent output
       headerStr(o, STREAM_LIST_S, false);
 
-      for ( std::list<PtrWrapper<ElementaryStream> >::const_iterator s_iter = es_list.begin();
-            s_iter != es_list.end();
-            s_iter++ )
+      for (const std::unique_ptr<ElementaryStream>& esp : es_list)
       {
-         const ElementaryStream& stream = *(*s_iter);
+         const ElementaryStream& stream = *esp;
 
          identStr(o, STREAM_TYPE_S, stream.type, true);
          identStr(o, RESERVED_S, rbits(reserved, 0x07) );

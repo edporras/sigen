@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "table.h"
 
@@ -52,16 +53,14 @@ namespace sigen {
             id(tsid), original_network_id(onid), desc_length(0) { }
 
          int length() const { return desc_length + BASE_LEN; }
-
-         XportStream *clone() const { return new XportStream(*this); }
       };
 
       // NIT members
       ui16 network_desc_length,
          xport_stream_loop_length;
 
-      std::list<PtrWrapper<Descriptor> > network_desc;   // network descriptors
-      std::list<PtrWrapper<XportStream> > xport_streams; // transport streams
+      std::list<PtrWrapper<Descriptor> > network_desc;        // network descriptors
+      std::list<std::unique_ptr<XportStream> > xport_streams; // transport streams
 
    public:
       enum Type { ACTUAL = 0x40, OTHER = 0x41 };

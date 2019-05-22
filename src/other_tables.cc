@@ -22,6 +22,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <string>
 #include <list>
 #include "table.h"
@@ -43,8 +44,7 @@ namespace sigen
          return false;
 
       // we can fit it, so let's try to add it
-      XportStream *xs = new XportStream(xsid, onid, sid, eid, rs);
-      xport_stream_list.push_back( PtrWrapper<XportStream>(xs) );
+      xport_stream_list.push_back(std::unique_ptr<XportStream>(new XportStream(xsid, onid, sid, eid, rs)));
       return true;
    }
 
@@ -58,17 +58,17 @@ namespace sigen
       STable::buildSections(*s);
 
       // write the transport stream data
-      for ( std::list<PtrWrapper<XportStream> >::const_iterator xs_iter = xport_stream_list.begin();
+      for ( std::list<std::unique_ptr<XportStream> >::const_iterator xs_iter = xport_stream_list.begin();
             xs_iter != xport_stream_list.end();
             xs_iter++ )
       {
-         const XportStream& xs = *(*xs_iter);
+         const XportStream* xs = (*xs_iter).get();
 
-         s->set16Bits(xs.id);
-         s->set16Bits(xs.original_network_id);
-         s->set16Bits(xs.service_id);
-         s->set16Bits(xs.event_id);
-         s->set08Bits( rbits(reserved, 0xf8) | (xs.running_status & 0x7) );
+         s->set16Bits(xs->id);
+         s->set16Bits(xs->original_network_id);
+         s->set16Bits(xs->service_id);
+         s->set16Bits(xs->event_id);
+         s->set08Bits( rbits(reserved, 0xf8) | (xs->running_status & 0x7) );
       }
    }
 
@@ -84,7 +84,7 @@ namespace sigen
 
       // dump the transport streams
       incOutLevel();
-      for ( std::list<PtrWrapper<XportStream> >::const_iterator xs_iter = xport_stream_list.begin();
+      for ( std::list<std::unique_ptr<XportStream> >::const_iterator xs_iter = xport_stream_list.begin();
             xs_iter != xport_stream_list.end();
             xs_iter++ )
       {

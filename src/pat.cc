@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include "table.h"
 #include "pat.h"
@@ -36,7 +37,7 @@ namespace sigen
       if ( !incLength(Program::BASE_LEN) )
          return false;
 
-      program_list.push_back( PtrWrapper<Program>(new Program(sid, pid)) );
+      program_list.push_back( std::unique_ptr<Program>(new Program(sid, pid)) );
       return true;
    }
 
@@ -50,7 +51,7 @@ namespace sigen
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
       static const Program *p = nullptr;
-      static std::list<PtrWrapper<Program> >::const_iterator p_iter = program_list.begin();
+      static std::list<std::unique_ptr<Program> >::const_iterator p_iter = program_list.begin();
 
       // init
       done = exit = false;
@@ -82,7 +83,7 @@ namespace sigen
               // fetch the next service
               if (p_iter != program_list.end())
               {
-                 p = (*p_iter++)();
+                 p = (*p_iter++).get();
 
                  // can we add it?
                  if ( (sec_bytes + Program::BASE_LEN) > getMaxDataLen() )
@@ -129,7 +130,7 @@ namespace sigen
 
       // program list
       incOutLevel(); // indent output
-      for ( std::list<PtrWrapper<Program> >::const_iterator p_iter = program_list.begin();
+      for ( std::list<std::unique_ptr<Program> >::const_iterator p_iter = program_list.begin();
             p_iter != program_list.end();
             p_iter++ )
       {

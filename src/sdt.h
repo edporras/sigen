@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "table.h"
 
@@ -59,15 +60,13 @@ namespace sigen {
 
          // utility
          void buildSections(Section &) const;
-
-         Service *clone() const { return new Service(*this); }
       };
 
       // sdt data members begin here
       ui16 original_network_id;
 
       // the list of services
-      std::list<PtrWrapper<Service> > service_list;
+      std::list<std::unique_ptr<Service> > service_list;
 
    public:
       enum Type { ACTUAL = 0x42, OTHER = 0x46 };

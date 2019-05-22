@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include <string>
 #include "table.h"
@@ -54,12 +55,10 @@ namespace sigen {
          XportStream(ui16 xsid, ui16 onid, ui16 sid, ui16 eid, ui8 rs) :
             id(xsid), original_network_id(onid),
             service_id(sid), event_id(eid), running_status(rs) {}
-
-         XportStream* clone() const { return new XportStream(*this); }
       };
 
       // the list of transport streams
-      std::list<PtrWrapper<XportStream> > xport_stream_list;
+      std::list<std::unique_ptr<XportStream> > xport_stream_list;
 
    public:
       enum { PID = 0x13 };

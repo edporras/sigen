@@ -23,6 +23,7 @@
 #pragma once
 
 #include <list>
+#include <memory>
 #include "table.h"
 #include "util.h"
 
@@ -47,12 +48,10 @@ namespace sigen {
 
          // constructor
          Program(ui16 n, ui16 p) : number(n), pid(p) {}
-
-         Program* clone() const { return new Program(*this); }
       };
 
       // the list of program / pids
-      std::list< PtrWrapper<Program> > program_list;
+      std::list<std::unique_ptr<Program> > program_list;
 
    public:
       enum { PID = 0x00 };
