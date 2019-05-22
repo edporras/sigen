@@ -30,3 +30,5 @@ stamp-h1
 autom4te.cache
 ltmain.sh
 test_table_gen
+libtool
+test-driver

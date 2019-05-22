@@ -13,3 +13,6 @@ TESTS = \
 	test_sdt.sh \
 	test_tdt.sh \
 	test_tot.sh
+
+distclean-local:
+	-rm -f Makefile.in

@@ -71,3 +71,6 @@ libsigeninclude_HEADERS = \
 if ENABLE_DUMP_SRC
 libsigen_la_SOURCES += dump.cc
 endif
+
+distclean-local:
+	-rm -f Makefile.in
