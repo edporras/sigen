@@ -76,14 +76,11 @@ namespace sigen
          return false;
 
       // lookup the transport_stream by the passed id
-      for ( std::list<std::unique_ptr<XportStream> >::iterator xs_iter = xport_streams.begin();
-            xs_iter != xport_streams.end();
-            xs_iter++ )
+      for (std::unique_ptr<XportStream>& xsp : xport_streams)
       {
-         XportStream* xs = (*xs_iter).get();
-
-         if ( (xs->id == xsid) && (xs->original_network_id == on_id) )
-            return addXportStreamDesc(*xs, d, d_len);
+         XportStream& xs = *xsp;
+         if ( (xs.id == xsid) && (xs.original_network_id == on_id) )
+            return addXportStreamDesc(xs, d, d_len);
       }
       return false;
    }
@@ -466,11 +463,9 @@ namespace sigen
 
       // display each transport stream's data & descriptors
       incOutLevel();
-      for ( std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter = xport_streams.begin();
-            ts_iter != xport_streams.end();
-            ts_iter++ )
+      for (const std::unique_ptr<XportStream>& xsp : xport_streams)
       {
-         const XportStream& ts = *(*ts_iter);
+         const XportStream& ts = *xsp;
 
          headerStr(o, XPORT_STREAM_S, false);
 

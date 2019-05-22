@@ -130,11 +130,9 @@ namespace sigen
 
       // program list
       incOutLevel(); // indent output
-      for ( std::list<std::unique_ptr<Program> >::const_iterator p_iter = program_list.begin();
-            p_iter != program_list.end();
-            p_iter++ )
+      for (const std::unique_ptr<Program>& pp : program_list)
       {
-         const Program& program = *(*p_iter);
+         const Program& program = *pp;
 
          identStr(o, PROGRAM_NUM_S, program.number, true);
          identStr(o, RESERVED_S, rbits(reserved, 0x07) );

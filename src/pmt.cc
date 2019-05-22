@@ -47,14 +47,12 @@ namespace sigen
          return false;
 
       // look for the stream
-      for ( std::list<std::unique_ptr<ElementaryStream> >::iterator s_iter = es_list.begin();
-            s_iter != es_list.end();
-            s_iter++ )
+      for ( std::unique_ptr<ElementaryStream>& esp : es_list)
       {
-         ElementaryStream* stream = (*s_iter).get();
+         ElementaryStream& stream = *esp;
 
-         if (stream->elementary_pid == elem_pid)
-            return addElemStreamDesc(*stream, d, d_len);
+         if (stream.elementary_pid == elem_pid)
+            return addElemStreamDesc(stream, d, d_len);
       }
       return false;
    }

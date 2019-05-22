@@ -117,18 +117,12 @@ namespace sigen
    // writes the loop's data to the section
    void MultilingualTextDesc::buildLoopData(Section& s) const
    {
-      for ( std::list<Text>::const_iterator t_iter = ml_text_list.begin();
-            t_iter != ml_text_list.end();
-            t_iter++ )
+      for (const Text& text : ml_text_list)
       {
-         // get the text struct
-         const Text &text = *t_iter;
-
          // write its data
          s.setBits( text.code ); // lang code
-
-         s.set08Bits( (ui8) text.data.length() );  // text length
-         s.setBits( text.data );                   // text
+         s.set08Bits( static_cast<ui8>(text.data.length()) );  // text length
+         s.setBits( text.data );                               // text
       }
    }
 
@@ -140,12 +134,8 @@ namespace sigen
    {
       incOutLevel();
 
-      for ( std::list<Text>::const_iterator t_iter = ml_text_list.begin();
-            t_iter != ml_text_list.end();
-            t_iter++ )
+      for (const Text& text : ml_text_list)
       {
-         const Text &text = *t_iter;
-
          identStr(o, CODE_S, text.code);
          identStr(o, NAME_LEN_S, text.data.length(), true);
          identStr(o, data_type, text.data);

@@ -65,12 +65,8 @@ namespace sigen
 
       s.set08Bits( OUI_data_length );
 
-      for ( std::list<SSULinkageDesc::OUIData>::const_iterator iter = oui_list.begin();
-            iter != oui_list.end();
-            iter++ )
+      for (const OUIData &oui : oui_list)
       {
-         const OUIData &oui = *iter;
-
          s.set24Bits( oui.OUI );
          s.set08Bits( oui.selector_bytes.size() );
          s.setBits( oui.selector_bytes );
@@ -90,12 +86,8 @@ namespace sigen
       identStr( o, OUI_DATA_LEN_S, OUI_data_length );
 
       incOutLevel();
-      for ( std::list<SSULinkageDesc::OUIData>::const_iterator iter = oui_list.begin();
-            iter != oui_list.end();
-            iter++ )
+      for (const OUIData &oui : oui_list)
       {
-         const OUIData &oui = *iter;
-
          identStr(o, OUI_S, oui.OUI);
          identStr(o, SELECTOR_LEN_S, oui.selector_bytes.size(), true);
          identStr(o, SELECTOR_S, oui.selector_bytes);
@@ -166,12 +158,8 @@ namespace sigen
 
       s.set08Bits( OUI_data_len );
 
-      for ( std::list<SSUDataBroadcastIdDesc::OUIData>::const_iterator iter = oui_list.begin();
-            iter != oui_list.end();
-            iter++ )
+      for (const OUIData &oui : oui_list)
       {
-         const OUIData &oui = *iter;
-
          s.set24Bits( oui.OUI );
          s.set08Bits( rbits(oui.reserved, 0xf0) | oui.update_type );
          s.set08Bits( rbits(oui.reserved, 0xc0) | (oui.update_versioning_flag << 5) | oui.update_version );
@@ -192,12 +180,8 @@ namespace sigen
       identStr(o, OUI_DATA_LEN_S, OUI_data_len);
 
       incOutLevel();
-      for ( std::list<SSUDataBroadcastIdDesc::OUIData>::const_iterator iter = oui_list.begin();
-            iter != oui_list.end();
-            iter++ )
+      for (const OUIData &oui : oui_list)
       {
-         const OUIData &oui = *iter;
-
          identStr(o, OUI_S, oui.OUI);
          identStr(o, RESERVED_S, rbits(oui.reserved, 0x0f));
          identStr(o, UPDATE_TYPE_S, oui.update_type);

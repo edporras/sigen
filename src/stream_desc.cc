@@ -206,12 +206,8 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // write the language codes
-      for ( std::list<Language>::const_iterator l_iter = language_list.begin();
-            l_iter != language_list.end();
-            l_iter++ )
+      for (const Language& lang : language_list)
       {
-         const Language &lang = *l_iter;
-
          s.setBits( lang.code );
          s.set08Bits( lang.audio_type );
       }
@@ -226,12 +222,8 @@ namespace sigen
       dumpHeader(o, ISO_639_LANG_D_S);
 
       incOutLevel();
-      for ( std::list<Language>::const_iterator l_iter = language_list.begin();
-            l_iter != language_list.end();
-            l_iter++ )
+      for (const Language& lang : language_list)
       {
-         const Language &lang = *l_iter;
-
          identStr( o, LANGUAGE_CODE_S, lang.code );
          identStr( o, AUDIO_TYPE_S, lang.audio_type );
       }

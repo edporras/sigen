@@ -59,12 +59,8 @@ namespace sigen
       s.set16Bits( announcement_support_indicator );
 
       // iterate through the list and write the data
-      for ( std::list<Announcement>::const_iterator a_iter = announcement_list.begin();
-            a_iter != announcement_list.end();
-            a_iter++ )
+      for (const Announcement& ann : announcement_list)
       {
-         const Announcement& ann = *a_iter;
-
          s.set08Bits( (ann.type << 4) |
                       rbits(ann.reserved, 0x08) |
                       ann.reference_type );
@@ -89,12 +85,8 @@ namespace sigen
       identStr( o, ANNOUNCEMENT_SUPPORT_IND_S, announcement_support_indicator );
 
       incOutLevel();
-      for ( std::list<Announcement>::const_iterator a_iter = announcement_list.begin();
-            a_iter != announcement_list.end();
-            a_iter++ )
+      for (const Announcement& ann : announcement_list)
       {
-         const Announcement &ann = *a_iter;
-
          identStr( o, ANNOUNCEMENT_TYPE_S, ann.type );
          identStr( o, RESERVED_FU_S, ann.reserved );
          identStr( o, REF_TYPE_S, ann.reference_type );
@@ -183,12 +175,8 @@ namespace sigen
                                               ui8 cid_ext, ui32 xposer_freq)
    {
       // look for a matching c/f link
-      for ( std::list<Link>::iterator l_iter = cflink_list.begin();
-            l_iter != cflink_list.end();
-            l_iter++ )
+      for (Link& link : cflink_list)
       {
-         Link& link = *l_iter;
-
          // if found, add a subcell
          if ( link.cell_id == cell_id && link.frequency == frequency )
             return addLinkSubCell(link, cid_ext, xposer_freq);
@@ -213,22 +201,14 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for ( std::list<Link>::const_iterator l_iter = cflink_list.begin();
-            l_iter != cflink_list.end();
-            l_iter++ )
+      for (const Link& link : cflink_list)
       {
-         const Link& link = *l_iter;
-
          s.set16Bits( link.cell_id );
          s.set32Bits( link.frequency );
          s.set08Bits( link.subcell_list.size() * Link::SubCell::BASE_LEN );
 
-         for ( std::list<Link::SubCell>::const_iterator sc_iter = link.subcell_list.begin();
-               sc_iter != link.subcell_list.end();
-               sc_iter++ )
+         for (const Link::SubCell &subcell : link.subcell_list)
          {
-            const Link::SubCell &subcell = *sc_iter;
-
             s.set08Bits( subcell.cell_id_extension );
             s.set32Bits( subcell.transposer_frequency );
          }
@@ -241,22 +221,14 @@ namespace sigen
    {
       dumpHeader( o, CELL_FREQ_LINK_D_S );
 
-      for ( std::list<Link>::const_iterator l_iter = cflink_list.begin();
-            l_iter != cflink_list.end();
-            l_iter++ )
+      for (const Link& link : cflink_list)
       {
-         const Link& link = *l_iter;
-
          identStr(o, CELL_ID_S, link.cell_id );
          identStr(o, FREQ_S, link.frequency );
          identStr(o, SUBCELL_INFO_LOOP_LEN_S, link.subcell_list.size() * Link::SubCell::BASE_LEN );
 
-         for ( std::list<Link::SubCell>::const_iterator sc_iter = link.subcell_list.begin();
-               sc_iter != link.subcell_list.end();
-               sc_iter++ )
+         for (const Link::SubCell &subcell : link.subcell_list)
          {
-            const Link::SubCell &subcell = *sc_iter;
-
             identStr(o, CELL_ID_EXT_S, subcell.cell_id_extension );
             identStr(o, XPOSER_FREQ_S, subcell.transposer_frequency );
          }
@@ -304,12 +276,8 @@ namespace sigen
                                      ui16 sc_lat, ui16 sc_lon,
                                      ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
-      for ( std::list<Cell>::iterator c_iter = cell_list.begin();
-            c_iter != cell_list.end();
-            c_iter++ )
+      for (Cell& cell : cell_list)
       {
-         Cell& cell = *c_iter;
-
          if (cell.id == cell_id)
             return addCellSubCell(cell, cid_ext, sc_lat, sc_lon,
                                   sc_ext_lat, sc_ext_lon);
@@ -334,24 +302,16 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for ( std::list<Cell>::const_iterator c_iter = cell_list.begin();
-            c_iter != cell_list.end();
-            c_iter++ )
+      for (const Cell& cell : cell_list)
       {
-         const Cell& cell = *c_iter;
-
          s.set16Bits( cell.id );
          s.set16Bits( cell.latitude );
          s.set16Bits( cell.longitude );
          s.set16Bits( cell.extend_of_latitude );
          s.set16Bits( cell.extend_of_longitude );
 
-         for ( std::list<Cell::SubCell>::const_iterator sc_iter = cell.subcell_list.begin();
-               sc_iter != cell.subcell_list.end();
-               sc_iter++ )
+         for (const Cell::SubCell& subcell : cell.subcell_list)
          {
-            const Cell::SubCell& subcell = *sc_iter;
-
             s.set08Bits( subcell.cell_id_extension );
             s.set16Bits( subcell.latitude );
             s.set16Bits( subcell.longitude );
@@ -367,24 +327,16 @@ namespace sigen
    {
       dumpHeader(o, CELL_LIST_D_S);
 
-      for ( std::list<Cell>::const_iterator c_iter = cell_list.begin();
-            c_iter != cell_list.end();
-            c_iter++ )
+      for (const Cell& cell : cell_list)
       {
-         const Cell& cell = *c_iter;
-
          identStr( o, CELL_ID_S, cell.id );
          identStr( o, CELL_LATITUDE_S, cell.latitude );
          identStr( o, CELL_LONGITUDE_S, cell.longitude );
          identStr( o, CELL_EXT_LAT_S, cell.extend_of_latitude );
          identStr( o, CELL_EXT_LON_S, cell.extend_of_longitude );
 
-         for ( std::list<Cell::SubCell>::const_iterator sc_iter = cell.subcell_list.begin();
-               sc_iter != cell.subcell_list.end();
-               sc_iter++ )
+         for (const Cell::SubCell& subcell : cell.subcell_list)
          {
-            const Cell::SubCell& subcell = *sc_iter;
-
             identStr( o, CELL_ID_EXT_S, subcell.cell_id_extension );
             identStr( o, SUBCELL_LAT_S, subcell.latitude );
             identStr( o, SUBCELL_LON_S, subcell.longitude );
@@ -422,11 +374,9 @@ namespace sigen
       Descriptor::buildSections(s);
 
       s.set08Bits( rbits(reserved, 0xfc) | coding_type );
-
-      std::list<ui32>::const_iterator f_iter = frequency_list.begin();
-
-      while (f_iter != frequency_list.end())
-         s.set32Bits( *f_iter++ );
+      for (ui32 f : frequency_list) {
+         s.set32Bits(f);
+      }
    }
 
 
@@ -440,11 +390,10 @@ namespace sigen
       identStr( o, RESERVED_FU_S, rbits(reserved, 0x3f) );
       identStr( o, CODING_TYPE_S, coding_type);
 
-      std::list<ui32>::const_iterator f_iter = frequency_list.begin();
-
       incOutLevel();
-      while (f_iter != frequency_list.end())
-         identStr( o, FREQ_S, *f_iter++ );
+      for (ui32 f : frequency_list) {
+         identStr( o, FREQ_S, f );
+      }
       decOutLevel();
    }
 #endif

@@ -58,17 +58,15 @@ namespace sigen
       STable::buildSections(*s);
 
       // write the transport stream data
-      for ( std::list<std::unique_ptr<XportStream> >::const_iterator xs_iter = xport_stream_list.begin();
-            xs_iter != xport_stream_list.end();
-            xs_iter++ )
+      for ( const std::unique_ptr<XportStream>& xsp : xport_stream_list)
       {
-         const XportStream* xs = (*xs_iter).get();
+         const XportStream& xs = *xsp;
 
-         s->set16Bits(xs->id);
-         s->set16Bits(xs->original_network_id);
-         s->set16Bits(xs->service_id);
-         s->set16Bits(xs->event_id);
-         s->set08Bits( rbits(reserved, 0xf8) | (xs->running_status & 0x7) );
+         s->set16Bits(xs.id);
+         s->set16Bits(xs.original_network_id);
+         s->set16Bits(xs.service_id);
+         s->set16Bits(xs.event_id);
+         s->set08Bits( rbits(reserved, 0xf8) | (xs.running_status & 0x7) );
       }
    }
 
@@ -84,11 +82,9 @@ namespace sigen
 
       // dump the transport streams
       incOutLevel();
-      for ( std::list<std::unique_ptr<XportStream> >::const_iterator xs_iter = xport_stream_list.begin();
-            xs_iter != xport_stream_list.end();
-            xs_iter++ )
+      for ( const std::unique_ptr<XportStream>& xsp : xport_stream_list)
       {
-         const XportStream& xs = *(*xs_iter);
+         const XportStream& xs = *xsp;
 
          headerStr(o, XPORT_STREAM_S, false);
 

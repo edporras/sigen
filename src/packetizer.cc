@@ -87,7 +87,7 @@ namespace sigen
          {
             if (payload_unit_start_indicator && (i == 0))
             {
-               *(tptr++) = (char) 0;
+               *(tptr++) = static_cast<char>(0);
             }
             else
             {
@@ -120,21 +120,26 @@ namespace sigen
 
       if (!section_data)
       {
-         std::cout << "byte: " << std::hex << (ui16) ( (transport_error_indicator << 7) |
-                                                       (payload_unit_start_indicator << 6) |
-                                                       (transport_priority << 5) |
-                                                       ((pid >> 8) & 0x1f) ) << std::endl;
+         std::cout << "byte: " << std::hex
+                   << static_cast<ui16>( (transport_error_indicator << 7) |
+                                         (payload_unit_start_indicator << 6) |
+                                         (transport_priority << 5) |
+                                         ((pid >> 8) & 0x1f) )
+                   << std::endl;
 
-         *(packet++) = (ui8) ( (transport_error_indicator << 7) |
-                               (payload_unit_start_indicator << 6) |
-                               (transport_priority << 5) |
-                               ((pid >> 8) & 0x1f) );
-         *(packet++) = (ui8) (pid & 0xff);
-         *(packet) =   (ui8) ( (transport_scrambling_control << 6) |
-                               (adaptation_field_control << 4) |
-                               (continuity_count & 0xf) );
+         *(packet++) = static_cast<ui8>( (transport_error_indicator << 7) |
+                                         (payload_unit_start_indicator << 6) |
+                                         (transport_priority << 5) |
+                                         ((pid >> 8) & 0x1f) );
+         *(packet++) = static_cast<ui8>(pid & 0xff);
+         *(packet)   = static_cast<ui8>( (transport_scrambling_control << 6) |
+                                         (adaptation_field_control << 4) |
+                                         (continuity_count & 0xf) );
 
-         std::cerr << "tsc: " << (ui16) transport_scrambling_control << ", afc: " << (ui16) adaptation_field_control << ", cc: " << (ui16) continuity_count << std::endl;
+         std::cerr << "tsc: " << static_cast<ui16>(transport_scrambling_control)
+                   << ", afc: " << static_cast<ui16>(adaptation_field_control)
+                   << ", cc: " << static_cast<ui16>(continuity_count)
+                   << std::endl;
 
          // only increment CC based on value of AFC
          if ( (adaptation_field_control != MpgPacketizer::RESERVED) &&
@@ -145,14 +150,14 @@ namespace sigen
       }
       else
       {
-         *(packet++) = (ui8) ( (0 << 7) |
-                               (0 << 6) |
-                               (0 << 5) |
-                               (0x1f) );
-         *(packet++) = (ui8) (0xff);
-         *(packet) =   (ui8) ( (0 << 6) |
-                               (1 << 4) |
-                               0 );
+         *(packet++) = static_cast<ui8>( (0 << 7) |
+                                         (0 << 6) |
+                                         (0 << 5) |
+                                         (0x1f) );
+         *(packet++) = static_cast<ui8>( 0xff );
+         *(packet)   = static_cast<ui8>( (0 << 6) |
+                                         (1 << 4) |
+                                         0 );
       }
    }
 

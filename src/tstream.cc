@@ -171,10 +171,10 @@ namespace sigen
    {
       assert( lengthFits(sizeof(d)) );
 
-      *pos++ = ((ui8) (d >> 24)) & 0xff;
-      *pos++ = ((ui8) (d >> 16)) & 0xff;
-      *pos++ = ((ui8) (d >> 8)) & 0xff;
-      *pos++ = ((ui8) d) & 0xff;
+      *pos++ = static_cast<ui8>(d >> 24) & 0xff;
+      *pos++ = static_cast<ui8>(d >> 16) & 0xff;
+      *pos++ = static_cast<ui8>(d >> 8) & 0xff;
+      *pos++ = static_cast<ui8>(d) & 0xff;
       data_length += sizeof(d);
       return true;
    }
@@ -268,7 +268,7 @@ namespace sigen
       assert( lengthFits(CRC_LEN) );
 
       for ( int j = 0;  j < data_length;  j++ ) {
-         i = ( (int) ( crc_accum >> 24) ^ *d++ ) & 0xff;
+         i = ( static_cast<int>(crc_accum >> 24) ^ *d++ ) & 0xff;
          crc_accum = ( crc_accum << 8 ) ^ CrcTable[i];
       }
       crc = crc_accum;
@@ -294,10 +294,8 @@ namespace sigen
    TStream::~TStream()
    {
       // delete any allocated sections
-      std::list<Section *>::const_iterator s_iter = section_list.begin();
-
-      while (s_iter != section_list.end())
-         delete *s_iter++;
+      for (Section* s : section_list)
+         delete s;
    }
 
 
@@ -318,12 +316,7 @@ namespace sigen
    void TStream::write(const std::string &file_name) const
    {
       std::stringstream strm;
-      std::list<Section *>::const_iterator s_iter = section_list.begin();
-
-      // dump all sections to the stream in memory
-      while (s_iter != section_list.end())
-      {
-         const Section *s = *s_iter++;
+      for (const Section *s : section_list) {
          s->write(strm);
       }
 
@@ -349,13 +342,10 @@ namespace sigen
         << std::endl;
 
       int cnt = 0;
-      std::list<Section *>::const_iterator s_iter = section_list.begin();
 
       // dump all sections
-      while (s_iter != section_list.end())
+      for (const Section *s : section_list)
       {
-         const Section *s = *s_iter++;
-
          o << "- sec: " << std::dec << cnt++
            << ", length: " << std::dec << s->length()
            << ", size (max): " << std::dec << s->capacity()

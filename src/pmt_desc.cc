@@ -211,12 +211,8 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // iterate through the list and write the data
-      for ( std::list<Subtitling>::const_iterator s_iter = subtitling_list.begin();
-            s_iter != subtitling_list.end();
-            s_iter++ )
+      for (const Subtitling &subt : subtitling_list)
       {
-         const Subtitling &subt = *s_iter;
-
          s.setBits( subt.language_code );
          s.set08Bits( subt.type );
          s.set16Bits( subt.composition_page_id );
@@ -233,12 +229,8 @@ namespace sigen
 
       // iterate through the list and write the data
       incOutLevel();
-      for ( std::list<Subtitling>::const_iterator s_iter = subtitling_list.begin();
-            s_iter != subtitling_list.end();
-            s_iter++ )
+      for (const Subtitling &subt : subtitling_list)
       {
-         const Subtitling &subt = *s_iter;
-
          identStr(o, LANGUAGE_CODE_S, subt.language_code);
          identStr(o, TYPE_S, subt.type);
          identStr(o, COMPOSITION_PAGE_ID_S, subt.composition_page_id);
@@ -276,12 +268,8 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // iterate through the list and write the data
-      for ( std::list<Teletext>::const_iterator t_iter = teletext_list.begin();
-            t_iter != teletext_list.end();
-            t_iter++ )
+      for (const Teletext &teletext : teletext_list)
       {
-         const Teletext &teletext = *t_iter;
-
          s.setBits( teletext.language_code );
          s.set08Bits( (teletext.type << 3) | (teletext.magazine_number) );
          s.set08Bits( teletext.page_number );
@@ -297,12 +285,8 @@ namespace sigen
 
       // iterate through the list and write the data
       incOutLevel();
-      for ( std::list<Teletext>::const_iterator t_iter = teletext_list.begin();
-            t_iter != teletext_list.end();
-            t_iter++ )
+      for (const Teletext &teletext : teletext_list)
       {
-         const Teletext &teletext = *t_iter;
-
          identStr(o, LANGUAGE_CODE_S, teletext.language_code);
          identStr(o, TYPE_S, teletext.type);
          identStr(o, MAGAZINE_NUM_S, teletext.magazine_number);

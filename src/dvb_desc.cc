@@ -52,10 +52,8 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      std::list<ui16>::const_iterator il_iter = id_list.begin();
-
-      while (il_iter != id_list.end())
-         s.set16Bits( *il_iter++ );
+      for (ui16 id : id_list)
+         s.set16Bits( id );
    }
 
 
@@ -64,11 +62,9 @@ namespace sigen
    {
       dumpHeader( o, CA_IDENT_D_S );
 
-      std::list<ui16>::const_iterator il_iter = id_list.begin();
-
       incOutLevel();
-      while (il_iter != id_list.end())
-         identStr(o, CA_SYSTEM_ID_S, *il_iter++);
+      for (ui16 id : id_list)
+         identStr(o, CA_SYSTEM_ID_S, id);
       decOutLevel();
    }
 #endif
@@ -100,10 +96,8 @@ namespace sigen
 
       s.set08Bits( country_availability_flag << 7 | rbits(reserved, 0x7f) );
 
-      std::list<LanguageCode>::const_iterator c_iter = country_list.begin();
-
-      while (c_iter != country_list.end())
-         s.setBits( *c_iter++ ); // get the language code and write it
+      for (const LanguageCode& lc : country_list)
+         s.setBits( lc );
    }
 
 #ifdef ENABLE_DUMP
@@ -116,11 +110,9 @@ namespace sigen
       identStr(o, COUNTRY_AVAIL_FLAG_S, country_availability_flag);
       identStr(o, RESERVED_FU_S, rbits(reserved, 0x7f));
 
-      std::list<LanguageCode>::const_iterator c_iter = country_list.begin();
-
       incOutLevel();
-      while (c_iter != country_list.end())
-         identStr(o, COUNTRY_CODE_S, (*c_iter++));
+      for (const LanguageCode& lc : country_list)
+         identStr(o, COUNTRY_CODE_S, lc);
       decOutLevel();
    }
 #endif
@@ -200,13 +192,8 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // write the offset loop
-      for ( std::list<TimeOffset>::const_iterator to_iter = time_offset_list.begin();
-            to_iter != time_offset_list.end();
-            to_iter++ )
+      for (const TimeOffset &offset : time_offset_list)
       {
-         // fetch the current time offset struct
-         const TimeOffset &offset = *to_iter;
-
          // now set the data
          s.setBits( offset.country_code );
          s.set08Bits( (offset.country_region_id << 2) |
@@ -234,12 +221,8 @@ namespace sigen
 
       // write the offset loop
       incOutLevel();
-      for ( std::list<TimeOffset>::const_iterator to_iter = time_offset_list.begin();
-            to_iter != time_offset_list.end();
-            to_iter++ )
+      for (const TimeOffset &offset : time_offset_list)
       {
-         const TimeOffset &offset = *to_iter;
-
          o << std::endl;
 
          identStr(o, COUNTRY_CODE_S, offset.country_code);
@@ -335,11 +318,8 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for ( std::list<Service>::const_iterator s_iter = service_list.begin();
-            s_iter != service_list.end();
-            s_iter++ )
+      for (const Service &service : service_list)
       {
-         const Service &service = *s_iter;
          s.set16Bits( service.id );
          s.set08Bits( service.type );
       }
@@ -354,12 +334,8 @@ namespace sigen
       // dump the descriptor's data
       incOutLevel();
 
-      for ( std::list<Service>::const_iterator s_iter = service_list.begin();
-            s_iter != service_list.end();
-            s_iter++ )
+      for (const Service &service : service_list)
       {
-         const Service &service = *s_iter;
-
          identStr(o, SERVICE_ID_S, service.id, true);
          identStr(o, TYPE_S, service.type);
       }

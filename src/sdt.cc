@@ -56,14 +56,11 @@ namespace sigen
          return false;
 
       // look for the id in the list
-      for ( std::list<std::unique_ptr<Service> >::iterator s_iter = service_list.begin();
-            s_iter != service_list.end();
-            s_iter++ )
+      for (std::unique_ptr<Service>& sp : service_list)
       {
-         Service* service = (*s_iter).get();
-
-         if (service->id == sid)
-            return addServiceDesc(*service, d, d_len);
+         Service& service = *sp;
+         if (service.id == sid)
+            return addServiceDesc(service, d, d_len);
       }
       return false;
    }
@@ -311,11 +308,9 @@ namespace sigen
       incOutLevel();
       headerStr(o, SERVICE_LIST_S, false);
 
-      for ( std::list<std::unique_ptr<Service> >::const_iterator s_iter = service_list.begin();
-            s_iter != service_list.end();
-            s_iter++ )
+      for (const std::unique_ptr<Service>& sp : service_list)
       {
-         const Service& service =  *(*s_iter);
+         const Service& service =  *sp;
 
          o << std::hex;
          identStr(o, SERVICE_ID_S, service.id, true);
