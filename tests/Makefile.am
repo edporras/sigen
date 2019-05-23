@@ -1,7 +1,20 @@
 check_PROGRAMS = dvb_builder
-dvb_builder_SOURCES = dvb_builder.cc $(top_builddir)/src/sigen.h
 dvb_builder_CFLAGS = @CHECK_CFLAGS@
 dvb_builder_LDADD = $(top_builddir)/src/libsigen.la
+
+dvb_builder_SOURCES = \
+	dvb_builder.cc \
+	pat_test.cc \
+	pmt_test.cc \
+	nit_test.cc \
+	sdt_test.cc \
+	bat_test.cc \
+	eit_test.cc \
+	tot_test.cc \
+	cat_test.cc \
+	tdt_test.cc \
+	$(top_builddir)/src/sigen.h
+
 
 TESTS = \
 	test_bat.sh \
