@@ -93,6 +93,7 @@ namespace sigen {
       PrimitiveDatatypeDesc(ui8 tag, const T &d) :
          Descriptor(tag, BASE_LEN),
          data(d) {}
+      PrimitiveDatatypeDesc() = delete;
 
       // utility functions
       virtual void buildSections(Section &s) const {

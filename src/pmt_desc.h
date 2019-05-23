@@ -103,7 +103,8 @@ namespace sigen {
 
       // constructor
       AncillaryDataDesc(ui8 ancillary_data_identifier) :
-         PrimitiveDatatypeDesc<ui8>(TAG, ancillary_data_identifier) {}
+         PrimitiveDatatypeDesc<ui8>(TAG, ancillary_data_identifier)
+      {}
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -142,6 +143,7 @@ namespace sigen {
          Descriptor(TAG, BASE_LEN),
          data_broadcast_id(db_id)
       {}
+      DataBroadcastIdDesc() = delete;
 
       // set private data bytes
       bool setSelectorBytes(const std::vector<ui8>& bytes);
@@ -171,7 +173,9 @@ namespace sigen {
       // constructor
       ServiceMoveDesc(ui16 onid, ui16 xsid, ui16 sid) :
          Descriptor(TAG, BASE_LEN),
-         original_network_id(onid), xport_stream_id(xsid), new_service_id(sid) {}
+         original_network_id(onid), xport_stream_id(xsid), new_service_id(sid)
+      {}
+      ServiceMoveDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;

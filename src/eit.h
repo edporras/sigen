@@ -131,9 +131,12 @@ namespace sigen {
       std::list<std::unique_ptr<Event> > event_list[2]; // present = 0, following = 1
 
    public:
+      // constructor
       PF_EIT(ui16 sid, ui16 xsid, ui16 onid, PF_EIT::Type type, ui8 ver,
              bool cni = true, bool rsrvd = true) :
-         EIT(type, sid, xsid, onid, ver, cni, rsrvd) { }
+         EIT(type, sid, xsid, onid, ver, cni, rsrvd)
+      { }
+      PF_EIT() = delete;
 
       // present event utility functions
       bool addPresentEvent(ui16 evid, UTC time, BCDTime dur, ui8 rs, bool fca) {

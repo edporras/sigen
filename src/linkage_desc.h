@@ -72,6 +72,7 @@ namespace sigen {
          service_id(sid),
          linkage_type(lnkg_type)
       { }
+      LinkageDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -118,6 +119,7 @@ namespace sigen {
       MobileHandoverLinkageDesc(ui16 xsid, ui16 onid, ui16 sid,
                                 Handover_t hot, Origin_t ot, ui16 nid, ui16 isid,
                                 bool rsrv = true);
+      MobileHandoverLinkageDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;

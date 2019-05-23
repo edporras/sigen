@@ -37,6 +37,7 @@ namespace sigen {
       DeliveryDesc(ui8 tag, ui8 len) :
          Descriptor(tag, len)
       { }
+      DeliveryDesc() = delete;
    };
 
 
@@ -275,6 +276,7 @@ namespace sigen {
          Descriptor( TAG, BASE_LEN ),
          announcement_support_indicator(announcement_support_ind)
       { }
+      AnnouncementSupportDesc() = delete;
 
       // utility methods
       bool addAnnouncement(ui8 type, ui8 reference_type,
@@ -472,6 +474,7 @@ namespace sigen {
          Descriptor(TAG, BASE_LEN),
          reserved(rsrvd),
          coding_type(ct) { }
+      FrequencyListDesc() = delete;
 
       // utility functions
       bool addFrequency(ui32 f);
@@ -513,6 +516,7 @@ namespace sigen {
 
       // constructor
       NetworkNameDesc(const std::string& name) : StringDataDesc(TAG, name) { }
+      NetworkNameDesc() = delete;
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {

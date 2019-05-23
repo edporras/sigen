@@ -74,6 +74,7 @@ namespace sigen {
          network_desc_length(0),
          xport_stream_loop_length(0)
       { }
+      NIT() = delete;
 
       // utility
       bool addNetworkDesc(Descriptor &);

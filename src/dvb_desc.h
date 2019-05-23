@@ -43,6 +43,7 @@ namespace sigen {
 
       // constructor
       BouquetNameDesc(const std::string& data) : StringDataDesc(TAG, data) { }
+      BouquetNameDesc() = delete;
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -93,7 +94,9 @@ namespace sigen {
       // constructor
       CountryAvailabilityDesc(bool caf, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
-         country_availability_flag(caf), reserved(rsrvd) {}
+         country_availability_flag(caf), reserved(rsrvd)
+      {}
+      CountryAvailabilityDesc() = delete;
 
       // utility
       bool addCountry(const std::string&);
@@ -127,7 +130,9 @@ namespace sigen {
                         const std::string& lang_code, const std::string& txt) :
          Descriptor(TAG, BASE_LEN),
          selector_byte( incLength(sel_byte) ), text( incLength(txt) ),
-         code(lang_code), data_broadcast_id(db_id), component_tag(ctag) { }
+         code(lang_code), data_broadcast_id(db_id), component_tag(ctag)
+      { }
+      DataBroadcastDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -149,6 +154,7 @@ namespace sigen {
 
       // constructor
       DSNGDesc(const std::string& data) : StringDataDesc(TAG, data) { }
+      DSNGDesc() = delete;
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const { dumpData( o, DSNG_D_S, DATA_S); }
@@ -281,6 +287,7 @@ namespace sigen {
          max_overall_smoothing_buffer( max_osb ),
          reserved(rsrvd)
       { }
+      PartialTransportStreamDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -362,6 +369,7 @@ namespace sigen {
       StuffingDesc(char c, ui8 len = 1) :
          StringDataDesc( TAG, std::string(len, c) ) { }
       StuffingDesc(const std::string& data) : StringDataDesc( TAG, data ) {}
+      StuffingDesc() = delete;
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -430,6 +438,7 @@ namespace sigen {
                     const std::string& nac,
                     const std::string& cn,
                     bool rsrvd = true);
+      TelephoneDesc() = delete;
 
       // utility functions
       virtual void buildSections(Section&) const;

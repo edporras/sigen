@@ -135,6 +135,7 @@ namespace sigen {
          name( incLength(n) ),
          type(t)
       { }
+      ServiceDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -158,7 +159,8 @@ namespace sigen {
 
       // constructor
       TimeShiftedServiceDesc(ui16 sid) :
-         PrimitiveDatatypeDesc<ui16>(TAG, sid) {}
+         PrimitiveDatatypeDesc<ui16>(TAG, sid)
+      {}
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {

@@ -61,6 +61,7 @@ namespace sigen {
          PSITable(TID, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni,
                   D_BIT, rsrvd)
       { }
+      PAT() = delete;
 
       // utility
       bool addProgram(ui16 sid, ui16 pid);

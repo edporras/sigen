@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "table.h"
 #include "utc.h"
 
 namespace sigen {

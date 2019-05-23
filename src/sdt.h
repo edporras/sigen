@@ -78,6 +78,7 @@ namespace sigen {
          PSITable((ui8) type, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
          original_network_id(orig_network_id)
       { }
+      SDT() = delete;
 
       // utility
       bool addService(ui16 sid, bool esf, bool epff, ui8 rs, bool fca);

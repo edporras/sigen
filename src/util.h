@@ -47,6 +47,7 @@ namespace sigen {
       // constructor
       LanguageCode(const char* c) : code(c) { refit(); }
       LanguageCode(const std::string &c) : code(c) { refit(); }
+      LanguageCode() = delete;
 
       // util
       const std::string& str() const { return code; }

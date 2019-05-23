@@ -50,6 +50,7 @@ namespace sigen {
       ComponentDesc(ui8 sc, ui8 ctype, ui8 ctag,
                     const std::string& code, const std::string& text,
                     bool rsrvd = true);
+      ComponentDesc() = delete;
 
       // util
       virtual void buildSections(Section&) const;
@@ -135,6 +136,7 @@ namespace sigen {
          descriptor_number( desc_num ),
          last_descriptor_number( last_desc_num ) // this may have to be re-set later
       { }
+      ExtendedEventDesc() = delete;
 
       // use to replace the descriptor count value
       void setLastDescriptorNumber( ui8 last_desc_num ) {
@@ -181,7 +183,9 @@ namespace sigen {
       // constructor
       MultilingualComponentDesc(ui8 ctag) :
          MultilingualTextDesc(TAG, BASE_LEN),
-         component_tag(ctag) {}
+         component_tag(ctag)
+      {}
+      MultilingualComponentDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -250,6 +254,7 @@ namespace sigen {
          programme_identification_label(pil),
          reserved(rsrvd)
       { }
+      PDCDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -277,6 +282,7 @@ namespace sigen {
       // constructor
       ShortEventDesc(const std::string& code, const std::string& ev_name,
                      const std::string& text);
+      ShortEventDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -304,6 +310,7 @@ namespace sigen {
       // constructor
       ShortSmoothingBufferDesc(ui8 size, ui8 leak_rate,
                                const std::string& dvb_reserved = "");
+      ShortSmoothingBufferDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -332,7 +339,9 @@ namespace sigen {
       // constructor
       TimeShiftedEventDesc(ui16 sid,  ui16 evid) :
          Descriptor(TAG, BASE_LEN),
-         ref_service_id(sid), ref_event_id(evid) {}
+         ref_service_id(sid), ref_event_id(evid)
+      {}
+      TimeShiftedEventDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;

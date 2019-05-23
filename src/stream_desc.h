@@ -48,7 +48,9 @@ namespace sigen {
       // constructor
       AudioStreamDesc(bool fff, bool ID, ui8 l, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
-         free_format_flag(fff), id(ID), reserved(rsrvd), layer(l)  { }
+         free_format_flag(fff), id(ID), reserved(rsrvd), layer(l)
+      { }
+      AudioStreamDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -78,7 +80,9 @@ namespace sigen {
       CADesc(ui16 casid, ui16 cap, const std::string& data, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
          CA_system_id(casid), CA_pid(cap), reserved(rsrvd),
-         private_data( incLength(data) ) { }
+         private_data( incLength(data) )
+      { }
+      CADesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -106,7 +110,9 @@ namespace sigen {
       // constructor
       CopyrightDesc(ui32 ci, const std::string& data, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
-         identifier(ci), info( incLength(data) ) { }
+         identifier(ci), info( incLength(data) )
+      { }
+      CopyrightDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -141,7 +147,8 @@ namespace sigen {
 
       // constructor
       DataStreamAlignmentDesc(ui8 type) :
-         PrimitiveDatatypeDesc<ui8>(TAG, type) { }
+         PrimitiveDatatypeDesc<ui8>(TAG, type)
+      { }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -178,7 +185,9 @@ namespace sigen {
          Descriptor(TAG, BASE_LEN),
          type(h_type), layer_index(h_layer_index),
          embedded_layer(h_embedded_layer), priority(h_priority),
-         reserved(rsrvd) { }
+         reserved(rsrvd)
+      { }
+      HierarchyDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -207,7 +216,9 @@ namespace sigen {
       IBPDesc(bool cgf, bool igf, ui16 mgl) :
          Descriptor(TAG, BASE_LEN),
          closed_gop_flag(cgf), identical_gop_flag(igf),
-         max_gop_len(mgl) { }
+         max_gop_len(mgl)
+      { }
+      IBPDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -276,7 +287,9 @@ namespace sigen {
       // constructor
       MaximumBitrateDesc(ui32 max_br, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
-         maximum_bitrate(max_br), reserved(rsrvd) { }
+         maximum_bitrate(max_br), reserved(rsrvd)
+      { }
+      MaximumBitrateDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -307,7 +320,9 @@ namespace sigen {
                                      bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
          bound_valid_flag(bvf), reserved(rsrvd),
-         LTW_offset_lb(ltw_o_lb), LTW_offset_ub(ltw_o_ub) { }
+         LTW_offset_lb(ltw_o_lb), LTW_offset_ub(ltw_o_ub)
+      { }
+      MultiplexBufferUtilizationDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -331,7 +346,8 @@ namespace sigen {
 
       // constructor
       PrivateDataIndicatorDesc(ui32 pdi) :
-         PrimitiveDatatypeDesc<ui32>(TAG, pdi) { }
+         PrimitiveDatatypeDesc<ui32>(TAG, pdi)
+      { }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -357,7 +373,9 @@ namespace sigen {
       // constructor
       RegistrationDesc(ui32 fi, const std::string& data, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
-         identifier(fi), info( incLength(data) ) { }
+         identifier(fi), info( incLength(data) )
+      { }
+      RegistrationDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -385,7 +403,9 @@ namespace sigen {
       // constructor
       SmoothingBufferDesc(ui32 sblr, ui32 size, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
-         sb_leak_rate(sblr), sb_size(size), reserved(rsrvd)  { }
+         sb_leak_rate(sblr), sb_size(size), reserved(rsrvd)
+      { }
+      SmoothingBufferDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -412,7 +432,9 @@ namespace sigen {
       // constructor
       STDDesc(bool lvf, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
-         leak_valid_flag(lvf), reserved(rsrvd)  { }
+         leak_valid_flag(lvf), reserved(rsrvd)
+      { }
+      STDDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -444,7 +466,9 @@ namespace sigen {
          clock_accuracy_integer(cai),
          clock_accuracy_exponent(cae),
          external_clock_reference_indicator(ecri),
-         reserved(rsrvd) { }
+         reserved(rsrvd)
+      { }
+      SystemClockDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -472,7 +496,9 @@ namespace sigen {
       // constructor
       TargetBackgroundGridDesc(ui16 hs, ui16 vs, ui8 par) :
          Descriptor(TAG, BASE_LEN),
-         horizontal_size(hs), vertical_size(vs), pel_aspect_ratio(par) { }
+         horizontal_size(hs), vertical_size(vs), pel_aspect_ratio(par)
+      { }
+      TargetBackgroundGridDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -505,20 +531,23 @@ namespace sigen {
    public:
       enum { TAG = 2, BASE_LEN = 1 };
 
-      // Use this constructor is MPEG_2_flag is 0
+      // Use this constructor if MPEG_2_flag is 0
       VideoStreamDesc(bool mfrf, ui8 frc, bool cpf, bool spf) :
          Descriptor(TAG, BASE_LEN),
          multiple_frame_rate_flag(mfrf), MPEG_2_flag(false),
          constrained_parameter_flag(cpf), still_picture_flag(spf),
-         frame_rate_code(frc) { }
-      // Use this one is MPEG_2_flag is 1
+         frame_rate_code(frc)
+      { }
+      // Use this one if MPEG_2_flag is 1
       VideoStreamDesc(bool mfrf, ui8 frc, bool cpf, bool spf,
                       ui8 pali, ui8 cf, bool fref, bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN + 2), // extra data needs 2 bytes
          multiple_frame_rate_flag(mfrf), MPEG_2_flag(true),
          constrained_parameter_flag(cpf), still_picture_flag(spf),
          frame_rate_extension_flag(fref), profile_and_level_indication(pali),
-         frame_rate_code(frc), chroma_format(cf), reserved(rsrvd) { }
+         frame_rate_code(frc), chroma_format(cf), reserved(rsrvd)
+      { }
+      VideoStreamDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;
@@ -547,7 +576,9 @@ namespace sigen {
       // constructor
       VideoWindowDesc(ui16 ho, ui16 vo, ui8 wp) :
          Descriptor(TAG, BASE_LEN),
-         horizontal_offset(ho), vertical_offset(vo), window_priority(wp) { }
+         horizontal_offset(ho), vertical_offset(vo), window_priority(wp)
+      { }
+      VideoWindowDesc() = delete;
 
       // utility
       virtual void buildSections(Section&) const;

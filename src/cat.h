@@ -52,6 +52,7 @@ namespace sigen {
          PSITable(TID, rbits(rsrvd, 0xffff), BASE_LEN, MAX_SEC_LEN,
                   ver, cni, D_BIT, rsrvd)
       { }
+      CAT() = delete;
 
       // utility
       bool addDesc(Descriptor &);

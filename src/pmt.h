@@ -96,6 +96,7 @@ namespace sigen {
          program_info_length(0),
          pcr_pid(pcrpid)
       { }
+      PMT() = delete;
 
       // utility
       bool addProgramDesc(Descriptor &);

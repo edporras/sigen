@@ -75,6 +75,7 @@ namespace sigen {
          bouquet_desc_length(0),
          xport_stream_loop_length(0)
       { }
+      BAT() = delete;
 
       // utility
       bool addBouquetDesc(Descriptor &);
