@@ -104,13 +104,8 @@ namespace sigen
    {
       // we don't check if it can fit here since it should have
       // been done before we were called (protected function)
-
-      // take ownership and store it
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      event.desc_list.push_back( std::move(dp) );
-
-      event.desc_loop_length += d_len;
+      event.addDesc(d);
+      event.desc_length += d_len;
       return true;
    }
 
@@ -153,7 +148,7 @@ namespace sigen
          identStr(o, RUNNING_STATUS_S, event.running_status);
          identStr(o, FREE_CA_MODE_S, event.free_CA_mode);
 
-         identStr(o, DESC_LOOP_LEN_S, event.desc_loop_length);
+         identStr(o, DESC_LOOP_LEN_S, event.desc_loop_length());
          o << std::endl;
 
          // display the descriptors
@@ -465,7 +460,7 @@ namespace sigen
 
       s.set16Bits( (running_status << 13) |
                    (free_CA_mode << 12) |
-                   desc_loop_length );
+                   desc_loop_length() );
 
       // descriptor loop
       for (const std::unique_ptr<Descriptor>& dp : desc_list)

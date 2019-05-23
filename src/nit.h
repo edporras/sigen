@@ -39,20 +39,18 @@ namespace sigen {
       enum { BASE_LEN = 9, MAX_SEC_LEN = 1024 };
 
       // the transport stream struct
-      struct XportStream
+      struct XportStream : STable::DescListItem
       {
          enum { BASE_LEN = 6 };
 
          ui16 id,                    // transport stream id
-            original_network_id,
-            desc_length;
-         std::list<std::unique_ptr<Descriptor> > desc_list;  // descriptors
+            original_network_id;
 
          // constructor
          XportStream(ui16 tsid, ui16 onid) :
-            id(tsid), original_network_id(onid), desc_length(0) { }
+            id(tsid), original_network_id(onid) { }
 
-         int length() const { return desc_length + BASE_LEN; }
+         int length() const { return desc_loop_length() + BASE_LEN; }
       };
 
       // NIT members

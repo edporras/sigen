@@ -33,6 +33,14 @@ namespace sigen
    // abstract STable class
    //
 
+   void STable::DescListItem::addDesc(Descriptor& d)
+   {
+      // claim ownership of the pointer
+      std::unique_ptr<Descriptor> dp;
+      dp.reset(&d);
+      desc_list.push_back( std::move(dp) );
+   }
+
    //
    // checks if the data can fit, and if so bumps the length by the
    // amount

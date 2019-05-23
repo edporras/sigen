@@ -41,18 +41,15 @@ namespace sigen {
       enum { BASE_LEN = 11, MAX_SEC_LEN = 4096 };
 
       // the private event class
-      struct Event {
+      struct Event : STable::DescListItem {
          enum { BASE_LEN = 12 };
 
          // instance variables
-         ui16 id,
-            desc_loop_length;
+         ui16 id;
          UTC utc;
          BCDTime duration;
          ui8 running_status : 3;
          bool free_CA_mode;
-
-         std::list<std::unique_ptr<Descriptor> > desc_list; // descriptor's list
 
          // constructor
          Event(ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs,

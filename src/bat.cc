@@ -107,9 +107,7 @@ namespace sigen
    //
    bool BAT::addXportStreamDesc(XportStream& ts, Descriptor &d, ui16 d_len)
    {
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      ts.desc_list.push_back( std::move(dp) );
+      ts.addDesc(d);
       xport_stream_loop_length += d_len;
       ts.desc_length += d_len;
       return true;
@@ -447,7 +445,7 @@ namespace sigen
          identStr(o, XPORT_STREAM_ID_S, ts.id);
          identStr(o, ORIG_NETWORK_ID_S, ts.original_network_id);
          identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
-         identStr(o, DESC_LEN_S, ts.desc_length, true);
+         identStr(o, DESC_LEN_S, ts.desc_loop_length(), true);
          o << std::endl;
 
          // dump the transport descriptors

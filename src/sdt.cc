@@ -89,10 +89,8 @@ namespace sigen
    bool SDT::addServiceDesc(Service& serv, Descriptor &d, ui16 d_len)
    {
       // take ownership and store it
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      serv.desc_list.push_back( std::move(dp) );
-      serv.desc_loop_length += d_len;
+      serv.addDesc(d);
+      serv.desc_length += d_len;
       return true;
    }
 
@@ -322,7 +320,7 @@ namespace sigen
          identStr(o, EIT_PF_F_S, service.eit_present_following);
          identStr(o, RUNNING_STATUS_S, service.running_status);
          identStr(o, FREE_CA_MODE_S, service.free_ca_mode);
-         identStr(o, DESC_LOOP_LEN_S, service.desc_loop_length, true);
+         identStr(o, DESC_LOOP_LEN_S, service.desc_loop_length(), true);
          o << std::endl;
 
          // display the descriptors
@@ -349,7 +347,7 @@ namespace sigen
       s.set08Bits( rbits(reserved, 0xfc) | (eit_schedule << 1) |
                    eit_present_following );
       s.set16Bits( (running_status << 13) | (free_ca_mode << 12) |
-                   (desc_loop_length & 0x0fff) );
+                   (desc_loop_length() & 0x0fff) );
 
       for (const std::unique_ptr<Descriptor>& dp : desc_list)
          (*dp).buildSections(s);

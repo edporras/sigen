@@ -39,22 +39,19 @@ namespace sigen {
       enum { BASE_LEN = 8, MAX_SEC_LEN = 1024 };
 
       // the service holder class - private to the sdt
-      struct Service {
+      struct Service : STable::DescListItem {
          enum { BASE_LEN = 5 };
 
-         ui16 id,
-            desc_loop_length;
+         ui16 id;
          ui8 running_status : 3;
          bool eit_schedule,
             eit_present_following,
             free_ca_mode,
             reserved;
 
-         std::list<std::unique_ptr<Descriptor> > desc_list; // descriptor's list
-
          // constructor
          Service(ui16 sid, bool esf, bool epff, ui8 rs, bool fca, bool rsrvd) :
-            id(sid), desc_loop_length(0), running_status(rs),
+            id(sid), running_status(rs),
             eit_schedule(esf), eit_present_following(epff),
             free_ca_mode(fca), reserved(rsrvd) {}
 

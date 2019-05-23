@@ -108,9 +108,7 @@ namespace sigen
    //
    bool NIT::addXportStreamDesc(XportStream& xs, Descriptor& d, ui16 d_len)
    {
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      xs.desc_list.push_back(std::move(dp));
+      xs.addDesc(d);
       xport_stream_loop_length += d_len;
       xs.desc_length += d_len;
       return true;
@@ -456,7 +454,7 @@ namespace sigen
          identStr(o, XPORT_STREAM_ID_S, ts.id);
          identStr(o, ORIG_NETWORK_ID_S, ts.original_network_id, true);
          identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
-         identStr(o, DESC_LEN_S, ts.desc_length, true);
+         identStr(o, DESC_LEN_S, ts.desc_loop_length(), true);
          o << std::endl;
 
          // dump the descriptors (inherited method)

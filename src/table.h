@@ -45,7 +45,6 @@ namespace sigen {
 #endif
    };
 
-
    //
    // abstract stream table class
    //
@@ -81,6 +80,16 @@ namespace sigen {
       { }
 
    public:
+      // should probably replace all desc_lists with one of these
+      struct DescListItem
+      {
+         ui16 desc_length = 0;
+         std::list<std::unique_ptr<Descriptor> > desc_list;
+
+         void addDesc(Descriptor& d);
+         ui16 desc_loop_length() const { return desc_length; }
+      };
+
       virtual ~STable() {}
 
       // prohibit

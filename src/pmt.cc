@@ -81,9 +81,7 @@ namespace sigen
    bool PMT::addElemStreamDesc(ElementaryStream& stream, Descriptor &d, ui16 d_len)
    {
       // take ownership and store it
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      stream.desc_list.push_back( std::move(dp) );
+      stream.addDesc(d);
       stream.es_info_length += d_len;
       return true;
    }
