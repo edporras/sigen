@@ -13,11 +13,6 @@ using namespace sigen;
 
 namespace data
 {
-   const ui16 network_pid = 0x20;
-   const ui16 xport_stream_id = 0x10;
-   const int num_services = 10;
-
-
    bool write_bin(const TStream& ts, const std::string& basename)
    {
       ts.write(basename + ".ts");
@@ -108,17 +103,16 @@ int main(int argc, char* argv[])
    if (flags & PAT_F)
    {
       // build the pat object..
-      // current_next & reserved_bits default to true
-      PAT pat( data::xport_stream_id, 0x01 );
+      PAT pat( 0x10, 0x01 );
 
       // override the default maximum section length.. (optional)
       pat.setMaxSectionLen( 900 );
 
       // add the services (programs).. first, set the network pid (required for
       // some systems)
-      pat.addNetworkPid( data::network_pid );
+      pat.addNetworkPid( 0x20 );
 
-      for (int i = 0; i < data::num_services; i++)
+      for (int i = 0; i < 10; i++)
       {
          // each service has an id and pmt pid associated with it..
          // get it from somehwere..
@@ -137,10 +131,10 @@ int main(int argc, char* argv[])
 
    if (flags & PMT_F)
    {
-      // build the pat object..
-      // current_next & reserved_bits default to true
+      // build the pmt
       PMT pmt( 100, 101, 0x01 );
 
+      // create some descriptors
       SubtitlingDesc *subtd = new SubtitlingDesc;
       subtd->addSubtitling( "eng", 0x01, 0x1000, 0x1010 );
       subtd->addSubtitling( "fre", 0x01, 0x1000, 0x1010 );
@@ -148,6 +142,9 @@ int main(int argc, char* argv[])
       subtd->addSubtitling( "spa", 0x01, 0x1000, 0x1010 );
       subtd->addSubtitling( "rus", 0x01, 0x1000, 0x1010 );
 
+      // once added, the table claims ownership of the pointer - so do
+      // not free it. Also, no further modifications to the descriptor
+      // should be done after this.
       pmt.addProgramDesc( *subtd );
 
 
@@ -183,11 +180,11 @@ int main(int argc, char* argv[])
       // add a stream
       pmt.addElemStream( sigen::PMT::ES_ISO_IEC_11172_VIDEO, 0x22 );
 
-      // and descriptors to it
+      // and descriptors to it. As above, the table will claim
+      // ownership and handle freeing it
       LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, 0xf );
       pmt.addElemStreamDesc( *ld );
 
-      // dumpage
       DUMP(pmt);
       pmt.buildSections(t);
 
@@ -211,7 +208,6 @@ int main(int argc, char* argv[])
 
       StuffingDesc *stuff1 = new StuffingDesc( 'z', 13 );
       nit.addNetworkDesc( *stuff1 );
-
 
       // multiling net name
       MultilingualNetworkNameDesc *mlnnd = new MultilingualNetworkNameDesc;
