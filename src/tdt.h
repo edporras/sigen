@@ -45,9 +45,7 @@ namespace sigen {
       enum { PID = 0x14 };
 
       // default constructor creates a TDT with current time
-      TDT() :
-         STable(TID, BASE_LEN, MAX_SEC_LEN, false, true, true)
-      { }
+      TDT() : TDT(UTC(), true) { }
 
       // this one takes a UTC instance
       TDT(const UTC &t, bool rsrvd = true) :

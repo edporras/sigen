@@ -44,16 +44,14 @@ namespace sigen {
       enum { BASE_LEN = 7, MAX_SEC_LEN = 1024, TID = 0x73 };
 
       ui16 desc_loop_length;
-      std::list<std::unique_ptr<Descriptor> > desc_list; // descriptor's list
+      std::list<std::unique_ptr<Descriptor> > desc_list; // descriptors list
 
    public:
       enum { PID = 0x14 };
 
       // first constructor uses current time.. second uses the specific
       // time provided
-      TOT(bool rsrvd = true) :
-         STable(TID, BASE_LEN, MAX_SEC_LEN, false, rsrvd, rsrvd),
-         desc_loop_length(0)
+      TOT(bool rsrvd = true) : TOT(UTC(), rsrvd)
       { }
       TOT(const UTC &t, bool rsrvd = true) :
          STable(TID, BASE_LEN, MAX_SEC_LEN, false, rsrvd, rsrvd),

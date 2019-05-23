@@ -45,7 +45,7 @@ namespace sigen {
       enum { BASE_LEN = 3 };
 
       // constructor
-      LanguageCode(const char* c) : code(c) { refit(); }
+      LanguageCode(const char* c) : LanguageCode(std::string(c)) { }
       LanguageCode(const std::string &c) : code(c) { refit(); }
       LanguageCode() = delete;
 
