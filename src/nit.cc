@@ -176,10 +176,6 @@ namespace sigen
 
               sec_bytes = BASE_LEN; // the minimum section size
               op_state = (!nd ? GET_NET_DESC : WRITE_NET_DESC);
-
-#ifdef TRACE
-              cerr << "##### wrote head - sec_bytes: " << dec << sec_bytes << std::endl;
-#endif
               break;
 
            case GET_NET_DESC:
@@ -196,19 +192,9 @@ namespace sigen
                  {
                     nd = (*nd_iter++).get();
 
-#ifdef TRACE
-                    cerr << "##### looking at: " << std::endl;
-                    nd->dump(cerr);
-                    cerr << std::endl << "###### " << dec << sec_bytes << " + " << nd->length() << " = "
-                         << (sec_bytes + nd->length()) << "< " <<  getMaxDataLen()
-                         << "?" << std::endl;
-#endif
                     // check if we can fit it in this section
                     if (sec_bytes + nd->length() > getMaxDataLen())
                     {
-#ifdef TRACE
-                       cerr << "##### CAN'T FIT " << std::endl;
-#endif
                        // holy crap, this is a special case! if the
                        // section is filled with net descriptors, we
                        // must sitll write the XS loop length!
@@ -238,10 +224,6 @@ namespace sigen
               break;
 
            case WRITE_NET_DESC:
-#ifdef TRACE
-              cerr << "######## WRITING NET DESC " << std::endl;
-              nd->dump(cerr);
-#endif
               // add the network descriptor
               nd->buildSections(section);
 
@@ -251,9 +233,6 @@ namespace sigen
 
               // try to add another one
               op_state = GET_NET_DESC;
-#ifdef TRACE
-              cerr << "######## wrote net desc - sec_bytes: " << dec << sec_bytes << std::endl;
-#endif
               break;
 
            case WRITE_XPORT_LOOP_LEN:

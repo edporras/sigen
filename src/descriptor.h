@@ -123,9 +123,9 @@ namespace sigen {
 
    protected:
       // constructor
-      StringDataDesc(ui8 tag, const std::string &d) :
+      StringDataDesc(ui8 tag, const std::string &str) :
          Descriptor(tag, BASE_LEN),
-         data( incLength(d) ) {
+         data( incLength(str) ) {
       }
 
       // utility functions

@@ -64,9 +64,9 @@ namespace sigen {
       }
 
    private:
-      ui8 hour,
-                                     min,
-                                     sec;
+      ui8 hour;
+      ui8 min;
+      ui8 sec;
 
    protected:
       std::ostream& dump(std::ostream& o) const;
