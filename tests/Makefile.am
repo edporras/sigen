@@ -1,7 +1,7 @@
-check_PROGRAMS = test_table_gen
-test_table_gen_SOURCES = test_table_gen.cc $(top_builddir)/src/sigen.h
-test_table_gen_CFLAGS = @CHECK_CFLAGS@
-test_table_gen_LDADD = $(top_builddir)/src/libsigen.la
+check_PROGRAMS = dvb_builder
+dvb_builder_SOURCES = dvb_builder.cc $(top_builddir)/src/sigen.h
+dvb_builder_CFLAGS = @CHECK_CFLAGS@
+dvb_builder_LDADD = $(top_builddir)/src/libsigen.la
 
 TESTS = \
 	test_bat.sh \

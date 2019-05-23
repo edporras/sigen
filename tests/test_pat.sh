@@ -1,2 +1,2 @@
 #!/bin/bash
-./test_table_gen -pat
+./dvb_builder -pat

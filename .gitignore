@@ -29,6 +29,6 @@ stamp-h1
 .libs
 autom4te.cache
 ltmain.sh
-test_table_gen
 libtool
 test-driver
+dvb_builder
