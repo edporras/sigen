@@ -7,6 +7,8 @@
 #include <sstream>
 #include <cstring>
 #include <algorithm>
+#include <map>
+#include <stdexcept>
 #include "../src/sigen.h" // this header includes all the required object headers
 #include "dvb_builder.h"
 
@@ -24,17 +26,18 @@ namespace tests
    {
       std::ifstream inf(filename.c_str(), std::ifstream::binary);
       if (!inf.is_open()) {
-         std::cerr << "Error opening file " << filename << " for read" << std::endl;
-         return false;
+         std::stringstream s;
+         s << "Error opening file " << filename << " for read";
+         throw std::runtime_error(s.str());
       }
 
       // determine the size
       inf.seekg (0, std::ios::end);
       size_t size = inf.tellg();
-
       if (size == 0) {
-         std::cerr << "Error: file " << filename << " is empty" << std::endl;
-         return false;
+         std::stringstream s;
+         s << "Error: file " << filename << " is empty";
+         throw std::runtime_error(s.str());
       }
 
       char *blob = new char[size];
@@ -55,87 +58,49 @@ namespace tests
    }
 }
 
+
+void usage(const std::string& prog)
+{
+   std::cerr << prog << " linked against sigen library v" << sigen::version() << std::endl
+             << "Usage: " << prog << " [-bat|-cat|-eit|-nit|-pat|-pmt|-sdt|-tdt|-tot]"
+             << std::endl;
+}
+
 //
 // sample for building a stream
 //
 int main(int argc, char* argv[])
 {
-   enum { NIT_F = 0x001, SDT_F = 0x002, CAT_F = 0x004,
-          PAT_F = 0x008, PMT_F = 0x010, BAT_F = 0x020,
-          EIT_F = 0x040, TDT_F = 0x100, TOT_F = 0x200 };
-   ui16 flags = 0;
-
-   if (argc == 1)
-      flags = 0xffff;
-   else {
-      for (int i = 1; i < argc; i++)
-      {
-         std::string arg = argv[i];
-
-         if (arg == "-nit")
-            flags |= NIT_F;
-         else if (arg == "-sdt")
-            flags |= SDT_F;
-         else if (arg == "-cat")
-            flags |= CAT_F;
-         else if (arg == "-pat")
-            flags |= PAT_F;
-         else if (arg == "-pmt")
-            flags |= PMT_F;
-         else if (arg == "-bat")
-            flags |= BAT_F;
-         else if (arg == "-eit")
-            flags |= EIT_F;
-         else if (arg == "-tot")
-            flags |= TOT_F;
-         else if (arg == "-tdt")
-            flags |= TDT_F;
-         else if (arg == "-h")
-         {
-            std::cerr << argv[0] << " linked against sigen library v" << sigen::version() << std::endl;
-            return -1;
-         }
-      }
+   // expecting one arg
+   if ((argc != 2) ||
+       (std::string(argv[1]) == "-h")) {
+      usage(argv[0]);
+      return 1;
    }
 
-   // sections are built onto here
+   // build a lookup table of what to run
+   typedef int (*test_fn)(sigen::TStream&);
+   const std::map<std::string, test_fn> opts = {
+      { "-bat", tests::bat },
+      { "-cat", tests::cat },
+      { "-eit", tests::eit },
+      { "-nit", tests::nit },
+      { "-pat", tests::pat },
+      { "-pmt", tests::pmt },
+      { "-sdt", tests::sdt },
+      { "-tdt", tests::tdt },
+      { "-tot", tests::tot }
+   };
+
+   // search for the given argument
+   auto it = opts.find(argv[1]);
+   if (it == opts.end()) {
+      usage(argv[0]);
+      return 1;
+   }
+
+   // build a tstream to pass to it and run the test so the table
+   // builds its sections onto it
    TStream t;
-
-   if (flags & PAT_F) {
-      return tests::pat(t);
-   }
-
-   if (flags & PMT_F) {
-      return tests::pmt(t);
-   }
-
-   if (flags & NIT_F) {
-      return tests::nit(t);
-   }
-
-   if (flags & SDT_F) {
-      return tests::sdt(t);
-   }
-
-   if (flags & BAT_F) {
-      return tests::bat(t);
-   }
-
-   if (flags & EIT_F) {
-      return tests::eit(t);
-   }
-
-   if (flags & TOT_F) {
-      return tests::tot(t);
-   }
-
-   if (flags & CAT_F) {
-      return tests::cat(t);
-   }
-
-   if (flags & TDT_F) {
-      return tests::tdt(t);
-   }
-
-   return 1;
+   return it->second(t);
 }
