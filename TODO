@@ -1,10 +1,9 @@
 Must do:
 
-1. replace PtrWrapper with unique_ptr.
-2. Tables need to provide MAX_SIZE to base class for checking with incLength.
-	Related:
+* Tables need to provide MAX_SIZE to base class for checking with incLength.
+  Related:
 
-	Stuffing table must check it does not exceed max sec size
+  Stuffing table must check it does not exceed max sec size
 
 =====================================
 The following are NOT YET implemented.
@@ -19,4 +18,3 @@ DVB Descriptors:
 * Extended Event Descriptor is defined but makes user responsible
   for splitting data across multiple descriptors.  Need to add
   a support class to handle this.
-

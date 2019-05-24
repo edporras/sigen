@@ -1,4 +1,4 @@
-C++ Si Generation Library 2.6.5
+C++ Si Generation Library 2.6.6
 ===============================
 
 A C++ [MPG PSI](https://en.wikipedia.org/wiki/Program-specific_information) and
@@ -6,14 +6,14 @@ A C++ [MPG PSI](https://en.wikipedia.org/wiki/Program-specific_information) and
 table generation library. The library has support most (if not all) tables: CAT,
 PAT, PMT, NIT, SDT, BAT, TDT, TOT and their descriptors.
 
-
 I wrote the initial version of this library ca. 1999-2000 and updated
 it around 2003 with a few minor tweaks done since then. It was used in
 production but nobody had since been maintaining it so I was given
 permission to open the source so I could make changes to it if
 needed.
 
-This is very legacy so now it's mainly a C++ feature playground.
+This is very legacy so now it's mainly a C++ feature playground. Also,
+some of the logic could definitely be re-thought.
 
 
 Building
@@ -28,7 +28,7 @@ Building
 Sample Usage
 ============
 
-See the file test/main.cc for a more thorough example. Here's a snippet:
+See tests/*.cc for more thorough examples of building various tables. Here's a snippet:
 
 ```c++
 
@@ -76,18 +76,15 @@ See the file test/main.cc for a more thorough example. Here's a snippet:
     //
     // we now have a TStream that holds a list<Section *>..
 
-    DUMP(t);         // debug - dump the contents of the TStream binary data
+    DUMP(t);       // debug - dump the contents of the TStream binary data
 
     // each Section holds an ui8[] with the data. we can write it to an
     // ostream (file, etc) by using the write method defined by
     // Section. Alternatively, you can have direct access to the binary
     // data by invoking getBinaryData().. regardless, iterate throguh
     // the list and do whatever you need like so:
-    for (std::list<Section *>::const_iterator s_iter = t.section_list.begin();
-	     s_iter != t.section_list.end();
-	     s_iter++)
+    for (const Section& section : t.section_list)
     {
-       // const Section& section = *(*s_iter);
        // const ui8* sec_data = section.getBinaryData();
     }
 
