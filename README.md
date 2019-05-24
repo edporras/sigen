@@ -52,7 +52,7 @@ See tests/*.cc for more thorough examples of building various tables. Here's a s
 
     for (int i = 0; i < num_services; i++)
     {
-	    // each service has an id and pmt pid associated with it..
+        // each service has an id and pmt pid associated with it..
         ui16 service_id = 100 + i;
         ui16 pmt_pid = 200 + i;
 
@@ -83,7 +83,7 @@ See tests/*.cc for more thorough examples of building various tables. Here's a s
     // Section. Alternatively, you can have direct access to the binary
     // data by invoking getBinaryData().. regardless, iterate throguh
     // the list and do whatever you need like so:
-    for (const Section& section : t.section_list)
+    for (const Section* section : t.section_list)
     {
        // const ui8* sec_data = section.getBinaryData();
     }
