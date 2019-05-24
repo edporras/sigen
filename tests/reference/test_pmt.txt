@@ -1,0 +1,146 @@
+- - PMT Dump - -
+Table id            : 0x2
+Section syn. ind.   : 0x1
+rsvrd. future use   : 0
+reserved            : 0x3
+Table length        : 132 (0x84)
+Program number      : 100 (0x64)
+reserved            : 0x3
+Version number      : 0x1
+Current next ind.   : 0x1
+reserved            : 0x7
+PCR Pid             : 0x65
+reserved            : 0xf
+Program info len    : 109 (0x6d)
+
+ - Subtitling Descriptor -
+ Tag                 : 0x59
+ Length              : 40 (0x28)
+  Language code       : "eng"
+  Type                : 0x1
+  Connection type     : 0x1000
+  Ancillary pg. id    : 0x1010
+
+  Language code       : "fre"
+  Type                : 0x1
+  Connection type     : 0x1000
+  Ancillary pg. id    : 0x1010
+
+  Language code       : "deu"
+  Type                : 0x1
+  Connection type     : 0x1000
+  Ancillary pg. id    : 0x1010
+
+  Language code       : "spa"
+  Type                : 0x1
+  Connection type     : 0x1000
+  Ancillary pg. id    : 0x1010
+
+  Language code       : "rus"
+  Type                : 0x1
+  Connection type     : 0x1000
+  Ancillary pg. id    : 0x1010
+
+
+ - Teletext Descriptor -
+ Tag                 : 0x56
+ Length              : 35 (0x23)
+  Language code       : "eng"
+  Type                : 0x1
+  Magazine number     : 0x1
+  Page number         : 0x11
+
+  Language code       : "fre"
+  Type                : 0x1
+  Magazine number     : 0x1
+  Page number         : 0x11
+
+  Language code       : "deu"
+  Type                : 0x1
+  Magazine number     : 0x1
+  Page number         : 0x11
+
+  Language code       : "spa"
+  Type                : 0x1
+  Magazine number     : 0x1
+  Page number         : 0x11
+
+  Language code       : "ita"
+  Type                : 0x1
+  Magazine number     : 0x1
+  Page number         : 0x11
+
+  Language code       : "chi"
+  Type                : 0x1
+  Magazine number     : 0x1
+  Page number         : 0x11
+
+  Language code       : "rus"
+  Type                : 0x1
+  Magazine number     : 0x1
+  Page number         : 0x11
+
+
+ - ISO 639 Language Descriptor -
+ Tag                 : 0xa
+ Length              : 20 (0x14)
+  Language code       : "eng"
+  Audio type          : 0x2
+  Language code       : "fre"
+  Audio type          : 0x3
+  Language code       : "deu"
+  Audio type          : 0x4
+  Language code       : "ita"
+  Audio type          : 0x5
+  Language code       : "spa"
+  Audio type          : 0x6
+
+ - AC-3 Descriptor -
+ Tag                 : 0x6a
+ Length              : 3 (0x3)
+ AC-3 type flag      : 0
+ bsid_flag           : 0x1
+ mainid flag         : 0
+ asvc flag           : 0x1
+ reserved            : 0xff
+ bsid                : 0x2
+ asvc                : 0x4
+
+ - Ancillary Data Descriptor -
+ Tag                 : 0x6b
+ Length              : 1 (0x1)
+ Ancill. data idnt.  : 0x51
+
+
+ - -* Stream List *- -
+ Stream type         : 1 (0x1)
+ reserved            : 0x7
+ Elementary PID      : 34 (0x22)
+ reserved            : 0xf
+ ES info len         : 9 (0x9)
+
+  - Linkage Descriptor -
+  Tag                 : 0x4a
+  Length              : 7 (0x7)
+  Xport stream id     : 1 (0x1)
+  Orig. network id    : 2 (0x2)
+  Service id          : 3 (0x3)
+  Linkage type        : 0xf
+
+
+
+
+-- Section dump - num_sections: 1 --
+
+- sec: 0, length: 139, size (max): 1024, data: 
+[0000] 02 b0 88 00 64 c3 00 00 e0 65 f0 6d 59 28 65 6e   ....d....e.mY(en
+[0016] 67 01 10 00 10 10 66 72 65 01 10 00 10 10 64 65   g.....fre.....de
+[0032] 75 01 10 00 10 10 73 70 61 01 10 00 10 10 72 75   u.....spa.....ru
+[0048] 73 01 10 00 10 10 56 23 65 6e 67 09 11 66 72 65   s.....V#eng..fre
+[0064] 09 11 64 65 75 09 11 73 70 61 09 11 69 74 61 09   ..deu..spa..ita.
+[0080] 11 63 68 69 09 11 72 75 73 09 11 0a 14 65 6e 67   .chi..rus....eng
+[0096] 02 66 72 65 03 64 65 75 04 69 74 61 05 73 70 61   .fre.deu.ita.spa
+[0112] 06 6a 03 5f 02 04 6b 01 51 01 e0 22 f0 09 4a 07   .j._..k.Q.."..J.
+[0128] 00 01 00 02 00 03 0f 2e 84 72 b8                  .........r.
+
+PASS test_pmt.sh (exit status: 0)

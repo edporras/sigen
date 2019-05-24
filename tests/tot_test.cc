@@ -44,6 +44,9 @@ namespace tests
       DUMP(tot);
       tot.buildSections(t);
 
+      // dump built sections
+      DUMP(t);
+
       return tests::cmp_bin(t, "reference/tot.ts");
    }
 }

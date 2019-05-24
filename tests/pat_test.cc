@@ -33,6 +33,9 @@ namespace tests
       // this builds the binary section data onto the TStream object
       pat.buildSections(t);
 
+      // dump built sections
+      DUMP(t);
+
       return cmp_bin(t, "reference/pat.ts");
    }
 }

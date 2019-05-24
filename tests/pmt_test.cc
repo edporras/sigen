@@ -64,6 +64,9 @@ namespace tests
       DUMP(pmt);
       pmt.buildSections(t);
 
+      // dump built sections
+      DUMP(t);
+
       return cmp_bin(t, "reference/pmt.ts");
    }
 }

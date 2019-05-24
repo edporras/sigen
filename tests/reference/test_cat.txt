@@ -1,0 +1,248 @@
+- - CAT Dump - -
+Table id            : 0x1
+Section syn. ind.   : 0x1
+rsvrd. future use   : 0
+reserved            : 0x3
+Table length        : 363 (0x16b)
+reserved            : 0xffff
+reserved            : 0x3
+Version number      : 0x14
+Current next ind.   : 0x1
+
+ - Audio Stream Descriptor -
+ Tag                 : 0x3
+ Length              : 1 (0x1)
+ Free format flag    : 0x1
+ Id                  : 0
+ Layer               : 0x2
+ reserved            : 0xf
+
+ - Video Stream Descriptor -
+ Tag                 : 0x2
+ Length              : 1 (0x1)
+ Mult. frm. rt flag  : 0
+ Frame rate code     : 0x9
+ MPEG2 flag          : 0
+ Content nbl lvl 1   : 0
+ Still pic flag      : 0x1
+
+ - Video Stream Descriptor -
+ Tag                 : 0x2
+ Length              : 3 (0x3)
+ Mult. frm. rt flag  : 0
+ Frame rate code     : 0x9
+ MPEG2 flag          : 0x1
+ Content nbl lvl 1   : 0
+ Still pic flag      : 0x1
+ Prof/level ind.     : 0x88
+ Chroma format       : 0x2
+ Frame rate ext flag : 0x1
+ reserved            : 0x1f
+
+ - CA Descriptor -
+ Tag                 : 0x9
+ Length              : 18 (0x12)
+ CA system id        : 0x4653
+ reserved            : 0x7
+ CA PID              : 0x1234
+ Private data        : "this is a test"
+
+ - Hierarchy Descriptor -
+ Tag                 : 0x4
+ Length              : 4 (0x4)
+ reserved            : 0xf
+ Hierarchy type      : 0x2
+ reserved            : 0x3
+ Hierarchy layer idx : 0x15
+ reserved            : 0x3
+ Hierarchy emb layer : 0x16
+ reserved            : 0x3
+ Hierarchy priority  : 0x17
+
+ - Maximum Bitrate Descriptor -
+ Tag                 : 0xe
+ Length              : 3 (0x3)
+ reserved            : 0x3
+ Maximum bitrate     : 0x234243
+
+ - Copyright Descriptor -
+ Tag                 : 0xd
+ Length              : 15 (0xf)
+ Copyright info      : 0x88990011
+ Code rate HP stream : "(c) 2001 ep"
+
+ - Multiplex Buff Utilization Descriptor -
+ Tag                 : 0xc
+ Length              : 4 (0x4)
+ Bound valid flag    : 0
+ LTW offset low bnd  : 0x6fff
+ reserved            : 0x1
+ LTW offset upp bnd  : 0x27
+
+ - System Clock Descriptor -
+ Tag                 : 0xb
+ Length              : 2 (0x2)
+ Ext clock ref ind   : 0x1
+ reserved            : 0x1
+ Clock accuracy int  : 0x7
+ Clock accuracy exp  : 0x3
+ reserved            : 0x1f
+
+ - Target Background Grid Descriptor -
+ Tag                 : 0x7
+ Length              : 4 (0x4)
+ Horizontal size     : 0x1
+ Vertical size       : 0x2
+ Pel aspect ratio    : 0x1
+
+ - Video Window Descriptor -
+ Tag                 : 0x8
+ Length              : 4 (0x4)
+ Horizontal offset   : 0x2
+ Vertical offset     : 0x1
+ Window priority     : 0x3
+
+ - Registration Descriptor -
+ Tag                 : 0x5
+ Length              : 4 (0x4)
+ Format identifier   : 0x43523412
+
+ - STD Descriptor -
+ Tag                 : 0x11
+ Length              : 1 (0x1)
+ reserved            : 0x7f
+ Leak valid flag     : 0
+
+ - Smoothing Buffer Descriptor -
+ Tag                 : 0x10
+ Length              : 6 (0x6)
+ reserved            : 0x3
+ SB leak rate        : 0x334455
+ reserved            : 0x3
+ SB size             : 0x45566
+
+ - IBP Descriptor -
+ Tag                 : 0x12
+ Length              : 2 (0x2)
+ Closed gop flag     : 0x1
+ Identical gop flag  : 0
+ Max gop len         : 4369 (0x1111)
+
+ - Content Descriptor -
+ Tag                 : 0x54
+ Length              : 12 (0xc)
+  Content nbl lvl 2   : 0x1
+  Core number         : 0x1
+  User nibble 1       : 0xc
+  User nibble 2       : 0x1
+  Content nbl lvl 2   : 0x2
+  Core number         : 0x1
+  User nibble 1       : 0xb
+  User nibble 2       : 0x1
+  Content nbl lvl 2   : 0x3
+  Core number         : 0x1
+  User nibble 1       : 0xa
+  User nibble 2       : 0x1
+  Content nbl lvl 2   : 0x4
+  Core number         : 0x1
+  User nibble 1       : 0x9
+  User nibble 2       : 0x1
+  Content nbl lvl 2   : 0x5
+  Core number         : 0x1
+  User nibble 1       : 0x8
+  User nibble 2       : 0x1
+  Content nbl lvl 2   : 0x6
+  Core number         : 0x1
+  User nibble 1       : 0x7
+  User nibble 2       : 0x1
+
+ - Frequency List Descriptor -
+ Tag                 : 0x62
+ Length              : 25 (0x19)
+ rsvrd. future use   : 0x3f
+ Component tag       : 0x2
+  Frequency           : 0x1000
+  Frequency           : 0x2000
+  Frequency           : 0x3000
+  Frequency           : 0x4000
+  Frequency           : 0x5000
+  Frequency           : 0x6000
+
+ - Parental Rating Descriptor -
+ Tag                 : 0x55
+ Length              : 24 (0x18)
+  ISO 639 Code        : "eng"
+  Rating              : 0x1
+  ISO 639 Code        : "fre"
+  Rating              : 0x2
+  ISO 639 Code        : "deu"
+  Rating              : 0x1
+  ISO 639 Code        : "ita"
+  Rating              : 0x2
+  ISO 639 Code        : "gre"
+  Rating              : 0x3
+  ISO 639 Code        : "spa"
+  Rating              : 0x4
+
+ - Short Event Descriptor -
+ Tag                 : 0x4d
+ Length              : 126 (0x7e)
+ ISO 639 Code        : "eng"
+ Event name len      : 10 (0xa)
+ Event name          : "Fight Club"
+ Text len            : 111 (0x6f)
+ Text                : "An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker."
+
+ - Short Smoothing Buffer Descriptor -
+ Tag                 : 0x61
+ Length              : 28 (0x1c)
+ SB size             : 0x1
+ SB leak rate        : 0x4
+ reserved            : "What is a smoothing buffer?"
+
+ - Component Descriptor -
+ Tag                 : 0x50
+ Length              : 25 (0x19)
+ rsvrd. future use   : 0xf
+ Stream content      : 0x2
+ Compositn. pg. id   : 0x4
+ Component type      : 0x5
+ ISO 639 Code        : "eng"
+ Text                : "blah blah blah blah"
+
+ - Data Broadcast Id Descriptor -
+ Tag                 : 0x66
+ Length              : 2 (0x2)
+ Data broadcast id   : 17733 (0x4545)
+
+
+
+-- Section dump - num_sections: 1 --
+
+- sec: 0, length: 370, size (max): 1024, data: 
+[0000] 01 b1 6f ff ff e9 00 00 03 01 af 02 01 49 02 03   ..o..........I..
+[0016] 4d 88 bf 09 12 46 53 f2 34 74 68 69 73 20 69 73   M....FS.4this is
+[0032] 20 61 20 74 65 73 74 04 04 f2 d5 d6 d7 0e 03 e3    a test.........
+[0048] 42 43 0d 0f 88 99 00 11 28 63 29 20 32 30 30 31   BC......(c) 2001
+[0064] 20 65 70 0c 04 6f ff 80 27 0b 02 f7 7f 07 04 00    ep..o..'.......
+[0080] 04 00 21 08 04 00 08 00 13 05 04 43 52 34 12 11   ..!........CR4..
+[0096] 01 0e 10 06 f3 44 55 c4 55 66 12 02 91 11 54 0c   .....DU.Uf....T.
+[0112] 11 c1 21 b1 31 a1 41 91 51 81 61 71 62 19 fe 00   ..!.1.A.Q.aqb...
+[0128] 00 10 00 00 00 20 00 00 00 30 00 00 00 40 00 00   ..... ...0...@..
+[0144] 00 50 00 00 00 60 00 55 18 65 6e 67 01 66 72 65   .P...`.U.eng.fre
+[0160] 02 64 65 75 01 69 74 61 02 67 72 65 03 73 70 61   .deu.ita.gre.spa
+[0176] 04 4d 7e 65 6e 67 0a 46 69 67 68 74 20 43 6c 75   .M~eng.Fight Clu
+[0192] 62 6f 41 6e 20 69 6e 73 6f 6d 6e 69 61 63 20 6f   boAn insomniac o
+[0208] 66 66 69 63 65 20 77 6f 72 6b 65 72 20 6c 6f 6f   ffice worker loo
+[0224] 6b 69 6e 67 20 66 6f 72 20 61 20 77 61 79 20 74   king for a way t
+[0240] 6f 20 63 68 61 6e 67 65 20 68 69 73 20 6c 69 66   o change his lif
+[0256] 65 20 63 72 6f 73 73 65 73 20 70 61 74 68 73 20   e crosses paths 
+[0272] 77 69 74 68 20 61 20 64 65 76 69 6c 2d 6d 61 79   with a devil-may
+[0288] 2d 63 61 72 65 20 73 6f 61 70 20 6d 61 6b 65 72   -care soap maker
+[0304] 2e 61 1c 44 57 68 61 74 20 69 73 20 61 20 73 6d   .a.DWhat is a sm
+[0320] 6f 6f 74 68 69 6e 67 20 62 75 66 66 65 72 3f 50   oothing buffer?P
+[0336] 19 f2 04 05 65 6e 67 62 6c 61 68 20 62 6c 61 68   ....engblah blah
+[0352] 20 62 6c 61 68 20 62 6c 61 68 66 02 45 45 a6 4d    blah blahf.EE.M
+[0368] 85 aa                                             ..
+
+PASS test_cat.sh (exit status: 0)

@@ -137,8 +137,5 @@ int main(int argc, char* argv[])
       return tests::tdt(t);
    }
 
-   // debug
-   DUMP(t);
-
    return 1;
 }

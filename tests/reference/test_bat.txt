@@ -1,0 +1,50 @@
+- - BAT Dump - -
+Table id            : 0x4a
+Section syn. ind.   : 0x1
+rsvrd. future use   : 0x1
+reserved            : 0x3
+Table length        : 38 (0x26)
+Bouquet id          : 0x1000
+reserved            : 0x3
+Version number      : 0x10
+Current next ind.   : 0x1
+rsvrd. future use   : 0xf
+Bouquet desc len    : 14 (0xe)
+
+ - Bouquet name Descriptor -
+ Tag                 : 0x47
+ Length              : 12 (0xc)
+ Data                : "Bouquet Name"
+
+
+rsvrd. future use   : 0xf
+Xprt str loop len   : 15 (0xf)
+
+ - *-- Transport Stream --* -
+ Xport stream id     : 0x64
+ Orig. network id    : 0xc8
+ rsvrd. future use   : 0xf
+ Desc. len           : 0 (0)
+
+ - *-- Transport Stream --* -
+ Xport stream id     : 0x64
+ Orig. network id    : 0xc9
+ rsvrd. future use   : 0xf
+ Desc. len           : 3 (0x3)
+
+  - Stream Identifier Descriptor -
+  Tag                 : 0x52
+  Length              : 1 (0x1)
+  Component type      : 0x2
+
+
+
+
+-- Section dump - num_sections: 1 --
+
+- sec: 0, length: 45, size (max): 1024, data: 
+[0000] 4a f0 2a 10 00 e1 00 00 f0 0e 47 0c 42 6f 75 71   J.*.......G.Bouq
+[0016] 75 65 74 20 4e 61 6d 65 f0 0f 00 64 00 c8 f0 00   uet Name...d....
+[0032] 00 64 00 c9 f0 03 52 01 02 27 ad 17 8f            .d....R..'...
+
+PASS test_bat.sh (exit status: 0)

@@ -15,4 +15,5 @@ namespace tests {
    int tdt(sigen::TStream& t);
 
    int cmp_bin(const sigen::TStream& ts, const std::string& filename);
+   bool write_bin(const sigen::TStream& ts, const std::string& basename);
 }

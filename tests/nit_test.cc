@@ -89,6 +89,9 @@ namespace tests
       DUMP(nit);
       nit.buildSections(t);
 
+      // dump built sections
+      DUMP(t);
+
       return tests::cmp_bin(t, "reference/nit.ts");
    }
 }

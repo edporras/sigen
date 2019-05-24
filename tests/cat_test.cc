@@ -102,6 +102,9 @@ namespace tests
       DUMP(cat);
       cat.buildSections(t);
 
+      // dump built sections
+      DUMP(t);
+
       return tests::cmp_bin(t, "reference/cat.ts");
    }
 }

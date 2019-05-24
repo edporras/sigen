@@ -1,0 +1,247 @@
+- - SDT Dump (Actual) - -
+Table id            : 0x42
+Section syn. ind.   : 0x1
+rsvrd. future use   : 0x1
+reserved            : 0x3
+Table length        : 1097 (0x449)
+Xport stream id     : 0x20
+reserved            : 0x3
+Version number      : 0x5
+Current next ind.   : 0x1
+Orig. network id    : 0x30
+rsvrd. future use   : 0xff
+
+ - -* Service List *- -
+ Service id          : 200 (0xc8)
+ rsvrd. future use   : 0x3f
+ EIT sched. flag     : 0x1
+ EIT p/f             : 0x1
+ Running status      : 0x1
+ Free CA mode        : 0
+ Desc. loop len      : 808 (0x328)
+
+  - Service Descriptor -
+  Tag                 : 0x48
+  Length              : 255 (0xff)
+  Type                : 0xfe
+  Provider name len   : 137 (0x89)
+  Provider name       : "My provider name is XYZ and the point of this is to test if really long strings are truncated correctly so I must add even more data here"
+  Service name len    : 115 (0x73)
+  Service name        : "my service name is ABC and the point of this is to test if really really long strings are really really truncated c"
+
+  - Country Availability Descriptor -
+  Tag                 : 0x49
+  Length              : 16 (0x10)
+  Country code        : 0x1
+  rsvrd. future use   : 0x7f
+   Country prefix      : "eng"
+   Country prefix      : "fra"
+   Country prefix      : "spa"
+   Country prefix      : "ita"
+   Country prefix      : "rus"
+
+  - Stuffing Descriptor -
+  Tag                 : 0x42
+  Length              : 200 (0xc8)
+  Data                : "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+
+  - Stuffing Descriptor -
+  Tag                 : 0x42
+  Length              : 255 (0xff)
+  Data                : "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+
+  - Time Shifted Event Descriptor -
+  Tag                 : 0x4f
+  Length              : 4 (0x4)
+  Ref. service id     : 39321 (0x9999)
+  Ref. event id       : 34952 (0x8888)
+
+  - Local Time Offset Descriptor -
+  Tag                 : 0x58
+  Length              : 26 (0x1a)
+
+   Country prefix      : "eng"
+   Copyright ident     : 0x22
+   reserved            : 0x1
+   Lcl time offset pol : 0x1
+   Local time offset   : 0x1234
+   UTC                 : 0xc800 (1/22/1999), 10:00:00
+   Next time offset    : 0x4321
+
+   Country prefix      : "fre"
+   Copyright ident     : 0x23
+   reserved            : 0x1
+   Lcl time offset pol : 0x1
+   Local time offset   : 0x5678
+   UTC                 : 0xc800 (1/22/1999), 10:00:00
+   Next time offset    : 0x8765
+
+  - Telephone Descriptor -
+  Tag                 : 0x57
+  Length              : 38 (0x26)
+  rsvrd. future use   : 0x3
+  Foreign avail.      : 0x1
+  Constellation       : 0x5
+  rsvrd. future use   : 0x1
+  Country region id   : 3 (0x3)
+  Intnl a/c len       : 7 (0x7)
+  Operator code len   : 3 (0x3)
+  rsvrd. future use   : 0x1
+  Ntnl a/c len        : 7 (0x7)
+  Cntry avail. flag   : 15 (0xf)
+  Country prefix len  : "123"
+  Intnl area code     : "1234567"
+  Operator code       : "123"
+  Ntnl area code      : "1234567"
+  Core number len     : "123456789012345"
+
+
+
+ Service id          : 201 (0xc9)
+ rsvrd. future use   : 0x3f
+ EIT sched. flag     : 0
+ EIT p/f             : 0x1
+ Running status      : 0x1
+ Free CA mode        : 0
+ Desc. loop len      : 271 (0x10f)
+
+  - Multilingual Service Name Descriptor -
+  Tag                 : 0x5d
+  Length              : 231 (0xe7)
+   ISO 639 Code        : "fre"
+   Provider name len   : 14 (0xe)
+   Provider name       : "Radio France 1"
+   Service name len    : 14 (0xe)
+   Service name        : "Some Service 1"
+   ISO 639 Code        : "spa"
+   Provider name len   : 14 (0xe)
+   Provider name       : "Radio France 2"
+   Service name len    : 14 (0xe)
+   Service name        : "Some Service 2"
+   ISO 639 Code        : "eng"
+   Provider name len   : 14 (0xe)
+   Provider name       : "Radio France 3"
+   Service name len    : 14 (0xe)
+   Service name        : "Some Service 3"
+   ISO 639 Code        : "deu"
+   Provider name len   : 14 (0xe)
+   Provider name       : "Radio France 4"
+   Service name len    : 14 (0xe)
+   Service name        : "Some Service 4"
+   ISO 639 Code        : "ita"
+   Provider name len   : 14 (0xe)
+   Provider name       : "Radio France 5"
+   Service name len    : 14 (0xe)
+   Service name        : "Some Service 5"
+   ISO 639 Code        : "rus"
+   Provider name len   : 14 (0xe)
+   Provider name       : "Radio France 6"
+   Service name len    : 14 (0xe)
+   Service name        : "Some Service 6"
+   ISO 639 Code        : "chi"
+   Provider name len   : 14 (0xe)
+   Provider name       : "Radio France 7"
+   Service name len    : 14 (0xe)
+   Service name        : "Some Service 7"
+
+  - NVOD Reference Descriptor -
+  Tag                 : 0x4b
+  Length              : 6 (0x6)
+   Xport stream id     : 0x1
+   Orig. network id    : 0x2
+   Service id          : 3 (0x3)
+
+
+  - Data Broadcast Descriptor -
+  Tag                 : 0x64
+  Length              : 28 (0x1c)
+  Data broadcast id   : 0x3333
+  Component type      : 0x2
+  Selector len        : 4 (0x4)
+  Selector            : "test"
+  Language code       : "eng"
+  Text len            : 16 (0x10)
+  Text                : "this is the text"
+
+
+
+
+
+-- Section dump - num_sections: 2 --
+
+- sec: 0, length: 828, size (max): 1024, data: 
+[0000] 42 f3 39 00 20 cb 00 01 00 30 ff 00 c8 fd 23 28   B.9. ....0....#(
+[0016] 48 ff fe 89 4d 79 20 70 72 6f 76 69 64 65 72 20   H...My provider 
+[0032] 6e 61 6d 65 20 69 73 20 58 59 5a 20 61 6e 64 20   name is XYZ and 
+[0048] 74 68 65 20 70 6f 69 6e 74 20 6f 66 20 74 68 69   the point of thi
+[0064] 73 20 69 73 20 74 6f 20 74 65 73 74 20 69 66 20   s is to test if 
+[0080] 72 65 61 6c 6c 79 20 6c 6f 6e 67 20 73 74 72 69   really long stri
+[0096] 6e 67 73 20 61 72 65 20 74 72 75 6e 63 61 74 65   ngs are truncate
+[0112] 64 20 63 6f 72 72 65 63 74 6c 79 20 73 6f 20 49   d correctly so I
+[0128] 20 6d 75 73 74 20 61 64 64 20 65 76 65 6e 20 6d    must add even m
+[0144] 6f 72 65 20 64 61 74 61 20 68 65 72 65 73 6d 79   ore data heresmy
+[0160] 20 73 65 72 76 69 63 65 20 6e 61 6d 65 20 69 73    service name is
+[0176] 20 41 42 43 20 61 6e 64 20 74 68 65 20 70 6f 69    ABC and the poi
+[0192] 6e 74 20 6f 66 20 74 68 69 73 20 69 73 20 74 6f   nt of this is to
+[0208] 20 74 65 73 74 20 69 66 20 72 65 61 6c 6c 79 20    test if really 
+[0224] 72 65 61 6c 6c 79 20 6c 6f 6e 67 20 73 74 72 69   really long stri
+[0240] 6e 67 73 20 61 72 65 20 72 65 61 6c 6c 79 20 72   ngs are really r
+[0256] 65 61 6c 6c 79 20 74 72 75 6e 63 61 74 65 64 20   eally truncated 
+[0272] 63 49 10 ff 65 6e 67 66 72 61 73 70 61 69 74 61   cI..engfraspaita
+[0288] 72 75 73 42 c8 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   rusB.zzzzzzzzzzz
+[0304] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0320] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0336] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0352] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0368] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0384] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0400] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0416] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0432] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0448] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0464] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
+[0480] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 42 ff 64   zzzzzzzzzzzzzB.d
+[0496] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0512] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0528] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0544] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0560] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0576] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0592] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0608] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0624] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0640] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0656] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0672] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0688] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0704] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0720] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64   dddddddddddddddd
+[0736] 64 64 64 64 64 64 64 64 64 64 64 64 64 64 4f 04   ddddddddddddddO.
+[0752] 99 99 88 88 58 1a 65 6e 67 8b 12 34 c8 00 10 00   ....X.eng..4....
+[0768] 00 43 21 66 72 65 8f 56 78 c8 00 10 00 00 87 65   .C!fre.Vx......e
+[0784] 57 26 e5 ff ff 31 32 33 31 32 33 34 35 36 37 31   W&...12312345671
+[0800] 32 33 31 32 33 34 35 36 37 31 32 33 34 35 36 37   2312345671234567
+[0816] 38 39 30 31 32 33 34 35 e3 c1 03 3d               89012345...=
+
+- sec: 1, length: 291, size (max): 1024, data: 
+[0000] 42 f1 20 00 20 cb 01 01 00 30 ff 00 c9 fd 21 0f   B. . ....0....!.
+[0016] 5d e7 66 72 65 0e 52 61 64 69 6f 20 46 72 61 6e   ].fre.Radio Fran
+[0032] 63 65 20 31 0e 53 6f 6d 65 20 53 65 72 76 69 63   ce 1.Some Servic
+[0048] 65 20 31 73 70 61 0e 52 61 64 69 6f 20 46 72 61   e 1spa.Radio Fra
+[0064] 6e 63 65 20 32 0e 53 6f 6d 65 20 53 65 72 76 69   nce 2.Some Servi
+[0080] 63 65 20 32 65 6e 67 0e 52 61 64 69 6f 20 46 72   ce 2eng.Radio Fr
+[0096] 61 6e 63 65 20 33 0e 53 6f 6d 65 20 53 65 72 76   ance 3.Some Serv
+[0112] 69 63 65 20 33 64 65 75 0e 52 61 64 69 6f 20 46   ice 3deu.Radio F
+[0128] 72 61 6e 63 65 20 34 0e 53 6f 6d 65 20 53 65 72   rance 4.Some Ser
+[0144] 76 69 63 65 20 34 69 74 61 0e 52 61 64 69 6f 20   vice 4ita.Radio 
+[0160] 46 72 61 6e 63 65 20 35 0e 53 6f 6d 65 20 53 65   France 5.Some Se
+[0176] 72 76 69 63 65 20 35 72 75 73 0e 52 61 64 69 6f   rvice 5rus.Radio
+[0192] 20 46 72 61 6e 63 65 20 36 0e 53 6f 6d 65 20 53    France 6.Some S
+[0208] 65 72 76 69 63 65 20 36 63 68 69 0e 52 61 64 69   ervice 6chi.Radi
+[0224] 6f 20 46 72 61 6e 63 65 20 37 0e 53 6f 6d 65 20   o France 7.Some 
+[0240] 53 65 72 76 69 63 65 20 37 4b 06 00 01 00 02 00   Service 7K......
+[0256] 03 64 1c 33 33 02 04 74 65 73 74 65 6e 67 10 74   .d.33..testeng.t
+[0272] 68 69 73 20 69 73 20 74 68 65 20 74 65 78 74 ff   his is the text.
+[0288] ca ed 9e                                          ...
+
+PASS test_sdt.sh (exit status: 0)

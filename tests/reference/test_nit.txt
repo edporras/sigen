@@ -1,0 +1,390 @@
+- - NIT Dump (Actual) - -
+Table id            : 0x40
+Section syn. ind.   : 0x1
+rsvrd. future use   : 0x1
+reserved            : 0x3
+Table length        : 698 (0x2ba)
+Network id          : 256 (0x100)
+reserved            : 0x3
+Version number      : 0x1
+Current next ind.   : 0x1
+rsvrd. future use   : 0xf
+Network desc. len   : 311 (0x137)
+
+ - Network Name Descriptor -
+ Tag                 : 0x40
+ Length              : 10 (0xa)
+ Network name        : "my network"
+
+ - Network Name Descriptor -
+ Tag                 : 0x40
+ Length              : 255 (0xff)
+ Network name        : "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+
+ - Stuffing Descriptor -
+ Tag                 : 0x42
+ Length              : 13 (0xd)
+ Data                : "zzzzzzzzzzzzz"
+
+ - Multilingual Network Name Descriptor -
+ Tag                 : 0x5b
+ Length              : 21 (0x15)
+  ISO 639 Code        : "fre"
+  Name length         : 6 (0x6)
+  Network name        : "France"
+  ISO 639 Code        : "spa"
+  Name length         : 7 (0x7)
+  Network name        : "Francia"
+
+ - Time Shifted Service Descriptor -
+ Tag                 : 0x4c
+ Length              : 2 (0x2)
+ Ref. service id     : 16384 (0x4000)
+
+
+rsvrd. future use   : 0xf
+Xprt str loop len   : 378 (0x17a)
+
+ - *-- Transport Stream --* -
+ Xport stream id     : 0x20
+ Orig. network id    : 48 (0x30)
+ rsvrd. future use   : 0xf
+ Desc. len           : 178 (0xb2)
+
+  - Cable Delivery System Descriptor -
+  Tag                 : 0x44
+  Length              : 11 (0xb)
+  Frequency           : 0x3e8
+  rsvrd. future use   : 0xfff
+  FEC outer           : 0x1
+  Modulation          : 0x8
+  Symbol rate         : 0x7d0
+  FEC inner           : 0x2
+
+  - Terrestrial Delivery System Descriptor -
+  Tag                 : 0x5a
+  Length              : 11 (0xb)
+  Frequency           : 0x1111
+  Bandwidth           : 0x4
+  rsvrd. future use   : 0x1f
+  Cnstr. param. flag  : 0x3
+  Hierarchy info      : 0x1
+  Code rate LP stream : 0x7
+  Coding type         : 0x3
+  Guard interval      : 0x3
+  Transmission mode   : 0x2
+  Other freq flag     : 0
+  reserved            : 0xffffffff
+
+  - Service List Descriptor -
+  Tag                 : 0x41
+  Length              : 150 (0x96)
+   Service id          : 100 (0x64)
+   Type                : 0x1
+   Service id          : 101 (0x65)
+   Type                : 0x1
+   Service id          : 102 (0x66)
+   Type                : 0x1
+   Service id          : 103 (0x67)
+   Type                : 0x1
+   Service id          : 104 (0x68)
+   Type                : 0x1
+   Service id          : 105 (0x69)
+   Type                : 0x1
+   Service id          : 106 (0x6a)
+   Type                : 0x1
+   Service id          : 107 (0x6b)
+   Type                : 0x1
+   Service id          : 108 (0x6c)
+   Type                : 0x1
+   Service id          : 109 (0x6d)
+   Type                : 0x1
+   Service id          : 110 (0x6e)
+   Type                : 0x1
+   Service id          : 111 (0x6f)
+   Type                : 0x1
+   Service id          : 112 (0x70)
+   Type                : 0x1
+   Service id          : 113 (0x71)
+   Type                : 0x1
+   Service id          : 114 (0x72)
+   Type                : 0x1
+   Service id          : 115 (0x73)
+   Type                : 0x1
+   Service id          : 116 (0x74)
+   Type                : 0x1
+   Service id          : 117 (0x75)
+   Type                : 0x1
+   Service id          : 118 (0x76)
+   Type                : 0x1
+   Service id          : 119 (0x77)
+   Type                : 0x1
+   Service id          : 120 (0x78)
+   Type                : 0x1
+   Service id          : 121 (0x79)
+   Type                : 0x1
+   Service id          : 122 (0x7a)
+   Type                : 0x1
+   Service id          : 123 (0x7b)
+   Type                : 0x1
+   Service id          : 124 (0x7c)
+   Type                : 0x1
+   Service id          : 125 (0x7d)
+   Type                : 0x1
+   Service id          : 126 (0x7e)
+   Type                : 0x1
+   Service id          : 127 (0x7f)
+   Type                : 0x1
+   Service id          : 128 (0x80)
+   Type                : 0x1
+   Service id          : 129 (0x81)
+   Type                : 0x1
+   Service id          : 130 (0x82)
+   Type                : 0x1
+   Service id          : 131 (0x83)
+   Type                : 0x1
+   Service id          : 132 (0x84)
+   Type                : 0x1
+   Service id          : 133 (0x85)
+   Type                : 0x1
+   Service id          : 134 (0x86)
+   Type                : 0x1
+   Service id          : 135 (0x87)
+   Type                : 0x1
+   Service id          : 136 (0x88)
+   Type                : 0x1
+   Service id          : 137 (0x89)
+   Type                : 0x1
+   Service id          : 138 (0x8a)
+   Type                : 0x1
+   Service id          : 139 (0x8b)
+   Type                : 0x1
+   Service id          : 140 (0x8c)
+   Type                : 0x1
+   Service id          : 141 (0x8d)
+   Type                : 0x1
+   Service id          : 142 (0x8e)
+   Type                : 0x1
+   Service id          : 143 (0x8f)
+   Type                : 0x1
+   Service id          : 144 (0x90)
+   Type                : 0x1
+   Service id          : 145 (0x91)
+   Type                : 0x1
+   Service id          : 146 (0x92)
+   Type                : 0x1
+   Service id          : 147 (0x93)
+   Type                : 0x1
+   Service id          : 148 (0x94)
+   Type                : 0x1
+   Service id          : 149 (0x95)
+   Type                : 0x1
+
+
+ - *-- Transport Stream --* -
+ Xport stream id     : 0x21
+ Orig. network id    : 49 (0x31)
+ rsvrd. future use   : 0xf
+ Desc. len           : 188 (0xbc)
+
+  - Satellite Delivery System Descriptor -
+  Tag                 : 0x43
+  Length              : 11 (0xb)
+  Frequency           : 0x3e8
+  Orbital position    : 0x7d0
+  West/east flag      : 0x1
+  Polarisation        : 0x2
+  Modulation          : 0
+  Symbol rate         : 0x1
+  FEC inner           : 0
+
+  - Stream Identifier Descriptor -
+  Tag                 : 0x52
+  Length              : 1 (0x1)
+  Component type      : 0x88
+
+  - Service List Descriptor -
+  Tag                 : 0x41
+  Length              : 150 (0x96)
+   Service id          : 200 (0xc8)
+   Type                : 0x2
+   Service id          : 201 (0xc9)
+   Type                : 0x2
+   Service id          : 202 (0xca)
+   Type                : 0x2
+   Service id          : 203 (0xcb)
+   Type                : 0x2
+   Service id          : 204 (0xcc)
+   Type                : 0x2
+   Service id          : 205 (0xcd)
+   Type                : 0x2
+   Service id          : 206 (0xce)
+   Type                : 0x2
+   Service id          : 207 (0xcf)
+   Type                : 0x2
+   Service id          : 208 (0xd0)
+   Type                : 0x2
+   Service id          : 209 (0xd1)
+   Type                : 0x2
+   Service id          : 210 (0xd2)
+   Type                : 0x2
+   Service id          : 211 (0xd3)
+   Type                : 0x2
+   Service id          : 212 (0xd4)
+   Type                : 0x2
+   Service id          : 213 (0xd5)
+   Type                : 0x2
+   Service id          : 214 (0xd6)
+   Type                : 0x2
+   Service id          : 215 (0xd7)
+   Type                : 0x2
+   Service id          : 216 (0xd8)
+   Type                : 0x2
+   Service id          : 217 (0xd9)
+   Type                : 0x2
+   Service id          : 218 (0xda)
+   Type                : 0x2
+   Service id          : 219 (0xdb)
+   Type                : 0x2
+   Service id          : 220 (0xdc)
+   Type                : 0x2
+   Service id          : 221 (0xdd)
+   Type                : 0x2
+   Service id          : 222 (0xde)
+   Type                : 0x2
+   Service id          : 223 (0xdf)
+   Type                : 0x2
+   Service id          : 224 (0xe0)
+   Type                : 0x2
+   Service id          : 225 (0xe1)
+   Type                : 0x2
+   Service id          : 226 (0xe2)
+   Type                : 0x2
+   Service id          : 227 (0xe3)
+   Type                : 0x2
+   Service id          : 228 (0xe4)
+   Type                : 0x2
+   Service id          : 229 (0xe5)
+   Type                : 0x2
+   Service id          : 230 (0xe6)
+   Type                : 0x2
+   Service id          : 231 (0xe7)
+   Type                : 0x2
+   Service id          : 232 (0xe8)
+   Type                : 0x2
+   Service id          : 233 (0xe9)
+   Type                : 0x2
+   Service id          : 234 (0xea)
+   Type                : 0x2
+   Service id          : 235 (0xeb)
+   Type                : 0x2
+   Service id          : 236 (0xec)
+   Type                : 0x2
+   Service id          : 237 (0xed)
+   Type                : 0x2
+   Service id          : 238 (0xee)
+   Type                : 0x2
+   Service id          : 239 (0xef)
+   Type                : 0x2
+   Service id          : 240 (0xf0)
+   Type                : 0x2
+   Service id          : 241 (0xf1)
+   Type                : 0x2
+   Service id          : 242 (0xf2)
+   Type                : 0x2
+   Service id          : 243 (0xf3)
+   Type                : 0x2
+   Service id          : 244 (0xf4)
+   Type                : 0x2
+   Service id          : 245 (0xf5)
+   Type                : 0x2
+   Service id          : 246 (0xf6)
+   Type                : 0x2
+   Service id          : 247 (0xf7)
+   Type                : 0x2
+   Service id          : 248 (0xf8)
+   Type                : 0x2
+   Service id          : 249 (0xf9)
+   Type                : 0x2
+
+  - Announcement Support Descriptor -
+  Tag                 : 0x6e
+  Length              : 18 (0x12)
+  Announc. sup. ind.  : 0x21
+   Announcement type   : 0
+   rsvrd. future use   : 0x1
+   Ref. type           : 0
+   Orig. network id    : 0x1000
+   Xport stream id     : 0x1200
+   Service id          : 1024 (0x400)
+   Component type      : 0x3
+
+   Announcement type   : 0x5
+   rsvrd. future use   : 0x1
+   Ref. type           : 0x2
+   Orig. network id    : 0x1100
+   Xport stream id     : 0x1300
+   Service id          : 1026 (0x402)
+   Component type      : 0x3
+
+
+
+
+
+-- Section dump - num_sections: 3 --
+
+- sec: 0, length: 300, size (max): 300, data: 
+[0000] 40 f1 29 01 00 c3 00 02 f1 1c 40 0a 6d 79 20 6e   @.).......@.my n
+[0016] 65 74 77 6f 72 6b 40 ff 63 63 63 63 63 63 63 63   etwork@.cccccccc
+[0032] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0048] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0064] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0080] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0096] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0112] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0128] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0144] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0160] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0176] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0192] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0208] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0224] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0240] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0256] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
+[0272] 63 63 63 63 63 63 63 42 0d 7a 7a 7a 7a 7a 7a 7a   cccccccB.zzzzzzz
+[0288] 7a 7a 7a 7a 7a 7a f0 00 f4 74 85 95               zzzzzz...t..
+
+- sec: 1, length: 249, size (max): 300, data: 
+[0000] 40 f0 f6 01 00 c3 01 02 f0 1b 5b 15 66 72 65 06   @.........[.fre.
+[0016] 46 72 61 6e 63 65 73 70 61 07 46 72 61 6e 63 69   Francespa.Franci
+[0032] 61 4c 02 40 00 f0 ce 00 20 00 30 f0 b2 44 0b 00   aL.@.... .0..D..
+[0048] 00 03 e8 ff f1 08 00 00 7d 02 5a 0b 00 00 11 11   ........}.Z.....
+[0064] 9f cf 7c ff ff ff ff 41 96 00 64 01 00 65 01 00   ..|....A..d..e..
+[0080] 66 01 00 67 01 00 68 01 00 69 01 00 6a 01 00 6b   f..g..h..i..j..k
+[0096] 01 00 6c 01 00 6d 01 00 6e 01 00 6f 01 00 70 01   ..l..m..n..o..p.
+[0112] 00 71 01 00 72 01 00 73 01 00 74 01 00 75 01 00   .q..r..s..t..u..
+[0128] 76 01 00 77 01 00 78 01 00 79 01 00 7a 01 00 7b   v..w..x..y..z..{
+[0144] 01 00 7c 01 00 7d 01 00 7e 01 00 7f 01 00 80 01   ..|..}..~.......
+[0160] 00 81 01 00 82 01 00 83 01 00 84 01 00 85 01 00   ................
+[0176] 86 01 00 87 01 00 88 01 00 89 01 00 8a 01 00 8b   ................
+[0192] 01 00 8c 01 00 8d 01 00 8e 01 00 8f 01 00 90 01   ................
+[0208] 00 91 01 00 92 01 00 93 01 00 94 01 00 95 01 00   ................
+[0224] 21 00 31 f0 10 43 0b 00 00 03 e8 07 d0 c0 00 00   !.1..C..........
+[0240] 00 10 52 01 88 d6 98 3a 05                        ..R....:.
+
+- sec: 2, length: 194, size (max): 300, data: 
+[0000] 40 f0 bf 01 00 c3 02 02 f0 00 f0 b2 00 21 00 31   @............!.1
+[0016] f0 ac 41 96 00 c8 02 00 c9 02 00 ca 02 00 cb 02   ..A.............
+[0032] 00 cc 02 00 cd 02 00 ce 02 00 cf 02 00 d0 02 00   ................
+[0048] d1 02 00 d2 02 00 d3 02 00 d4 02 00 d5 02 00 d6   ................
+[0064] 02 00 d7 02 00 d8 02 00 d9 02 00 da 02 00 db 02   ................
+[0080] 00 dc 02 00 dd 02 00 de 02 00 df 02 00 e0 02 00   ................
+[0096] e1 02 00 e2 02 00 e3 02 00 e4 02 00 e5 02 00 e6   ................
+[0112] 02 00 e7 02 00 e8 02 00 e9 02 00 ea 02 00 eb 02   ................
+[0128] 00 ec 02 00 ed 02 00 ee 02 00 ef 02 00 f0 02 00   ................
+[0144] f1 02 00 f2 02 00 f3 02 00 f4 02 00 f5 02 00 f6   ................
+[0160] 02 00 f7 02 00 f8 02 00 f9 02 6e 12 00 21 08 10   ..........n..!..
+[0176] 00 12 00 04 00 03 5a 11 00 13 00 04 02 03 6d e8   ......Z.......m.
+[0192] c9 e2                                             ..
+
+PASS test_nit.sh (exit status: 0)

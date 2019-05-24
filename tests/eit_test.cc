@@ -35,6 +35,9 @@ namespace tests
       DUMP(eit_o);
       eit_o.buildSections(t);
 
+      // dump built sections
+      DUMP(t);
+
       return tests::cmp_bin(t, "reference/eit.ts");
    }
 }
