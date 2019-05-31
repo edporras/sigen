@@ -70,7 +70,7 @@ namespace sigen
          return false;
 
       // grab the stream at the back (if there's one)
-      if (es_list.size() > 0)
+      if (!es_list.empty())
          return addElemStreamDesc( *(es_list.back()), d, d_len );
       return false;
    }

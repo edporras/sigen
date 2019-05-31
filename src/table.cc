@@ -78,7 +78,7 @@ namespace sigen
    void STable::dumpDescLoop(const std::list<std::unique_ptr<Descriptor> > &desc_list,
                              std::ostream &o)
    {
-      if (desc_list.size() > 0)
+      if (!desc_list.empty())
       {
          incOutLevel();
 

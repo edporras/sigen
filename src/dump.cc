@@ -356,7 +356,7 @@ namespace sigen
 
       // display the data in byte mode
       for (i = 0; i < length; i++)
-         o << std::setw(2) << (ui16) data[i] << " ";
+         o << std::setw(2) << static_cast<ui16>(data[i]) << " ";
 
       // fill any empty spaces (if length < LINE_WIDTH)
       for (; i < LINE_WIDTH; i++)
@@ -430,9 +430,8 @@ namespace sigen
       std::stringstream sout;
 
       sout << std::setfill('0');
-      for (ui32 i = 0; i < v.size(); i++)
-      {
-         sout << std::setw(2) << std::hex << (ui16) v[i];
+      for (ui16 byte : v) {
+         sout << std::setw(2) << std::hex << byte;
       }
       sout << std::endl;
 
@@ -520,17 +519,16 @@ namespace sigen
 
    void identStr(std::ostream &o, STRID s, const std::vector<ui8> &data, bool cr)
    {
-      if (data.size() > 0)
+      if (!data.empty())
       {
          std::stringstream data_str;
 
          data_str.unsetf(std::ios::showbase);
          data_str.setf(std::ios::right);
-         data_str << std::setfill('0');
 
-         for (ui32 i = 0; i < data.size(); i++)
-         {
-            data_str << std::setw(2) << std::hex << (ui16) data[i];
+         data_str << std::setfill('0');
+         for (ui16 byte : data) {
+            data_str << std::setw(2) << std::hex << byte;
          }
 
          identStr(o, outstr[s], data_str.str(), cr, false);

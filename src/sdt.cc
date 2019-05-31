@@ -77,7 +77,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      if (service_list.size() > 0)
+      if (!service_list.empty())
          return addServiceDesc(*service_list.back(), d, d_len);
       return false;
    }

@@ -189,7 +189,7 @@ namespace sigen
    {
       // if any have been added, try to add teh subcell to the one in the
       // end
-      if (cflink_list.size() > 0)
+      if (!cflink_list.empty())
          return addLinkSubCell( cflink_list.back(), cid_ext, xposer_freq );
 
       return false;
@@ -289,7 +289,7 @@ namespace sigen
    bool CellListDesc::addCellSubCell(ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
                                      ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
-      if (cell_list.size() == 0)
+      if (cell_list.empty())
          return false;
 
       return addCellSubCell( cell_list.back(), cid_ext, sc_lat, sc_lon,

@@ -90,7 +90,7 @@ namespace sigen
          return false;
 
       // get the tail of the list, and add it to it
-      if (e_list.size() > 0)
+      if (!e_list.empty())
          return addEventDesc( *e_list.back(), d, d_len );
       return false;
    }

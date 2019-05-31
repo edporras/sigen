@@ -96,7 +96,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      if (xport_streams.size() > 0)
+      if (!xport_streams.empty())
          return addXportStreamDesc( *xport_streams.back(), d, d_len );
       return false;
    }

@@ -181,13 +181,12 @@ namespace sigen
 
    //
    // writes a string of data
-   bool Section::setBits(const std::string &data) {
-      int len = data.length();
+   bool Section::setBits(const std::string &data)
+   {
+      assert( lengthFits(data.length()) );
 
-      assert( lengthFits(len) );
-
-      for (int i = 0; i < len; i++)
-         set08Bits(data[i]);
+      for (auto c : data)
+         set08Bits(c);
 
       // don't add length as it is done by set08Bits()
       return true;
@@ -202,13 +201,12 @@ namespace sigen
 
    //
    // writes a sequency of bytes in vector form
-   bool Section::setBits(const std::vector<ui8> &data) {
-      int len = data.size();
+   bool Section::setBits(const std::vector<ui8> &data)
+   {
+      assert( lengthFits(data.size()) );
 
-      assert( lengthFits(len) );
-
-      for (int i = 0; i < len; i++)
-         set08Bits(data[i]);
+      for (ui8 byte : data)
+         set08Bits(byte);
 
       // don't add length as it is done by set08Bits()
       return true;
