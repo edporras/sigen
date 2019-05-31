@@ -89,8 +89,7 @@ namespace sigen
    bool SDT::addServiceDesc(Service& serv, Descriptor &d, ui16 d_len)
    {
       // take ownership and store it
-      serv.addDesc(d);
-      serv.desc_length += d_len;
+      serv.addDesc(d, d_len);
       return true;
    }
 
@@ -142,9 +141,9 @@ namespace sigen
               {
                  serv = (*s_iter++).get();
 
-                 if (serv->desc_list.size() > 0)
+                 if (!serv->desc_list().empty())
                  {
-                    const Descriptor *d = serv->desc_list.front().get();
+                    const Descriptor *d = serv->desc_list().front().get();
 
                     // check if we can fit it with at least one descriptor
                     if (sec_bytes + Service::BASE_LEN + d->length() >
@@ -210,12 +209,12 @@ namespace sigen
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *d = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = service.desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = service.desc_list().begin();
 
       // set the descriptor list iterator to this service's
       // descriptor list
       if (!d)
-         d_iter = service.desc_list.begin();
+         d_iter = service.desc_list().begin();
 
       done = exit = false;
 
@@ -242,7 +241,7 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (d_iter != service.desc_list.end())
+              if (d_iter != service.desc_list().end())
               {
                  d = (*d_iter++).get();
 
@@ -324,7 +323,7 @@ namespace sigen
          o << std::endl;
 
          // display the descriptors
-         dumpDescLoop(service.desc_list, o);
+         dumpDescLoop(service.desc_list(), o);
 
          o << std::endl;
       }
@@ -349,7 +348,7 @@ namespace sigen
       s.set16Bits( (running_status << 13) | (free_ca_mode << 12) |
                    (desc_loop_length() & 0x0fff) );
 
-      for (const std::unique_ptr<Descriptor>& dp : desc_list)
+      for (const std::unique_ptr<Descriptor>& dp : desc_list())
          (*dp).buildSections(s);
    }
 

@@ -81,13 +81,15 @@ namespace sigen {
 
    public:
       // should probably replace all desc_lists with one of these
-      struct DescListItem
+      class DescListItem
       {
-         ui16 desc_length = 0;
-         std::list<std::unique_ptr<Descriptor> > desc_list;
+         ui16 d_length = 0;
+         std::list<std::unique_ptr<Descriptor> > d_list;
 
-         void addDesc(Descriptor& d);
-         ui16 desc_loop_length() const { return desc_length; }
+      public:
+         void addDesc(Descriptor& d, ui16 data_len);
+         const std::list<std::unique_ptr<Descriptor> >& desc_list() const { return d_list; }
+         ui16 desc_loop_length() const { return d_length; }
       };
 
       virtual ~STable() {}

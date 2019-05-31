@@ -108,9 +108,8 @@ namespace sigen
    //
    bool NIT::addXportStreamDesc(XportStream& xs, Descriptor& d, ui16 d_len)
    {
-      xs.addDesc(d);
+      xs.addDesc(d, d_len);
       xport_stream_loop_length += d_len;
-      xs.desc_length += d_len;
       return true;
    }
 
@@ -254,9 +253,9 @@ namespace sigen
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
-                 if (ts->desc_list.size() > 0)
+                 if (!ts->desc_list().empty())
                  {
-                    const Descriptor *d = (*ts->desc_list.begin()).get();
+                    const Descriptor *d = (*ts->desc_list().begin()).get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + XportStream::BASE_LEN + d->length()) >
@@ -329,13 +328,13 @@ namespace sigen
       ui16 d_len, ts_desc_len = 0;
       bool exit, done;
       static const Descriptor *tsd = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = ts.desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = ts.desc_list().begin();
 
       exit = done = false;
 
       // set the descriptor iterator
       if (!tsd)
-         tsd_iter = ts.desc_list.begin();
+         tsd_iter = ts.desc_list().begin();
 
       while (!exit)
       {
@@ -359,7 +358,7 @@ namespace sigen
 
            case GET_DESC:
               // if we have descriptors available..
-              if (tsd_iter != ts.desc_list.end())
+              if (tsd_iter != ts.desc_list().end())
               {
                  // ... fetch the next one
                  tsd = (*tsd_iter++).get();
@@ -458,7 +457,7 @@ namespace sigen
          o << std::endl;
 
          // dump the descriptors (inherited method)
-         dumpDescLoop( ts.desc_list, o );
+         dumpDescLoop( ts.desc_list(), o );
       }
       decOutLevel();
    }

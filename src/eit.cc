@@ -104,8 +104,7 @@ namespace sigen
    {
       // we don't check if it can fit here since it should have
       // been done before we were called (protected function)
-      event.addDesc(d);
-      event.desc_length += d_len;
+      event.addDesc(d, d_len);
       return true;
    }
 
@@ -152,7 +151,7 @@ namespace sigen
          o << std::endl;
 
          // display the descriptors
-         dumpDescLoop( event.desc_list, o );
+         dumpDescLoop( event.desc_list(), o );
 
          o << std::endl;
       }
@@ -227,9 +226,9 @@ namespace sigen
               {
                  event = (*ev_iter++).get();
 
-                 if (event->desc_list.size() > 0)
+                 if (!event->desc_list().empty())
                  {
-                    const Descriptor *d = event->desc_list.front().get();
+                    const Descriptor *d = event->desc_list().front().get();
 
                     // check if we can fit it with at least one descriptor
                     if (sec_bytes + Event::BASE_LEN + d->length() >
@@ -300,7 +299,7 @@ namespace sigen
       // set the descriptor list iterator to this event's
       // descriptor list
       if (!d)
-         d_iter = event.desc_list.begin();
+         d_iter = event.desc_list().begin();
 
       done = exit = false;
 
@@ -335,7 +334,7 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (d_iter != event.desc_list.end())
+              if (d_iter != event.desc_list().end())
               {
                  d = (*d_iter++).get();
 
@@ -463,7 +462,7 @@ namespace sigen
                    desc_loop_length() );
 
       // descriptor loop
-      for (const std::unique_ptr<Descriptor>& dp : desc_list)
+      for (const std::unique_ptr<Descriptor>& dp : desc_list())
          (*dp).buildSections(s);
    }
 

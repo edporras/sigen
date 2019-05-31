@@ -81,7 +81,7 @@ namespace sigen
    bool PMT::addElemStreamDesc(ElementaryStream& stream, Descriptor &d, ui16 d_len)
    {
       // take ownership and store it
-      stream.addDesc(d);
+      stream.addDesc(d, 0); // PMT output does not carry a loop length
       stream.es_info_length += d_len;
       return true;
    }
@@ -206,9 +206,9 @@ namespace sigen
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
-                 if (ts->desc_list.size() > 0)
+                 if (!ts->desc_list().empty())
                  {
-                    const Descriptor *d = (*ts->desc_list.begin()).get();
+                    const Descriptor *d = (*ts->desc_list().begin()).get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + PMT::ElementaryStream::BASE_LEN + d->length()) >
@@ -276,13 +276,13 @@ namespace sigen
       ui16 d_len, ts_desc_len = 0;
       bool exit, done;
       static const Descriptor *tsd = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = stream.desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = stream.desc_list().begin();
 
       exit = done = false;
 
       // set the descriptor iterator
       if (!tsd)
-         tsd_iter = stream.desc_list.begin();
+         tsd_iter = stream.desc_list().begin();
 
       while (!exit)
       {
@@ -305,7 +305,7 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (tsd_iter != stream.desc_list.end())
+              if (tsd_iter != stream.desc_list().end())
               {
                  tsd = (*tsd_iter++).get();
 
@@ -383,7 +383,7 @@ namespace sigen
          o << std::endl;
 
          // output the descriptors
-         dumpDescLoop( stream.desc_list, o );
+         dumpDescLoop( stream.desc_list(), o );
       }
       decOutLevel();
       o << std::endl;

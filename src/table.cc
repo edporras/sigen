@@ -33,12 +33,13 @@ namespace sigen
    // abstract STable class
    //
 
-   void STable::DescListItem::addDesc(Descriptor& d)
+   void STable::DescListItem::addDesc(Descriptor& d, ui16 d_len)
    {
       // claim ownership of the pointer
       std::unique_ptr<Descriptor> dp;
       dp.reset(&d);
-      desc_list.push_back( std::move(dp) );
+      d_list.push_back( std::move(dp) );
+      d_length += d_len;
    }
 
    //
