@@ -44,16 +44,12 @@ namespace sigen {
       { }
       PAT() = delete;
 
-      // utility
       bool addProgram(ui16 sid, ui16 pid);
-      bool addNetworkPid(ui16 pid) { return addProgram(0, pid); }
+      bool addNetworkPid(ui16 pid) { return addProgram(0, pid); } // network pids are on sid 0
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
 #endif
-
-   protected:
-      virtual bool writeSection(Section&, ui8, ui16 &) const;
 
    private:
       enum { D_BIT = 0,
@@ -64,8 +60,8 @@ namespace sigen {
       struct Program {
          enum { BASE_LEN = 4 };
 
-         ui16 number,
-            pid : 13;
+         ui16 number;
+         ui16 pid : 13;
 
          // constructor
          Program(ui16 n, ui16 p) : number(n), pid(p) {}
@@ -73,5 +69,8 @@ namespace sigen {
 
       // the list of program / pids
       std::list<std::unique_ptr<Program> > program_list;
+
+   protected:
+      virtual bool writeSection(Section&, ui8, ui16 &) const;
    };
 } // sigen namespace

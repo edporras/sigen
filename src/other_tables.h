@@ -60,10 +60,10 @@ namespace sigen {
       struct XportStream {
          enum { BASE_LEN = 9 };
 
-         ui16 id,
-            original_network_id,
-            service_id,
-            event_id;
+         ui16 id;
+         ui16 original_network_id;
+         ui16 service_id;
+         ui16 event_id;
          ui8 running_status : 3;
 
          // constructor

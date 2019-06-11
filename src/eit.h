@@ -84,8 +84,8 @@ namespace sigen {
       };
 
       // common EIT data members begin here
-      ui16 xport_stream_id,
-         original_network_id;
+      ui16 xport_stream_id;
+      ui16 original_network_id;
 
       // event/descriptor add routines
       bool addEvent(std::list<std::unique_ptr<Event> > &, ui16, UTC, BCDTime, ui8,

@@ -58,8 +58,8 @@ namespace sigen {
       {
          enum { BASE_LEN = 6 };
 
-         ui16 id,                    // transport stream id
-            original_network_id;
+         ui16 id;                  // transport stream id
+         ui16 original_network_id;
          DescList descriptors;
 
          // constructor
@@ -71,7 +71,6 @@ namespace sigen {
 
       // NIT members
       ui16 xport_stream_loop_length;
-
       DescList network_desc;
       std::list<std::unique_ptr<XportStream> > xport_streams;
 

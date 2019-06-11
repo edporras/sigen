@@ -90,8 +90,8 @@ namespace sigen {
       struct ElementaryStream {
          enum { BASE_LEN = 5 };
 
-         ui16 es_info_length,
-            elementary_pid : 13;
+         ui16 es_info_length;
+         ui16 elementary_pid : 13;
          ui8 type;
          DescList descriptors;
 
@@ -102,8 +102,8 @@ namespace sigen {
       };
 
       // instance variables
-      ui16 program_info_length,
-         pcr_pid : 13;
+      ui16 program_info_length;
+      ui16 pcr_pid : 13;
       DescList prog_desc;
       std::list<std::unique_ptr<ElementaryStream> > es_list; // the list of streams
 

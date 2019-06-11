@@ -35,17 +35,6 @@ namespace sigen {
    //
    class Descriptor : public Table
    {
-   private:
-      ui8 tag;
-      ui16 total_length; // 8-bit field but stored wider for computations
-
-   protected:
-      enum { BASE_LEN = 2, MAX_LEN = 255, CAPACITY = MAX_LEN + BASE_LEN };
-
-      // protected constructor for derived classes
-      Descriptor(ui8 t, ui8 l) :
-         tag(t), total_length(l + BASE_LEN) { }
-
    public:
       Descriptor(const Descriptor&) = delete;
       Descriptor(const Descriptor&&) = delete;
@@ -59,7 +48,17 @@ namespace sigen {
       // utility methods
       virtual void buildSections(Section &) const;
 
+   private:
+      ui8 tag;
+      ui16 total_length; // 8-bit field but stored wider for computations
+
    protected:
+      enum { BASE_LEN = 2, MAX_LEN = 255, CAPACITY = MAX_LEN + BASE_LEN };
+
+      // protected constructor for derived classes
+      Descriptor(ui8 t, ui8 l) :
+         tag(t), total_length(l + BASE_LEN) { }
+
       // methods to be used by the derived descriptor classes
 #ifdef ENABLE_DUMP
       virtual void dumpHeader(std::ostream &, STRID tag) const;
@@ -82,14 +81,9 @@ namespace sigen {
    template <class T>
    class PrimitiveDatatypeDesc : public Descriptor
    {
-   private:
-      // the data stored - depending on the derived class, it'll
-      // instantiate this to be a ui32, ui16, etc
-      T data;
-
+   protected:
       enum { BASE_LEN = sizeof(T) };
 
-   protected:
       // constructor
       PrimitiveDatatypeDesc(ui8 tag, const T &d) :
          Descriptor(tag, BASE_LEN),
@@ -110,6 +104,11 @@ namespace sigen {
          identStr( o, data_type, data, dechex );
       }
 #endif
+
+   private:
+      // the data stored - depending on the derived class, it'll
+      // instantiate this to be a ui32, ui16, etc
+      T data;
    };
 
 
@@ -119,10 +118,6 @@ namespace sigen {
    //
    class StringDataDesc : public Descriptor
    {
-   private:
-      enum { BASE_LEN = 0 };
-      std::string data;
-
    protected:
       // constructor
       StringDataDesc(ui8 tag, const std::string &str) :
@@ -142,6 +137,10 @@ namespace sigen {
          identStr(o, data_type, data );
       }
 #endif
+
+   private:
+      enum { BASE_LEN = 0 };
+      std::string data;
    };
 
 

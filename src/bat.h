@@ -67,8 +67,8 @@ namespace sigen {
       {
          enum { BASE_LEN = 6 };
 
-         ui16 id,                    // transport stream id
-            original_network_id;
+         ui16 id;                  // transport stream id
+         ui16 original_network_id;
          DescList descriptors;
 
          // constructor

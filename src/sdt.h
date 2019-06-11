@@ -58,10 +58,10 @@ namespace sigen {
 
          ui16 id;
          ui8 running_status : 3;
-         bool eit_schedule,
-            eit_present_following,
-            free_ca_mode,
-            reserved;
+         bool eit_schedule;
+         bool eit_present_following;
+         bool free_ca_mode;
+         bool reserved;
          DescList descriptors;
 
          // constructor
