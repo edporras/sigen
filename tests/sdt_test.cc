@@ -8,7 +8,7 @@ namespace tests
    int sdt(TStream& t)
    {
       // SDT
-      SDT sdt(0x20, 0x30, SDT::ACTUAL, 0x05);
+      SDTActual sdt(0x20, 0x30, 0x05);
 
       sdt.addService(200, true, true, 1, false);
 

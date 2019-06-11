@@ -34,14 +34,6 @@ namespace sigen {
    //
    class CAT : public PSITable
    {
-   private:
-      enum { D_BIT = 0,
-             TID = 0x01,
-             BASE_LEN = 5, MAX_SEC_LEN = 1024 };
-
-      // list of descriptors
-      DescList descriptors;
-
    public:
       enum { PID = 0x01 };
 
@@ -58,6 +50,14 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
 #endif
+
+   private:
+      enum { D_BIT = 0,
+             TID = 0x01,
+             BASE_LEN = 5, MAX_SEC_LEN = 1024 };
+
+      // list of descriptors
+      DescList descriptors;
 
    protected:
       virtual bool writeSection(Section&, ui8, ui16 &) const;

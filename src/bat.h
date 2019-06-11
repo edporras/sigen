@@ -37,6 +37,28 @@ namespace sigen {
    //
    class BAT : public PSITable
    {
+   public:
+      enum { PID = 0x11 };
+
+      // constructor
+      BAT(ui16 bouquet_id, ui8 ver, bool cni = true, bool rsrvd = true) :
+         PSITable(TID, bouquet_id, BASE_LEN, MAX_SEC_LEN, ver, cni,
+                  rsrvd, rsrvd),
+         xport_stream_loop_length(0)
+      { }
+      BAT() = delete;
+
+      // utility
+      bool addBouquetDesc(Descriptor &);
+      bool addXportStream(ui16 xs_id, ui16 on_id);
+      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &);
+      bool addXportStreamDesc(Descriptor &); // adds it to the last stream added
+
+      // dump to stdout routines
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream &) const;
+#endif
+
    private:
       enum { BASE_LEN = 9, TID = 0x4a, MAX_SEC_LEN = 1024 };
 
@@ -62,28 +84,6 @@ namespace sigen {
       ui16 xport_stream_loop_length;
       DescList bouquet_desc;
       std::list<std::unique_ptr<XportStream> > xport_streams; // transport streams
-
-   public:
-      enum { PID = 0x11 };
-
-      // constructor
-      BAT(ui16 bouquet_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-         PSITable(TID, bouquet_id, BASE_LEN, MAX_SEC_LEN, ver, cni,
-                  rsrvd, rsrvd),
-         xport_stream_loop_length(0)
-      { }
-      BAT() = delete;
-
-      // utility
-      bool addBouquetDesc(Descriptor &);
-      bool addXportStream(ui16 xs_id, ui16 on_id);
-      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &);
-      bool addXportStreamDesc(Descriptor &); // adds it to the last stream added
-
-      // dump to stdout routines
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream &) const;
-#endif
 
    protected:
       bool addXportStreamDesc(XportStream& , Descriptor &);

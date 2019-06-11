@@ -37,8 +37,25 @@ namespace sigen {
    //
    class EIT : public PSITable
    {
+   public:
+      enum { PID = 0x12 };
+
+      // utility
+      virtual void buildSections(TStream &) const = 0;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream &) const;
+#endif
+
    protected:
       enum { BASE_LEN = 11, MAX_SEC_LEN = 4096 };
+
+      // only derived classes can build this type
+      EIT(ui8 tid, ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni, bool rsrvd) :
+         PSITable(tid, sid, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
+         xport_stream_id(xsid),
+         original_network_id(onid)
+      { }
 
       // the private event class
       struct Event {
@@ -70,25 +87,6 @@ namespace sigen {
       ui16 xport_stream_id,
          original_network_id;
 
-   protected:
-      // only derived classes can build this type
-      EIT(ui8 tid, ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni, bool rsrvd) :
-         PSITable(tid, sid, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
-         xport_stream_id(xsid),
-         original_network_id(onid)
-      { }
-
-   public:
-      enum { PID = 0x12 };
-
-      // utility
-      virtual void buildSections(TStream &) const = 0;
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream &) const;
-#endif
-
-   protected:
       // event/descriptor add routines
       bool addEvent(std::list<std::unique_ptr<Event> > &, ui16, UTC, BCDTime, ui8,
                     bool);
@@ -129,11 +127,6 @@ namespace sigen {
       std::list<std::unique_ptr<Event> > event_list[2]; // present = 0, following = 1
 
    public:
-      // constructor
-      PF_EIT(ui16 sid, ui16 xsid, ui16 onid, PF_EIT::Type type, ui8 ver,
-             bool cni = true, bool rsrvd = true) :
-         EIT(type, sid, xsid, onid, ver, cni, rsrvd)
-      { }
       PF_EIT() = delete;
 
       // present event utility functions
@@ -163,13 +156,19 @@ namespace sigen {
       void buildSections(TStream &) const;
 
    protected:
+      // protected constructor
+      PF_EIT(ui16 sid, ui16 xsid, ui16 onid, PF_EIT::Type type, ui8 ver,
+             bool cni = true, bool rsrvd = true) :
+         EIT(type, sid, xsid, onid, ver, cni, rsrvd)
+      { }
+
 #ifdef ENABLE_DUMP
       void dumpHeader(std::ostream &) const;
       void dumpEvents(std::ostream &) const;
 #endif
    };
 
-   // convenience classes
+   // public interface classes
    struct PF_EITActual : public PF_EIT
    {
       PF_EITActual(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true, bool rsrvd = true) :

@@ -38,24 +38,6 @@ namespace sigen {
    public:
       enum { TAG = 0x5d, BASE_LEN = 0 };
 
-      struct Language {
-         enum { BASE_LEN = LanguageCode::BASE_LEN + 2 };
-
-         // data
-         LanguageCode language_code;
-         std::string provider_name,
-            service_name;
-
-         // contructor
-         Language(const std::string& code, const std::string& pn,
-                  const std::string& sn) :
-            language_code(code), provider_name(pn), service_name(sn) {}
-
-         // utility
-         ui8 length() const { return provider_name.length() +
-               service_name.length() + BASE_LEN; }
-      };
-
       // constructor
       MultilingualServiceNameDesc() : Descriptor(TAG, BASE_LEN) {}
 
@@ -70,6 +52,23 @@ namespace sigen {
 #endif
 
    private:
+      struct Language {
+         enum { BASE_LEN = LanguageCode::BASE_LEN + 2 };
+
+         LanguageCode language_code;
+         std::string provider_name;
+         std::string service_name;
+
+         // contructor
+         Language(const std::string& code, const std::string& pn,
+                  const std::string& sn) :
+            language_code(code), provider_name(pn), service_name(sn) {}
+
+         // utility
+         ui8 length() const { return provider_name.length() +
+               service_name.length() + BASE_LEN; }
+      };
+
       // the list of language structs
       std::list<std::unique_ptr<Language> > language_list;
    };
@@ -84,19 +83,6 @@ namespace sigen {
    public:
       enum { TAG = 0x4b, BASE_LEN = 0 };
 
-      struct Ident {
-         enum { BASE_LEN = 6 };
-
-         // data
-         ui16 xport_stream_id,
-            original_network_id,
-            service_id;
-
-         // constructor
-         Ident(ui16 xsid, ui16 onid, ui16 sid) :
-            xport_stream_id(xsid), original_network_id(onid), service_id(sid) {}
-      };
-
       // constructor
       NVODReferenceDesc() : Descriptor(TAG, BASE_LEN) {}
 
@@ -110,6 +96,18 @@ namespace sigen {
 #endif
 
    private:
+      struct Ident {
+         enum { BASE_LEN = 6 };
+
+         ui16 xport_stream_id;
+         ui16 original_network_id;
+         ui16 service_id;
+
+         // constructor
+         Ident(ui16 xsid, ui16 onid, ui16 sid) :
+            xport_stream_id(xsid), original_network_id(onid), service_id(sid) {}
+      };
+
       // the list of ident structs
       std::list<std::unique_ptr<Ident> > ident_list;
    };
@@ -121,11 +119,6 @@ namespace sigen {
    //
    class ServiceDesc : public Descriptor
    {
-   private:
-      std::string provider_name,
-         name;
-      ui8 type;
-
    public:
       enum { TAG = 0x48, BASE_LEN = 3 };
 
@@ -144,6 +137,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      std::string provider_name;
+      std::string name;
+      ui8 type;
    };
 
 
@@ -153,9 +151,8 @@ namespace sigen {
    //
    //  ui16 data represents reference_service_id
    //
-   class TimeShiftedServiceDesc : public PrimitiveDatatypeDesc<ui16>
+   struct TimeShiftedServiceDesc : public PrimitiveDatatypeDesc<ui16>
    {
-   public:
       enum { TAG = 0x4c }; // BASE_LEN implicitly is 2 (ui16)
 
       // constructor

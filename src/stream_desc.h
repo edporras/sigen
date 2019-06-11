@@ -37,12 +37,6 @@ namespace sigen {
    //
    class AudioStreamDesc : public Descriptor
    {
-   private:
-      bool free_format_flag,
-         id,
-         reserved;
-      ui8 layer : 2;
-
    public:
       enum { TAG = 3, BASE_LEN = 1 };
 
@@ -59,6 +53,12 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      bool free_format_flag;
+      bool id;
+      bool reserved;
+      ui8 layer : 2;
    };
 
 
@@ -67,13 +67,6 @@ namespace sigen {
    //
    class CADesc : public Descriptor
    {
-   private:
-      // data
-      ui16 CA_system_id,
-         CA_pid : 13;
-      bool reserved;
-      std::string private_data;
-
    public:
       enum { TAG = 9, BASE_LEN = 4 };
 
@@ -91,6 +84,13 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      // data
+      ui16 CA_system_id;
+      ui16 CA_pid : 13;
+      bool reserved;
+      std::string private_data;
    };
 
 
@@ -100,11 +100,6 @@ namespace sigen {
    //
    class CopyrightDesc : public Descriptor
    {
-   private:
-      // data
-      ui32 identifier;
-      std::string info;
-
    public:
       enum { TAG = 13, BASE_LEN = 4 };
 
@@ -121,6 +116,10 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 identifier;
+      std::string info;
    };
 
 
@@ -130,9 +129,8 @@ namespace sigen {
    //
    //  ui8 data represents alignment_type
    //
-   class DataStreamAlignmentDesc : public PrimitiveDatatypeDesc<ui8>
+   struct DataStreamAlignmentDesc : public PrimitiveDatatypeDesc<ui8>
    {
-   public:
       enum { TAG = 6 }; // BASE_LEN implicitly 1 (ui8)
 
       enum VS_Alignment_t {
@@ -164,13 +162,6 @@ namespace sigen {
    //
    class HierarchyDesc : public Descriptor
    {
-   private:
-      ui16 type : 4,             // hierarchy type
-      layer_index : 6,
-      embedded_layer : 6,
-      priority : 6;
-      bool reserved;
-
    public:
       enum { TAG = 4, BASE_LEN = 4 };
 
@@ -196,6 +187,13 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui16 type : 4,             // hierarchy type
+           layer_index : 6,
+           embedded_layer : 6,
+           priority : 6;
+      bool reserved;
    };
 
 
@@ -205,11 +203,6 @@ namespace sigen {
    //
    class IBPDesc : public Descriptor
    {
-   private:
-      bool closed_gop_flag,
-         identical_gop_flag;
-      ui16 max_gop_len : 14;
-
    public:
       enum { TAG = 18, BASE_LEN = 2 };
 
@@ -227,6 +220,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      bool closed_gop_flag;
+      bool identical_gop_flag;
+      ui16 max_gop_len : 14;
    };
 
 
@@ -237,16 +235,6 @@ namespace sigen {
    {
    public:
       enum { TAG = 10, BASE_LEN = 0 };
-
-      struct Language {
-         enum { BASE_LEN = LanguageCode::BASE_LEN + 1 };
-
-         LanguageCode code;
-         ui8 audio_type;
-
-         Language( const std::string& lc, ui8 at ) : code(lc), audio_type(at) { }
-      };
-
 
       // audio types
       enum AudioType_t {
@@ -267,7 +255,15 @@ namespace sigen {
 #endif
 
    private:
-      // data
+      struct Language {
+         enum { BASE_LEN = LanguageCode::BASE_LEN + 1 };
+
+         LanguageCode code;
+         ui8 audio_type;
+
+         Language( const std::string& lc, ui8 at ) : code(lc), audio_type(at) { }
+      };
+
       std::list<std::unique_ptr<Language> > language_list;
    };
 
@@ -278,10 +274,6 @@ namespace sigen {
    //
    class MaximumBitrateDesc : public Descriptor
    {
-   private:
-      ui32 maximum_bitrate : 22;
-      bool reserved;
-
    public:
       enum { TAG = 14, BASE_LEN = 3 };
 
@@ -298,6 +290,10 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 maximum_bitrate : 22;
+      bool reserved;
    };
 
 
@@ -306,12 +302,6 @@ namespace sigen {
    //
    class MultiplexBufferUtilizationDesc : public Descriptor
    {
-   private:
-      bool bound_valid_flag,
-         reserved;
-      ui16 LTW_offset_lb : 15,
-         LTW_offset_ub : 14;
-
    public:
       enum { TAG = 12, BASE_LEN = 4 };
       enum Strategy_t { EARLY = 1, LATE, MIDDLE };
@@ -331,6 +321,12 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      bool bound_valid_flag;
+      bool reserved;
+      ui16 LTW_offset_lb : 15;
+      ui16 LTW_offset_ub : 14;
    };
 
 
@@ -340,9 +336,8 @@ namespace sigen {
    //
    //  ui32 data represents private_data_indicator
    //
-   class PrivateDataIndicatorDesc : public PrimitiveDatatypeDesc<ui32>
+   struct PrivateDataIndicatorDesc : public PrimitiveDatatypeDesc<ui32>
    {
-   public:
       enum { TAG = 15 }; // BASE_LEN is implicitly 4 (ui32)
 
       // constructor
@@ -363,11 +358,6 @@ namespace sigen {
    //
    class RegistrationDesc : public Descriptor
    {
-   private:
-      // data
-      ui32 identifier;
-      std::string info;
-
    public:
       enum { TAG = 5, BASE_LEN = 4 };
 
@@ -384,6 +374,10 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 identifier;
+      std::string info;
    };
 
 
@@ -393,11 +387,6 @@ namespace sigen {
    //
    class SmoothingBufferDesc : public Descriptor
    {
-   private:
-      ui32 sb_leak_rate : 22,
-      sb_size : 22;
-      bool reserved;
-
    public:
       enum { TAG = 16, BASE_LEN = 6 };
 
@@ -414,6 +403,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 sb_leak_rate : 22;
+      ui32 sb_size : 22;
+      bool reserved;
    };
 
 
@@ -423,10 +417,6 @@ namespace sigen {
    //
    class STDDesc : public Descriptor
    {
-   private:
-      bool leak_valid_flag,
-         reserved;
-
    public:
       enum { TAG = 17, BASE_LEN = 1 };
 
@@ -443,8 +433,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
-   };
 
+   private:
+      bool leak_valid_flag;
+      bool reserved;
+   };
 
 
    // ---------------------------
@@ -452,12 +445,6 @@ namespace sigen {
    //
    class SystemClockDesc : public Descriptor
    {
-   private:
-      ui16 clock_accuracy_integer : 6,
-      clock_accuracy_exponent : 3;
-      bool external_clock_reference_indicator,
-         reserved;
-
    public:
       enum { TAG = 11, BASE_LEN = 2 };
 
@@ -477,8 +464,13 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
-   };
 
+   private:
+      ui16 clock_accuracy_integer : 6,
+           clock_accuracy_exponent : 3;
+      bool external_clock_reference_indicator;
+      bool reserved;
+   };
 
 
    // ---------------------------
@@ -486,11 +478,6 @@ namespace sigen {
    //
    class TargetBackgroundGridDesc : public Descriptor
    {
-   private:
-      ui32 horizontal_size : 14,
-      vertical_size : 14,
-      pel_aspect_ratio : 4;
-
    public:
       enum { TAG = 7, BASE_LEN = 4 };
 
@@ -507,6 +494,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 horizontal_size : 14,
+           vertical_size : 14,
+           pel_aspect_ratio : 4;
    };
 
 
@@ -516,19 +508,6 @@ namespace sigen {
    //
    class VideoStreamDesc : public Descriptor
    {
-   private:
-      bool multiple_frame_rate_flag,
-         MPEG_2_flag,
-         constrained_parameter_flag,
-         still_picture_flag,
-         frame_rate_extension_flag;
-
-      // if MPEG_2_flag = 1, the following fields are required
-      ui8 profile_and_level_indication,
-         frame_rate_code : 4,
-         chroma_format : 2;
-      bool reserved;
-
    public:
       enum { TAG = 2, BASE_LEN = 1 };
 
@@ -556,6 +535,19 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      bool multiple_frame_rate_flag;
+      bool MPEG_2_flag;
+      bool constrained_parameter_flag;
+      bool still_picture_flag;
+      bool frame_rate_extension_flag;
+
+      // if MPEG_2_flag = 1, the following fields are required
+      ui8 profile_and_level_indication;
+      ui8 frame_rate_code : 4,
+          chroma_format : 2;
+      bool reserved;
    };
 
 
@@ -566,11 +558,6 @@ namespace sigen {
    //
    class VideoWindowDesc : public Descriptor
    {
-   private:
-      ui32 horizontal_offset : 14,
-      vertical_offset : 14,
-      window_priority : 4;
-
    public:
       enum { TAG = 8, BASE_LEN = 4 };
 
@@ -587,6 +574,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 horizontal_offset : 14,
+           vertical_offset : 14,
+           window_priority : 4;
    };
 
 } // namespace

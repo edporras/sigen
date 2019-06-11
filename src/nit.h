@@ -35,6 +35,21 @@ namespace sigen {
    //
    class NIT : public PSITable
    {
+   public:
+      enum Type { ACTUAL = 0x40, OTHER = 0x41 };
+      enum { PID = 0x10 };
+
+      NIT() = delete;
+
+      bool addNetworkDesc(Descriptor &);                             // add a network descriptor
+      bool addXportStream(ui16 xs_id, ui16 on_id);                   // add a transport stream
+      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &); // add a descriptor to the indicate transport stream
+      bool addXportStreamDesc(Descriptor &);                         // adds it to the last stream added
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream &) const;
+#endif
+
    private:
       enum { BASE_LEN = 9, MAX_SEC_LEN = 1024 };
 
@@ -60,31 +75,15 @@ namespace sigen {
       DescList network_desc;
       std::list<std::unique_ptr<XportStream> > xport_streams;
 
-   public:
-      enum Type { ACTUAL = 0x40, OTHER = 0x41 };
-      enum { PID = 0x10 };
-
-      // constructor - type refers to ACTUAL or OTHER, reserved is the
-      // state of reserved bits
+   protected:
+      // protected constructor - type refers to ACTUAL or OTHER,
+      // reserved is the state of reserved bits
       NIT(ui16 network_id, NIT::Type type, ui8 ver, bool cni = true,
           bool rsrvd = true) :
          PSITable((ui8) type, network_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
          xport_stream_loop_length(0)
       { }
-      NIT() = delete;
 
-      // utility
-      bool addNetworkDesc(Descriptor &);
-      bool addXportStream(ui16 xs_id, ui16 on_id);
-      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &);
-      bool addXportStreamDesc(Descriptor &); // adds it to the last stream added
-
-      // dump to stdout routines
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream &) const;
-#endif
-
-   protected:
       bool addXportStreamDesc(XportStream& , Descriptor &);
       virtual bool writeSection(Section& , ui8, ui16 &) const;
       bool writeXportStream(Section& , const XportStream& , ui16 &, ui16 &) const;
@@ -94,7 +93,7 @@ namespace sigen {
 #endif
    };
 
-
+   // public interface to create NIT tables
    struct NITActual : public NIT
    {
       NITActual(ui16 network_id, ui8 ver, bool cni = true, bool rsrvd = true) :

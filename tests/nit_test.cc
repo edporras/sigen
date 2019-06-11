@@ -8,7 +8,7 @@ namespace tests
    int nit(TStream& t)
    {
       // NIT test
-      NIT nit(0x100, NIT::ACTUAL, 0x01);
+      NITActual nit(0x100, 0x01);
       nit.setMaxSectionLen( 300 );
 
       // add a network descriptor

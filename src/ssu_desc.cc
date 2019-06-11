@@ -34,6 +34,16 @@ namespace sigen
    // ---------------------------------------
    // SSU linkage descriptor
    //
+   bool SSULinkageDesc::addOUI(ui32 OUI)
+   {
+      return addOUI( OUIData(OUI) );
+   }
+
+   bool SSULinkageDesc::addOUI(ui32 OUI, const std::vector<ui8>& bytes)
+   {
+      return addOUI( OUIData(OUI, bytes) );
+   }
+
    bool SSULinkageDesc::addOUI(const OUIData& oui_data)
    {
       if (!incLength( oui_data.length() ))

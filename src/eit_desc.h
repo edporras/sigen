@@ -36,14 +36,6 @@ namespace sigen {
    //
    class ComponentDesc : public Descriptor
    {
-   private:
-      std::string text;
-      LanguageCode language_code;
-      ui8 component_type,
-         component_tag,
-         stream_content : 4;
-      bool reserved;
-
    public:
       enum { TAG = 0x50, BASE_LEN = 6 };
 
@@ -59,6 +51,14 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      std::string text;
+      LanguageCode language_code;
+      ui8 component_type;
+      ui8 component_tag;
+      ui8 stream_content : 4;
+      bool reserved;
    };
 
 
@@ -70,6 +70,18 @@ namespace sigen {
    public:
       enum { TAG = 0x54, BASE_LEN = 0 };
 
+      // constructor
+      ContentDesc() : Descriptor(TAG, BASE_LEN) { }
+
+      // utility
+      bool addContent(ui8 nl1, ui8 nl2, ui8 un1, ui8 un2);
+      virtual void buildSections(Section&) const;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream&) const;
+#endif
+
+   private:
       // content data struct
       struct Content {
          enum { BASE_LEN = 2 };
@@ -85,20 +97,6 @@ namespace sigen {
             user_nibble_1(un1), user_nibble_2(un2) { }
       };
 
-
-      // constructor
-      ContentDesc() : Descriptor(TAG, BASE_LEN) { }
-
-      // utility
-      bool addContent(ui8 nl1, ui8 nl2, ui8 un1, ui8 un2);
-      virtual void buildSections(Section&) const;
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream&) const;
-#endif
-
-   private:
-      // descriptor data beings here
       std::list<std::unique_ptr<Content> > content_list;
    };
 
@@ -110,23 +108,6 @@ namespace sigen {
    {
    public:
       enum { TAG = 0x4e, BASE_LEN = 6, MAX_DESC_IDX = 16 };
-
-      // event item data struct
-      struct Item {
-         enum { BASE_LEN = 2 };
-
-         std::string description,
-            name;
-
-         // constructor
-         Item(const std::string &d, const std::string& n) :
-            description(d), name(n) { }
-
-         ui16 length() const {
-            return description.length() + name.length() + BASE_LEN;
-         }
-      };
-
 
       // constructor
       ExtendedEventDesc(const std::string& lang_code, const std::string& evtext,
@@ -154,12 +135,28 @@ namespace sigen {
 #endif
 
    private:
+      // event item data struct
+      struct Item {
+         enum { BASE_LEN = 2 };
+
+         std::string description;
+         std::string name;
+
+         // constructor
+         Item(const std::string &d, const std::string& n) :
+            description(d), name(n) { }
+
+         ui16 length() const {
+            return description.length() + name.length() + BASE_LEN;
+         }
+      };
+
       // descriptor data begins here
       std::list<std::unique_ptr<Item> > item_list;
       LanguageCode language_code;
       std::string text;
       ui8 descriptor_number : 4,
-         last_descriptor_number : 4;
+          last_descriptor_number : 4;
 
    protected:
       ui8 itemListSize() const;
@@ -175,9 +172,6 @@ namespace sigen {
    //
    class MultilingualComponentDesc : public MultilingualTextDesc
    {
-   private:
-      ui8 component_tag;
-
    public:
       enum { TAG = 0x5e, BASE_LEN = 1 };
 
@@ -194,6 +188,9 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui8 component_tag;
    };
 
 
@@ -204,20 +201,6 @@ namespace sigen {
    {
    public:
       enum { TAG = 0x55, BASE_LEN = 0 };
-
-      // rating data struct
-      struct Rating {
-         enum { BASE_LEN = 4 };
-
-         // data
-         LanguageCode country_code;
-         ui8 value;
-
-         // constructor
-         Rating(const std::string& code, ui8 r) :
-            country_code(code), value(r) { }
-      };
-
 
       // constructor
       ParentalRatingDesc() : Descriptor(TAG, BASE_LEN) { }
@@ -231,6 +214,18 @@ namespace sigen {
 #endif
 
    private:
+      // rating data struct
+      struct Rating {
+         enum { BASE_LEN = 4 };
+
+         LanguageCode country_code;
+         ui8 value;
+
+         // constructor
+         Rating(const std::string& code, ui8 r) :
+            country_code(code), value(r) { }
+      };
+
       // descriptor data beings here
       std::list<std::unique_ptr<Rating> > rating_list;
    };
@@ -242,10 +237,6 @@ namespace sigen {
    //
    class PDCDesc : public Descriptor
    {
-   private:
-      ui32 programme_identification_label : 20;
-      bool reserved;
-
    public:
       enum { TAG = 0x69, BASE_LEN = 3 };
 
@@ -263,6 +254,10 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 programme_identification_label : 20;
+      bool reserved;
    };
 
 
@@ -272,11 +267,6 @@ namespace sigen {
    //
    class ShortEventDesc : public Descriptor
    {
-   private:
-      LanguageCode language_code;
-      std::string name,
-         text;
-
    public:
       enum { TAG = 0x4d, BASE_LEN = 5 };
 
@@ -291,6 +281,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      LanguageCode language_code;
+      std::string name;
+      std::string text;
    };
 
 
@@ -300,11 +295,6 @@ namespace sigen {
    //
    class ShortSmoothingBufferDesc : public Descriptor
    {
-   private:
-      std::string DVB_reserved;
-      ui8 sb_size : 2,
-         sb_leak_rate : 6;
-
    public:
       enum { TAG = 0x61, BASE_LEN = 1 };
 
@@ -319,6 +309,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      std::string DVB_reserved;
+      ui8 sb_size : 2,
+          sb_leak_rate : 6;
    };
 
 
@@ -330,10 +325,6 @@ namespace sigen {
    // could be derived from TSServiceD, but oh well..
    class TimeShiftedEventDesc : public Descriptor
    {
-   private:
-      ui16 ref_service_id,
-         ref_event_id;
-
    public:
       enum { TAG = 0x4f, BASE_LEN = 4 };
 
@@ -350,6 +341,10 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui16 ref_service_id;
+      ui16 ref_event_id;
    };
 
 } // sigen namespace

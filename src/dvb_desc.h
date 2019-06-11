@@ -37,9 +37,8 @@ namespace sigen {
    // ---------------------------
    // Bouquet Name Descriptor
    //
-   class BouquetNameDesc : public StringDataDesc
+   struct BouquetNameDesc : public StringDataDesc
    {
-   public:
       enum { TAG = 0x47 }; // BASE_LEN is implicitly defined by StringDataDesc
 
       // constructor
@@ -59,9 +58,6 @@ namespace sigen {
    //
    class CAIdentifierDesc : public Descriptor
    {
-   private:
-      std::list<ui16> id_list;
-
    public:
       enum { TAG = 0x53, BASE_LEN = 0 };
 
@@ -75,6 +71,9 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      std::list<ui16> id_list;
    };
 
 
@@ -83,12 +82,6 @@ namespace sigen {
    //
    class CountryAvailabilityDesc : public Descriptor
    {
-   private:
-      bool country_availability_flag,
-         reserved;
-
-      std::list<std::unique_ptr<LanguageCode> > country_list;
-
    public:
       enum { TAG = 0x49, BASE_LEN = 1 };
 
@@ -107,6 +100,12 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      bool country_availability_flag;
+      bool reserved;
+
+      std::list<std::unique_ptr<LanguageCode> > country_list;
    };
 
 
@@ -116,13 +115,6 @@ namespace sigen {
    //
    class DataBroadcastDesc : public Descriptor
    {
-   private:
-      std::string selector_byte,
-         text;
-      LanguageCode code;
-      ui16 data_broadcast_id;
-      ui8 component_tag;
-
    public:
       enum { TAG = 0x64, BASE_LEN = 8 };
 
@@ -141,6 +133,13 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      std::string selector_byte;
+      std::string text;
+      LanguageCode code;
+      ui16 data_broadcast_id;
+      ui8 component_tag;
    };
 
 
@@ -148,9 +147,8 @@ namespace sigen {
    // ---------------------------
    // DSNG Descriptor (300 468 1.4.1)
    //
-   class DSNGDesc : public StringDataDesc
+   struct DSNGDesc : public StringDataDesc
    {
-   public:
       enum { TAG = 0x68 }; // BASE_LEN is implicitly defined by StringDataDesc
 
       // constructor
@@ -171,30 +169,6 @@ namespace sigen {
    public:
       enum { TAG = 0x58, BASE_LEN = 0 };
 
-      // loop data
-      struct TimeOffset {
-         enum { BASE_LEN = 13 };
-
-         // offset data
-         LanguageCode country_code;
-         UTC time_of_change;
-         ui16 local_time_offset,
-            next_time_offset;
-         ui8 country_region_id : 6;
-         bool local_time_offset_polarity,
-            reserved;
-
-         // contructor
-         TimeOffset(const LanguageCode& cc, ui8 crid, bool ltop, ui16 lto,
-                    const UTC& toc, ui16 nto, bool rsrvd = true) :
-            country_code(cc), time_of_change(toc), local_time_offset(lto),
-            next_time_offset(nto), country_region_id(crid),
-            local_time_offset_polarity(ltop),
-            reserved(rsrvd)
-         { }
-      };
-
-
       // constructor
       LocalTimeOffsetDesc() :
          Descriptor(TAG, BASE_LEN) {}
@@ -211,7 +185,29 @@ namespace sigen {
 #endif
 
    private:
-      // data
+      // loop data
+      struct TimeOffset {
+         enum { BASE_LEN = 13 };
+
+         // offset data
+         LanguageCode country_code;
+         UTC time_of_change;
+         ui16 local_time_offset;
+         ui16 next_time_offset;
+         ui8 country_region_id : 6;
+         bool local_time_offset_polarity;
+         bool reserved;
+
+         // contructor
+         TimeOffset(const LanguageCode& cc, ui8 crid, bool ltop, ui16 lto,
+                    const UTC& toc, ui16 nto, bool rsrvd = true) :
+            country_code(cc), time_of_change(toc), local_time_offset(lto),
+            next_time_offset(nto), country_region_id(crid),
+            local_time_offset_polarity(ltop),
+            reserved(rsrvd)
+         { }
+      };
+
       std::list<std::unique_ptr<TimeOffset> > time_offset_list;
    };
 
@@ -223,12 +219,6 @@ namespace sigen {
    // NOT YET IMPLEMENTED
    class MosaicDesc : public Descriptor
    {
-   private:
-      ui8 num_horizontal_elem_cells : 3,
-      num_vertical_elem_cells : 3,
-      mosaic_entry_point : 1;
-      bool reserved;
-
    public:
       enum { TAG = 0x51, BASE_LEN = 1 };
 
@@ -242,6 +232,12 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const = 0; // not implemented
 #endif
+
+   private:
+      ui8 num_horizontal_elem_cells : 3,
+          num_vertical_elem_cells : 3,
+          mosaic_entry_point : 1;
+      bool reserved;
    };
 
 
@@ -249,9 +245,8 @@ namespace sigen {
    // Multilingual Bouquet Name Descriptor
    // - derived from MultilingualTextDesc (descriptor.h)
    //
-   class MultilingualBouquetNameDesc : public MultilingualTextDesc
+   struct MultilingualBouquetNameDesc : public MultilingualTextDesc
    {
-   public:
       enum { TAG = 0x5c, BASE_LEN = 0 };
 
       // constructor
@@ -270,12 +265,6 @@ namespace sigen {
    //
    class PartialTransportStreamDesc : public Descriptor
    {
-   private:
-      ui32 peak_rate : 22;
-      ui32 min_overall_smoothing_rate : 22;
-      ui16 max_overall_smoothing_buffer : 14;
-      bool reserved;
-
    public:
       enum { TAG = 0x63, BASE_LEN = 8 };
 
@@ -296,6 +285,12 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 peak_rate : 22;
+      ui32 min_overall_smoothing_rate : 22;
+      ui16 max_overall_smoothing_buffer : 14;
+      bool reserved;
    };
 
 
@@ -305,9 +300,8 @@ namespace sigen {
    //
    //  ui32 data represents private_data
    //
-   class PrivateDataSpecifierDesc : public PrimitiveDatatypeDesc<ui32>
+   struct PrivateDataSpecifierDesc : public PrimitiveDatatypeDesc<ui32>
    {
-   public:
       enum { TAG = 0x5f }; // BASE_LEN is implicitly 4 (ui32)
 
       // constructor
@@ -329,19 +323,6 @@ namespace sigen {
    public:
       enum { TAG = 0x41, BASE_LEN = 0 };
 
-      // service structs for the list
-      struct Service
-      {
-         enum { BASE_LEN = 3 };
-
-         ui16 id;
-         ui8 type;
-
-         // constructors
-         Service(ui16 sid, ui8 stype) : id(sid), type(stype) {}
-      };
-
-
       // constructor
       ServiceListDesc() : Descriptor(TAG, BASE_LEN) { }
 
@@ -354,6 +335,18 @@ namespace sigen {
 #endif
 
    private:
+      // service structs for the list
+      struct Service
+      {
+         enum { BASE_LEN = 3 };
+
+         ui16 id;
+         ui8 type;
+
+         // constructors
+         Service(ui16 sid, ui8 stype) : id(sid), type(stype) {}
+      };
+
       std::list<std::unique_ptr<Service> > service_list;
    };
 
@@ -361,9 +354,8 @@ namespace sigen {
    // ---------------------------
    // Stuffing Descriptor
    //
-   class StuffingDesc : public StringDataDesc
+   struct StuffingDesc : public StringDataDesc
    {
-   public:
       enum { TAG = 0x42 };
 
       // constructor
@@ -383,9 +375,8 @@ namespace sigen {
    // ---------------------------
    // Transport Stream Descriptor
    //
-   class TransportStreamDesc : public StringDataDesc
+   struct TransportStreamDesc : public StringDataDesc
    {
-   public:
       enum { TAG = 0x67 };
 
       // default constructor identifies DVB streams
@@ -408,25 +399,6 @@ namespace sigen {
    //
    class TelephoneDesc : public Descriptor
    {
-   private:
-      enum {
-         MAX_CP_LEN  = 3,
-         MAX_IAC_LEN = 7,
-         MAX_OC_LEN  = 3,
-         MAX_NAC_LEN = 7,
-         MAX_CN_LEN  = 15
-      };
-
-      // telephone data
-      std::string country_prefix,
-         international_area_code,
-         operator_code,
-         national_area_code,
-         core_number;
-      ui8 connection_type : 5;
-      bool foreign_availability,
-         reserved;
-
    public:
       enum { TAG = 0x57, BASE_LEN = 3 };
 
@@ -447,6 +419,25 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      enum {
+         MAX_CP_LEN  = 3,
+         MAX_IAC_LEN = 7,
+         MAX_OC_LEN  = 3,
+         MAX_NAC_LEN = 7,
+         MAX_CN_LEN  = 15
+      };
+
+      // telephone data
+      std::string country_prefix;
+      std::string international_area_code;
+      std::string operator_code;
+      std::string national_area_code;
+      std::string core_number;
+      ui8 connection_type : 5;
+      bool foreign_availability;
+      bool reserved;
 
    protected:
       void setCode(std::string& dest_c, const std::string& src_c, ui8 max);

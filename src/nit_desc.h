@@ -47,14 +47,6 @@ namespace sigen {
    //
    class CableDeliverySystemDesc : public DeliveryDesc
    {
-   private:
-      ui32 _frequency,
-         _symbol_rate : 28;
-      ui8 _modulation,
-         _fec_outer : 4,
-         _fec_inner : 4;
-      bool _reserved;
-
    public:
       enum { TAG = 0x44, BASE_LEN = 11 };
 
@@ -74,18 +66,19 @@ namespace sigen {
          _reserved(rsrvd)
       { }
 
-      // utility methods
-      ui32 frequency() const { return _frequency; }
-      ui32 symbolRate() const { return _symbol_rate; }
-      ui8 modulation() const { return _modulation; }
-      ui8 fecInner() const { return _fec_inner; }
-      ui8 fecOuter() const { return _fec_outer; }
-
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 _frequency;
+      ui32 _symbol_rate : 28;
+      ui8 _modulation;
+      ui8 _fec_outer : 4,
+          _fec_inner : 4;
+      bool _reserved;
    };
 
 
@@ -94,15 +87,6 @@ namespace sigen {
    //
    class SatelliteDeliverySystemDesc : public DeliveryDesc
    {
-   private:
-      ui32 _frequency,
-         _symbol_rate : 28;
-      ui16 _orbital_position;
-      ui8 _modulation : 5,
-         _polarisation : 2,
-         _fec_inner : 4;
-      bool _west_east;
-
    public:
       enum { TAG = 0x43, BASE_LEN = 11 };
 
@@ -122,20 +106,20 @@ namespace sigen {
          _west_east(wef)
       { }
 
-      // utility methods
-      ui32 frequency() const { return _frequency; }
-      ui32 symbolRate() const { return _symbol_rate; }
-      ui16 orbitalPosition() const { return _orbital_position; }
-      ui8 modulation() const { return _modulation; }
-      ui8 polarisation() const { return _polarisation; }
-      ui8 fecInner() const { return _fec_inner; }
-      bool westEastFlag() const { return _west_east; }
-
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 _frequency;
+      ui32 _symbol_rate : 28;
+      ui16 _orbital_position;
+      ui8 _modulation : 5,
+          _polarisation : 2,
+          _fec_inner : 4;
+      bool _west_east;
    };
 
 
@@ -144,18 +128,6 @@ namespace sigen {
    //
    class TerrestrialDeliverySystemDesc : public Descriptor
    {
-   private:
-      ui32 _ctr_frequency;
-      ui8 _bandwidth : 3,
-         _constellation : 2,
-         _hierarchy_info : 3,
-         _cr_HP_stream : 3,
-         _cr_LP_stream : 3,
-         _guard_interval : 2,
-         _transmission_mode : 2;
-      bool _other_freq_flag;
-      bool _reserved;
-
    public:
       enum { TAG = 0x5a, BASE_LEN = 11 };
 
@@ -177,21 +149,23 @@ namespace sigen {
          _reserved(rsrvd)
       { }
 
-      // utility methods
-      ui32 frequency() const { return _ctr_frequency; }
-      ui8 bandwidth() const { return _bandwidth; }
-      ui8 constellation() const { return _constellation; }
-      ui8 hierarchyInfo() const { return _hierarchy_info; }
-      ui8 codeRateHPStream() const { return _cr_HP_stream; }
-      ui8 codeRateLPStream() const { return _cr_LP_stream; }
-      ui8 guardInterval() const { return _guard_interval; }
-      bool otherFrequencyFlag() const { return _other_freq_flag; }
-
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui32 _ctr_frequency;
+      ui8 _bandwidth : 3,
+          _constellation : 2,
+          _hierarchy_info : 3,
+          _cr_HP_stream : 3,
+          _cr_LP_stream : 3,
+          _guard_interval : 2,
+          _transmission_mode : 2;
+      bool _other_freq_flag;
+      bool _reserved;
    };
 
 
@@ -308,7 +282,6 @@ namespace sigen {
 
       // funky descriptor with a loop within a loop
       struct Link {
-
          struct SubCell {
             enum { BASE_LEN = 5 };
 
@@ -374,7 +347,6 @@ namespace sigen {
 
       // another funky descriptor with a loop within a loop
       struct Cell {
-
          struct SubCell {
             enum { BASE_LEN = 8 };
 
@@ -402,7 +374,7 @@ namespace sigen {
          ui16 latitude;
          ui16 longitude;
          ui32 extend_of_latitude : 12,
-            extend_of_longitude : 12;
+              extend_of_longitude : 12;
 
          std::list<std::unique_ptr<SubCell> > subcell_list;
 
@@ -454,11 +426,6 @@ namespace sigen {
    //
    class FrequencyListDesc : public Descriptor
    {
-   private:
-      std::list<ui32> frequency_list;
-      bool reserved;
-      ui8 coding_type : 2;
-
    public:
       enum { TAG = 0x62, BASE_LEN = 1 };
 
@@ -484,6 +451,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      std::list<ui32> frequency_list;
+      bool reserved;
+      ui8 coding_type : 2;
    };
 
 
@@ -491,9 +463,8 @@ namespace sigen {
    // Multilingual Network Name Descriptor
    // - derived from MultilingualTextDesc (descriptor.h)
    //
-   class MultilingualNetworkNameDesc : public MultilingualTextDesc
+   struct MultilingualNetworkNameDesc : public MultilingualTextDesc
    {
-   public:
       enum { TAG = 0x5b, BASE_LEN = 0 };
 
       // constructor
@@ -510,9 +481,8 @@ namespace sigen {
    // ---------------------------
    // Network Name Descriptor
    //
-   class NetworkNameDesc : public StringDataDesc
+   struct NetworkNameDesc : public StringDataDesc
    {
-   public:
       enum { TAG = 0x40 }; // BASE_LEN implicitly defined by StringDataDesc
 
       // constructor

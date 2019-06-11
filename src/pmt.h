@@ -36,34 +36,7 @@ namespace sigen {
    //
    class PMT : public PSITable
    {
-   private:
-      enum { D_BIT = 0,
-             TID = 0x02,
-             BASE_LEN = 9, MAX_SEC_LEN = 1024 };
-
-      // the stream holder struct - private to the pmt
-      struct ElementaryStream {
-         enum { BASE_LEN = 5 };
-
-         ui16 es_info_length,
-            elementary_pid : 13;
-         ui8 type;
-         DescList descriptors;
-
-         // constructor
-         ElementaryStream(ui16 epid, ui8 t) :
-            es_info_length(0), elementary_pid(epid), type(t)
-         { }
-      };
-
-      // instance variables
-      ui16 program_info_length,
-         pcr_pid : 13;
-      DescList prog_desc;
-      std::list<std::unique_ptr<ElementaryStream> > es_list; // the list of streams
-
    public:
-
       // Elementary stream types
       enum esTypes {
          ES_RESERVED                                          = 0x00,
@@ -98,21 +71,46 @@ namespace sigen {
       { }
       PMT() = delete;
 
-      // utility
-      bool addProgramDesc(Descriptor &);
-      bool addElemStream(ui8 type, ui16 elem_pid);
-      bool addElemStreamDesc(ui16 elem_pid, Descriptor &);
-      bool addElemStreamDesc(Descriptor &); // adds it to the last stream added
+      bool addProgramDesc(Descriptor &);                   // add a program descriptor
+
+      bool addElemStream(ui8 type, ui16 elem_pid);         // add an elementary stream
+      bool addElemStreamDesc(ui16 elem_pid, Descriptor &); // add an elem stream desc to the stream with the given pid
+      bool addElemStreamDesc(Descriptor &);                // adds it to the last stream added
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
 #endif
+
+   private:
+      enum { D_BIT = 0,
+             TID = 0x02,
+             BASE_LEN = 9, MAX_SEC_LEN = 1024 };
+
+      // the stream holder struct - private to the pmt
+      struct ElementaryStream {
+         enum { BASE_LEN = 5 };
+
+         ui16 es_info_length,
+            elementary_pid : 13;
+         ui8 type;
+         DescList descriptors;
+
+         // constructor
+         ElementaryStream(ui16 epid, ui8 t) :
+            es_info_length(0), elementary_pid(epid), type(t)
+         { }
+      };
+
+      // instance variables
+      ui16 program_info_length,
+         pcr_pid : 13;
+      DescList prog_desc;
+      std::list<std::unique_ptr<ElementaryStream> > es_list; // the list of streams
 
    protected:
       bool addElemStreamDesc(ElementaryStream&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
       bool writeStream(Section&, const ElementaryStream& , ui16 &) const;
    };
-
 } // sigen namespace
 

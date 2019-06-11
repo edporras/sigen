@@ -43,14 +43,6 @@ namespace sigen {
          VALUE_COUNT // internal use
       };
 
-      struct entry {
-         bool is_set;
-         ui8 value;
-
-         entry() : is_set(false) { }
-      };
-
-
       // constructor
       AC3Desc(const std::string info = "", bool rsrvd = true) :
          Descriptor(TAG, BASE_LEN),
@@ -68,6 +60,12 @@ namespace sigen {
 #endif
 
    private:
+      struct entry {
+         bool is_set;
+         ui8 value;
+
+         entry() : is_set(false) { }
+      };
 
 #ifdef ENABLE_DUMP
       // define the STRIDs to use for the flags & values in dump.[ch] and
@@ -120,10 +118,6 @@ namespace sigen {
    //
    class DataBroadcastIdDesc : public Descriptor
    {
-   private:
-      ui16 data_broadcast_id;
-      std::vector<ui8> selector_bytes;
-
    public:
       enum { TAG = 0x66, BASE_LEN = 2 };
 
@@ -154,8 +148,11 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const;
 #endif
-   };
 
+   private:
+      ui16 data_broadcast_id;
+      std::vector<ui8> selector_bytes;
+   };
 
 
    // ---------------------------
@@ -163,11 +160,6 @@ namespace sigen {
    //
    class ServiceMoveDesc : public Descriptor
    {
-   private:
-      ui16 original_network_id,
-         xport_stream_id,
-         new_service_id;
-
    public:
       enum { TAG = 0x60, BASE_LEN = 6 };
 
@@ -184,8 +176,12 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
-   };
 
+   private:
+      ui16 original_network_id;
+      ui16 xport_stream_id;
+      ui16 new_service_id;
+   };
 
 
    // ---------------------------
@@ -194,9 +190,8 @@ namespace sigen {
    //
    //  ui8 data represents component_tag
    //
-   class StreamIdentifierDesc : public PrimitiveDatatypeDesc<ui8>
+   struct StreamIdentifierDesc : public PrimitiveDatatypeDesc<ui8>
    {
-   public:
       enum { TAG = 0x52 }; // BASE_LEN implictly 1 (ui8)
 
       // constructor
@@ -218,23 +213,6 @@ namespace sigen {
    public:
       enum { TAG = 0x59, BASE_LEN = 0 };
 
-      // private subtitling structure
-      struct Subtitling
-      {
-         enum { BASE_LEN = 8 };
-
-         // data
-         LanguageCode language_code;
-         ui16 composition_page_id,
-            ancillary_page_id;
-         ui8 type;
-
-         Subtitling( const std::string code, ui8 st, ui16 cpid, ui16 apid ) :
-            language_code(code), composition_page_id(cpid),
-            ancillary_page_id(apid), type(st) { }
-      };
-
-
       // constructor
       SubtitlingDesc() : Descriptor(TAG, BASE_LEN) {}
 
@@ -248,6 +226,21 @@ namespace sigen {
 #endif
 
    private:
+      struct Subtitling
+      {
+         enum { BASE_LEN = 8 };
+
+         // data
+         LanguageCode language_code;
+         ui16 composition_page_id;
+         ui16 ancillary_page_id;
+         ui8 type;
+
+         Subtitling( const std::string code, ui8 st, ui16 cpid, ui16 apid ) :
+            language_code(code), composition_page_id(cpid),
+            ancillary_page_id(apid), type(st) { }
+      };
+
       std::list<std::unique_ptr<Subtitling> > subtitling_list;
    };
 
@@ -260,23 +253,6 @@ namespace sigen {
    {
    public:
       enum { TAG = 0x56, BASE_LEN = 0 };
-
-      // private teletext structure
-      struct Teletext
-      {
-         enum { BASE_LEN = 5 };
-
-         // data
-         LanguageCode language_code;
-         ui8 page_number,
-            type : 5,
-            magazine_number : 3;
-
-         Teletext(const std::string& code, ui8 t, ui8 mn, ui8 pn) :
-            language_code(code), page_number(pn), type(t),
-            magazine_number(mn) { }
-      };
-
 
       // defined teletext types
       enum Type {
@@ -299,6 +275,21 @@ namespace sigen {
 #endif
 
    private:
+      struct Teletext
+      {
+         enum { BASE_LEN = 5 };
+
+         // data
+         LanguageCode language_code;
+         ui8 page_number;
+         ui8 type : 5,
+             magazine_number : 3;
+
+         Teletext(const std::string& code, ui8 t, ui8 mn, ui8 pn) :
+            language_code(code), page_number(pn), type(t),
+            magazine_number(mn) { }
+      };
+
       std::list<std::unique_ptr<Teletext> > teletext_list;
    };
 

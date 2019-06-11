@@ -24,7 +24,6 @@
 
 #include "utc.h"
 #include "table.h"
-#include "util.h"
 
 namespace sigen {
 
@@ -36,13 +35,6 @@ namespace sigen {
    //
    class TOT : public STable
    {
-   private:
-      UTC utc;
-
-      enum { BASE_LEN = 7, MAX_SEC_LEN = 1024, TID = 0x73 };
-
-      DescList descriptors;
-
    public:
       enum { PID = 0x14 };
 
@@ -61,11 +53,19 @@ namespace sigen {
 
       // utility
       bool addDesc(Descriptor &);
+
+      // section data writer
       virtual void buildSections(TStream &) const;
 
 #ifdef ENABLE_DUMP
       void dump(std::ostream &) const;
 #endif
-   };
 
+   private:
+      UTC utc;
+
+      enum { BASE_LEN = 7, MAX_SEC_LEN = 1024, TID = 0x73 };
+
+      DescList descriptors;
+   };
 } // namespace

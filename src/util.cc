@@ -38,7 +38,7 @@ namespace sigen {
    void LanguageCode::refit()
    {
       if (code.length() > BASE_LEN)
-         code = code.substr(0, BASE_LEN);
+         code.resize(3);
    }
 
 } // namespace

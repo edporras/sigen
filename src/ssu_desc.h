@@ -36,13 +36,28 @@ namespace sigen {
    //
    class SSULinkageDesc : public LinkageDesc
    {
-   private:
-      ui8 OUI_data_length;
-      std::vector<ui8> private_data;
-
    public:
       enum { BASE_LEN = 1 };
 
+      // constructor for linkage types 0x09
+      SSULinkageDesc(ui16 xsid, ui16 onid, ui16 sid) :
+         LinkageDesc(xsid, onid, sid, LinkageDesc::SSUS),
+         OUI_data_length(0)
+      { incLength( BASE_LEN ); }
+      SSULinkageDesc() = delete;
+
+      // utility
+      bool addOUI(ui32 OUI); // with empty selector bytes
+      bool addOUI(ui32 OUI, const std::vector<ui8>& bytes);
+      bool setPrivateData(const std::vector<ui8>& bytes);
+
+      virtual void buildSections(Section&) const;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream&) const;
+#endif
+
+   private:
       struct OUIData {
          enum { BASE_LEN = 4 };
 
@@ -57,25 +72,9 @@ namespace sigen {
          ui8 length() const { return selector_bytes.size() + BASE_LEN; }
       };
 
-      // constructor for linkage types 0x09
-      SSULinkageDesc(ui16 xsid, ui16 onid, ui16 sid) :
-         LinkageDesc(xsid, onid, sid, LinkageDesc::SSUS),
-         OUI_data_length(0)
-      { incLength( BASE_LEN ); }
-      SSULinkageDesc() = delete;
+      ui8 OUI_data_length;
+      std::vector<ui8> private_data;
 
-      // utility
-      bool addOUI(ui32 OUI) { return addOUI( OUIData(OUI) ); } // with empty selector bytes
-      bool addOUI(ui32 OUI, const std::vector<ui8>& bytes) { return addOUI( OUIData(OUI, bytes) ); }
-      bool setPrivateData(const std::vector<ui8>& bytes);
-
-      virtual void buildSections(Section&) const;
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream&) const;
-#endif
-
-   private:
       bool addOUI(const OUIData& oui_data);
       std::list<SSULinkageDesc::OUIData> oui_list;
    };
@@ -86,9 +85,6 @@ namespace sigen {
    //
    class SSUScanLinkageDesc : public LinkageDesc
    {
-   private:
-      ui8 table_type;
-
    public:
       enum { BASE_LEN = 1 };
 
@@ -110,6 +106,9 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      ui8 table_type;
    };
 
    // ---------------------------
@@ -117,13 +116,28 @@ namespace sigen {
    //
    class SSUDataBroadcastIdDesc : public DataBroadcastIdDesc
    {
-   private:
-      ui8 OUI_data_len;
-      std::string private_data;
-
    public:
       enum { SSU_SERVICE_DATA_BROADCAST_ID = 0x000A };
 
+      // constructor
+      SSUDataBroadcastIdDesc() :
+         DataBroadcastIdDesc(SSU_SERVICE_DATA_BROADCAST_ID),
+         OUI_data_len(0)
+      {
+         incLength(sizeof(OUI_data_len));
+      }
+
+      // utility
+      bool addOUI(ui32 oui, ui8 upd_type, ui8 uvf, ui8 uv, const std::vector<ui8>& sel_bytes);
+      bool setPrivateData(const std::string& priv_data);
+
+      virtual void buildSections(Section&) const;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream& o) const;
+#endif
+
+   private:
       // OUI data struct
       struct OUIData {
          enum { BASE_LEN = 6 };
@@ -152,28 +166,10 @@ namespace sigen {
          ui8 length() const { return BASE_LEN + selector_bytes.size(); }
       };
 
+      ui8 OUI_data_len;
+      std::string private_data;
 
-      // constructor
-      SSUDataBroadcastIdDesc() :
-         DataBroadcastIdDesc(SSU_SERVICE_DATA_BROADCAST_ID),
-         OUI_data_len(0)
-      {
-         incLength(sizeof(OUI_data_len));
-      }
-
-      // utility
-      bool addOUI(ui32 oui, ui8 upd_type, ui8 uvf, ui8 uv, const std::vector<ui8>& sel_bytes);
-      bool setPrivateData(const std::string& priv_data);
-
-      virtual void buildSections(Section&) const;
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream& o) const;
-#endif
-
-   private:
       // descriptor OUI list
       std::list<std::unique_ptr<OUIData> > oui_list;
    };
-
 } // sigen namespace

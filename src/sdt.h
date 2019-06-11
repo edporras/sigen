@@ -35,6 +35,20 @@ namespace sigen {
    //
    class SDT : public PSITable
    {
+   public:
+      enum Type { ACTUAL = 0x42, OTHER = 0x46 };
+      enum { PID = 0x11 };
+
+      SDT() = delete;
+
+      bool addService(ui16 sid, bool esf, bool epff, ui8 rs, bool fca); // add a service
+      bool addServiceDesc(ui16 sid, Descriptor &d);                     // add a descriptor to the service matching the sid
+      bool addServiceDesc(Descriptor &d);                               // adds it to the last service added
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream &) const;
+#endif
+
    private:
       enum { BASE_LEN = 8, MAX_SEC_LEN = 1024 };
 
@@ -66,34 +80,20 @@ namespace sigen {
       // the list of services
       std::list<std::unique_ptr<Service> > service_list;
 
-   public:
-      enum Type { ACTUAL = 0x42, OTHER = 0x46 };
-      enum { PID = 0x11 };
-
+   protected:
       // constructor
       SDT(ui16 xport_str_id, ui16 orig_network_id, SDT::Type type, ui8 ver,
           bool cni = true, bool rsrvd = true) :
          PSITable((ui8) type, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
          original_network_id(orig_network_id)
       { }
-      SDT() = delete;
 
-      // utility
-      bool addService(ui16 sid, bool esf, bool epff, ui8 rs, bool fca);
-      bool addServiceDesc(ui16 sid, Descriptor &d);
-      bool addServiceDesc(Descriptor &d); // adds it to the last service added
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream &) const;
-#endif
-
-   protected:
       bool addServiceDesc(Service&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
       bool writeService(Section&, const Service&, ui16 &) const;
    };
 
-
+   // public interface
    struct SDTActual : public SDT {
       SDTActual(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true, bool rsrvd = true) :
          SDT(xport_str_id, orig_network_id, SDT::ACTUAL, ver, cni, rsrvd) { }

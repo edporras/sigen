@@ -25,8 +25,8 @@
 #include "table.h"
 #include "utc.h"
 
-namespace sigen {
-
+namespace sigen
+{
    class TStream;
 
    //
@@ -34,13 +34,6 @@ namespace sigen {
    //
    class TDT : public STable
    {
-   private:
-      UTC utc;
-
-      enum { BASE_LEN = 5,
-             MAX_SEC_LEN = STable::BASE_LEN + BASE_LEN,
-             TID = 0x70 };
-
    public:
       enum { PID = 0x14 };
 
@@ -56,12 +49,18 @@ namespace sigen {
       // accessors
       const UTC& getUTC() const { return utc; }
 
-      // utility
+      // section data writer
       virtual void buildSections(TStream &) const;
 
 #ifdef ENABLE_DUMP
       void dump(std::ostream &) const;
 #endif
-   };
 
+   private:
+      UTC utc;
+
+      enum { BASE_LEN = 5,
+             MAX_SEC_LEN = STable::BASE_LEN + BASE_LEN,
+             TID = 0x70 };
+   };
 } // namespace
