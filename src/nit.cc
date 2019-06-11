@@ -68,16 +68,12 @@ namespace sigen
    //
    bool NIT::addXportStreamDesc(ui16 xsid, ui16 on_id, Descriptor& d)
    {
-      ui16 d_len = d.length();
-      if ( !incLength(d_len) )
-         return false;
-
       // lookup the transport_stream by the passed id
       for (std::unique_ptr<XportStream>& xsp : xport_streams)
       {
          XportStream& xs = *xsp;
          if ( (xs.id == xsid) && (xs.original_network_id == on_id) )
-            return addXportStreamDesc(xs, d, d_len);
+            return addXportStreamDesc(xs, d);
       }
       return false;
    }
@@ -87,12 +83,9 @@ namespace sigen
    //
    bool NIT::addXportStreamDesc(Descriptor& d)
    {
-      ui16 d_len = d.length();
-      if ( !incLength(d_len) )
-         return false;
-
-      if (!xport_streams.empty())
-         return addXportStreamDesc(*xport_streams.back(), d, d_len);
+      if (!xport_streams.empty()) {
+         return addXportStreamDesc(*xport_streams.back(), d);
+      }
       return false;
    }
 
@@ -100,8 +93,12 @@ namespace sigen
    //
    // actually adds the descriptor to the transport stream
    //
-   bool NIT::addXportStreamDesc(XportStream& xs, Descriptor& d, ui16 d_len)
+   bool NIT::addXportStreamDesc(XportStream& xs, Descriptor& d)
    {
+      ui16 d_len = d.length();
+      if ( !incLength(d_len) )
+         return false;
+
       xs.descriptors.add(d, d_len);
       xport_stream_loop_length += d_len;
       return true;

@@ -85,7 +85,7 @@ namespace sigen {
 #endif
 
    protected:
-      bool addXportStreamDesc(XportStream& , Descriptor &, ui16);
+      bool addXportStreamDesc(XportStream& , Descriptor &);
       virtual bool writeSection(Section& , ui8, ui16 &) const;
       bool writeXportStream(Section& , const XportStream& , ui16 &, ui16 &) const;
 

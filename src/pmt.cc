@@ -42,17 +42,13 @@ namespace sigen
    //
    bool PMT::addElemStreamDesc(ui16 elem_pid, Descriptor &d)
    {
-      ui16 d_len = d.length();
-      if ( !incLength( d_len ) )
-         return false;
-
       // look for the stream
       for ( std::unique_ptr<ElementaryStream>& esp : es_list)
       {
          ElementaryStream& stream = *esp;
 
          if (stream.elementary_pid == elem_pid)
-            return addElemStreamDesc(stream, d, d_len);
+            return addElemStreamDesc(stream, d);
       }
       return false;
    }
@@ -62,21 +58,21 @@ namespace sigen
    //
    bool PMT::addElemStreamDesc(Descriptor &d)
    {
-      ui16 d_len = d.length();
-      if ( !incLength( d_len ) )
-         return false;
-
-      // grab the stream at the back (if there's one)
-      if (!es_list.empty())
-         return addElemStreamDesc( *(es_list.back()), d, d_len );
+      if (!es_list.empty()) {
+         return addElemStreamDesc( *(es_list.back()), d );
+      }
       return false;
    }
 
    //
    // actually adds the descriptor to the transport stream
    //
-   bool PMT::addElemStreamDesc(ElementaryStream& stream, Descriptor &d, ui16 d_len)
+   bool PMT::addElemStreamDesc(ElementaryStream& stream, Descriptor &d)
    {
+      ui16 d_len = d.length();
+      if ( !incLength( d_len ) )
+         return false;
+
       // take ownership and store it
       stream.descriptors.add(d, 0); // PMT output does not carry a loop length
       stream.es_info_length += d_len;

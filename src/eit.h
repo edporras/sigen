@@ -94,7 +94,7 @@ namespace sigen {
                     bool);
       bool addEventDesc(std::list<std::unique_ptr<Event> > &, ui16, Descriptor &);
       bool addEventDesc(std::list<std::unique_ptr<Event> > &, Descriptor &);
-      bool addEventDesc(Event& , Descriptor &, ui16);
+      bool addEventDesc(Event& , Descriptor &);
 
       // table builder routines
       bool writeSection(Section& s, const std::list<std::unique_ptr<Event> > &e_list,

@@ -49,18 +49,12 @@ namespace sigen
    //
    bool SDT::addServiceDesc(ui16 sid, Descriptor &d)
    {
-      ui16 d_len = d.length();
-
-      // make sure we can add it (max desc loop len = 2^16 - 1)
-      if ( !incLength(d_len) )
-         return false;
-
       // look for the id in the list
       for (std::unique_ptr<Service>& sp : service_list)
       {
          Service& service = *sp;
          if (service.id == sid)
-            return addServiceDesc(service, d, d_len);
+            return addServiceDesc(service, d);
       }
       return false;
    }
@@ -71,14 +65,9 @@ namespace sigen
    //
    bool SDT::addServiceDesc(Descriptor &d)
    {
-      ui16 d_len = d.length();
-
-      // make sure we can add it
-      if ( !incLength(d_len) )
-         return false;
-
-      if (!service_list.empty())
-         return addServiceDesc(*service_list.back(), d, d_len);
+      if (!service_list.empty()) {
+         return addServiceDesc(*service_list.back(), d);
+      }
       return false;
    }
 
@@ -86,8 +75,14 @@ namespace sigen
    //
    // actually adds the descriptor to the service's list
    //
-   bool SDT::addServiceDesc(Service& serv, Descriptor &d, ui16 d_len)
+   bool SDT::addServiceDesc(Service& serv, Descriptor &d)
    {
+      ui16 d_len = d.length();
+
+      // make sure we can add it (max desc loop len = 2^16 - 1)
+      if ( !incLength(d_len) )
+         return false;
+
       serv.descriptors.add(d, d_len);
       return true;
    }

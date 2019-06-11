@@ -88,7 +88,7 @@ namespace sigen {
 #endif
 
    protected:
-      bool addServiceDesc(Service&, Descriptor &, ui16);
+      bool addServiceDesc(Service&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
       bool writeService(Section&, const Service&, ui16 &) const;
    };

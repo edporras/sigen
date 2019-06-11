@@ -59,18 +59,12 @@ namespace sigen
    bool EIT::addEventDesc(std::list<std::unique_ptr<Event> > &e_list, ui16 evid,
                           Descriptor &d)
    {
-      ui16 d_len = d.length();
-
-      // make sure we can add it (max desc loop len = 2^16 - 1)
-      if ( !incLength(d_len) )
-         return false;
-
       // look for the id in the list.. if found, add the descriptor to it
       for (std::unique_ptr<Event>& ep : e_list)
       {
          Event& event = *ep;
          if (event.id == evid)
-            return addEventDesc(event, d, d_len);
+            return addEventDesc(event, d);
       }
       return false;
    }
@@ -83,15 +77,9 @@ namespace sigen
    //
    bool EIT::addEventDesc(std::list<std::unique_ptr<Event> > &e_list, Descriptor &d)
    {
-      ui16 d_len = d.length();
-
-      // make sure we can add it
-      if ( !incLength(d_len) )
-         return false;
-
-      // get the tail of the list, and add it to it
-      if (!e_list.empty())
-         return addEventDesc( *e_list.back(), d, d_len );
+      if (!e_list.empty()) {
+         return addEventDesc( *e_list.back(), d );
+      }
       return false;
    }
 
@@ -100,8 +88,14 @@ namespace sigen
    // actually adds the descriptor to an event..
    // protected function to be used by the derived classes
    //
-   bool EIT::addEventDesc(Event& event, Descriptor &d, ui16 d_len)
+   bool EIT::addEventDesc(Event& event, Descriptor &d)
    {
+      ui16 d_len = d.length();
+
+      // make sure we can add it (max desc loop len = 2^16 - 1)
+      if ( !incLength(d_len) )
+         return false;
+
       // we don't check if it can fit here since it should have
       // been done before we were called (protected function)
       event.descriptors.add(d, d_len);

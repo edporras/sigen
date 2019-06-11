@@ -109,7 +109,7 @@ namespace sigen {
 #endif
 
    protected:
-      bool addElemStreamDesc(ElementaryStream&, Descriptor &, ui16);
+      bool addElemStreamDesc(ElementaryStream&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
       bool writeStream(Section&, const ElementaryStream& , ui16 &) const;
    };

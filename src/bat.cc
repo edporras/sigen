@@ -67,16 +67,12 @@ namespace sigen
    //
    bool BAT::addXportStreamDesc(ui16 tsid, ui16 on_id, Descriptor &d)
    {
-      ui16 d_len = d.length();
-      if ( !incLength(d_len) )
-         return false;
-
       // lookup the transport_stream by the passed id
       for (std::unique_ptr<XportStream>& xsp : xport_streams)
       {
          XportStream& ts = *xsp;
          if ( (ts.id == tsid) && (ts.original_network_id == on_id) )
-            return addXportStreamDesc(ts, d, d_len);
+            return addXportStreamDesc(ts, d);
       }
       return false;
    }
@@ -86,12 +82,9 @@ namespace sigen
    //
    bool BAT::addXportStreamDesc(Descriptor &d)
    {
-      ui16 d_len = d.length();
-      if ( !incLength(d_len) )
-         return false;
-
-      if (!xport_streams.empty())
-         return addXportStreamDesc( *xport_streams.back(), d, d_len );
+      if (!xport_streams.empty()) {
+         return addXportStreamDesc( *xport_streams.back(), d );
+      }
       return false;
    }
 
@@ -99,8 +92,12 @@ namespace sigen
    //
    // actually adds the descriptor to the transport stream
    //
-   bool BAT::addXportStreamDesc(XportStream& ts, Descriptor &d, ui16 d_len)
+   bool BAT::addXportStreamDesc(XportStream& ts, Descriptor &d)
    {
+      ui16 d_len = d.length();
+      if ( !incLength(d_len) )
+         return false;
+
       ts.descriptors.add(d, d_len);
       xport_stream_loop_length += d_len;
       return true;
