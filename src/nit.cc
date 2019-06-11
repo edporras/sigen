@@ -41,7 +41,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      network_desc.addDesc(d, d_len);
+      network_desc.add(d, d_len);
       return true;
    }
 
@@ -102,7 +102,7 @@ namespace sigen
    //
    bool NIT::addXportStreamDesc(XportStream& xs, Descriptor& d, ui16 d_len)
    {
-      xs.addDesc(d, d_len);
+      xs.descriptors.add(d, d_len);
       xport_stream_loop_length += d_len;
       return true;
    }
@@ -127,14 +127,14 @@ namespace sigen
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *nd = nullptr;
       static const XportStream *ts = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator nd_iter = network_desc.desc_list().begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator nd_iter = network_desc.begin();
       static std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter = xport_streams.begin();
 
       // associate the iterators to the lists.. once they reach the
       // end, they'll take care to reset themselves
       if (!nd_done)
          if (!nd)
-            nd_iter = network_desc.desc_list().begin();
+            nd_iter = network_desc.begin();
 
       if (!ts)
          ts_iter = xport_streams.begin();
@@ -163,7 +163,7 @@ namespace sigen
 
               // for now, save the original value.. this is necessary to
               // increment the internal data pointer of the buffer
-              section.set16Bits(network_desc.desc_loop_length());
+              section.set16Bits(network_desc.loop_length());
 
               sec_bytes = BASE_LEN; // the minimum section size
               op_state = (!nd ? GET_NET_DESC : WRITE_NET_DESC);
@@ -179,7 +179,7 @@ namespace sigen
               if (!nd_done)
               {
                  // fetch the next network descriptor
-                 if (nd_iter != network_desc.desc_list().end())
+                 if (nd_iter != network_desc.end())
                  {
                     nd = (*nd_iter++).get();
 
@@ -247,9 +247,10 @@ namespace sigen
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
-                 if (!ts->desc_list().empty())
+                 if (!ts->descriptors.empty())
                  {
-                    const Descriptor *d = (*ts->desc_list().begin()).get();
+                    // TODO: fixme!!!
+                    const Descriptor *d = (*ts->descriptors.begin()).get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + XportStream::BASE_LEN + d->length()) >
@@ -322,13 +323,13 @@ namespace sigen
       ui16 d_len, ts_desc_len = 0;
       bool exit, done;
       static const Descriptor *tsd = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = ts.desc_list().begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = ts.descriptors.begin();
 
       exit = done = false;
 
       // set the descriptor iterator
       if (!tsd)
-         tsd_iter = ts.desc_list().begin();
+         tsd_iter = ts.descriptors.begin();
 
       while (!exit)
       {
@@ -352,7 +353,7 @@ namespace sigen
 
            case GET_DESC:
               // if we have descriptors available..
-              if (tsd_iter != ts.desc_list().end())
+              if (tsd_iter != ts.descriptors.end())
               {
                  // ... fetch the next one
                  tsd = (*tsd_iter++).get();
@@ -414,10 +415,10 @@ namespace sigen
       identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
 
       // network descriptors
-      identStr(o, NETWORK_DESC_LEN_S, network_desc.desc_loop_length(), true);
+      identStr(o, NETWORK_DESC_LEN_S, network_desc.loop_length(), true);
       o << std::endl;
 
-      dumpDescLoop(network_desc.desc_list(), o);
+      dumpDescLoop(network_desc.list(), o);
 
       // transport streams
       dumpXportStreams(o);
@@ -447,11 +448,11 @@ namespace sigen
          identStr(o, XPORT_STREAM_ID_S, ts.id);
          identStr(o, ORIG_NETWORK_ID_S, ts.original_network_id, true);
          identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
-         identStr(o, DESC_LEN_S, ts.desc_loop_length(), true);
+         identStr(o, DESC_LEN_S, ts.descriptors.loop_length(), true);
          o << std::endl;
 
          // dump the descriptors (inherited method)
-         dumpDescLoop( ts.desc_list(), o );
+         dumpDescLoop( ts.descriptors.list(), o );
       }
       decOutLevel();
    }

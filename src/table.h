@@ -87,9 +87,14 @@ namespace sigen {
          std::list<std::unique_ptr<Descriptor> > d_list;
 
       public:
-         void addDesc(Descriptor& d, ui16 data_len);
-         const std::list<std::unique_ptr<Descriptor> >& desc_list() const { return d_list; }
-         ui16 desc_loop_length() const { return d_length; }
+         void add(Descriptor& d, ui16 data_len);
+         const std::list<std::unique_ptr<Descriptor> >& list() const { return d_list; }
+         ui16 loop_length() const { return d_length; }
+
+         bool empty() const { return d_list.empty(); }
+         const std::unique_ptr<Descriptor>& front() const { return d_list.front(); }
+         std::list<std::unique_ptr<Descriptor> >::const_iterator begin() const { return d_list.begin(); }
+         std::list<std::unique_ptr<Descriptor> >::const_iterator end() const { return d_list.end(); }
       };
 
       virtual ~STable() {}
@@ -123,7 +128,7 @@ namespace sigen {
       ui16 buildLengthData(ui16) const;
 
       bool lengthFits(ui32 l) const {
-         return ((ui32) length + l < MAX_TABLE_LEN);
+         return (static_cast<ui32>(length) + l < MAX_TABLE_LEN);
       }
       bool incLength(ui32 l);
 

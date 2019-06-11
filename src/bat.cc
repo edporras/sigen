@@ -41,7 +41,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      bouquet_desc.addDesc(d, d_len);
+      bouquet_desc.add(d, d_len);
       return true;
    }
 
@@ -101,7 +101,7 @@ namespace sigen
    //
    bool BAT::addXportStreamDesc(XportStream& ts, Descriptor &d, ui16 d_len)
    {
-      ts.addDesc(d, d_len);
+      ts.descriptors.add(d, d_len);
       xport_stream_loop_length += d_len;
       return true;
    }
@@ -126,14 +126,14 @@ namespace sigen
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *bd = nullptr;
       static const XportStream *ts = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator bd_iter = bouquet_desc.desc_list().begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator bd_iter = bouquet_desc.begin();
       static std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter = xport_streams.begin();
 
       // associate the iterators to the lists.. once they reach the
       // end, they'll take care to reset themselves
       if (!bd_done)
          if (!bd)
-            bd_iter = bouquet_desc.desc_list().begin();
+            bd_iter = bouquet_desc.begin();
 
       if (!ts)
          ts_iter = xport_streams.begin();
@@ -162,7 +162,7 @@ namespace sigen
 
               // for now, save the original value.. this is necessary to
               // increment the internal data pointer of the buffer
-              section.set16Bits(bouquet_desc.desc_loop_length());
+              section.set16Bits(bouquet_desc.loop_length());
 
               sec_bytes = BASE_LEN; // the minimum section size
               op_state = (!bd ? GET_BOUQUET_DESC : WRITE_BOUQUET_DESC);
@@ -178,7 +178,7 @@ namespace sigen
               if (!bd_done)
               {
                  // fetch the next network descriptor
-                 if (bd_iter != bouquet_desc.desc_list().end())
+                 if (bd_iter != bouquet_desc.end())
                  {
                     bd = (*bd_iter++).get();
 
@@ -245,9 +245,9 @@ namespace sigen
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
-                 if (!ts->desc_list().empty())
+                 if (!ts->descriptors.empty())
                  {
-                    const Descriptor *d = ts->desc_list().front().get();
+                    const Descriptor *d = ts->descriptors.front().get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + XportStream::BASE_LEN + d->length()) >
@@ -319,13 +319,13 @@ namespace sigen
       ui16 d_len, ts_desc_len = 0;
       bool exit, done;
       static const Descriptor *tsd = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = ts.desc_list().begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = ts.descriptors.begin();
 
       exit = done = false;
 
       // set the descriptor iterator
       if (!tsd)
-         tsd_iter = ts.desc_list().begin();
+         tsd_iter = ts.descriptors.begin();
 
       while (!exit)
       {
@@ -348,7 +348,7 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (tsd_iter != ts.desc_list().end())
+              if (tsd_iter != ts.descriptors.end())
               {
                  tsd = (*tsd_iter++).get();
 
@@ -405,10 +405,10 @@ namespace sigen
       identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
 
       // bouquet descriptors
-      identStr(o, BOUQUET_DESC_LEN_S, bouquet_desc.desc_loop_length(), true);
+      identStr(o, BOUQUET_DESC_LEN_S, bouquet_desc.loop_length(), true);
       o << std::endl;
 
-      dumpDescLoop( bouquet_desc.desc_list(), o );
+      dumpDescLoop( bouquet_desc.list(), o );
 
       // transport streams
       dumpXportStreams(o);
@@ -438,11 +438,11 @@ namespace sigen
          identStr(o, XPORT_STREAM_ID_S, ts.id);
          identStr(o, ORIG_NETWORK_ID_S, ts.original_network_id);
          identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
-         identStr(o, DESC_LEN_S, ts.desc_loop_length(), true);
+         identStr(o, DESC_LEN_S, ts.descriptors.loop_length(), true);
          o << std::endl;
 
          // dump the transport descriptors
-         dumpDescLoop( ts.desc_list(), o );
+         dumpDescLoop( ts.descriptors.list(), o );
       }
       decOutLevel();
    }

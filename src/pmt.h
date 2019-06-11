@@ -42,12 +42,13 @@ namespace sigen {
              BASE_LEN = 9, MAX_SEC_LEN = 1024 };
 
       // the stream holder struct - private to the pmt
-      struct ElementaryStream : STable::DescListItem {
+      struct ElementaryStream {
          enum { BASE_LEN = 5 };
 
          ui16 es_info_length,
             elementary_pid : 13;
          ui8 type;
+         DescListItem descriptors;
 
          // constructor
          ElementaryStream(ui16 epid, ui8 t) :

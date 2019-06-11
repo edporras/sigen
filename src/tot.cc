@@ -53,11 +53,11 @@ namespace sigen
       // reserved + loop length
       o << std::hex;
       identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
-      identStr(o, DESC_LOOP_LEN_S, descriptors.desc_loop_length() & LEN_MASK, true);
+      identStr(o, DESC_LOOP_LEN_S, descriptors.loop_length() & LEN_MASK, true);
       o << std::endl;
 
       // descriptors
-      dumpDescLoop( descriptors.desc_list(), o );
+      dumpDescLoop( descriptors.list(), o );
    }
 #endif
 
@@ -73,7 +73,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      descriptors.addDesc(d, d_len);
+      descriptors.add(d, d_len);
       return true;
    }
 
@@ -94,10 +94,10 @@ namespace sigen
       s->set08Bits( utc.time.getBCDSecond() );
 
       // reserved bits (4) and loop length (12)
-      s->set16Bits( rbits(reserved, ~LEN_MASK) | (descriptors.desc_loop_length() & LEN_MASK) );
+      s->set16Bits( rbits(reserved, ~LEN_MASK) | (descriptors.loop_length() & LEN_MASK) );
 
       // descriptors - TODO: refactor
-      for (const std::unique_ptr<Descriptor>& dp : descriptors.desc_list())
+      for (const std::unique_ptr<Descriptor>& dp : descriptors.list())
          (*dp).buildSections(*s);
 
       // crc it

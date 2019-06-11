@@ -37,7 +37,7 @@ namespace sigen
       if ( !incLength( d.length() ) )
          return false;
 
-      descriptors.addDesc(d, 0);
+      descriptors.add(d, 0);
       return true;
    }
 
@@ -55,12 +55,12 @@ namespace sigen
       static bool d_done = false;
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *d = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = descriptors.desc_list().begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = descriptors.begin();
 
       // associate the iterators to the list
       if (!d_done)
          if (!d)
-            d_iter = descriptors.desc_list().begin();
+            d_iter = descriptors.begin();
 
       done = exit = false;
 
@@ -89,7 +89,7 @@ namespace sigen
               if (!d_done)
               {
                  // fetch the next descriptor
-                 if (d_iter != descriptors.desc_list().end())
+                 if (d_iter != descriptors.end())
                  {
                     d = (*d_iter++).get();
 
@@ -140,7 +140,7 @@ namespace sigen
       o << std::endl;
 
       // program desc list
-      dumpDescLoop( descriptors.desc_list(), o );
+      dumpDescLoop( descriptors.list(), o );
    }
 #endif
 

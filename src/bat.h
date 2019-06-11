@@ -41,12 +41,13 @@ namespace sigen {
       enum { BASE_LEN = 9, TID = 0x4a, MAX_SEC_LEN = 1024 };
 
       // the transport stream struct
-      struct XportStream : STable::DescListItem
+      struct XportStream
       {
          enum { BASE_LEN = 6 };
 
          ui16 id,                    // transport stream id
             original_network_id;
+         DescListItem descriptors;
 
          // constructor
          XportStream(ui16 tsid, ui16 onid) :
@@ -54,7 +55,7 @@ namespace sigen {
          { }
 
          // utility methods
-         int length() const { return desc_loop_length() + BASE_LEN; }
+         int length() const { return descriptors.loop_length() + BASE_LEN; }
       };
 
       // BAT members
