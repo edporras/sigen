@@ -461,9 +461,8 @@ namespace sigen
                    (free_CA_mode << 12) |
                    descriptors.loop_length() );
 
-      // descriptor loop - TODO: refactor!!!
-      for (const std::unique_ptr<Descriptor>& dp : descriptors.list())
-         (*dp).buildSections(s);
+      // descriptor loop
+      descriptors.buildSections(s);
    }
 
 

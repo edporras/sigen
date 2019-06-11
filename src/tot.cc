@@ -96,9 +96,8 @@ namespace sigen
       // reserved bits (4) and loop length (12)
       s->set16Bits( rbits(reserved, ~LEN_MASK) | (descriptors.loop_length() & LEN_MASK) );
 
-      // descriptors - TODO: refactor
-      for (const std::unique_ptr<Descriptor>& dp : descriptors.list())
-         (*dp).buildSections(*s);
+      // descriptors
+      descriptors.buildSections(*s);
 
       // crc it
       s->calcCrc();

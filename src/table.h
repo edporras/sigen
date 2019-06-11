@@ -80,7 +80,9 @@ namespace sigen {
       { }
 
    public:
-      // should probably replace all desc_lists with one of these
+      // contains a list of descriptors and tracks the data
+      // length. Handles taking ownership of the descriptor pointer to
+      // auto-delete when table goes out of scope.
       class DescListItem
       {
          ui16 d_length = 0;
@@ -95,6 +97,9 @@ namespace sigen {
          const std::unique_ptr<Descriptor>& front() const { return d_list.front(); }
          std::list<std::unique_ptr<Descriptor> >::const_iterator begin() const { return d_list.begin(); }
          std::list<std::unique_ptr<Descriptor> >::const_iterator end() const { return d_list.end(); }
+
+         // only writes data loop - not length as it depends on the table
+         void buildSections(Section &s) const;
       };
 
       virtual ~STable() {}

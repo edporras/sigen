@@ -42,6 +42,12 @@ namespace sigen
       d_length += d_len;
    }
 
+   void STable::DescListItem::buildSections(Section &s) const
+   {
+      for (const std::unique_ptr<Descriptor>& dp : d_list)
+         (*dp).buildSections(s);
+   }
+
    //
    // checks if the data can fit, and if so bumps the length by the
    // amount

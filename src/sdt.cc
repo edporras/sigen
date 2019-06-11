@@ -347,9 +347,7 @@ namespace sigen
       s.set16Bits( (running_status << 13) | (free_ca_mode << 12) |
                    (descriptors.loop_length() & 0x0fff) );
 
-      // TODO: refactor!!!
-      for (const std::unique_ptr<Descriptor>& dp : descriptors.list())
-         (*dp).buildSections(s);
+      descriptors.buildSections(s);
    }
 
 } // namespace sigen
