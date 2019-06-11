@@ -41,13 +41,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      // take ownership and store it
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      bouquet_desc.push_back( std::move(dp) );
-
-      // increment the table and bouquet_desc_loop lengths
-      bouquet_desc_length += d_len;
+      bouquet_desc.addDesc(d, d_len);
       return true;
    }
 
@@ -132,14 +126,14 @@ namespace sigen
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *bd = nullptr;
       static const XportStream *ts = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator bd_iter = bouquet_desc.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator bd_iter = bouquet_desc.desc_list().begin();
       static std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter = xport_streams.begin();
 
       // associate the iterators to the lists.. once they reach the
       // end, they'll take care to reset themselves
       if (!bd_done)
          if (!bd)
-            bd_iter = bouquet_desc.begin();
+            bd_iter = bouquet_desc.desc_list().begin();
 
       if (!ts)
          ts_iter = xport_streams.begin();
@@ -168,7 +162,7 @@ namespace sigen
 
               // for now, save the original value.. this is necessary to
               // increment the internal data pointer of the buffer
-              section.set16Bits(bouquet_desc_length);
+              section.set16Bits(bouquet_desc.desc_loop_length());
 
               sec_bytes = BASE_LEN; // the minimum section size
               op_state = (!bd ? GET_BOUQUET_DESC : WRITE_BOUQUET_DESC);
@@ -184,7 +178,7 @@ namespace sigen
               if (!bd_done)
               {
                  // fetch the next network descriptor
-                 if (bd_iter != bouquet_desc.end())
+                 if (bd_iter != bouquet_desc.desc_list().end())
                  {
                     bd = (*bd_iter++).get();
 
@@ -411,10 +405,10 @@ namespace sigen
       identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
 
       // bouquet descriptors
-      identStr(o, BOUQUET_DESC_LEN_S, bouquet_desc_length, true);
+      identStr(o, BOUQUET_DESC_LEN_S, bouquet_desc.desc_loop_length(), true);
       o << std::endl;
 
-      dumpDescLoop( bouquet_desc, o );
+      dumpDescLoop( bouquet_desc.desc_list(), o );
 
       // transport streams
       dumpXportStreams(o);

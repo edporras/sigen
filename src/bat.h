@@ -58,10 +58,8 @@ namespace sigen {
       };
 
       // BAT members
-      ui16 bouquet_desc_length,
-         xport_stream_loop_length;
-
-      std::list<std::unique_ptr<Descriptor> > bouquet_desc;   // bouquet descriptors
+      ui16 xport_stream_loop_length;
+      DescListItem bouquet_desc;
       std::list<std::unique_ptr<XportStream> > xport_streams; // transport streams
 
    public:
@@ -71,7 +69,6 @@ namespace sigen {
       BAT(ui16 bouquet_id, ui8 ver, bool cni = true, bool rsrvd = true) :
          PSITable(TID, bouquet_id, BASE_LEN, MAX_SEC_LEN, ver, cni,
                   rsrvd, rsrvd),
-         bouquet_desc_length(0),
          xport_stream_loop_length(0)
       { }
       BAT() = delete;

@@ -53,11 +53,11 @@ namespace sigen
       // reserved + loop length
       o << std::hex;
       identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
-      identStr(o, DESC_LOOP_LEN_S, desc_loop_length & LEN_MASK, true);
+      identStr(o, DESC_LOOP_LEN_S, descriptors.desc_loop_length() & LEN_MASK, true);
       o << std::endl;
 
       // descriptors
-      dumpDescLoop( desc_list, o );
+      dumpDescLoop( descriptors.desc_list(), o );
    }
 #endif
 
@@ -73,13 +73,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      // take ownership and store it
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      desc_list.push_back(std::move(dp));
-
-      // increment the table and network_desc_loop lengths
-      desc_loop_length += d_len;
+      descriptors.addDesc(d, d_len);
       return true;
    }
 
@@ -100,10 +94,10 @@ namespace sigen
       s->set08Bits( utc.time.getBCDSecond() );
 
       // reserved bits (4) and loop length (12)
-      s->set16Bits( rbits(reserved, ~LEN_MASK) | (desc_loop_length & LEN_MASK) );
+      s->set16Bits( rbits(reserved, ~LEN_MASK) | (descriptors.desc_loop_length() & LEN_MASK) );
 
-      // descriptors
-      for (const std::unique_ptr<Descriptor>& dp : desc_list)
+      // descriptors - TODO: refactor
+      for (const std::unique_ptr<Descriptor>& dp : descriptors.desc_list())
          (*dp).buildSections(*s);
 
       // crc it

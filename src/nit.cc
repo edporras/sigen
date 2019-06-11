@@ -41,13 +41,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      // take ownership and store it
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      network_desc.push_back(std::move(dp));
-
-      // increment the network_desc_loop lengths
-      network_desc_length += d_len;
+      network_desc.addDesc(d, d_len);
       return true;
    }
 
@@ -133,14 +127,14 @@ namespace sigen
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *nd = nullptr;
       static const XportStream *ts = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator nd_iter = network_desc.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator nd_iter = network_desc.desc_list().begin();
       static std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter = xport_streams.begin();
 
       // associate the iterators to the lists.. once they reach the
       // end, they'll take care to reset themselves
       if (!nd_done)
          if (!nd)
-            nd_iter = network_desc.begin();
+            nd_iter = network_desc.desc_list().begin();
 
       if (!ts)
          ts_iter = xport_streams.begin();
@@ -169,7 +163,7 @@ namespace sigen
 
               // for now, save the original value.. this is necessary to
               // increment the internal data pointer of the buffer
-              section.set16Bits(network_desc_length);
+              section.set16Bits(network_desc.desc_loop_length());
 
               sec_bytes = BASE_LEN; // the minimum section size
               op_state = (!nd ? GET_NET_DESC : WRITE_NET_DESC);
@@ -185,7 +179,7 @@ namespace sigen
               if (!nd_done)
               {
                  // fetch the next network descriptor
-                 if (nd_iter != network_desc.end())
+                 if (nd_iter != network_desc.desc_list().end())
                  {
                     nd = (*nd_iter++).get();
 
@@ -420,10 +414,10 @@ namespace sigen
       identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
 
       // network descriptors
-      identStr(o, NETWORK_DESC_LEN_S, network_desc_length, true);
+      identStr(o, NETWORK_DESC_LEN_S, network_desc.desc_loop_length(), true);
       o << std::endl;
 
-      dumpDescLoop(network_desc, o);
+      dumpDescLoop(network_desc.desc_list(), o);
 
       // transport streams
       dumpXportStreams(o);

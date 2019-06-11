@@ -22,8 +22,6 @@
 
 #pragma once
 
-#include <memory>
-#include <list>
 #include "utc.h"
 #include "table.h"
 #include "util.h"
@@ -43,8 +41,7 @@ namespace sigen {
 
       enum { BASE_LEN = 7, MAX_SEC_LEN = 1024, TID = 0x73 };
 
-      ui16 desc_loop_length;
-      std::list<std::unique_ptr<Descriptor> > desc_list; // descriptors list
+      DescListItem descriptors;
 
    public:
       enum { PID = 0x14 };
@@ -55,8 +52,7 @@ namespace sigen {
       { }
       TOT(const UTC &t, bool rsrvd = true) :
          STable(TID, BASE_LEN, MAX_SEC_LEN, false, rsrvd, rsrvd),
-         utc(t),
-         desc_loop_length(0)
+         utc(t)
       { }
 
       // accessors

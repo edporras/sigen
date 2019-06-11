@@ -20,10 +20,7 @@ namespace sigen
       if ( !incLength(d_len) )
          return false;
 
-      // take ownership and store it
-      std::unique_ptr<Descriptor> dp;
-      dp.reset(&d);
-      desc_list.push_back( std::move(dp) );
+      prog_desc.addDesc(d, 0);
       program_info_length += d_len;
       return true;
    }
@@ -104,13 +101,13 @@ namespace sigen
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *pd = nullptr;
       static const ElementaryStream *ts = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator pd_iter = desc_list.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator pd_iter = prog_desc.desc_list().begin();
       static std::list<std::unique_ptr<ElementaryStream> >::const_iterator ts_iter = es_list.begin();
 
       // associate the iterators to the list
       if (!d_done)
          if (!pd)
-            pd_iter = desc_list.begin();
+            pd_iter = prog_desc.desc_list().begin();
 
       if (!ts)
          ts_iter = es_list.begin();
@@ -157,7 +154,7 @@ namespace sigen
               if (!d_done)
               {
                  // fetch the next program descriptor
-                 if (pd_iter != desc_list.end())
+                 if (pd_iter != prog_desc.desc_list().end())
                  {
                     pd = (*pd_iter++).get();
 
@@ -364,7 +361,7 @@ namespace sigen
       o << std::endl;
 
       // program desc list
-      dumpDescLoop( desc_list, o );
+      dumpDescLoop( prog_desc.desc_list(), o );
 
       // stream list
       incOutLevel(); // indent output

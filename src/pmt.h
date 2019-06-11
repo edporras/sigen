@@ -58,8 +58,8 @@ namespace sigen {
       // instance variables
       ui16 program_info_length,
          pcr_pid : 13;
-      std::list<std::unique_ptr<Descriptor> > desc_list;       // program descriptors
-      std::list<std::unique_ptr<ElementaryStream> > es_list;   // the list of streams
+      DescListItem prog_desc;                                // program descriptors
+      std::list<std::unique_ptr<ElementaryStream> > es_list; // the list of streams
 
    public:
 

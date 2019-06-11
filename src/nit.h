@@ -54,11 +54,10 @@ namespace sigen {
       };
 
       // NIT members
-      ui16 network_desc_length,
-         xport_stream_loop_length;
+      ui16 xport_stream_loop_length;
 
-      std::list<std::unique_ptr<Descriptor> > network_desc;   // network descriptors
-      std::list<std::unique_ptr<XportStream> > xport_streams; // transport streams
+      DescListItem network_desc;
+      std::list<std::unique_ptr<XportStream> > xport_streams;
 
    public:
       enum Type { ACTUAL = 0x40, OTHER = 0x41 };
@@ -69,7 +68,6 @@ namespace sigen {
       NIT(ui16 network_id, NIT::Type type, ui8 ver, bool cni = true,
           bool rsrvd = true) :
          PSITable((ui8) type, network_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
-         network_desc_length(0),
          xport_stream_loop_length(0)
       { }
       NIT() = delete;

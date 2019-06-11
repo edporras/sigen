@@ -22,8 +22,6 @@
 
 #pragma once
 
-#include <memory>
-#include <list>
 #include "table.h"
 #include "util.h"
 
@@ -42,7 +40,7 @@ namespace sigen {
              BASE_LEN = 5, MAX_SEC_LEN = 1024 };
 
       // list of descriptors
-      std::list<std::unique_ptr<Descriptor> > desc_list;
+      DescListItem descriptors;
 
    public:
       enum { PID = 0x01 };
