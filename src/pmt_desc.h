@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "descriptor.h"
 #include "util.h"
@@ -247,7 +248,7 @@ namespace sigen {
 #endif
 
    private:
-      std::list<Subtitling> subtitling_list;
+      std::list<std::unique_ptr<Subtitling> > subtitling_list;
    };
 
 
@@ -298,7 +299,7 @@ namespace sigen {
 #endif
 
    private:
-      std::list<Teletext> teletext_list;
+      std::list<std::unique_ptr<Teletext> > teletext_list;
    };
 
 } // sigen namespace

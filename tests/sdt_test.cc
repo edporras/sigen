@@ -15,6 +15,7 @@ namespace tests
       ServiceDesc *sd = new ServiceDesc( 0xfe,
                                          "My provider name is XYZ and the point of this is to test if really long strings are truncated correctly so I must add even more data here",
                                          "my service name is ABC and the point of this is to test if really really long strings are really really truncated correctly");
+      // this addServiceDesc method adds it to the last service added. Otherwise, use addServiceDesc(ui16 sid, Descriptor&)
       sdt.addServiceDesc( *sd );
 
       CountryAvailabilityDesc *cad = new CountryAvailabilityDesc(true);

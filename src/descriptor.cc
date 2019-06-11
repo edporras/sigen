@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include <string>
 #include "descriptor.h"
@@ -108,7 +109,7 @@ namespace sigen
 
       // the string has been resized if it didn't fit so add the language
       // data to the list
-      ml_text_list.push_back( Text(code, t) );
+      ml_text_list.push_back( std::make_unique<Text>(code, t) );
       return true;
    }
 
@@ -117,12 +118,12 @@ namespace sigen
    // writes the loop's data to the section
    void MultilingualTextDesc::buildLoopData(Section& s) const
    {
-      for (const Text& text : ml_text_list)
+      for (const auto& text : ml_text_list)
       {
          // write its data
-         s.setBits( text.code ); // lang code
-         s.set08Bits( static_cast<ui8>(text.data.length()) );  // text length
-         s.setBits( text.data );                               // text
+         s.setBits( text->code ); // lang code
+         s.set08Bits( static_cast<ui8>(text->data.length()) );  // text length
+         s.setBits( text->data );                               // text
       }
    }
 
@@ -134,11 +135,11 @@ namespace sigen
    {
       incOutLevel();
 
-      for (const Text& text : ml_text_list)
+      for (const auto& text : ml_text_list)
       {
-         identStr(o, CODE_S, text.code);
-         identStr(o, NAME_LEN_S, text.data.length(), true);
-         identStr(o, data_type, text.data);
+         identStr(o, CODE_S, text->code);
+         identStr(o, NAME_LEN_S, text->data.length(), true);
+         identStr(o, data_type, text->data);
       }
 
       decOutLevel();

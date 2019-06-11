@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <string>
 #include <list>
 #include "descriptor.h"
@@ -84,7 +85,7 @@ namespace sigen
          return false;
 
       // and add it
-      country_list.push_back( code );
+      country_list.push_back( std::make_unique<LanguageCode>(code) );
       return true;
    }
 
@@ -96,8 +97,8 @@ namespace sigen
 
       s.set08Bits( country_availability_flag << 7 | rbits(reserved, 0x7f) );
 
-      for (const LanguageCode& lc : country_list)
-         s.setBits( lc );
+      for (const auto& lc : country_list)
+         s.setBits( *lc );
    }
 
 #ifdef ENABLE_DUMP
@@ -111,8 +112,8 @@ namespace sigen
       identStr(o, RESERVED_FU_S, rbits(reserved, 0x7f));
 
       incOutLevel();
-      for (const LanguageCode& lc : country_list)
-         identStr(o, COUNTRY_CODE_S, lc);
+      for (const auto& lc : country_list)
+         identStr(o, COUNTRY_CODE_S, *lc);
       decOutLevel();
    }
 #endif
@@ -176,10 +177,8 @@ namespace sigen
          return false;
 
       // ok, so create on to add
-      TimeOffset to(code, country_region_id, offset_polarity, lt_offset,
-                    time_of_change, next_time_offset);
-
-      time_offset_list.push_back( to );
+      time_offset_list.push_back(std::make_unique<TimeOffset>(code, country_region_id, offset_polarity, lt_offset,
+                                                              time_of_change, next_time_offset));
       return true;
    }
 
@@ -192,21 +191,21 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // write the offset loop
-      for (const TimeOffset &offset : time_offset_list)
+      for (const auto &offset : time_offset_list)
       {
          // now set the data
-         s.setBits( offset.country_code );
-         s.set08Bits( (offset.country_region_id << 2) |
-                      (rbits(offset.reserved, 0x01) << 1) |
-                      (offset.local_time_offset_polarity) );
-         s.set16Bits( offset.local_time_offset );
+         s.setBits( offset->country_code );
+         s.set08Bits( (offset->country_region_id << 2) |
+                      (rbits(offset->reserved, 0x01) << 1) |
+                      (offset->local_time_offset_polarity) );
+         s.set16Bits( offset->local_time_offset );
 
-         s.set16Bits( offset.time_of_change.mjd );
-         s.set08Bits( offset.time_of_change.time.getBCDHour() );
-         s.set08Bits( offset.time_of_change.time.getBCDMinute() );
-         s.set08Bits( offset.time_of_change.time.getBCDSecond() );
+         s.set16Bits( offset->time_of_change.mjd );
+         s.set08Bits( offset->time_of_change.time.getBCDHour() );
+         s.set08Bits( offset->time_of_change.time.getBCDMinute() );
+         s.set08Bits( offset->time_of_change.time.getBCDSecond() );
 
-         s.set16Bits( offset.next_time_offset );
+         s.set16Bits( offset->next_time_offset );
       }
    }
 
@@ -221,22 +220,22 @@ namespace sigen
 
       // write the offset loop
       incOutLevel();
-      for (const TimeOffset &offset : time_offset_list)
+      for (const auto &offset : time_offset_list)
       {
          o << std::endl;
 
-         identStr(o, COUNTRY_CODE_S, offset.country_code);
-         identStr(o, COUNTRY_REGION_ID_S, offset.country_region_id);
-         identStr(o, RESERVED_S, rbits(offset.reserved, 0x01));
-         identStr(o, LTO_POLARITY_S, offset.local_time_offset_polarity);
+         identStr(o, COUNTRY_CODE_S, offset->country_code);
+         identStr(o, COUNTRY_REGION_ID_S, offset->country_region_id);
+         identStr(o, RESERVED_S, rbits(offset->reserved, 0x01));
+         identStr(o, LTO_POLARITY_S, offset->local_time_offset_polarity);
 
-         identStr(o, LOCAL_TIME_OFFSET_S, offset.local_time_offset);
+         identStr(o, LOCAL_TIME_OFFSET_S, offset->local_time_offset);
 
          identStr(o, UTC_S);
-         o << offset.time_of_change << std::endl;
+         o << offset->time_of_change << std::endl;
 
          o << std::hex;
-         identStr(o, NEXT_TIME_OFFSET_S, offset.next_time_offset);
+         identStr(o, NEXT_TIME_OFFSET_S, offset->next_time_offset);
       }
       decOutLevel();
    }
@@ -307,7 +306,7 @@ namespace sigen
          return false;
 
       // and then add it
-      service_list.push_back( Service(id, type) );
+      service_list.push_back( std::make_unique<Service>(id, type) );
       return true;
    }
 
@@ -318,10 +317,10 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const Service &service : service_list)
+      for (const auto &service : service_list)
       {
-         s.set16Bits( service.id );
-         s.set08Bits( service.type );
+         s.set16Bits( service->id );
+         s.set08Bits( service->type );
       }
    }
 
@@ -334,10 +333,10 @@ namespace sigen
       // dump the descriptor's data
       incOutLevel();
 
-      for (const Service &service : service_list)
+      for (const auto &service : service_list)
       {
-         identStr(o, SERVICE_ID_S, service.id, true);
-         identStr(o, TYPE_S, service.type);
+         identStr(o, SERVICE_ID_S, service->id, true);
+         identStr(o, TYPE_S, service->type);
       }
       decOutLevel();
    }

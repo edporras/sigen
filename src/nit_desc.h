@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <list>
 #include "descriptor.h"
@@ -292,7 +293,7 @@ namespace sigen {
    private:
       // descriptor data members
       ui16 announcement_support_indicator;
-      std::list<Announcement> announcement_list;
+      std::list<std::unique_ptr<Announcement> > announcement_list;
    };
 
 
@@ -325,7 +326,7 @@ namespace sigen {
 
          ui16 cell_id;
          ui32 frequency;
-         std::list<SubCell> subcell_list;
+         std::list<std::unique_ptr<SubCell> > subcell_list;
 
          // constructor
          Link(ui16 c_id, ui32 freq) :
@@ -356,7 +357,7 @@ namespace sigen {
 
    private:
       // descriptor data members
-      std::list<Link> cflink_list;
+      std::list<std::unique_ptr<Link> > cflink_list;
 
    protected:
       bool addLinkSubCell(Link& l, ui8 cid_ext, ui32 xposer_freq);
@@ -403,7 +404,7 @@ namespace sigen {
          ui32 extend_of_latitude : 12,
             extend_of_longitude : 12;
 
-         std::list<SubCell> subcell_list;
+         std::list<std::unique_ptr<SubCell> > subcell_list;
 
          // constructor
          Cell(ui16 c_id, ui16 lat, ui16 lon, ui16 ext_lat, ui16 ext_lon) :
@@ -439,7 +440,7 @@ namespace sigen {
 
    private:
       // descriptor data members
-      std::list<Cell> cell_list;
+      std::list<std::unique_ptr<Cell> > cell_list;
 
    protected:
       bool addCellSubCell(Cell& cell, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,

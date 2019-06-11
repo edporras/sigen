@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include <string>
 #include "descriptor.h"
@@ -130,14 +131,14 @@ namespace sigen
    //
    bool SSUDataBroadcastIdDesc::addOUI(ui32 oui, ui8 upd_type, ui8 uvf, ui8 uv, const std::vector<ui8>& sel_bytes)
    {
-      SSUDataBroadcastIdDesc::OUIData oui_entry(oui, upd_type, uvf, uv, sel_bytes);
+      std::unique_ptr<SSUDataBroadcastIdDesc::OUIData> oui_entry(new SSUDataBroadcastIdDesc::OUIData(oui, upd_type, uvf, uv, sel_bytes));
 
       // can we add it?
-      if ( !incLength( oui_entry.length() ) )
+      if ( !incLength( oui_entry->length() ) )
          return false;
 
-      OUI_data_len += oui_entry.length();
-      oui_list.push_back( oui_entry );
+      OUI_data_len += oui_entry->length();
+      oui_list.push_back( std::move(oui_entry) );
       return true;
    }
 
@@ -158,14 +159,14 @@ namespace sigen
 
       s.set08Bits( OUI_data_len );
 
-      for (const OUIData &oui : oui_list)
+      for (const auto &oui : oui_list)
       {
-         s.set24Bits( oui.OUI );
-         s.set08Bits( rbits(oui.reserved, 0xf0) | oui.update_type );
-         s.set08Bits( rbits(oui.reserved, 0xc0) | (oui.update_versioning_flag << 5) | oui.update_version );
-         s.set08Bits( oui.selector_bytes.size() );
-         if ( oui.selector_bytes.size() ) {
-            s.setBits( oui.selector_bytes );
+         s.set24Bits( oui->OUI );
+         s.set08Bits( rbits(oui->reserved, 0xf0) | oui->update_type );
+         s.set08Bits( rbits(oui->reserved, 0xc0) | (oui->update_versioning_flag << 5) | oui->update_version );
+         s.set08Bits( oui->selector_bytes.size() );
+         if ( oui->selector_bytes.size() ) {
+            s.setBits( oui->selector_bytes );
          }
       }
 
@@ -180,16 +181,16 @@ namespace sigen
       identStr(o, OUI_DATA_LEN_S, OUI_data_len);
 
       incOutLevel();
-      for (const OUIData &oui : oui_list)
+      for (const auto &oui : oui_list)
       {
-         identStr(o, OUI_S, oui.OUI);
-         identStr(o, RESERVED_S, rbits(oui.reserved, 0x0f));
-         identStr(o, UPDATE_TYPE_S, oui.update_type);
-         identStr(o, RESERVED_S, rbits(oui.reserved, 0x03));
-         identStr(o, UPDATE_VER_FLAG_S, oui.update_versioning_flag);
-         identStr(o, UPDATE_VER_S, oui.update_version);
-         identStr(o, SELECTOR_LEN_S, oui.selector_bytes.size(), true);
-         identStr(o, SELECTOR_S, oui.selector_bytes);
+         identStr(o, OUI_S, oui->OUI);
+         identStr(o, RESERVED_S, rbits(oui->reserved, 0x0f));
+         identStr(o, UPDATE_TYPE_S, oui->update_type);
+         identStr(o, RESERVED_S, rbits(oui->reserved, 0x03));
+         identStr(o, UPDATE_VER_FLAG_S, oui->update_versioning_flag);
+         identStr(o, UPDATE_VER_S, oui->update_version);
+         identStr(o, SELECTOR_LEN_S, oui->selector_bytes.size(), true);
+         identStr(o, SELECTOR_S, oui->selector_bytes);
       }
       decOutLevel();
 

@@ -20,6 +20,7 @@
 // eit_desc.cc: class definition for the DVB defined EIT descriptors
 // -----------------------------------
 
+#include <utility>
 #include <list>
 #include <string>
 #include "descriptor.h"
@@ -65,9 +66,9 @@ namespace sigen
       dumpHeader(o, COMPONENT_D_S);
 
       identStr(o, RESERVED_FU_S, rbits(reserved, 0x0f) );
-      identStr(o, STREAM_CONTENT_S, (ui16) stream_content);
-      identStr(o, COMPONENT_TYPE_S, (ui16) component_type);
-      identStr(o, COMPONENT_TAG_S, (ui16) component_tag);
+      identStr(o, STREAM_CONTENT_S, static_cast<ui16>(stream_content));
+      identStr(o, COMPONENT_TYPE_S, static_cast<ui16>(component_type));
+      identStr(o, COMPONENT_TAG_S, static_cast<ui16>(component_tag));
       identStr(o, CODE_S, language_code);
       identStr(o, TEXT_S, text);
    }
@@ -88,7 +89,7 @@ namespace sigen
          return false;
 
       // create an entry and add it
-      content_list.push_back( Content(nl1, nl2, un1, un2) );
+      content_list.push_back( std::make_unique<Content>(nl1, nl2, un1, un2) );
       return true;
    }
 
@@ -100,10 +101,10 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const Content &content : content_list)
+      for (const auto &content : content_list)
       {
-         s.set08Bits( (content.nibble_level_1 << 4) | content.nibble_level_2 );
-         s.set08Bits( (content.user_nibble_1 << 4) | content.user_nibble_2 );
+         s.set08Bits( (content->nibble_level_1 << 4) | content->nibble_level_2 );
+         s.set08Bits( (content->user_nibble_1 << 4) | content->user_nibble_2 );
       }
    }
 
@@ -116,12 +117,12 @@ namespace sigen
       dumpHeader(o, CONTENT_D_S);
 
       incOutLevel();
-      for (const Content &content : content_list)
+      for (const auto &content : content_list)
       {
-         identStr(o, CONTENT_NL_1, content.nibble_level_1);
-         identStr(o, CONTENT_NL_2, content.nibble_level_2);
-         identStr(o, USER_NL_1, content.user_nibble_1);
-         identStr(o, USER_NL_2, content.user_nibble_2);
+         identStr(o, CONTENT_NL_1, content->nibble_level_1);
+         identStr(o, CONTENT_NL_2, content->nibble_level_2);
+         identStr(o, USER_NL_1, content->user_nibble_1);
+         identStr(o, USER_NL_2, content->user_nibble_2);
       }
       decOutLevel();
    }
@@ -143,12 +144,12 @@ namespace sigen
       // event descriptors sent.  however, each item's total length can't
       // exceed 255 either.. so to simplify things, if an item exceeds
       // the 255 limit, we reject it off the bat..
-      Item item(desc, name);
+      std::unique_ptr<Item> item(new Item(desc, name));
 
-      if ( !incLength( item.length() ) )
+      if ( !incLength( item->length() ) )
          return false;
 
-      item_list.push_back( item );
+      item_list.push_back( std::move(item) );
       return true;
    }
 
@@ -159,8 +160,8 @@ namespace sigen
    {
       ui8 size = 0;
 
-      for (const Item& i : item_list) 
-         size += i.length();
+      for (const auto& i : item_list) 
+         size += i->length();
 
       return size;
    }
@@ -178,15 +179,15 @@ namespace sigen
       s.set08Bits( itemListSize() );
 
       // write the loop data
-      for (const Item& item : item_list)
+      for (const auto& item : item_list)
       {
          // the loop's description field
-         s.set08Bits( item.description.length() );
-         s.setBits( item.description );
+         s.set08Bits( item->description.length() );
+         s.setBits( item->description );
 
          // the loop's item field
-         s.set08Bits( item.name.length() );
-         s.setBits( item.name );
+         s.set08Bits( item->name.length() );
+         s.setBits( item->name );
       }
 
       // the descriptor's text field
@@ -209,12 +210,12 @@ namespace sigen
       // the loop of items
       incOutLevel();
 
-      for (const Item& item : item_list)
+      for (const auto& item : item_list)
       {
-         identStr(o, DESCRPTN_LEN_S, item.description.length(), true);
-         identStr(o, DESCRPTN_S, item.description);
-         identStr(o, ITEM_LEN_S, item.name.length(), true);
-         identStr(o, ITEM_S, item.name);
+         identStr(o, DESCRPTN_LEN_S, item->description.length(), true);
+         identStr(o, DESCRPTN_S, item->description);
+         identStr(o, ITEM_LEN_S, item->name.length(), true);
+         identStr(o, ITEM_S, item->name);
       }
       decOutLevel();
 
@@ -252,7 +253,7 @@ namespace sigen
    void MultilingualComponentDesc::dump(std::ostream &o) const
    {
       dumpHeader( o, MULTILING_COMPONENT_D_S );
-      identStr( o, COMPONENT_TAG_S, (ui16) component_tag );
+      identStr( o, COMPONENT_TAG_S, static_cast<ui16>(component_tag) );
       dumpTextLoop( o, TEXT_S );
    }
 #endif
@@ -272,7 +273,7 @@ namespace sigen
          return false;
 
       // add it
-      rating_list.push_back( Rating(code, rating) );
+      rating_list.push_back( std::make_unique<Rating>(code, rating) );
       return true;
    }
 
@@ -283,10 +284,10 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const Rating &rating : rating_list)
+      for (const auto &rating : rating_list)
       {
-         s.setBits( rating.country_code );
-         s.set08Bits( rating.value );
+         s.setBits( rating->country_code );
+         s.set08Bits( rating->value );
       }
    }
 
@@ -298,10 +299,10 @@ namespace sigen
       dumpHeader(o, PARENTAL_RATING_D_S);
 
       incOutLevel();
-      for (const Rating &rating : rating_list)
+      for (const auto &rating : rating_list)
       {
-         identStr(o, CODE_S, rating.country_code);
-         identStr(o, RATING_S, (ui16) rating.value);
+         identStr(o, CODE_S, rating->country_code);
+         identStr(o, RATING_S, static_cast<ui16>(rating->value));
       }
       decOutLevel();
    }
@@ -410,8 +411,8 @@ namespace sigen
    {
       dumpHeader(o, SHORT_SMTHNG_BUF_D_S);
 
-      identStr(o, SB_SIZE_S, (ui16) sb_size);
-      identStr(o, SB_LEAK_RATE_S, (ui16) sb_leak_rate);
+      identStr(o, SB_SIZE_S, static_cast<ui16>(sb_size));
+      identStr(o, SB_LEAK_RATE_S, static_cast<ui16>(sb_leak_rate));
       identStr(o, RESERVED_S, DVB_reserved);
    }
 #endif

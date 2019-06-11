@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include <string>
 #include "descriptor.h"
@@ -51,7 +52,7 @@ namespace sigen
       n = incLength( name );
 
       // now create a language entry and add it
-      language_list.push_back( Language(code, pn, n) );
+      language_list.push_back( std::make_unique<Language>(code, pn, n) );
       return true;
    }
 
@@ -61,18 +62,18 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const Language &lang : language_list)
+      for (const auto &lang : language_list)
       {
          // write the code
-         s.setBits( lang.language_code );
+         s.setBits( lang->language_code );
 
          // provider name
-         s.set08Bits( lang.provider_name.length() );
-         s.setBits( lang.provider_name );
+         s.set08Bits( lang->provider_name.length() );
+         s.setBits( lang->provider_name );
 
          // service name
-         s.set08Bits( lang.service_name.length() );
-         s.setBits( lang.service_name );
+         s.set08Bits( lang->service_name.length() );
+         s.setBits( lang->service_name );
       }
    }
 
@@ -84,13 +85,13 @@ namespace sigen
       dumpHeader(o, MULTILING_SERV_NAME_D_S);
 
       incOutLevel();
-      for (const Language &lang : language_list)
+      for (const auto &lang : language_list)
       {
-         identStr(o, CODE_S, lang.language_code);
-         identStr(o, PROV_NAME_LEN_S, lang.provider_name.length(), true);
-         identStr(o, PROV_NAME_S, lang.provider_name);
-         identStr(o, SERVICE_NAME_LEN_S, lang.service_name.length(), true);
-         identStr(o, SERVICE_NAME_S, lang.service_name);
+         identStr(o, CODE_S, lang->language_code);
+         identStr(o, PROV_NAME_LEN_S, lang->provider_name.length(), true);
+         identStr(o, PROV_NAME_S, lang->provider_name);
+         identStr(o, SERVICE_NAME_LEN_S, lang->service_name.length(), true);
+         identStr(o, SERVICE_NAME_S, lang->service_name);
       }
       decOutLevel();
    }
@@ -108,7 +109,7 @@ namespace sigen
       if (!incLength( Ident::BASE_LEN ))
          return false;
 
-      ident_list.push_back( Ident(xsid, onid, sid) );
+      ident_list.push_back( std::make_unique<Ident>(xsid, onid, sid) );
       return true;
    }
 
@@ -120,11 +121,11 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // cycle through the list and write the bytes
-      for (const Ident &ident : ident_list)
+      for (const auto &ident : ident_list)
       {
-         s.set16Bits( ident.xport_stream_id );
-         s.set16Bits( ident.original_network_id );
-         s.set16Bits( ident.service_id );
+         s.set16Bits( ident->xport_stream_id );
+         s.set16Bits( ident->original_network_id );
+         s.set16Bits( ident->service_id );
       }
    }
 
@@ -137,11 +138,11 @@ namespace sigen
 
       // dump the descriptor's data
       incOutLevel();
-      for (const Ident &ident : ident_list)
+      for (const auto &ident : ident_list)
       {
-         identStr(o, XPORT_STREAM_ID_S, ident.xport_stream_id);
-         identStr(o, ORIG_NETWORK_ID_S, ident.original_network_id);
-         identStr(o, SERVICE_ID_S, ident.service_id, true);
+         identStr(o, XPORT_STREAM_ID_S, ident->xport_stream_id);
+         identStr(o, ORIG_NETWORK_ID_S, ident->original_network_id);
+         identStr(o, SERVICE_ID_S, ident->service_id, true);
          o << std::endl;
       }
       decOutLevel();

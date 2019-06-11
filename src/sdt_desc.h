@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <list>
 #include "util.h"
@@ -70,7 +71,7 @@ namespace sigen {
 
    private:
       // the list of language structs
-      std::list<Language> language_list;
+      std::list<std::unique_ptr<Language> > language_list;
    };
 
 
@@ -110,7 +111,7 @@ namespace sigen {
 
    private:
       // the list of ident structs
-      std::list<Ident> ident_list;
+      std::list<std::unique_ptr<Ident> > ident_list;
    };
 
 

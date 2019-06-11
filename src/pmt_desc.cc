@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include <string>
 #include "descriptor.h"
@@ -200,7 +201,7 @@ namespace sigen
          return false;
 
       // yep, add it then
-      subtitling_list.push_back( Subtitling(lang_code, type, c_page_id, a_page_id) );
+      subtitling_list.push_back( std::make_unique<Subtitling>(lang_code, type, c_page_id, a_page_id) );
       return true;
    }
 
@@ -211,12 +212,12 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // iterate through the list and write the data
-      for (const Subtitling &subt : subtitling_list)
+      for (const auto &subt : subtitling_list)
       {
-         s.setBits( subt.language_code );
-         s.set08Bits( subt.type );
-         s.set16Bits( subt.composition_page_id );
-         s.set16Bits( subt.ancillary_page_id );
+         s.setBits( subt->language_code );
+         s.set08Bits( subt->type );
+         s.set16Bits( subt->composition_page_id );
+         s.set16Bits( subt->ancillary_page_id );
       }
    }
 
@@ -229,12 +230,12 @@ namespace sigen
 
       // iterate through the list and write the data
       incOutLevel();
-      for (const Subtitling &subt : subtitling_list)
+      for (const auto &subt : subtitling_list)
       {
-         identStr(o, LANGUAGE_CODE_S, subt.language_code);
-         identStr(o, TYPE_S, subt.type);
-         identStr(o, COMPOSITION_PAGE_ID_S, subt.composition_page_id);
-         identStr(o, ANCILLARY_PAGE_ID_S, subt.ancillary_page_id);
+         identStr(o, LANGUAGE_CODE_S, subt->language_code);
+         identStr(o, TYPE_S, subt->type);
+         identStr(o, COMPOSITION_PAGE_ID_S, subt->composition_page_id);
+         identStr(o, ANCILLARY_PAGE_ID_S, subt->ancillary_page_id);
          o << std::endl;
       }
       decOutLevel();
@@ -256,7 +257,7 @@ namespace sigen
          return false;
 
       // add it, then
-      teletext_list.push_back( Teletext(lang_code, type, mag_num, page_num) );
+      teletext_list.push_back( std::make_unique<Teletext>(lang_code, type, mag_num, page_num) );
       return true;
    }
 
@@ -268,11 +269,11 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // iterate through the list and write the data
-      for (const Teletext &teletext : teletext_list)
+      for (const auto &teletext : teletext_list)
       {
-         s.setBits( teletext.language_code );
-         s.set08Bits( (teletext.type << 3) | (teletext.magazine_number) );
-         s.set08Bits( teletext.page_number );
+         s.setBits( teletext->language_code );
+         s.set08Bits( (teletext->type << 3) | (teletext->magazine_number) );
+         s.set08Bits( teletext->page_number );
       }
    }
 
@@ -285,12 +286,12 @@ namespace sigen
 
       // iterate through the list and write the data
       incOutLevel();
-      for (const Teletext &teletext : teletext_list)
+      for (const auto &teletext : teletext_list)
       {
-         identStr(o, LANGUAGE_CODE_S, teletext.language_code);
-         identStr(o, TYPE_S, teletext.type);
-         identStr(o, MAGAZINE_NUM_S, teletext.magazine_number);
-         identStr(o, PAGE_NUM_S, teletext.page_number);
+         identStr(o, LANGUAGE_CODE_S, teletext->language_code);
+         identStr(o, TYPE_S, teletext->type);
+         identStr(o, MAGAZINE_NUM_S, teletext->magazine_number);
+         identStr(o, PAGE_NUM_S, teletext->page_number);
          o << std::endl;
       }
       decOutLevel();

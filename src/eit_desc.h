@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include <string>
 #include "descriptor.h"
@@ -98,7 +99,7 @@ namespace sigen {
 
    private:
       // descriptor data beings here
-      std::list<Content> content_list;
+      std::list<std::unique_ptr<Content> > content_list;
    };
 
 
@@ -154,7 +155,7 @@ namespace sigen {
 
    private:
       // descriptor data begins here
-      std::list<Item> item_list;
+      std::list<std::unique_ptr<Item> > item_list;
       LanguageCode language_code;
       std::string text;
       ui8 descriptor_number : 4,
@@ -231,7 +232,7 @@ namespace sigen {
 
    private:
       // descriptor data beings here
-      std::list<Rating> rating_list;
+      std::list<std::unique_ptr<Rating> > rating_list;
    };
 
 

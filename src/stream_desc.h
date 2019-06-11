@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include "descriptor.h"
 
@@ -267,7 +268,7 @@ namespace sigen {
 
    private:
       // data
-      std::list<Language> language_list;
+      std::list<std::unique_ptr<Language> > language_list;
    };
 
 

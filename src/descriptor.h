@@ -24,6 +24,7 @@
 
 #include <list>
 #include <string>
+#include <memory>
 #include "table.h"
 #include "tstream.h"
 
@@ -166,7 +167,7 @@ namespace sigen {
 
    protected:
       // descriptor data members begin here
-      std::list<Text> ml_text_list;
+      std::list<std::unique_ptr<Text> > ml_text_list;
 
       // protected constructor - only derived classes can build this
       MultilingualTextDesc(ui8 tag, ui8 base_len) : Descriptor(tag, base_len) {}

@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include <string>
 #include <vector>
@@ -172,7 +173,7 @@ namespace sigen {
 
    private:
       // descriptor OUI list
-      std::list<OUIData> oui_list;
+      std::list<std::unique_ptr<OUIData> > oui_list;
    };
 
 } // sigen namespace

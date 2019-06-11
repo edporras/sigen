@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 #include <string>
 #include "descriptor.h"
@@ -86,7 +87,7 @@ namespace sigen {
       bool country_availability_flag,
          reserved;
 
-      std::list<LanguageCode> country_list;
+      std::list<std::unique_ptr<LanguageCode> > country_list;
 
    public:
       enum { TAG = 0x49, BASE_LEN = 1 };
@@ -211,7 +212,7 @@ namespace sigen {
 
    private:
       // data
-      std::list<TimeOffset> time_offset_list;
+      std::list<std::unique_ptr<TimeOffset> > time_offset_list;
    };
 
 
@@ -353,7 +354,7 @@ namespace sigen {
 #endif
 
    private:
-      std::list<Service> service_list;
+      std::list<std::unique_ptr<Service> > service_list;
    };
 
 

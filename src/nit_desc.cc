@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <utility>
 #include <list>
 #include "descriptor.h"
 #include "tstream.h"
@@ -39,14 +40,14 @@ namespace sigen
                                                  ui16 sid, ui8 c_tag,
                                                  bool rsrvd)
    {
-      Announcement ann(type, reference_type, onid, tsid, sid, c_tag, rsrvd);
+      std::unique_ptr<Announcement> ann(new Announcement(type, reference_type, onid, tsid, sid, c_tag, rsrvd));
 
       // try to increment the descriptor's length
-      if (!incLength( ann.length() ))
+      if (!incLength( ann->length() ))
          return false; // can't do it - full
 
       // add it to the list
-      announcement_list.push_back( ann );
+      announcement_list.push_back( std::move(ann) );
       return true;
    }
 
@@ -59,18 +60,18 @@ namespace sigen
       s.set16Bits( announcement_support_indicator );
 
       // iterate through the list and write the data
-      for (const Announcement& ann : announcement_list)
+      for (const auto& ann : announcement_list)
       {
-         s.set08Bits( (ann.type << 4) |
-                      rbits(ann.reserved, 0x08) |
-                      ann.reference_type );
+         s.set08Bits( (ann->type << 4) |
+                      rbits(ann->reserved, 0x08) |
+                      ann->reference_type );
 
-         if (ann.reference_type < NUM_DEFINED_REF_TYPES)
+         if (ann->reference_type < NUM_DEFINED_REF_TYPES)
          {
-            s.set16Bits( ann.original_network_id );
-            s.set16Bits( ann.xport_stream_id );
-            s.set16Bits( ann.service_id );
-            s.set08Bits( ann.component_tag );
+            s.set16Bits( ann->original_network_id );
+            s.set16Bits( ann->xport_stream_id );
+            s.set16Bits( ann->service_id );
+            s.set08Bits( ann->component_tag );
          }
       }
    }
@@ -85,18 +86,18 @@ namespace sigen
       identStr( o, ANNOUNCEMENT_SUPPORT_IND_S, announcement_support_indicator );
 
       incOutLevel();
-      for (const Announcement& ann : announcement_list)
+      for (const auto& ann : announcement_list)
       {
-         identStr( o, ANNOUNCEMENT_TYPE_S, ann.type );
-         identStr( o, RESERVED_FU_S, ann.reserved );
-         identStr( o, REF_TYPE_S, ann.reference_type );
+         identStr( o, ANNOUNCEMENT_TYPE_S, ann->type );
+         identStr( o, RESERVED_FU_S, ann->reserved );
+         identStr( o, REF_TYPE_S, ann->reference_type );
 
-         if (ann.reference_type < NUM_DEFINED_REF_TYPES)
+         if (ann->reference_type < NUM_DEFINED_REF_TYPES)
          {
-            identStr( o, ORIG_NETWORK_ID_S, ann.original_network_id );
-            identStr( o, XPORT_STREAM_ID_S, ann.xport_stream_id );
-            identStr( o, SERVICE_ID_S, ann.service_id, true );
-            identStr( o, COMPONENT_TAG_S, ann.component_tag );
+            identStr( o, ORIG_NETWORK_ID_S, ann->original_network_id );
+            identStr( o, XPORT_STREAM_ID_S, ann->xport_stream_id );
+            identStr( o, SERVICE_ID_S, ann->service_id, true );
+            identStr( o, COMPONENT_TAG_S, ann->component_tag );
          }
          o << std::endl;
       }
@@ -145,12 +146,12 @@ namespace sigen
    //
    bool CellFrequencyLinkDesc::addLink(ui16 cell_id, ui32 frequency)
    {
-      Link cflink(cell_id, frequency);
+      std::unique_ptr<Link> cflink(new Link(cell_id, frequency));
 
-      if (!incLength(cflink.length()))
+      if (!incLength(cflink->length()))
          return false;
 
-      cflink_list.push_back( cflink );
+      cflink_list.push_back( std::move(cflink) );
       return true;
    }
 
@@ -160,14 +161,14 @@ namespace sigen
    bool CellFrequencyLinkDesc::addLinkSubCell(Link& link, ui8 cid_ext,
                                               ui32 xposer_freq)
    {
-      Link::SubCell subcell(cid_ext, xposer_freq);
+      std::unique_ptr<Link::SubCell> subcell(new Link::SubCell(cid_ext, xposer_freq));
 
       // check if it fits
-      if ( !incLength( subcell.BASE_LEN ) )
+      if ( !incLength( Link::SubCell::BASE_LEN ) )
          return false;
 
       // add it
-      link.subcell_list.push_back(subcell);
+      link.subcell_list.push_back(std::move(subcell));
       return true;
    }
 
@@ -175,11 +176,12 @@ namespace sigen
                                               ui8 cid_ext, ui32 xposer_freq)
    {
       // look for a matching c/f link
-      for (Link& link : cflink_list)
+      for (auto& link : cflink_list)
       {
          // if found, add a subcell
-         if ( link.cell_id == cell_id && link.frequency == frequency )
-            return addLinkSubCell(link, cid_ext, xposer_freq);
+         // TODO: algo!!!
+         if ( link->cell_id == cell_id && link->frequency == frequency )
+            return addLinkSubCell(*link, cid_ext, xposer_freq);
       }
 
       return false;
@@ -190,7 +192,7 @@ namespace sigen
       // if any have been added, try to add teh subcell to the one in the
       // end
       if (!cflink_list.empty())
-         return addLinkSubCell( cflink_list.back(), cid_ext, xposer_freq );
+         return addLinkSubCell( *cflink_list.back(), cid_ext, xposer_freq );
 
       return false;
    }
@@ -201,16 +203,16 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const Link& link : cflink_list)
+      for (const auto& link : cflink_list)
       {
-         s.set16Bits( link.cell_id );
-         s.set32Bits( link.frequency );
-         s.set08Bits( link.subcell_list.size() * Link::SubCell::BASE_LEN );
+         s.set16Bits( link->cell_id );
+         s.set32Bits( link->frequency );
+         s.set08Bits( link->subcell_list.size() * Link::SubCell::BASE_LEN );
 
-         for (const Link::SubCell &subcell : link.subcell_list)
+         for (const auto &subcell : link->subcell_list)
          {
-            s.set08Bits( subcell.cell_id_extension );
-            s.set32Bits( subcell.transposer_frequency );
+            s.set08Bits( subcell->cell_id_extension );
+            s.set32Bits( subcell->transposer_frequency );
          }
 
       }
@@ -221,16 +223,16 @@ namespace sigen
    {
       dumpHeader( o, CELL_FREQ_LINK_D_S );
 
-      for (const Link& link : cflink_list)
+      for (const auto& link : cflink_list)
       {
-         identStr(o, CELL_ID_S, link.cell_id );
-         identStr(o, FREQ_S, link.frequency );
-         identStr(o, SUBCELL_INFO_LOOP_LEN_S, link.subcell_list.size() * Link::SubCell::BASE_LEN );
+         identStr(o, CELL_ID_S, link->cell_id );
+         identStr(o, FREQ_S, link->frequency );
+         identStr(o, SUBCELL_INFO_LOOP_LEN_S, link->subcell_list.size() * Link::SubCell::BASE_LEN );
 
-         for (const Link::SubCell &subcell : link.subcell_list)
+         for (const auto& subcell : link->subcell_list)
          {
-            identStr(o, CELL_ID_EXT_S, subcell.cell_id_extension );
-            identStr(o, XPOSER_FREQ_S, subcell.transposer_frequency );
+            identStr(o, CELL_ID_EXT_S, subcell->cell_id_extension );
+            identStr(o, XPOSER_FREQ_S, subcell->transposer_frequency );
          }
 
       }
@@ -249,12 +251,12 @@ namespace sigen
    bool CellListDesc::addCell(ui16 id, ui16 lat, ui16 lon,
                               ui16 ext_lat, ui16 ext_lon)
    {
-      Cell cell(id, lat, lon, ext_lat, ext_lon);
+      std::unique_ptr<Cell> cell(new Cell(id, lat, lon, ext_lat, ext_lon));
 
       if ( !incLength(Cell::BASE_LEN) )
          return false;
 
-      cell_list.push_back( cell );
+      cell_list.push_back( std::move(cell) );
       return true;
    }
 
@@ -262,12 +264,12 @@ namespace sigen
                                      ui16 sc_lat, ui16 sc_lon,
                                      ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
-      Cell::SubCell subcell(cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon);
+      std::unique_ptr<Cell::SubCell> subcell(new Cell::SubCell(cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon));
 
       if ( !incLength( Cell::SubCell::BASE_LEN ) )
          return false;
 
-      cell.subcell_list.push_back( subcell );
+      cell.subcell_list.push_back( std::move(subcell) );
       return true;
    }
 
@@ -276,10 +278,11 @@ namespace sigen
                                      ui16 sc_lat, ui16 sc_lon,
                                      ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
-      for (Cell& cell : cell_list)
+      for (auto& cell : cell_list)
       {
-         if (cell.id == cell_id)
-            return addCellSubCell(cell, cid_ext, sc_lat, sc_lon,
+         // TODO: algo
+         if (cell->id == cell_id)
+            return addCellSubCell(*cell, cid_ext, sc_lat, sc_lon,
                                   sc_ext_lat, sc_ext_lon);
       }
       return false;
@@ -292,7 +295,7 @@ namespace sigen
       if (cell_list.empty())
          return false;
 
-      return addCellSubCell( cell_list.back(), cid_ext, sc_lat, sc_lon,
+      return addCellSubCell( *cell_list.back(), cid_ext, sc_lat, sc_lon,
                              sc_ext_lat, sc_ext_lon );
    }
 
@@ -302,21 +305,21 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const Cell& cell : cell_list)
+      for (const auto& cell : cell_list)
       {
-         s.set16Bits( cell.id );
-         s.set16Bits( cell.latitude );
-         s.set16Bits( cell.longitude );
-         s.set16Bits( cell.extend_of_latitude );
-         s.set16Bits( cell.extend_of_longitude );
+         s.set16Bits( cell->id );
+         s.set16Bits( cell->latitude );
+         s.set16Bits( cell->longitude );
+         s.set16Bits( cell->extend_of_latitude );
+         s.set16Bits( cell->extend_of_longitude );
 
-         for (const Cell::SubCell& subcell : cell.subcell_list)
+         for (const auto& subcell : cell->subcell_list)
          {
-            s.set08Bits( subcell.cell_id_extension );
-            s.set16Bits( subcell.latitude );
-            s.set16Bits( subcell.longitude );
-            s.set24Bits( (subcell.extend_of_latitude << 12) |
-                         subcell.extend_of_longitude );
+            s.set08Bits( subcell->cell_id_extension );
+            s.set16Bits( subcell->latitude );
+            s.set16Bits( subcell->longitude );
+            s.set24Bits( (subcell->extend_of_latitude << 12) |
+                         subcell->extend_of_longitude );
          }
 
       }
@@ -327,21 +330,21 @@ namespace sigen
    {
       dumpHeader(o, CELL_LIST_D_S);
 
-      for (const Cell& cell : cell_list)
+      for (const auto& cell : cell_list)
       {
-         identStr( o, CELL_ID_S, cell.id );
-         identStr( o, CELL_LATITUDE_S, cell.latitude );
-         identStr( o, CELL_LONGITUDE_S, cell.longitude );
-         identStr( o, CELL_EXT_LAT_S, cell.extend_of_latitude );
-         identStr( o, CELL_EXT_LON_S, cell.extend_of_longitude );
+         identStr( o, CELL_ID_S, cell->id );
+         identStr( o, CELL_LATITUDE_S, cell->latitude );
+         identStr( o, CELL_LONGITUDE_S, cell->longitude );
+         identStr( o, CELL_EXT_LAT_S, cell->extend_of_latitude );
+         identStr( o, CELL_EXT_LON_S, cell->extend_of_longitude );
 
-         for (const Cell::SubCell& subcell : cell.subcell_list)
+         for (const auto& subcell : cell->subcell_list)
          {
-            identStr( o, CELL_ID_EXT_S, subcell.cell_id_extension );
-            identStr( o, SUBCELL_LAT_S, subcell.latitude );
-            identStr( o, SUBCELL_LON_S, subcell.longitude );
-            identStr( o, SUBCELL_EXT_LAT_S, subcell.extend_of_latitude );
-            identStr( o, SUBCELL_EXT_LON_S, subcell.extend_of_longitude );
+            identStr( o, CELL_ID_EXT_S, subcell->cell_id_extension );
+            identStr( o, SUBCELL_LAT_S, subcell->latitude );
+            identStr( o, SUBCELL_LON_S, subcell->longitude );
+            identStr( o, SUBCELL_EXT_LAT_S, subcell->extend_of_latitude );
+            identStr( o, SUBCELL_EXT_LON_S, subcell->extend_of_longitude );
          }
 
       }
