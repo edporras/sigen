@@ -92,7 +92,7 @@ namespace sigen
          identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id);
          identStr(o, SERVICE_ID_S, xs.service_id, true);
          identStr(o, EVENT_ID_S, xs.event_id);
-         identStr(o, RUNNING_STATUS_S, (ui16) xs.running_status, true);
+         identStr(o, RUNNING_STATUS_S, static_cast<ui16>(xs.running_status), true);
 
          o << std::endl;
       }
@@ -145,7 +145,7 @@ namespace sigen
       dumpHeader( o, ST_DUMP_S );
       o << std::endl;
 
-      dumpData(o, (ui8 *) data.c_str(), getDataLength());
+      dumpData(o, reinterpret_cast<const ui8 *>(data.c_str()), getDataLength());
       o << std::endl;
    }
 #endif
