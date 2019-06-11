@@ -249,8 +249,7 @@ namespace sigen
                  // at least one
                  if (!ts->descriptors.empty())
                  {
-                    // TODO: fixme!!!
-                    const Descriptor *d = (*ts->descriptors.begin()).get();
+                    const Descriptor *d = ts->descriptors.front().get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + XportStream::BASE_LEN + d->length()) >
