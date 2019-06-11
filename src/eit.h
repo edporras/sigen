@@ -50,7 +50,7 @@ namespace sigen {
          BCDTime duration;
          ui8 running_status : 3;
          bool free_CA_mode;
-         DescListItem descriptors;
+         DescList descriptors;
 
          // constructor
          Event(ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs,

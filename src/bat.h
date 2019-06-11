@@ -47,7 +47,7 @@ namespace sigen {
 
          ui16 id,                    // transport stream id
             original_network_id;
-         DescListItem descriptors;
+         DescList descriptors;
 
          // constructor
          XportStream(ui16 tsid, ui16 onid) :
@@ -60,7 +60,7 @@ namespace sigen {
 
       // BAT members
       ui16 xport_stream_loop_length;
-      DescListItem bouquet_desc;
+      DescList bouquet_desc;
       std::list<std::unique_ptr<XportStream> > xport_streams; // transport streams
 
    public:

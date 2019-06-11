@@ -361,7 +361,7 @@ namespace sigen
       o << std::endl;
 
       // program desc list
-      dumpDescLoop( prog_desc.list(), o );
+      prog_desc.dump(o);
 
       // stream list
       incOutLevel(); // indent output
@@ -380,7 +380,7 @@ namespace sigen
          o << std::endl;
 
          // output the descriptors
-         dumpDescLoop( stream.descriptors.list(), o );
+         stream.descriptors.dump(o);
       }
       decOutLevel();
       o << std::endl;

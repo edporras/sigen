@@ -33,7 +33,7 @@ namespace sigen
    // abstract STable class
    //
 
-   void STable::DescListItem::add(Descriptor& d, ui16 d_len)
+   void STable::DescList::add(Descriptor& d, ui16 d_len)
    {
       // claim ownership of the pointer
       std::unique_ptr<Descriptor> dp;
@@ -42,11 +42,33 @@ namespace sigen
       d_length += d_len;
    }
 
-   void STable::DescListItem::buildSections(Section &s) const
+   void STable::DescList::buildSections(Section &s) const
    {
       for (const std::unique_ptr<Descriptor>& dp : d_list)
          (*dp).buildSections(s);
    }
+
+
+#ifdef ENABLE_DUMP
+   //
+   // dumps the contents of a descriptor loop
+   //
+   void STable::DescList::dump(std::ostream &o) const
+   {
+      if (!empty())
+      {
+         incOutLevel();
+
+         for (const std::unique_ptr<Descriptor>& dp : d_list)
+         {
+            dp->dump(o);
+            o << std::endl;
+         }
+         o << std::endl;
+         decOutLevel();
+      }
+   }
+#endif
 
    //
    // checks if the data can fit, and if so bumps the length by the
@@ -77,27 +99,6 @@ namespace sigen
       identStr(o, RESERVED_S, rbits(reserved, 0x03));
       identStr(o, TABLE_LEN_S, length, true);
    }
-
-   //
-   // dumps the contents of a descriptor loop
-   //
-   void STable::dumpDescLoop(const std::list<std::unique_ptr<Descriptor> > &desc_list,
-                             std::ostream &o)
-   {
-      if (!desc_list.empty())
-      {
-         incOutLevel();
-
-         for (const std::unique_ptr<Descriptor>& dp : desc_list)
-         {
-            dp->dump(o);
-            o << std::endl;
-         }
-         o << std::endl;
-         decOutLevel();
-      }
-   }
-
 #endif
 
 

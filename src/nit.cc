@@ -417,7 +417,7 @@ namespace sigen
       identStr(o, NETWORK_DESC_LEN_S, network_desc.loop_length(), true);
       o << std::endl;
 
-      dumpDescLoop(network_desc.list(), o);
+      network_desc.dump(o);
 
       // transport streams
       dumpXportStreams(o);
@@ -451,7 +451,7 @@ namespace sigen
          o << std::endl;
 
          // dump the descriptors (inherited method)
-         dumpDescLoop( ts.descriptors.list(), o );
+         ts.descriptors.dump(o);
       }
       decOutLevel();
    }

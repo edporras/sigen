@@ -408,7 +408,7 @@ namespace sigen
       identStr(o, BOUQUET_DESC_LEN_S, bouquet_desc.loop_length(), true);
       o << std::endl;
 
-      dumpDescLoop( bouquet_desc.list(), o );
+      bouquet_desc.dump( o );
 
       // transport streams
       dumpXportStreams(o);
@@ -442,7 +442,7 @@ namespace sigen
          o << std::endl;
 
          // dump the transport descriptors
-         dumpDescLoop( ts.descriptors.list(), o );
+         ts.descriptors.dump(o);
       }
       decOutLevel();
    }

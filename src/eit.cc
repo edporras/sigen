@@ -151,7 +151,7 @@ namespace sigen
          o << std::endl;
 
          // display the descriptors
-         dumpDescLoop( event.descriptors.list(), o );
+         event.descriptors.dump(o);
 
          o << std::endl;
       }

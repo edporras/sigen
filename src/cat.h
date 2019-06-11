@@ -40,7 +40,7 @@ namespace sigen {
              BASE_LEN = 5, MAX_SEC_LEN = 1024 };
 
       // list of descriptors
-      DescListItem descriptors;
+      DescList descriptors;
 
    public:
       enum { PID = 0x01 };

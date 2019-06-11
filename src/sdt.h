@@ -48,7 +48,7 @@ namespace sigen {
             eit_present_following,
             free_ca_mode,
             reserved;
-         DescListItem descriptors;
+         DescList descriptors;
 
          // constructor
          Service(ui16 sid, bool esf, bool epff, ui8 rs, bool fca, bool rsrvd) :

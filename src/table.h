@@ -83,7 +83,7 @@ namespace sigen {
       // contains a list of descriptors and tracks the data
       // length. Handles taking ownership of the descriptor pointer to
       // auto-delete when table goes out of scope.
-      class DescListItem
+      class DescList
       {
          ui16 d_length = 0;
          std::list<std::unique_ptr<Descriptor> > d_list;
@@ -100,6 +100,10 @@ namespace sigen {
 
          // only writes data loop - not length as it depends on the table
          void buildSections(Section &s) const;
+#ifdef ENABLE_DUMP
+         // as buildSections, only dumps data loop
+         void dump(std::ostream &) const;
+#endif
       };
 
       virtual ~STable() {}
@@ -139,8 +143,6 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       virtual void dumpHeader(std::ostream &o, STRID) const;
-      static void dumpDescLoop(const std::list<std::unique_ptr<Descriptor> > &,
-                               std::ostream &);
 #endif
    };
 

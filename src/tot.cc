@@ -57,7 +57,7 @@ namespace sigen
       o << std::endl;
 
       // descriptors
-      dumpDescLoop( descriptors.list(), o );
+      descriptors.dump(o);
    }
 #endif
 

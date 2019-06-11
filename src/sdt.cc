@@ -322,7 +322,7 @@ namespace sigen
          o << std::endl;
 
          // display the descriptors
-         dumpDescLoop(service.descriptors.list(), o);
+         service.descriptors.dump(o);
 
          o << std::endl;
       }

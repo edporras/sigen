@@ -140,7 +140,7 @@ namespace sigen
       o << std::endl;
 
       // program desc list
-      dumpDescLoop( descriptors.list(), o );
+      descriptors.dump(o);
    }
 #endif
 
