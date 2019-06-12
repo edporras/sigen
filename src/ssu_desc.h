@@ -151,15 +151,14 @@ namespace sigen {
 
          // data
          ui32 OUI:24;
-         bool reserved;
          ui8 update_type:4;
          bool update_versioning_flag;
          ui8 update_version:5;
          std::vector<ui8> selector_bytes;
 
          // constructor
-         OUIData(ui32 oui, ui8 upd_type, bool uvf, ui8 uv, const std::vector<ui8>& sel_bytes, bool rsrvd = true) :
-            OUI(oui), reserved(rsrvd), update_type(upd_type), update_versioning_flag(uvf), update_version(uv),
+         OUIData(ui32 oui, ui8 upd_type, bool uvf, ui8 uv, const std::vector<ui8>& sel_bytes) :
+            OUI(oui), update_type(upd_type), update_versioning_flag(uvf), update_version(uv),
             selector_bytes(sel_bytes)
          { }
 

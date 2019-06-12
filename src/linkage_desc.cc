@@ -78,11 +78,10 @@ namespace sigen {
    //
    // MobileHandoverLinkageDesc constructor
    MobileHandoverLinkageDesc:: MobileHandoverLinkageDesc(ui16 xsid, ui16 onid, ui16 sid,
-                                                         Handover_t hot, Origin_t ot, ui16 nid, ui16 isid, bool rsrv) :
+                                                         Handover_t hot, Origin_t ot, ui16 nid, ui16 isid) :
       LinkageDesc(xsid, onid, sid, MOBILE_HAND_OVER),
       hand_over_type(hot),
       origin_type(ot),
-      reserved(rsrv),
       network_id(nid),
       initial_service_id(isid)
    {
@@ -107,7 +106,7 @@ namespace sigen {
       LinkageDesc::buildSections(s);
 
       s.set08Bits( hand_over_type << 4 |
-                   rbits(reserved, 0x7) << 1 |
+                   rbits(0x7) << 1 |
                    origin_type );
 
       if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED) {
@@ -130,7 +129,7 @@ namespace sigen {
       LinkageDesc::dump(o);
 
       identStr( o, HAND_OVER_TYPE_S, hand_over_type );
-      identStr( o, RESERVED_FU_S, rbits(reserved, 0x7) );
+      identStr( o, RESERVED_FU_S, rbits(0x7) );
       identStr( o, ORIGIN_TYPE_S, origin_type );
 
       if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED) {

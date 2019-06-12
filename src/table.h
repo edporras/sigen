@@ -39,6 +39,9 @@ namespace sigen {
    struct Table {
       virtual ~Table() { }
 
+      // helper to fill reserved bits
+      static ui32 rbits(ui32 mask);
+
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const = 0;
       virtual void dumpHeader(std::ostream &, STRID) const = 0;
@@ -54,29 +57,25 @@ namespace sigen {
       ui16 max_section_length;        // the maximum length of each sub-section
       // (specified by the class' MAX_SEC_LEN)
       ui8 id;
-      bool section_syntax_indicator,
-         private_bit;                // reserved_future_use in some
+      bool section_syntax_indicator;
+      bool private_bit;               // reserved_future_use in some
 
       ui16 length;                    // data length (not including CRC and
       // 3-byte header (STable::BASE_LEN))
 
    protected:
-      bool reserved;                   // state of the reserved flags
-
       enum { BASE_LEN = 3,
              LEN_MASK = 0x0fff,
              MAX_TABLE_LEN = 65536 }; // max size for storage of total table data
       // (pre section split)
 
       // protected constructors for derived classes
-      STable(ui8 tid, ui8 min_len, ui16 max_len, bool ssi, bool data_bit,
-             bool rsrvd) :
+      STable(ui8 tid, ui8 min_len, ui16 max_len, bool ssi = false, bool data_bit = true) :
          max_section_length(max_len),
          id(tid),
          section_syntax_indicator(ssi),
          private_bit(data_bit),
-         length(min_len),
-         reserved(rsrvd)
+         length(min_len)
       { }
 
    public:
@@ -170,8 +169,8 @@ namespace sigen {
 
    protected:
       PSITable(ui8 tid, ui16 tid_ext, ui8 min_len, ui16 max_sec_len,
-               ui8 ver, bool cni, bool data_bit, bool rsrvd) :
-         STable(tid, min_len, max_sec_len, true, data_bit, rsrvd),
+               ui8 ver, bool cni, bool data_bit = true) :
+         STable(tid, min_len, max_sec_len, true, data_bit),
          table_id_extension(tid_ext),
          version_number(ver),
          current_next_indicator(cni)

@@ -41,9 +41,8 @@ namespace sigen {
       enum { PID = 0x11 };
 
       // constructor
-      BAT(ui16 bouquet_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-         PSITable(TID, bouquet_id, BASE_LEN, MAX_SEC_LEN, ver, cni,
-                  rsrvd, rsrvd),
+      BAT(ui16 bouquet_id, ui8 ver, bool cni = true) :
+         PSITable(TID, bouquet_id, BASE_LEN, MAX_SEC_LEN, ver, cni),
          xport_stream_loop_length(0)
       { }
       BAT() = delete;

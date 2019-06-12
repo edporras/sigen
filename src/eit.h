@@ -51,8 +51,8 @@ namespace sigen {
       enum { BASE_LEN = 11, MAX_SEC_LEN = 4096 };
 
       // only derived classes can build this type
-      EIT(ui8 tid, ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni, bool rsrvd) :
-         PSITable(tid, sid, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
+      EIT(ui8 tid, ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni) :
+         PSITable(tid, sid, BASE_LEN, MAX_SEC_LEN, ver, cni),
          xport_stream_id(xsid),
          original_network_id(onid)
       { }
@@ -158,8 +158,8 @@ namespace sigen {
    protected:
       // protected constructor
       PF_EIT(ui16 sid, ui16 xsid, ui16 onid, PF_EIT::Type type, ui8 ver,
-             bool cni = true, bool rsrvd = true) :
-         EIT(type, sid, xsid, onid, ver, cni, rsrvd)
+             bool cni = true) :
+         EIT(type, sid, xsid, onid, ver, cni)
       { }
 
 #ifdef ENABLE_DUMP
@@ -171,14 +171,14 @@ namespace sigen {
    // public interface classes
    struct PF_EITActual : public PF_EIT
    {
-      PF_EITActual(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true, bool rsrvd = true) :
-         PF_EIT(sid, xsid, onid, PF_EIT::ACTUAL, ver, cni, rsrvd) { }
+      PF_EITActual(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true) :
+         PF_EIT(sid, xsid, onid, PF_EIT::ACTUAL, ver, cni) { }
    };
 
    struct PF_EITOther : public PF_EIT
    {
-      PF_EITOther(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true, bool rsrvd = true) :
-         PF_EIT(sid, xsid, onid, PF_EIT::OTHER, ver, cni, rsrvd) { }
+      PF_EITOther(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true) :
+         PF_EIT(sid, xsid, onid, PF_EIT::OTHER, ver, cni) { }
    };
 
 
@@ -195,9 +195,8 @@ namespace sigen {
 
       std::list<std::unique_ptr<Event> > event_list;
 
-//   ES_EIT(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true,
-//	 bool rsrvd = true) :
-//       EIT(TID, sid, xsid, onid, ver, cni, rsrvd) { }
+//   ES_EIT(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true) :
+//       EIT(TID, sid, xsid, onid, ver, cni) { }
    public:
 
 #ifdef ENABLE_DUMP

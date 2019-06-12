@@ -30,6 +30,15 @@
 namespace sigen
 {
    // ------------------------------------
+   // abstract Table class
+   //
+
+   // for setting reserved bit fields
+   ui32 Table::rbits(ui32 mask) {
+      return 0xffffffff & mask;
+   }
+
+   // ------------------------------------
    // abstract STable class
    //
 
@@ -96,7 +105,7 @@ namespace sigen
       identStr(o, TID_S, id);
       identStr(o, SECT_SYNTAX_IND_S, section_syntax_indicator);
       identStr(o, RESERVED_FU_S, private_bit);
-      identStr(o, RESERVED_S, rbits(reserved, 0x03));
+      identStr(o, RESERVED_S, rbits(0x03));
       identStr(o, TABLE_LEN_S, length, true);
    }
 #endif
@@ -108,7 +117,7 @@ namespace sigen
    ui16 STable::buildLengthData(ui16 len) const {
       return (section_syntax_indicator << 15) |
          (private_bit << 14) |
-         rbits(reserved, 0x3000) |
+         rbits(0x3000) |
          (len & LEN_MASK);
    }
 
@@ -218,7 +227,7 @@ namespace sigen
 
       // private table data
       s.set16Bits( table_id_extension );
-      s.set08Bits( rbits(reserved, 0xc0) |
+      s.set08Bits( rbits(0xc0) |
                    version_number << 1 |
                    current_next_indicator );
    }
@@ -235,7 +244,7 @@ namespace sigen
       o << std::hex;
       identStr(o, ext_label, table_id_extension, hexdec);
 
-      identStr(o, RESERVED_S, rbits(reserved, 0x03));
+      identStr(o, RESERVED_S, rbits(0x03));
       identStr(o, VER_NUM_S, version_number);
       identStr(o, CURR_NEXT_IND_S, current_next_indicator);
    }

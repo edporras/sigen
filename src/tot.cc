@@ -53,7 +53,7 @@ namespace sigen
 
       // reserved + loop length
       o << std::hex;
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
+      identStr(o, RESERVED_FU_S, rbits(0xf));
       identStr(o, DESC_LOOP_LEN_S, descriptors.loop_length() & LEN_MASK, true);
       o << std::endl;
 
@@ -95,7 +95,7 @@ namespace sigen
       s->set08Bits( utc.time.getBCDSecond() );
 
       // reserved bits (4) and loop length (12)
-      s->set16Bits( rbits(reserved, ~LEN_MASK) | (descriptors.loop_length() & LEN_MASK) );
+      s->set16Bits( rbits(~LEN_MASK) | (descriptors.loop_length() & LEN_MASK) );
 
       // descriptors
       descriptors.buildSections(*s);

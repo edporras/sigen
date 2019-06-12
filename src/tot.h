@@ -40,10 +40,9 @@ namespace sigen {
 
       // first constructor uses current time.. second uses the specific
       // time provided
-      TOT(bool rsrvd = true) : TOT(UTC(), rsrvd)
-      { }
-      TOT(const UTC &t, bool rsrvd = true) :
-         STable(TID, BASE_LEN, MAX_SEC_LEN, false, rsrvd, rsrvd),
+      TOT() : TOT(UTC()) { }
+      TOT(const UTC &t) :
+         STable(TID, BASE_LEN, MAX_SEC_LEN),
          utc(t)
       { }
 

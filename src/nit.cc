@@ -170,7 +170,7 @@ namespace sigen
               // update the network_desc_len.. we always do this
               // and if we don't add any, it is set to 0 anyways
               section.set16Bits(nd_loop_len_pos,
-                                rbits(reserved, ~LEN_MASK) |
+                                rbits(~LEN_MASK) |
                                 (net_desc_len & LEN_MASK) );
 
               if (!nd_done)
@@ -299,7 +299,7 @@ namespace sigen
 
       // save the xport stream length we've calculated so far
       section.set16Bits( ts_loop_len_pos,
-                         rbits(reserved, ~LEN_MASK) |
+                         rbits(~LEN_MASK) |
                          (ts_loop_len & LEN_MASK) );
       return done;
    }
@@ -389,7 +389,7 @@ namespace sigen
       }
       // write the desc loop length
       section.set16Bits( ts_desc_len_pos,
-                         rbits(reserved, ~LEN_MASK) |
+                         rbits(~LEN_MASK) |
                          (ts_desc_len & LEN_MASK) );
       return done;
    }
@@ -408,7 +408,7 @@ namespace sigen
                   NETWORK_ID_S, true );
 
       // reserved bits
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
+      identStr(o, RESERVED_FU_S, rbits(0xf));
 
       // network descriptors
       identStr(o, NETWORK_DESC_LEN_S, network_desc.loop_length(), true);
@@ -429,7 +429,7 @@ namespace sigen
    {
       // loop length
       o << std::hex;
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
+      identStr(o, RESERVED_FU_S, rbits(0xf));
       identStr(o, XS_LOOP_LEN_S, xport_stream_loop_length, true);
       o << std::endl;
 
@@ -443,7 +443,7 @@ namespace sigen
 
          identStr(o, XPORT_STREAM_ID_S, ts.id);
          identStr(o, ORIG_NETWORK_ID_S, ts.original_network_id, true);
-         identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
+         identStr(o, RESERVED_FU_S, rbits(0xf));
          identStr(o, DESC_LEN_S, ts.descriptors.loop_length(), true);
          o << std::endl;
 

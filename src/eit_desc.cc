@@ -34,14 +34,13 @@ namespace sigen
    // Component Descriptor
    // ---------------------------------------
    ComponentDesc::ComponentDesc(ui8 sc, ui8 ctype, ui8 ctag, const std::string &code,
-                                const std::string &t, bool rsrvd) :
+                                const std::string &t) :
       Descriptor(TAG, BASE_LEN),
       text( incLength(t) ),  // size the string
       language_code(code),
       component_type(ctype),
       component_tag(ctag),
-      stream_content(sc),
-      reserved(rsrvd)
+      stream_content(sc)
    {
    }
 
@@ -51,7 +50,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set08Bits( rbits(reserved, 0xf0) | stream_content );
+      s.set08Bits( rbits(0xf0) | stream_content );
       s.set08Bits( component_type );
       s.set08Bits( component_tag );
       s.setBits( language_code );
@@ -65,7 +64,7 @@ namespace sigen
    {
       dumpHeader(o, COMPONENT_D_S);
 
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0x0f) );
+      identStr(o, RESERVED_FU_S, rbits(0x0f) );
       identStr(o, STREAM_CONTENT_S, static_cast<ui16>(stream_content));
       identStr(o, COMPONENT_TYPE_S, static_cast<ui16>(component_type));
       identStr(o, COMPONENT_TAG_S, static_cast<ui16>(component_tag));
@@ -318,7 +317,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.setBits( rbits(reserved, 0xf00000) |
+      s.setBits( rbits(0xf00000) |
                  programme_identification_label );
    }
 
@@ -327,7 +326,7 @@ namespace sigen
    {
       dumpHeader(o, PDC_D_S);
 
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0xf));
+      identStr(o, RESERVED_FU_S, rbits(0xf));
       identStr(o, PROG_IDENT_LABEL_S, programme_identification_label);
    }
 #endif

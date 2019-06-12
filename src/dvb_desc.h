@@ -86,9 +86,9 @@ namespace sigen {
       enum { TAG = 0x49, BASE_LEN = 1 };
 
       // constructor
-      CountryAvailabilityDesc(bool caf, bool rsrvd = true) :
+      CountryAvailabilityDesc(bool caf) :
          Descriptor(TAG, BASE_LEN),
-         country_availability_flag(caf), reserved(rsrvd)
+         country_availability_flag(caf)
       {}
       CountryAvailabilityDesc() = delete;
 
@@ -103,7 +103,6 @@ namespace sigen {
 
    private:
       bool country_availability_flag;
-      bool reserved;
 
       std::list<std::unique_ptr<LanguageCode> > country_list;
    };
@@ -196,15 +195,13 @@ namespace sigen {
          ui16 next_time_offset;
          ui8 country_region_id : 6;
          bool local_time_offset_polarity;
-         bool reserved;
 
          // contructor
          TimeOffset(const LanguageCode& cc, ui8 crid, bool ltop, ui16 lto,
-                    const UTC& toc, ui16 nto, bool rsrvd = true) :
+                    const UTC& toc, ui16 nto) :
             country_code(cc), time_of_change(toc), local_time_offset(lto),
             next_time_offset(nto), country_region_id(crid),
-            local_time_offset_polarity(ltop),
-            reserved(rsrvd)
+            local_time_offset_polarity(ltop)
          { }
       };
 
@@ -223,8 +220,7 @@ namespace sigen {
       enum { TAG = 0x51, BASE_LEN = 1 };
 
       // constructor
-      MosaicDesc(bool mep, ui8 num_hor_cells, ui8 num_ver_cells,
-                 bool rsrvd = true);
+      MosaicDesc(bool mep, ui8 num_hor_cells, ui8 num_ver_cells);
 
       // utility functions
       virtual void buildSections(Section&) const = 0; // not implemented
@@ -237,7 +233,6 @@ namespace sigen {
       ui8 num_horizontal_elem_cells : 3,
           num_vertical_elem_cells : 3,
           mosaic_entry_point : 1;
-      bool reserved;
    };
 
 
@@ -269,13 +264,11 @@ namespace sigen {
       enum { TAG = 0x63, BASE_LEN = 8 };
 
       // constructor
-      PartialTransportStreamDesc(ui32 pk_rate, ui32 min_osr, ui16 max_osb,
-                                 bool rsrvd = true) :
+      PartialTransportStreamDesc(ui32 pk_rate, ui32 min_osr, ui16 max_osb) :
          Descriptor(TAG, BASE_LEN),
          peak_rate( pk_rate ),
          min_overall_smoothing_rate( min_osr ),
-         max_overall_smoothing_buffer( max_osb ),
-         reserved(rsrvd)
+         max_overall_smoothing_buffer( max_osb )
       { }
       PartialTransportStreamDesc() = delete;
 
@@ -290,7 +283,6 @@ namespace sigen {
       ui32 peak_rate : 22;
       ui32 min_overall_smoothing_rate : 22;
       ui16 max_overall_smoothing_buffer : 14;
-      bool reserved;
    };
 
 
@@ -409,8 +401,7 @@ namespace sigen {
                     const std::string& iac,
                     const std::string& oc,
                     const std::string& nac,
-                    const std::string& cn,
-                    bool rsrvd = true);
+                    const std::string& cn);
       TelephoneDesc() = delete;
 
       // utility functions
@@ -437,7 +428,6 @@ namespace sigen {
       std::string core_number;
       ui8 connection_type : 5;
       bool foreign_availability;
-      bool reserved;
 
    protected:
       void setCode(std::string& dest_c, const std::string& src_c, ui8 max);

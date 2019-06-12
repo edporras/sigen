@@ -38,9 +38,8 @@ namespace sigen {
       enum { PID = 0x00 };
 
       // constructor
-      PAT(ui16 xport_str_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-         PSITable(TID, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni,
-                  D_BIT, rsrvd)
+      PAT(ui16 xport_str_id, ui8 ver, bool cni = true) :
+         PSITable(TID, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni, D_BIT)
       { }
       PAT() = delete;
 

@@ -82,7 +82,7 @@ namespace sigen
 
       // reserved bits follow, so set them
       for (; i < 8; i++) {
-         flags |= rbits(reserved, 0x1) << (7 - i);
+         flags |= rbits(0x1) << (7 - i);
       }
 
       s.set08Bits( flags );
@@ -110,7 +110,7 @@ namespace sigen
          identStr( o, flag_strid[ i ], field[ i ].is_set);
       }
 
-      identStr(o, RESERVED_S, rbits(reserved, 0xff));
+      identStr(o, RESERVED_S, rbits(0xff));
 
       for (i = 0; i < VALUE_COUNT; i++)
       {

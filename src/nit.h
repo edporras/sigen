@@ -77,9 +77,8 @@ namespace sigen {
    protected:
       // protected constructor - type refers to ACTUAL or OTHER,
       // reserved is the state of reserved bits
-      NIT(ui16 network_id, NIT::Type type, ui8 ver, bool cni = true,
-          bool rsrvd = true) :
-         PSITable((ui8) type, network_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
+      NIT(ui16 network_id, NIT::Type type, ui8 ver, bool cni = true) :
+         PSITable(static_cast<ui8>(type), network_id, BASE_LEN, MAX_SEC_LEN, ver, cni),
          xport_stream_loop_length(0)
       { }
 
@@ -95,15 +94,15 @@ namespace sigen {
    // public interface to create NIT tables
    struct NITActual : public NIT
    {
-      NITActual(ui16 network_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-         NIT(network_id, NIT::ACTUAL, ver, cni, rsrvd)
+      NITActual(ui16 network_id, ui8 ver, bool cni = true) :
+         NIT(network_id, NIT::ACTUAL, ver, cni)
       { }
    };
 
    struct NITOther : public NIT
    {
-      NITOther(ui16 network_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-         NIT(network_id, NIT::OTHER, ver, cni, rsrvd)
+      NITOther(ui16 network_id, ui8 ver, bool cni = true) :
+         NIT(network_id, NIT::OTHER, ver, cni)
       { }
    };
 

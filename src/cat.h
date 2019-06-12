@@ -38,9 +38,9 @@ namespace sigen {
       enum { PID = 0x01 };
 
       // constructor
-      CAT(ui8 ver, bool cni = true, bool rsrvd = true) :
-         PSITable(TID, rbits(rsrvd, 0xffff), BASE_LEN, MAX_SEC_LEN,
-                  ver, cni, D_BIT, rsrvd)
+      CAT(ui8 ver, bool cni = true) :
+         PSITable(TID, rbits(0xffff), BASE_LEN, MAX_SEC_LEN,
+                  ver, cni, D_BIT)
       { }
       CAT() = delete;
 

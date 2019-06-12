@@ -63,9 +63,8 @@ namespace sigen {
       };
 
       // constructor
-      PMT(ui16 prog_num, ui16 pcrpid, ui8 ver, bool cni = true,
-          bool rsrvd = true) :
-         PSITable(TID, prog_num, BASE_LEN, MAX_SEC_LEN, ver, cni, D_BIT, rsrvd),
+      PMT(ui16 prog_num, ui16 pcrpid, ui8 ver, bool cni = true) :
+         PSITable(TID, prog_num, BASE_LEN, MAX_SEC_LEN, ver, cni, D_BIT),
          program_info_length(0),
          pcr_pid(pcrpid)
       { }

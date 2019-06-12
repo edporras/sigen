@@ -37,10 +37,9 @@ namespace sigen
    // adds an announcement to the data loop
    bool AnnouncementSupportDesc::addAnnouncement(ui8 type, ui8 reference_type,
                                                  ui16 onid, ui16 tsid,
-                                                 ui16 sid, ui8 c_tag,
-                                                 bool rsrvd)
+                                                 ui16 sid, ui8 c_tag)
    {
-      std::unique_ptr<Announcement> ann(new Announcement(type, reference_type, onid, tsid, sid, c_tag, rsrvd));
+      std::unique_ptr<Announcement> ann(new Announcement(type, reference_type, onid, tsid, sid, c_tag));
 
       // try to increment the descriptor's length
       if (!incLength( ann->length() ))
@@ -63,7 +62,7 @@ namespace sigen
       for (const auto& ann : announcement_list)
       {
          s.set08Bits( (ann->type << 4) |
-                      rbits(ann->reserved, 0x08) |
+                      rbits(0x08) |
                       ann->reference_type );
 
          if (ann->reference_type < NUM_DEFINED_REF_TYPES)
@@ -89,7 +88,7 @@ namespace sigen
       for (const auto& ann : announcement_list)
       {
          identStr( o, ANNOUNCEMENT_TYPE_S, ann->type );
-         identStr( o, RESERVED_FU_S, ann->reserved );
+         identStr( o, RESERVED_FU_S, true );
          identStr( o, REF_TYPE_S, ann->reference_type );
 
          if (ann->reference_type < NUM_DEFINED_REF_TYPES)
@@ -118,7 +117,7 @@ namespace sigen
       Descriptor::buildSections(s);
 
       s.set32Bits( _frequency );
-      s.set16Bits( rbits(_reserved, 0xfff0) | _fec_outer );
+      s.set16Bits( rbits(0xfff0) | _fec_outer );
       s.set08Bits( _modulation );
       s.set32Bits( (_symbol_rate << 4) | _fec_inner );
    }
@@ -132,7 +131,7 @@ namespace sigen
       dumpHeader( o, CABLE_DEL_SYS_D_S );
 
       identStr(o, FREQ_S, _frequency);
-      identStr(o, RESERVED_FU_S, rbits(_reserved, 0xfff));
+      identStr(o, RESERVED_FU_S, rbits(0xfff));
       identStr(o, FEC_O_S, _fec_outer);
       identStr(o, MOD_S, _modulation);
       identStr(o, SYM_RATE_S, _symbol_rate);
@@ -376,7 +375,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set08Bits( rbits(reserved, 0xfc) | coding_type );
+      s.set08Bits( rbits(0xfc) | coding_type );
       for (ui32 f : frequency_list) {
          s.set32Bits(f);
       }
@@ -390,7 +389,7 @@ namespace sigen
    {
       dumpHeader( o, FREQ_LIST_D_S );
 
-      identStr( o, RESERVED_FU_S, rbits(reserved, 0x3f) );
+      identStr( o, RESERVED_FU_S, rbits(0x3f) );
       identStr( o, CODING_TYPE_S, coding_type);
 
       incOutLevel();
@@ -448,7 +447,7 @@ namespace sigen
 
       s.set32Bits( _ctr_frequency );
       s.set08Bits( (_bandwidth << 5) |
-                   rbits(_reserved, 0x1f) );
+                   rbits(0x1f) );
       s.set08Bits( (_constellation << 6) |
                    (_hierarchy_info << 3) |
                    _cr_HP_stream );
@@ -457,7 +456,7 @@ namespace sigen
                    (_transmission_mode << 1) |
                    _other_freq_flag );
 
-      s.set32Bits( rbits(_reserved, 0xffffffff) );
+      s.set32Bits( rbits(0xffffffff) );
    }
 
 
@@ -469,7 +468,7 @@ namespace sigen
       identStr( o, FREQ_S, _ctr_frequency);
 
       identStr( o, BANDWIDTH_S, _bandwidth );
-      identStr( o, RESERVED_FU_S, rbits(_reserved, 0x1f) );
+      identStr( o, RESERVED_FU_S, rbits(0x1f) );
       identStr( o, CONSTELLATION_S, _constellation );
       identStr( o, H_INFO_S, _hierarchy_info );
       identStr( o, CR_HP_STREAM_S, _cr_HP_stream );
@@ -478,7 +477,7 @@ namespace sigen
       identStr( o, TRANS_MODE_S, _transmission_mode );
       identStr( o, OTHER_FREQ_FLAG_S, _other_freq_flag );
 
-      identStr( o, RESERVED_S, rbits(_reserved, 0xffffffff) );
+      identStr( o, RESERVED_S, rbits(0xffffffff) );
    }
 #endif
 

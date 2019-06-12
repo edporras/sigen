@@ -41,9 +41,9 @@ namespace sigen {
       enum { TAG = 3, BASE_LEN = 1 };
 
       // constructor
-      AudioStreamDesc(bool fff, bool ID, ui8 l, bool rsrvd = true) :
+      AudioStreamDesc(bool fff, bool ID, ui8 l) :
          Descriptor(TAG, BASE_LEN),
-         free_format_flag(fff), id(ID), reserved(rsrvd), layer(l)
+         free_format_flag(fff), id(ID), layer(l)
       { }
       AudioStreamDesc() = delete;
 
@@ -57,7 +57,6 @@ namespace sigen {
    private:
       bool free_format_flag;
       bool id;
-      bool reserved;
       ui8 layer : 2;
    };
 
@@ -71,9 +70,9 @@ namespace sigen {
       enum { TAG = 9, BASE_LEN = 4 };
 
       // constructor
-      CADesc(ui16 casid, ui16 cap, const std::string& data, bool rsrvd = true) :
+      CADesc(ui16 casid, ui16 cap, const std::string& data) :
          Descriptor(TAG, BASE_LEN),
-         CA_system_id(casid), CA_pid(cap), reserved(rsrvd),
+         CA_system_id(casid), CA_pid(cap),
          private_data( incLength(data) )
       { }
       CADesc() = delete;
@@ -89,7 +88,6 @@ namespace sigen {
       // data
       ui16 CA_system_id;
       ui16 CA_pid : 13;
-      bool reserved;
       std::string private_data;
    };
 
@@ -104,7 +102,7 @@ namespace sigen {
       enum { TAG = 13, BASE_LEN = 4 };
 
       // constructor
-      CopyrightDesc(ui32 ci, const std::string& data, bool rsrvd = true) :
+      CopyrightDesc(ui32 ci, const std::string& data) :
          Descriptor(TAG, BASE_LEN),
          identifier(ci), info( incLength(data) )
       { }
@@ -173,11 +171,10 @@ namespace sigen {
 
       // constructor
       HierarchyDesc(ui8 h_type, ui8 h_layer_index, ui8 h_embedded_layer,
-                    ui8 h_priority, bool rsrvd = true) :
+                    ui8 h_priority) :
          Descriptor(TAG, BASE_LEN),
          type(h_type), layer_index(h_layer_index),
-         embedded_layer(h_embedded_layer), priority(h_priority),
-         reserved(rsrvd)
+         embedded_layer(h_embedded_layer), priority(h_priority)
       { }
       HierarchyDesc() = delete;
 
@@ -193,7 +190,6 @@ namespace sigen {
            layer_index : 6,
            embedded_layer : 6,
            priority : 6;
-      bool reserved;
    };
 
 
@@ -278,9 +274,9 @@ namespace sigen {
       enum { TAG = 14, BASE_LEN = 3 };
 
       // constructor
-      MaximumBitrateDesc(ui32 max_br, bool rsrvd = true) :
+      MaximumBitrateDesc(ui32 max_br) :
          Descriptor(TAG, BASE_LEN),
-         maximum_bitrate(max_br), reserved(rsrvd)
+         maximum_bitrate(max_br)
       { }
       MaximumBitrateDesc() = delete;
 
@@ -293,7 +289,6 @@ namespace sigen {
 
    private:
       ui32 maximum_bitrate : 22;
-      bool reserved;
    };
 
 
@@ -307,10 +302,9 @@ namespace sigen {
       enum Strategy_t { EARLY = 1, LATE, MIDDLE };
 
       // constructor
-      MultiplexBufferUtilizationDesc(bool bvf, ui16 ltw_o_lb, ui16 ltw_o_ub,
-                                     bool rsrvd = true) :
+      MultiplexBufferUtilizationDesc(bool bvf, ui16 ltw_o_lb, ui16 ltw_o_ub) :
          Descriptor(TAG, BASE_LEN),
-         bound_valid_flag(bvf), reserved(rsrvd),
+         bound_valid_flag(bvf),
          LTW_offset_lb(ltw_o_lb), LTW_offset_ub(ltw_o_ub)
       { }
       MultiplexBufferUtilizationDesc() = delete;
@@ -324,7 +318,6 @@ namespace sigen {
 
    private:
       bool bound_valid_flag;
-      bool reserved;
       ui16 LTW_offset_lb : 15;
       ui16 LTW_offset_ub : 14;
    };
@@ -362,7 +355,7 @@ namespace sigen {
       enum { TAG = 5, BASE_LEN = 4 };
 
       // constructor
-      RegistrationDesc(ui32 fi, const std::string& data, bool rsrvd = true) :
+      RegistrationDesc(ui32 fi, const std::string& data) :
          Descriptor(TAG, BASE_LEN),
          identifier(fi), info( incLength(data) )
       { }
@@ -391,9 +384,9 @@ namespace sigen {
       enum { TAG = 16, BASE_LEN = 6 };
 
       // constructor
-      SmoothingBufferDesc(ui32 sblr, ui32 size, bool rsrvd = true) :
+      SmoothingBufferDesc(ui32 sblr, ui32 size) :
          Descriptor(TAG, BASE_LEN),
-         sb_leak_rate(sblr), sb_size(size), reserved(rsrvd)
+         sb_leak_rate(sblr), sb_size(size)
       { }
       SmoothingBufferDesc() = delete;
 
@@ -407,7 +400,6 @@ namespace sigen {
    private:
       ui32 sb_leak_rate : 22;
       ui32 sb_size : 22;
-      bool reserved;
    };
 
 
@@ -421,9 +413,9 @@ namespace sigen {
       enum { TAG = 17, BASE_LEN = 1 };
 
       // constructor
-      STDDesc(bool lvf, bool rsrvd = true) :
+      STDDesc(bool lvf) :
          Descriptor(TAG, BASE_LEN),
-         leak_valid_flag(lvf), reserved(rsrvd)
+         leak_valid_flag(lvf)
       { }
       STDDesc() = delete;
 
@@ -436,7 +428,6 @@ namespace sigen {
 
    private:
       bool leak_valid_flag;
-      bool reserved;
    };
 
 
@@ -449,12 +440,11 @@ namespace sigen {
       enum { TAG = 11, BASE_LEN = 2 };
 
       // constructor
-      SystemClockDesc(bool ecri, ui8 cai, ui8 cae, bool rsrvd = true) :
+      SystemClockDesc(bool ecri, ui8 cai, ui8 cae) :
          Descriptor(TAG, BASE_LEN),
          clock_accuracy_integer(cai),
          clock_accuracy_exponent(cae),
-         external_clock_reference_indicator(ecri),
-         reserved(rsrvd)
+         external_clock_reference_indicator(ecri)
       { }
       SystemClockDesc() = delete;
 
@@ -469,7 +459,6 @@ namespace sigen {
       ui16 clock_accuracy_integer : 6,
            clock_accuracy_exponent : 3;
       bool external_clock_reference_indicator;
-      bool reserved;
    };
 
 
@@ -520,12 +509,12 @@ namespace sigen {
       { }
       // Use this one if MPEG_2_flag is 1
       VideoStreamDesc(bool mfrf, ui8 frc, bool cpf, bool spf,
-                      ui8 pali, ui8 cf, bool fref, bool rsrvd = true) :
+                      ui8 pali, ui8 cf, bool fref) :
          Descriptor(TAG, BASE_LEN + 2), // extra data needs 2 bytes
          multiple_frame_rate_flag(mfrf), MPEG_2_flag(true),
          constrained_parameter_flag(cpf), still_picture_flag(spf),
          frame_rate_extension_flag(fref), profile_and_level_indication(pali),
-         frame_rate_code(frc), chroma_format(cf), reserved(rsrvd)
+         frame_rate_code(frc), chroma_format(cf)
       { }
       VideoStreamDesc() = delete;
 
@@ -547,7 +536,6 @@ namespace sigen {
       ui8 profile_and_level_indication;
       ui8 frame_rate_code : 4,
           chroma_format : 2;
-      bool reserved;
    };
 
 

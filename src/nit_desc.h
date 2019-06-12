@@ -55,15 +55,13 @@ namespace sigen {
                               ui32 sym_rate,
                               ui8 fec_o = Dvb::Cable::UNDEF_FECO,
                               ui8 mod = Dvb::Cable::UNDEF_MOD,
-                              ui8 fec_i = Dvb::UNDEF_FECI,
-                              bool rsrvd = true) :
+                              ui8 fec_i = Dvb::UNDEF_FECI) :
          DeliveryDesc(TAG, BASE_LEN),
          _frequency(freq),
          _symbol_rate(sym_rate),
          _modulation(mod),
          _fec_outer(fec_o),
-         _fec_inner(fec_i),
-         _reserved(rsrvd)
+         _fec_inner(fec_i)
       { }
 
       virtual void buildSections(Section&) const;
@@ -78,7 +76,6 @@ namespace sigen {
       ui8 _modulation;
       ui8 _fec_outer : 4,
           _fec_inner : 4;
-      bool _reserved;
    };
 
 
@@ -134,8 +131,7 @@ namespace sigen {
       // constructor
       TerrestrialDeliverySystemDesc(ui32 cfreq, ui8 bandw, ui8 constel,
                                     ui8 hier_i, ui8 cr_HP, ui8 cr_LP,
-                                    ui8 guard_i, ui8 trans_m, bool other_f_f,
-                                    bool rsrvd = true) :
+                                    ui8 guard_i, ui8 trans_m, bool other_f_f) :
          Descriptor(TAG, BASE_LEN),
          _ctr_frequency(cfreq),
          _bandwidth(bandw),
@@ -145,8 +141,7 @@ namespace sigen {
          _cr_LP_stream(cr_LP),
          _guard_interval(guard_i),
          _transmission_mode(trans_m),
-         _other_freq_flag(other_f_f),
-         _reserved(rsrvd)
+         _other_freq_flag(other_f_f)
       { }
 
       virtual void buildSections(Section&) const;
@@ -165,7 +160,6 @@ namespace sigen {
           _guard_interval : 2,
           _transmission_mode : 2;
       bool _other_freq_flag;
-      bool _reserved;
    };
 
 
@@ -225,19 +219,16 @@ namespace sigen {
             xport_stream_id,
             service_id;
          ui8 component_tag;
-         bool reserved;
 
          // constructor
          Announcement(ui8 announcement_type, ui8 ref_type,
-                      ui16 onid, ui16 tsid, ui16 sid, ui8 c_tag,
-                      bool rsrvd) :
+                      ui16 onid, ui16 tsid, ui16 sid, ui8 c_tag) :
             type( announcement_type ),
             reference_type( ref_type ),
             original_network_id( onid ),
             xport_stream_id( tsid ),
             service_id( sid ),
-            component_tag( c_tag ),
-            reserved( rsrvd )
+            component_tag( c_tag )
          { }
 
          ui8 length() const { return BASE_LEN +
@@ -246,8 +237,7 @@ namespace sigen {
       };
 
       // constructor
-      AnnouncementSupportDesc(ui16 announcement_support_ind,
-                              bool reserved = true) :
+      AnnouncementSupportDesc(ui16 announcement_support_ind) :
          Descriptor( TAG, BASE_LEN ),
          announcement_support_indicator(announcement_support_ind)
       { }
@@ -256,7 +246,7 @@ namespace sigen {
       // utility methods
       bool addAnnouncement(ui8 type, ui8 reference_type,
                            ui16 onid = 0, ui16 tsid = 0, ui16 sid = 0,
-                           ui8 c_tag = 0, bool rsrvd = true);
+                           ui8 c_tag = 0);
 
       virtual void buildSections(Section&) const;
 
@@ -438,9 +428,8 @@ namespace sigen {
       };
 
       // constructor
-      FrequencyListDesc(ui8 ct, bool rsrvd = true) :
+      FrequencyListDesc(ui8 ct) :
          Descriptor(TAG, BASE_LEN),
-         reserved(rsrvd),
          coding_type(ct) { }
       FrequencyListDesc() = delete;
 
@@ -454,7 +443,6 @@ namespace sigen {
 
    private:
       std::list<ui32> frequency_list;
-      bool reserved;
       ui8 coding_type : 2;
    };
 

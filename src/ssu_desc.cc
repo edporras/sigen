@@ -172,8 +172,8 @@ namespace sigen
       for (const auto &oui : oui_list)
       {
          s.set24Bits( oui->OUI );
-         s.set08Bits( rbits(oui->reserved, 0xf0) | oui->update_type );
-         s.set08Bits( rbits(oui->reserved, 0xc0) | (oui->update_versioning_flag << 5) | oui->update_version );
+         s.set08Bits( rbits(0xf0) | oui->update_type );
+         s.set08Bits( rbits(0xc0) | (oui->update_versioning_flag << 5) | oui->update_version );
          s.set08Bits( oui->selector_bytes.size() );
          if ( oui->selector_bytes.size() ) {
             s.setBits( oui->selector_bytes );
@@ -194,9 +194,9 @@ namespace sigen
       for (const auto &oui : oui_list)
       {
          identStr(o, OUI_S, oui->OUI);
-         identStr(o, RESERVED_S, rbits(oui->reserved, 0x0f));
+         identStr(o, RESERVED_S, rbits(0x0f));
          identStr(o, UPDATE_TYPE_S, oui->update_type);
-         identStr(o, RESERVED_S, rbits(oui->reserved, 0x03));
+         identStr(o, RESERVED_S, rbits(0x03));
          identStr(o, UPDATE_VER_FLAG_S, oui->update_versioning_flag);
          identStr(o, UPDATE_VER_S, oui->update_version);
          identStr(o, SELECTOR_LEN_S, oui->selector_bytes.size(), true);

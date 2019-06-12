@@ -66,7 +66,7 @@ namespace sigen
          s->set16Bits(xs.original_network_id);
          s->set16Bits(xs.service_id);
          s->set16Bits(xs.event_id);
-         s->set08Bits( rbits(reserved, 0xf8) | (xs.running_status & 0x7) );
+         s->set08Bits( rbits(0xf8) | (xs.running_status & 0x7) );
       }
    }
 
@@ -107,16 +107,16 @@ namespace sigen
    // the Stuffing Table
    //
 
-   Stuffing::Stuffing(const std::string& d, bool ssi, bool rsrvd) :
-      STable(TID, BASE_LEN, MAX_SEC_LEN, ssi, rsrvd, rsrvd),
+   Stuffing::Stuffing(const std::string& d, bool ssi) :
+      STable(TID, BASE_LEN, MAX_SEC_LEN, ssi, true),
       data( d )
    {
       // !!! check to make sure it fits!
    }
 
 
-   Stuffing::Stuffing(ui8 d, ui16 len, bool ssi, bool rsrvd) :
-      STable(TID, BASE_LEN, MAX_SEC_LEN, ssi, rsrvd, rsrvd),
+   Stuffing::Stuffing(ui8 d, ui16 len, bool ssi) :
+      STable(TID, BASE_LEN, MAX_SEC_LEN, ssi, true),
       data( std::string(d, len) )
    {
       // !!! check to make sure it fits!

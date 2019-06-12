@@ -44,10 +44,9 @@ namespace sigen {
       };
 
       // constructor
-      AC3Desc(const std::string info = "", bool rsrvd = true) :
+      AC3Desc(const std::string info = "") :
          Descriptor(TAG, BASE_LEN),
-         additional_info( incLength(info) ),
-         reserved( rsrvd )
+         additional_info( incLength(info) )
       { }
 
       // utility
@@ -76,7 +75,6 @@ namespace sigen {
 
       entry field[ VALUE_COUNT ];
       std::string additional_info;
-      bool reserved;
    };
 
 

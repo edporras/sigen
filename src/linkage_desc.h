@@ -33,14 +33,6 @@ namespace sigen {
    //
    class LinkageDesc : public Descriptor
    {
-   private:
-      // data
-      ui16 xport_stream_id,
-         original_network_id,
-         service_id;
-      ui8 linkage_type;
-      std::vector<ui8> private_data;
-
    public:
       enum { TAG = 0x4a, BASE_LEN = 7 };
 
@@ -82,6 +74,14 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream&) const;
 #endif
+
+   private:
+      // data
+      ui16 xport_stream_id;
+      ui16 original_network_id;
+      ui16 service_id;
+      ui8 linkage_type;
+      std::vector<ui8> private_data;
    };
 
 
@@ -90,16 +90,6 @@ namespace sigen {
    //
    class MobileHandoverLinkageDesc : public LinkageDesc
    {
-   private:
-      // added as of 300 468 v1.4.1
-      ui8 hand_over_type : 4;
-      bool origin_type,
-         reserved;
-      ui16 network_id,
-         initial_service_id;
-
-      std::vector<ui8> private_data;
-
    public:
       enum { BASE_LEN = 3 };
 
@@ -117,8 +107,7 @@ namespace sigen {
 
       // constructor for linkage types other than MOBILE_HAND_OVER (0x08)
       MobileHandoverLinkageDesc(ui16 xsid, ui16 onid, ui16 sid,
-                                Handover_t hot, Origin_t ot, ui16 nid, ui16 isid,
-                                bool rsrv = true);
+                                Handover_t hot, Origin_t ot, ui16 nid, ui16 isid);
       MobileHandoverLinkageDesc() = delete;
 
       // utility
@@ -128,6 +117,14 @@ namespace sigen {
       virtual void dump(std::ostream&) const;
 #endif
 
+   private:
+      // added as of 300 468 v1.4.1
+      ui8 hand_over_type : 4;
+      bool origin_type;
+      ui16 network_id;
+      ui16 initial_service_id;
+
+      std::vector<ui8> private_data;
    };
 
 } // namespace

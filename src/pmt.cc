@@ -127,7 +127,7 @@ namespace sigen
               // for now set it to 0,
               section.set08Bits(0);//last_sec_num);
 
-              section.set16Bits( rbits(reserved, 0xe000) | pcr_pid );
+              section.set16Bits( rbits(0xe000) | pcr_pid );
 
               // save the position for the network_desc_loop_len
               prog_info_len_pos = section.getCurDataPosition();
@@ -144,7 +144,7 @@ namespace sigen
               // update the prog_info_len.. we always do this
               // and if we don't add any, it is set to 0 anyways
               section.set16Bits(prog_info_len_pos,
-                                rbits( reserved, ~LEN_MASK) |
+                                rbits(~LEN_MASK) |
                                 (prog_info_len & LEN_MASK) );
 
               if (!d_done)
@@ -284,7 +284,7 @@ namespace sigen
            case WRITE_HEAD:
               // write the pmt transport stream data
               section.set08Bits(stream.type);
-              section.set16Bits( rbits(reserved, 0xe000) |
+              section.set16Bits( rbits(0xe000) |
                                  stream.elementary_pid );
 
               // save the position for the desc loop len.. we'll update it later
@@ -336,7 +336,7 @@ namespace sigen
       }
       // write the desc loop length
       section.set16Bits( ts_desc_len_pos,
-                         rbits(reserved, ~LEN_MASK) | (ts_desc_len & LEN_MASK) );
+                         rbits(~LEN_MASK) | (ts_desc_len & LEN_MASK) );
       return done;
    }
 
@@ -350,9 +350,9 @@ namespace sigen
       dumpHeader( o, PMT_DUMP_S, PROGRAM_NUM_S, true );
 
       // pmt-specific
-      identStr(o, RESERVED_S, rbits(reserved, 0x07) );
+      identStr(o, RESERVED_S, rbits(0x07) );
       identStr(o, PCR_PID_S, pcr_pid);
-      identStr(o, RESERVED_S, rbits(reserved, 0x0f) );
+      identStr(o, RESERVED_S, rbits(0x0f) );
       identStr(o, PROGRAM_INFO_LEN_S, program_info_length, true);
       o << std::endl;
 
@@ -368,9 +368,9 @@ namespace sigen
          const ElementaryStream& stream = *esp;
 
          identStr(o, STREAM_TYPE_S, stream.type, true);
-         identStr(o, RESERVED_S, rbits(reserved, 0x07) );
+         identStr(o, RESERVED_S, rbits(0x07) );
          identStr(o, ELEM_PID_S, stream.elementary_pid, true);
-         identStr(o, RESERVED_S, rbits(reserved, 0x0f) );
+         identStr(o, RESERVED_S, rbits(0x0f) );
          identStr(o, ES_INFO_LEN_S, stream.es_info_length, true);
 
          o << std::endl;

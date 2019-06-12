@@ -27,10 +27,6 @@
 
 namespace sigen {
 
-   // reserved-bit related functions
-   // computes a set of bits based on the value of the boolean
-   ui32 rbits(bool reserved, ui32 mask);
-
    // ---------------------------
    // Language Code container class
    //

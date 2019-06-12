@@ -41,8 +41,7 @@ namespace sigen {
    public:
       enum { PID = 0x13 };
 
-      RST(bool rsrvd = true) :
-         STable(TID, BASE_LEN, MAX_SEC_LEN, false, rsrvd, rsrvd) {}
+      RST() : STable(TID, BASE_LEN, MAX_SEC_LEN) {}
 
       // utility
       bool addXportStream(ui16 xsid, ui16 onid, ui16 sid,
@@ -84,9 +83,9 @@ namespace sigen {
    {
    public:
       // constructor for NULL terminated data
-      Stuffing(const std::string& data, bool ssi = true, bool rsrvd = true);
+      Stuffing(const std::string& data, bool ssi = true);
       // constructor where we replicate the passed data
-      Stuffing(ui8 data, ui16 len, bool ssi = true, bool rsrvd = true);
+      Stuffing(ui8 data, ui16 len, bool ssi = true);
 
       // accessors
       const std::string& getDataByte() const { return data; }

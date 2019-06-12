@@ -61,14 +61,13 @@ namespace sigen {
          bool eit_schedule;
          bool eit_present_following;
          bool free_ca_mode;
-         bool reserved;
          DescList descriptors;
 
          // constructor
-         Service(ui16 sid, bool esf, bool epff, ui8 rs, bool fca, bool rsrvd) :
+         Service(ui16 sid, bool esf, bool epff, ui8 rs, bool fca) :
             id(sid), running_status(rs),
             eit_schedule(esf), eit_present_following(epff),
-            free_ca_mode(fca), reserved(rsrvd) {}
+            free_ca_mode(fca) {}
 
          // utility
          void buildSections(Section &) const;
@@ -83,8 +82,8 @@ namespace sigen {
    protected:
       // constructor
       SDT(ui16 xport_str_id, ui16 orig_network_id, SDT::Type type, ui8 ver,
-          bool cni = true, bool rsrvd = true) :
-         PSITable((ui8) type, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni, rsrvd, rsrvd),
+          bool cni = true) :
+         PSITable(static_cast<ui8>(type), xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni),
          original_network_id(orig_network_id)
       { }
 
@@ -95,13 +94,13 @@ namespace sigen {
 
    // public interface
    struct SDTActual : public SDT {
-      SDTActual(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-         SDT(xport_str_id, orig_network_id, SDT::ACTUAL, ver, cni, rsrvd) { }
+      SDTActual(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true) :
+         SDT(xport_str_id, orig_network_id, SDT::ACTUAL, ver, cni) { }
    };
 
    struct SDTOther : public SDT {
-      SDTOther(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true, bool rsrvd = true) :
-         SDT(xport_str_id, orig_network_id, SDT::OTHER, ver, cni, rsrvd) { }
+      SDTOther(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true) :
+         SDT(xport_str_id, orig_network_id, SDT::OTHER, ver, cni) { }
    };
 
 } // sigen namespace

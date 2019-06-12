@@ -43,7 +43,7 @@ namespace sigen
       s.set08Bits( (free_format_flag << 7) |
                    (id << 6) |
                    (layer << 4) |
-                   rbits(reserved, 0xf) );
+                   rbits(0xf) );
    }
 
 
@@ -57,7 +57,7 @@ namespace sigen
       identStr(o, FREE_FRMT_FLAG_S, free_format_flag);
       identStr(o, ID_S, id);
       identStr(o, LAYER_S, layer);
-      identStr(o, RESERVED_S, rbits(reserved, 0xf) );
+      identStr(o, RESERVED_S, rbits(0xf) );
    }
 #endif
 
@@ -74,7 +74,7 @@ namespace sigen
       Descriptor::buildSections(s);
 
       s.set16Bits( CA_system_id );
-      s.set16Bits( rbits(reserved, 0xe000) | CA_pid );
+      s.set16Bits( rbits(0xe000) | CA_pid );
 
       s.setBits( private_data );
    }
@@ -88,7 +88,7 @@ namespace sigen
       dumpHeader(o, CA_D_S);
 
       identStr(o, CA_SYSTEM_ID_S, CA_system_id);
-      identStr(o, RESERVED_S, rbits(reserved, 0x7) );
+      identStr(o, RESERVED_S, rbits(0x7) );
       identStr(o, CA_PID_S, CA_pid);
       identStr(o, PVT_DATA_S, private_data);
    }
@@ -129,10 +129,10 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set08Bits( rbits(reserved, 0xf0) | type );
-      s.set08Bits( rbits(reserved, 0xc0) | layer_index );
-      s.set08Bits( rbits(reserved, 0xc0) | embedded_layer );
-      s.set08Bits( rbits(reserved, 0xc0) | priority );
+      s.set08Bits( rbits(0xf0) | type );
+      s.set08Bits( rbits(0xc0) | layer_index );
+      s.set08Bits( rbits(0xc0) | embedded_layer );
+      s.set08Bits( rbits(0xc0) | priority );
    }
 
 
@@ -143,13 +143,13 @@ namespace sigen
    {
       dumpHeader(o, HIERARCHY_D_S);
 
-      identStr(o, RESERVED_S, rbits(reserved, 0x0f) );
+      identStr(o, RESERVED_S, rbits(0x0f) );
       identStr(o, H_TYPE_S, type);
-      identStr(o, RESERVED_S, rbits(reserved, 0x03) );
+      identStr(o, RESERVED_S, rbits(0x03) );
       identStr(o, H_LAYER_IDX_S, layer_index);
-      identStr(o, RESERVED_S, rbits(reserved, 0x03) );
+      identStr(o, RESERVED_S, rbits(0x03) );
       identStr(o, H_EMBEDDED_LAYER_S, embedded_layer);
-      identStr(o, RESERVED_S, rbits(reserved, 0x03) );
+      identStr(o, RESERVED_S, rbits(0x03) );
       identStr(o, H_PRIORITY_S, priority);
    }
 #endif
@@ -242,7 +242,7 @@ namespace sigen
    void MaximumBitrateDesc::buildSections(Section &s) const
    {
       Descriptor::buildSections(s);
-      s.set24Bits( (rbits(reserved, 0x03) << 22) | maximum_bitrate );
+      s.set24Bits( (rbits(0x03) << 22) | maximum_bitrate );
    }
 
 
@@ -253,7 +253,7 @@ namespace sigen
    {
       dumpHeader(o, MAXIMUM_BITRATE_D_S);
 
-      identStr(o, RESERVED_S, rbits(reserved, 0x03) );
+      identStr(o, RESERVED_S, rbits(0x03) );
       identStr(o, MAX_BITRATE_S, maximum_bitrate);
    }
 #endif
@@ -272,7 +272,7 @@ namespace sigen
 
       s.set16Bits( (bound_valid_flag << 15) |
                    LTW_offset_lb );
-      s.set16Bits( rbits(reserved, 0x8000) |
+      s.set16Bits( rbits(0x8000) |
                    LTW_offset_ub );
    }
 
@@ -286,7 +286,7 @@ namespace sigen
 
       identStr(o, BOUND_VALID_F_S, bound_valid_flag);
       identStr(o, LTW_OFFSET_LB_S, LTW_offset_lb);
-      identStr(o, RESERVED_S, rbits(reserved, 0x1) );
+      identStr(o, RESERVED_S, rbits(0x1) );
       identStr(o, LTW_OFFSET_UB_S, LTW_offset_ub);
    }
 #endif
@@ -325,8 +325,8 @@ namespace sigen
    {
       Descriptor::buildSections( s );
 
-      s.set24Bits( (rbits(reserved, 0xc0) << 16) | sb_leak_rate );
-      s.set24Bits( (rbits(reserved, 0xc0) << 16) | sb_size );
+      s.set24Bits( (rbits(0xc0) << 16) | sb_leak_rate );
+      s.set24Bits( (rbits(0xc0) << 16) | sb_size );
    }
 
 #ifdef ENABLE_DUMP
@@ -334,9 +334,9 @@ namespace sigen
    {
       dumpHeader( o, SMOOTHING_BUF_D_S );
 
-      identStr( o, RESERVED_S, rbits(reserved,  0x3 ) );
+      identStr( o, RESERVED_S, rbits(0x3 ) );
       identStr( o, SB_LEAK_RATE_S, sb_leak_rate );
-      identStr( o, RESERVED_S, rbits(reserved,  0x3 ) );
+      identStr( o, RESERVED_S, rbits(0x3 ) );
       identStr( o, SB_SIZE_S, sb_size );
    }
 #endif
@@ -351,7 +351,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set08Bits( rbits(reserved, 0xe) | leak_valid_flag );
+      s.set08Bits( rbits(0xe) | leak_valid_flag );
    }
 
 
@@ -362,7 +362,7 @@ namespace sigen
    {
       dumpHeader(o, STD_D_S);
 
-      identStr(o, RESERVED_S, rbits(reserved, 0x7f) );
+      identStr(o, RESERVED_S, rbits(0x7f) );
       identStr(o, LEAK_VALID_FLAG_S, leak_valid_flag);
    }
 #endif
@@ -381,10 +381,10 @@ namespace sigen
       Descriptor::buildSections(s);
 
       s.set08Bits( (external_clock_reference_indicator << 7) |
-                   rbits(reserved, 0x70) |
+                   rbits(0x70) |
                    clock_accuracy_integer );
       s.set08Bits( (clock_accuracy_exponent << 5) |
-                   rbits(reserved, 0x01f) );
+                   rbits(0x01f) );
    }
 
 
@@ -396,10 +396,10 @@ namespace sigen
       dumpHeader(o, SYSTEM_CLOCK_D_S);
 
       identStr(o, EXT_CLOCK_REF_IND_S, external_clock_reference_indicator);
-      identStr(o, RESERVED_S, rbits(reserved, 0x01) );
+      identStr(o, RESERVED_S, rbits(0x01) );
       identStr(o, CLOCK_ACCURACY_INT_S, clock_accuracy_integer);
       identStr(o, CLOCK_ACCURACY_EXP_S, clock_accuracy_exponent);
-      identStr(o, RESERVED_S, rbits(reserved, 0x1f) );
+      identStr(o, RESERVED_S, rbits(0x1f) );
    }
 #endif
 
@@ -457,7 +457,7 @@ namespace sigen
          s.set08Bits( profile_and_level_indication );
          s.set08Bits( (chroma_format << 6) |
                       (frame_rate_extension_flag << 5) |
-                      rbits(reserved, 0x1f) );
+                      rbits(0x1f) );
       }
    }
 
@@ -480,7 +480,7 @@ namespace sigen
          identStr(o, PROF_LVL_IND_S, profile_and_level_indication);
          identStr(o, CHROMA_FORMAT_S, chroma_format);
          identStr(o, FRM_RATE_EXT_FLAG_S, frame_rate_extension_flag);
-         identStr(o, RESERVED_S, rbits(reserved, 0x1f) );
+         identStr(o, RESERVED_S, rbits(0x1f) );
       }
    }
 #endif

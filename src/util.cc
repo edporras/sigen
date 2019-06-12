@@ -24,11 +24,6 @@
 
 namespace sigen {
 
-   ui32 rbits(bool reserved, ui32 mask) {
-      static const ui32 w_r_bits[] = { 0x00000000, 0xffffffff };
-      return w_r_bits[ reserved ] & mask;
-   }
-
    // ---------------------------------------
    // Language Code container class
    //

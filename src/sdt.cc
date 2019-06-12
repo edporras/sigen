@@ -39,7 +39,7 @@ namespace sigen
       if ( !incLength( Service::BASE_LEN) )
          return false;
 
-      service_list.push_back(std::make_unique<Service>(sid, esf, epff, rs, fca, reserved));
+      service_list.push_back(std::make_unique<Service>(sid, esf, epff, rs, fca));
       return true;
    }
 
@@ -123,7 +123,7 @@ namespace sigen
               section.set08Bits(0);
 
               section.set16Bits(original_network_id);
-              section.set08Bits( rbits( reserved, 0xff) ); // reserved (8)
+              section.set08Bits( rbits(0xff) ); // reserved (8)
 
               sec_bytes = BASE_LEN; // the minimum section size
               op_state = (!serv ? GET_SERVICE : WRITE_SERVICE);
@@ -219,7 +219,7 @@ namespace sigen
            case WRITE_HEAD:
               // write the service data
               section.set16Bits(service.id);
-              section.set08Bits( rbits(reserved, 0xfc) |
+              section.set08Bits( rbits(0xfc) |
                                  service.eit_schedule |
                                  service.eit_present_following );
 
@@ -295,7 +295,7 @@ namespace sigen
 
       // sdt-specific
       identStr(o, ORIG_NETWORK_ID_S, original_network_id);
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0xff));
+      identStr(o, RESERVED_FU_S, rbits(0xff));
       o << std::endl;
 
       // display the service list
@@ -308,7 +308,7 @@ namespace sigen
 
          o << std::hex;
          identStr(o, SERVICE_ID_S, service.id, true);
-         identStr(o, RESERVED_FU_S, rbits(reserved, 0x3f)); // reserved future use
+         identStr(o, RESERVED_FU_S, rbits(0x3f)); // reserved future use
          identStr(o, EIT_SCHED_FLAG_S, service.eit_schedule);
          identStr(o, EIT_PF_F_S, service.eit_present_following);
          identStr(o, RUNNING_STATUS_S, service.running_status);
@@ -337,7 +337,7 @@ namespace sigen
    void SDT::Service::buildSections(Section &s) const
    {
       s.set16Bits( id );
-      s.set08Bits( rbits(reserved, 0xfc) | (eit_schedule << 1) |
+      s.set08Bits( rbits(0xfc) | (eit_schedule << 1) |
                    eit_present_following );
       s.set16Bits( (running_status << 13) | (free_ca_mode << 12) |
                    (descriptors.loop_length() & 0x0fff) );

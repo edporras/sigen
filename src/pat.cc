@@ -108,7 +108,7 @@ namespace sigen
 
            case WRITE_PROGRAM:
               section.set16Bits(p->number);
-              section.set16Bits( rbits(reserved, 0xe000) | p->pid );
+              section.set16Bits( rbits(0xe000) | p->pid );
 
               sec_bytes += Program::BASE_LEN;
               op_state = GET_PROGRAM;
@@ -135,7 +135,7 @@ namespace sigen
          const Program& program = *pp;
 
          identStr(o, PROGRAM_NUM_S, program.number, true);
-         identStr(o, RESERVED_S, rbits(reserved, 0x07) );
+         identStr(o, RESERVED_S, rbits(0x07) );
          identStr(o, PID_S, program.pid, true);
          o << std::endl;
       }

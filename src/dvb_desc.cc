@@ -95,7 +95,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set08Bits( country_availability_flag << 7 | rbits(reserved, 0x7f) );
+      s.set08Bits( country_availability_flag << 7 | rbits(0x7f) );
 
       for (const auto& lc : country_list)
          s.setBits( *lc );
@@ -109,7 +109,7 @@ namespace sigen
       dumpHeader(o, COUNTRY_AVAIL_D_S);
 
       identStr(o, COUNTRY_AVAIL_FLAG_S, country_availability_flag);
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0x7f));
+      identStr(o, RESERVED_FU_S, rbits(0x7f));
 
       incOutLevel();
       for (const auto& lc : country_list)
@@ -196,7 +196,7 @@ namespace sigen
          // now set the data
          s.setBits( offset->country_code );
          s.set08Bits( (offset->country_region_id << 2) |
-                      (rbits(offset->reserved, 0x01) << 1) |
+                      (rbits(0x01) << 1) |
                       (offset->local_time_offset_polarity) );
          s.set16Bits( offset->local_time_offset );
 
@@ -226,7 +226,7 @@ namespace sigen
 
          identStr(o, COUNTRY_CODE_S, offset->country_code);
          identStr(o, COUNTRY_REGION_ID_S, offset->country_region_id);
-         identStr(o, RESERVED_S, rbits(offset->reserved, 0x01));
+         identStr(o, RESERVED_S, rbits(0x01));
          identStr(o, LTO_POLARITY_S, offset->local_time_offset_polarity);
 
          identStr(o, LOCAL_TIME_OFFSET_S, offset->local_time_offset);
@@ -270,11 +270,11 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set24Bits( rbits(reserved, 0xc00000) |
+      s.set24Bits( rbits(0xc00000) |
                    peak_rate );
-      s.set24Bits( rbits(reserved, 0xc00000) |
+      s.set24Bits( rbits(0xc00000) |
                    min_overall_smoothing_rate );
-      s.set16Bits( rbits(reserved, 0xc000) |
+      s.set16Bits( rbits(0xc000) |
                    max_overall_smoothing_buffer );
    }
 
@@ -283,11 +283,11 @@ namespace sigen
    {
       dumpHeader( o, PARTIAL_TS_D_S );
 
-      identStr( o, RESERVED_FU_S, rbits(reserved, 0x3 ) );
+      identStr( o, RESERVED_FU_S, rbits(0x3 ) );
       identStr( o, PEAK_RATE_S, peak_rate );
-      identStr( o, RESERVED_FU_S, rbits(reserved, 0x3 ) );
+      identStr( o, RESERVED_FU_S, rbits(0x3) );
       identStr( o, MIN_OS_RATE_S, min_overall_smoothing_rate );
-      identStr( o, RESERVED_FU_S, rbits(reserved, 0x3 ) );
+      identStr( o, RESERVED_FU_S, rbits(0x3 ) );
       identStr( o, MAX_OS_BUFFER_S, max_overall_smoothing_buffer );
    }
 #endif
@@ -349,7 +349,7 @@ namespace sigen
    TelephoneDesc::TelephoneDesc(bool fa, ui8 ct,
                                 const std::string &cp, const std::string &iac,
                                 const std::string &oc, const std::string &nac,
-                                const std::string &cn, bool rsrvd) :
+                                const std::string &cn) :
       Descriptor(TAG, BASE_LEN),
       country_prefix(cp),
       international_area_code(iac),
@@ -357,8 +357,7 @@ namespace sigen
       national_area_code(nac),
       core_number(cn),
       connection_type(ct),
-      foreign_availability(fa),
-      reserved(rsrvd)
+      foreign_availability(fa)
    {
       // add the length of the strings making sure each string is not
       // exceeding its max length
@@ -398,14 +397,14 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set08Bits( rbits(reserved, 0xc0) |
+      s.set08Bits( rbits(0xc0) |
                    (foreign_availability << 5) |
                    connection_type );
-      s.set08Bits( rbits(reserved, 0x80) |
+      s.set08Bits( rbits(0x80) |
                    (country_prefix.length() << 5) |
                    (international_area_code.length() << 2) |
                    operator_code.length());
-      s.set08Bits( rbits(reserved, 0x80) |
+      s.set08Bits( rbits(0x80) |
                    (national_area_code.length() << 4) |
                    core_number.length());
 
@@ -424,14 +423,14 @@ namespace sigen
    {
       dumpHeader(o, TELEPHONE_D_S);
 
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0x03));
+      identStr(o, RESERVED_FU_S, rbits(0x03));
       identStr(o, FOREIGN_AVAIL_S, foreign_availability);
       identStr(o, CONNECTION_TYPE_S, connection_type);
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0x01));
+      identStr(o, RESERVED_FU_S, rbits(0x01));
       identStr(o, COUNTRY_PREFIX_LEN_S, country_prefix.length(), true);
       identStr(o, INTNL_AC_LEN_S, international_area_code.length(), true);
       identStr(o, OPERATOR_CODE_LEN_S, operator_code.length(), true);
-      identStr(o, RESERVED_FU_S, rbits(reserved, 0x01));
+      identStr(o, RESERVED_FU_S, rbits(0x01));
       identStr(o, NTNL_AC_LEN_S, national_area_code.length(), true);
       identStr(o, CORE_NUM_LEN_S, core_number.length(), true);
       identStr(o, COUNTRY_PREFIX_S, country_prefix);

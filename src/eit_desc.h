@@ -41,8 +41,7 @@ namespace sigen {
 
       // constructor
       ComponentDesc(ui8 sc, ui8 ctype, ui8 ctag,
-                    const std::string& code, const std::string& text,
-                    bool rsrvd = true);
+                    const std::string& code, const std::string& text);
       ComponentDesc() = delete;
 
       // util
@@ -58,7 +57,6 @@ namespace sigen {
       ui8 component_type;
       ui8 component_tag;
       ui8 stream_content : 4;
-      bool reserved;
    };
 
 
@@ -241,10 +239,9 @@ namespace sigen {
       enum { TAG = 0x69, BASE_LEN = 3 };
 
       // constructor
-      PDCDesc(ui32 pil, bool rsrvd = true) :
+      PDCDesc(ui32 pil) :
          Descriptor(TAG, BASE_LEN),
-         programme_identification_label(pil),
-         reserved(rsrvd)
+         programme_identification_label(pil)
       { }
       PDCDesc() = delete;
 
@@ -257,7 +254,6 @@ namespace sigen {
 
    private:
       ui32 programme_identification_label : 20;
-      bool reserved;
    };
 
 
