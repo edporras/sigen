@@ -176,7 +176,7 @@ namespace sigen
 
            case WRITE_SERVICE:
               // try to write it
-              if (!writeService(section, *serv, sec_bytes))
+              if (!(*serv).writeSection(section, getMaxDataLen(), sec_bytes))
               {
                  op_state = WRITE_HEAD;
                  exit = true;
@@ -193,8 +193,7 @@ namespace sigen
    //
    // state machine for writing each service to the stream
    //
-   bool SDT::writeService(Section& section, const Service& service,
-                          ui16 &sec_bytes) const
+   bool SDT::Service::writeSection(Section& section, ui16 max_data_length, ui16 &sec_bytes) const
    {
       enum State_t { WRITE_HEAD, GET_DESC, WRITE_DESC };
 
@@ -203,12 +202,12 @@ namespace sigen
       bool done, exit;
       static State_t op_state = WRITE_HEAD;
       static const Descriptor *d = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = service.descriptors.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = descriptors.begin();
 
       // set the descriptor list iterator to this service's
       // descriptor list
       if (!d)
-         d_iter = service.descriptors.begin();
+         d_iter = descriptors.begin();
 
       done = exit = false;
 
@@ -218,10 +217,10 @@ namespace sigen
          {
            case WRITE_HEAD:
               // write the service data
-              section.set16Bits(service.id);
+              section.set16Bits(id);
               section.set08Bits( rbits(0xfc) |
-                                 service.eit_schedule |
-                                 service.eit_present_following );
+                                 eit_schedule |
+                                 eit_present_following );
 
               // save the position of the desc loop length..
               // we'll set it when we're done
@@ -235,12 +234,12 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (d_iter != service.descriptors.end())
+              if (d_iter != descriptors.end())
               {
                  d = (*d_iter++).get();
 
                  // make sure we can fit it
-                 if (sec_bytes + d->length() > getMaxDataLen())
+                 if (sec_bytes + d->length() > max_data_length)
                  {
                     // can't exit and wait to complete
                     op_state = WRITE_HEAD;
@@ -276,8 +275,8 @@ namespace sigen
 
       // done with this service.. write the desc_loop_len
       section.set16Bits( d_loop_len_pos,
-                         (service.running_status << 13) |
-                         (service.free_ca_mode << 12) |
+                         (running_status << 13) |
+                         (free_ca_mode << 12) |
                          (desc_loop_len & LEN_MASK) );
       return done;
    }

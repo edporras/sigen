@@ -71,6 +71,8 @@ namespace sigen {
 
          // utility
          void buildSections(Section &) const;
+
+         bool writeSection(Section&, ui16, ui16 &) const;
       };
 
       // sdt data members begin here
@@ -89,7 +91,6 @@ namespace sigen {
 
       bool addServiceDesc(Service&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
-      bool writeService(Section&, const Service&, ui16 &) const;
    };
 
    // public interface

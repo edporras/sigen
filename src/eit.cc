@@ -261,7 +261,7 @@ namespace sigen
 
            case WRITE_EVENT:
               // try to write it
-              if (!writeEvent(section, *event, sec_bytes))
+              if (!(*event).writeSection(section, getMaxDataLen(), sec_bytes))
               {
                  op_state = WRITE_HEAD;
                  exit = true;
@@ -278,8 +278,7 @@ namespace sigen
    //
    // state machine for writing each event to the stream
    //
-   bool EIT::writeEvent(Section& section, const Event& event,
-                        ui16 &sec_bytes) const
+   bool EIT::Event::writeSection(Section& section, ui16 max_data_len, ui16 &sec_bytes) const
    {
       enum State_t { WRITE_HEAD, GET_DESC, WRITE_DESC };
 
@@ -293,7 +292,7 @@ namespace sigen
       // set the descriptor list iterator to this event's
       // descriptor list
       if (!d)
-         d_iter = event.descriptors.begin();
+         d_iter = descriptors.begin();
 
       done = exit = false;
 
@@ -303,18 +302,18 @@ namespace sigen
          {
            case WRITE_HEAD:
               // write the event data
-              section.set16Bits(event.id);
+              section.set16Bits(id);
 
               // start utc
-              section.set16Bits(event.utc.mjd);
-              section.set08Bits(event.utc.time.getBCDHour());
-              section.set08Bits(event.utc.time.getBCDMinute());
-              section.set08Bits(event.utc.time.getBCDSecond());
+              section.set16Bits(utc.mjd);
+              section.set08Bits(utc.time.getBCDHour());
+              section.set08Bits(utc.time.getBCDMinute());
+              section.set08Bits(utc.time.getBCDSecond());
 
               // duration
-              section.set08Bits(event.duration.getBCDHour());
-              section.set08Bits(event.duration.getBCDMinute());
-              section.set08Bits(event.duration.getBCDSecond());
+              section.set08Bits(duration.getBCDHour());
+              section.set08Bits(duration.getBCDMinute());
+              section.set08Bits(duration.getBCDSecond());
 
               // save the position of the desc loop length..
               // we'll set it when we're done
@@ -328,12 +327,12 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (d_iter != event.descriptors.end())
+              if (d_iter != descriptors.end())
               {
                  d = (*d_iter++).get();
 
                  // make sure we can fit it
-                 if (sec_bytes + d->length() > getMaxDataLen())
+                 if (sec_bytes + d->length() > max_data_len)
                  {
                     // can't exit and wait to complete
                     op_state = WRITE_HEAD;
@@ -369,8 +368,8 @@ namespace sigen
 
       // done with this service.. write the desc_loop_len
       section.set16Bits( d_loop_len_pos,
-                         (event.running_status << 13) |
-                         (event.free_CA_mode << 12) |
+                         (running_status << 13) |
+                         (free_CA_mode << 12) |
                          (desc_loop_len & LEN_MASK) );
       return done;
    }

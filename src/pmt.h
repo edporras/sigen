@@ -98,6 +98,8 @@ namespace sigen {
          ElementaryStream(ui16 epid, ui8 t) :
             es_info_length(0), elementary_pid(epid), type(t)
          { }
+
+         bool writeSection(Section&, ui16, ui16 &) const;
       };
 
       // instance variables
@@ -109,7 +111,6 @@ namespace sigen {
    protected:
       bool addElemStreamDesc(ElementaryStream&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
-      bool writeStream(Section&, const ElementaryStream& , ui16 &) const;
    };
 } // sigen namespace
 

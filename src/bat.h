@@ -77,6 +77,8 @@ namespace sigen {
 
          // utility methods
          int length() const { return descriptors.loop_length() + BASE_LEN; }
+
+         bool writeSection(Section& , ui16, ui16 &, ui16 &) const;
       };
 
       // BAT members
@@ -87,7 +89,6 @@ namespace sigen {
    protected:
       bool addXportStreamDesc(XportStream& , Descriptor &);
       virtual bool writeSection(Section& , ui8, ui16 &) const;
-      bool writeXportStream(Section& , const XportStream& , ui16 &, ui16 &) const;
 
 #ifdef ENABLE_DUMP
       void dumpXportStreams(std::ostream &) const;

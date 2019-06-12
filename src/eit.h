@@ -81,6 +81,8 @@ namespace sigen {
 
          // utility
          void buildSections(Section &) const;
+
+         bool writeSection(Section& , ui16 , ui16 &) const;
       };
 
       // common EIT data members begin here
@@ -99,7 +101,6 @@ namespace sigen {
                         ui8 last_tid,
                         ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
                         ui16 &sec_bytes) const;
-      bool writeEvent(Section& , const Event& , ui16 &) const;
 
 #ifdef ENABLE_DUMP
       virtual void dumpHeader(std::ostream &) const = 0;

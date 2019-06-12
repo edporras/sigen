@@ -284,7 +284,7 @@ namespace sigen
 
            case WRITE_XPORT_STREAM:
               // finally write it
-              if (!writeXportStream(section, *ts, sec_bytes, ts_loop_len))
+              if (!(*ts).writeSection(section, getMaxDataLen(), sec_bytes, ts_loop_len))
               {
                  op_state = WRITE_HEAD;
                  exit = true;
@@ -305,8 +305,7 @@ namespace sigen
    //
    // state machine for writing the transport streams
    //
-   bool BAT::writeXportStream(Section& section, const XportStream& ts,
-                              ui16 &sec_bytes, ui16 &ts_loop_len) const
+   bool BAT::XportStream::writeSection(Section& section, ui16 max_data_len, ui16 &sec_bytes, ui16 &ts_loop_len) const
    {
       enum State_t { WRITE_HEAD, GET_DESC, WRITE_DESC };
 
@@ -316,13 +315,13 @@ namespace sigen
       ui16 d_len, ts_desc_len = 0;
       bool exit, done;
       static const Descriptor *tsd = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = ts.descriptors.begin();
+      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = descriptors.begin();
 
       exit = done = false;
 
       // set the descriptor iterator
       if (!tsd)
-         tsd_iter = ts.descriptors.begin();
+         tsd_iter = descriptors.begin();
 
       while (!exit)
       {
@@ -330,8 +329,8 @@ namespace sigen
          {
            case WRITE_HEAD:
               // write the transport stream data
-              section.set16Bits(ts.id);
-              section.set16Bits(ts.original_network_id);
+              section.set16Bits(id);
+              section.set16Bits(original_network_id);
 
               // save the position for the desc loop len.. we'll update it later
               ts_desc_len_pos = section.getCurDataPosition();
@@ -345,12 +344,12 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (tsd_iter != ts.descriptors.end())
+              if (tsd_iter != descriptors.end())
               {
                  tsd = (*tsd_iter++).get();
 
                  // make sure we can fit it
-                 if ( (sec_bytes + tsd->length()) > getMaxDataLen() )
+                 if ( (sec_bytes + tsd->length()) > max_data_len )
                  {
                     op_state = WRITE_HEAD;
                     exit = true;
