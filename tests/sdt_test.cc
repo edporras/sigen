@@ -30,8 +30,7 @@ namespace tests
       StuffingDesc *stuff1 = new StuffingDesc( 'z', 200 );
       sdt.addServiceDesc( *stuff1 );
 
-      std::string s(259, 'd');
-      StuffingDesc *stuff2 = new StuffingDesc( s );
+      StuffingDesc *stuff2 = new StuffingDesc( std::string(259, 'd') );
       sdt.addServiceDesc( *stuff2 );
 
       TimeShiftedEventDesc *tsed = new TimeShiftedEventDesc( 0x9999, 0x8888 );
@@ -60,7 +59,7 @@ namespace tests
       mlsnd->addLanguage("rus", "Radio France 6", "Some Service 6");
       mlsnd->addLanguage("chi", "Radio France 7", "Some Service 7");
 
-      sdt.addServiceDesc( *mlsnd );
+      sdt.addServiceDesc( 201, *mlsnd ); // add by using sid
 
       NVODReferenceDesc *nrd = new NVODReferenceDesc;
       nrd->addIdentifiers( 0x01, 0x02, 0x03 );

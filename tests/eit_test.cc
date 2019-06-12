@@ -11,10 +11,11 @@ namespace tests
       PF_EITActual eit_a(100, 0x333, 0x444, 0);
 
       eit_a.addPresentEvent(0x1000, UTC(3, 1, 1999, 9, 0, 0), BCDTime(0, 30, 0), 1, 1);
-      eit_a.addFollowingEvent(0x1001, UTC(3, 1, 1999, 9, 30, 0), BCDTime(0, 30, 0), 1, 1);
 
       PDCDesc* pdcd = new PDCDesc(0x1000);
       eit_a.addPresentEventDesc(*pdcd);
+
+      eit_a.addFollowingEvent(0x1001, UTC(3, 1, 1999, 9, 30, 0), BCDTime(0, 30, 0), 1, 1);
 
       DSNGDesc* dsngd = new DSNGDesc("dsng data");
       eit_a.addFollowingEventDesc(0x1001, *dsngd);

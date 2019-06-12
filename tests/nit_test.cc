@@ -16,8 +16,7 @@ namespace tests
       nit.addNetworkDesc( *nnd );
 
       // another one
-      std::string s(259, 'c');
-      NetworkNameDesc *nd2 = new NetworkNameDesc(s);
+      NetworkNameDesc *nd2 = new NetworkNameDesc(std::string(259, 'c')); // should truncate
       nit.addNetworkDesc( *nd2 );
 
       StuffingDesc *stuff1 = new StuffingDesc( 'z', 13 );
@@ -63,7 +62,7 @@ namespace tests
       nit.addXportStreamDesc( *sdsd );
 
       StreamIdentifierDesc *sid = new StreamIdentifierDesc(0x88);
-      nit.addXportStreamDesc( *sid );
+      nit.addXportStreamDesc( 0x21, 0x31, *sid ); // add by specifying ts id and onid
 
       TimeShiftedServiceDesc *tssd = new TimeShiftedServiceDesc( 0x4000 );
       nit.addNetworkDesc( *tssd );
