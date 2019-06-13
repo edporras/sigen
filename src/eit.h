@@ -83,6 +83,16 @@ namespace sigen {
          void buildSections(Section &) const;
 
          bool writeSection(Section& , ui16 , ui16 &) const;
+
+      private:
+         enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
+         mutable struct Context {
+            Context() : op_state(INIT), d(nullptr) {}
+
+            State_t op_state;
+            const Descriptor *d;
+            std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter;
+         } run;
       };
 
       // common EIT data members begin here
@@ -112,6 +122,16 @@ namespace sigen {
       // but we need this one to satisfy inheritance from PSITable..
       // this one is never called
       bool writeSection(Section& , ui8, ui16 &) const { return false; }
+
+   private:
+      enum State_t { INIT, WRITE_HEAD, GET_EVENT, WRITE_EVENT };
+      mutable struct Context {
+         Context() : op_state(INIT), event(nullptr) {}
+
+         State_t op_state;
+         const Event *event;
+         std::list<std::unique_ptr<Event> >::const_iterator ev_iter;
+      } run;
    };
 
 

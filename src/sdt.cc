@@ -93,22 +93,17 @@ namespace sigen
    //
    bool SDT::writeSection(Section& section, ui8 cur_sec, ui16 &sec_bytes) const
    {
-      enum State_t { WRITE_HEAD, GET_SERVICE, WRITE_SERVICE };
-
-      bool done, exit;
-      static State_t op_state = WRITE_HEAD;
-      static const Service *serv = nullptr;
-      static std::list<std::unique_ptr<Service> >::const_iterator s_iter = service_list.begin();
-
-      // init
-      done = exit = false;
-      if (!serv)
-         s_iter = service_list.begin();
+      bool done = false, exit = false;
 
       while (!exit)
       {
-         switch (op_state)
+         switch (run.op_state)
          {
+           case INIT:
+              if (!run.serv)
+                 run.s_iter = service_list.begin();
+              run.op_state = WRITE_HEAD;
+
            case WRITE_HEAD:
               // common data for every section
               // if table's length is > available space, we'll
@@ -126,18 +121,18 @@ namespace sigen
               section.set08Bits( rbits(0xff) ); // reserved (8)
 
               sec_bytes = BASE_LEN; // the minimum section size
-              op_state = (!serv ? GET_SERVICE : WRITE_SERVICE);
+              run.op_state = (!run.serv ? GET_SERVICE : WRITE_SERVICE);
               break;
 
            case GET_SERVICE:
               // fetch the next service
-              if (s_iter != service_list.end())
+              if (run.s_iter != service_list.end())
               {
-                 serv = (*s_iter++).get();
+                 run.serv = (*run.s_iter++).get();
 
-                 if (!serv->descriptors.empty())
+                 if (!run.serv->descriptors.empty())
                  {
-                    const Descriptor *d = serv->descriptors.front().get();
+                    const Descriptor *d = run.serv->descriptors.front().get();
 
                     // check if we can fit it with at least one descriptor
                     if (sec_bytes + Service::BASE_LEN + d->length() >
@@ -145,7 +140,7 @@ namespace sigen
                     {
                        // we can't, so let's get another section to write
                        // this service to
-                       op_state = WRITE_HEAD;
+                       run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
                     }
@@ -156,19 +151,18 @@ namespace sigen
                     if ( (sec_bytes + Service::BASE_LEN) > getMaxDataLen() )
                     {
                        // no soup for you
-                       op_state = WRITE_HEAD;
+                       run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
                     }
                  }
                  // we can add it
-                 op_state = WRITE_SERVICE;
+                 run.op_state = WRITE_SERVICE;
               }
               else
               {
                  // done with all services.. all sections are done!
-                 op_state = WRITE_HEAD;
-                 serv = nullptr;
+                 run = Context();
                  exit = done = true;
                  break;
               }
@@ -176,13 +170,13 @@ namespace sigen
 
            case WRITE_SERVICE:
               // try to write it
-              if (!(*serv).writeSection(section, getMaxDataLen(), sec_bytes))
+              if (!(*run.serv).writeSection(section, getMaxDataLen(), sec_bytes))
               {
-                 op_state = WRITE_HEAD;
+                 run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
               }
-              op_state = GET_SERVICE;
+              run.op_state = GET_SERVICE;
               break;
          }
       }
@@ -195,26 +189,21 @@ namespace sigen
    //
    bool SDT::Service::writeSection(Section& section, ui16 max_data_length, ui16 &sec_bytes) const
    {
-      enum State_t { WRITE_HEAD, GET_DESC, WRITE_DESC };
-
       ui8 *d_loop_len_pos = 0;
       ui16 desc_loop_len = 0;
-      bool done, exit;
-      static State_t op_state = WRITE_HEAD;
-      static const Descriptor *d = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = descriptors.begin();
-
-      // set the descriptor list iterator to this service's
-      // descriptor list
-      if (!d)
-         d_iter = descriptors.begin();
-
-      done = exit = false;
+      bool done = false, exit = false;
 
       while (!exit)
       {
-         switch (op_state)
+         switch (run.op_state)
          {
+           case INIT:
+              // set the descriptor list iterator to this service's
+              // descriptor list
+              if (!run.d)
+                 run.d_iter = descriptors.begin();
+              run.op_state = WRITE_HEAD;
+
            case WRITE_HEAD:
               // write the service data
               section.set16Bits(id);
@@ -230,28 +219,27 @@ namespace sigen
               // increment the byte count
               sec_bytes += SDT::Service::BASE_LEN;
 
-              op_state = (!d ? GET_DESC : WRITE_DESC);
+              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
               break;
 
            case GET_DESC:
-              if (d_iter != descriptors.end())
+              if (run.d_iter != descriptors.end())
               {
-                 d = (*d_iter++).get();
+                 run.d = (*run.d_iter++).get();
 
                  // make sure we can fit it
-                 if (sec_bytes + d->length() > max_data_length)
+                 if (sec_bytes + run.d->length() > max_data_length)
                  {
                     // can't exit and wait to complete
-                    op_state = WRITE_HEAD;
+                    run.op_state = WRITE_HEAD;
                     exit = true;
                     break;
                  }
-                 op_state = WRITE_DESC;
+                 run.op_state = WRITE_DESC;
               }
               else
               {
-                 d = nullptr;
-                 op_state = WRITE_HEAD;
+                 run = Context();
                  exit = done = true;
                  break;
               }
@@ -260,14 +248,14 @@ namespace sigen
            case WRITE_DESC:
               {
                  // the service descriptors
-                 d->buildSections(section);
+                 run.d->buildSections(section);
 
-                 ui16 d_len = d->length();
+                 ui16 d_len = run.d->length();
                  sec_bytes += d_len;
                  desc_loop_len += d_len;
 
                  // try to get another one
-                 op_state = GET_DESC;
+                 run.op_state = GET_DESC;
               }
               break;
          }

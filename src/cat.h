@@ -59,6 +59,16 @@ namespace sigen {
       // list of descriptors
       DescList descriptors;
 
+      enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
+      mutable struct Context {
+         Context() : d_done(false), op_state(INIT), d(nullptr) {}
+
+         bool d_done;
+         State_t op_state;
+         const Descriptor *d;
+         std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter;
+      } run;
+
    protected:
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };

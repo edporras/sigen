@@ -46,28 +46,17 @@ namespace sigen
    //
    bool CAT::writeSection(Section& section, ui8 cur_sec, ui16 &sec_bytes) const
    {
-      enum State_t {
-         WRITE_HEAD,
-         GET_DESC, WRITE_DESC
-      };
-
-      bool done, exit;
-      static bool d_done = false;
-      static State_t op_state = WRITE_HEAD;
-      static const Descriptor *d = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter = descriptors.begin();
-
-      // associate the iterators to the list
-      if (!d_done)
-         if (!d)
-            d_iter = descriptors.begin();
-
-      done = exit = false;
+      bool done = false, exit = false;
 
       while (!exit)
       {
-         switch (op_state)
+         switch (run.op_state)
          {
+           case INIT:
+              // associate the iterators to the list
+              run.d_iter = descriptors.begin();
+              run.op_state = WRITE_HEAD;
+
            case WRITE_HEAD:
               // common data for every section
               // if table's length is > max_section_len, we'll
@@ -82,47 +71,42 @@ namespace sigen
               section.set08Bits(0);//last_sec_num);
 
               sec_bytes = BASE_LEN; // the minimum section size
-              op_state = (!d ? GET_DESC : WRITE_DESC);
+              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
               break;
 
            case GET_DESC:
-              if (!d_done)
+              // fetch the next descriptor
+              if (run.d_iter != descriptors.end())
               {
-                 // fetch the next descriptor
-                 if (d_iter != descriptors.end())
-                 {
-                    d = (*d_iter++).get();
+                 run.d = (*run.d_iter++).get();
 
-                    // check if we can fit it in this section
-                    if (sec_bytes + d->length() > getMaxDataLen())
-                    {
-                       // we can't.. return so we can get a new section
-                       // we'll add it when we come back
-                       op_state = WRITE_HEAD;
-                       exit = true;
-                    }
-                    else // we found one to write
-                       op_state = WRITE_DESC;
-                    break;
-                 }
-                 else
+                 // check if we can fit it in this section
+                 if (sec_bytes + run.d->length() > getMaxDataLen())
                  {
-                    // no more descriptors so all sections are done!
-                    d = nullptr;
-                    d_done = false;
-                    op_state = WRITE_HEAD;
-                    exit = done = true;
+                    // we can't.. return so we can get a new section
+                    // we'll add it when we come back
+                    run.op_state = WRITE_HEAD;
+                    exit = true;
                  }
+                 else // we found one to write
+                    run.op_state = WRITE_DESC;
+                 break;
+              }
+              else
+              {
+                 // no more descriptors so all sections are done!
+                 run = Context();
+                 exit = done = true;
               }
               break;
 
            case WRITE_DESC:
               // add the network descriptor
-              d->buildSections(section);
-              sec_bytes += d->length();
+              run.d->buildSections(section);
+              sec_bytes += run.d->length();
 
               // try to add another one
-              op_state = GET_DESC;
+              run.op_state = GET_DESC;
               break;
          }
       }

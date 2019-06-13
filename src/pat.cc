@@ -46,22 +46,18 @@ namespace sigen
    // writes to the stream
    bool PAT::writeSection(Section& section, ui8 cur_sec, ui16 &sec_bytes) const
    {
-      enum State_t { WRITE_HEAD, GET_PROGRAM, WRITE_PROGRAM };
-
-      bool done, exit;
-      static State_t op_state = WRITE_HEAD;
-      static const Program *p = nullptr;
-      static std::list<std::unique_ptr<Program> >::const_iterator p_iter = program_list.begin();
-
-      // init
-      done = exit = false;
-      if (p_iter == program_list.end())
-         p_iter = program_list.begin();
+      bool done = false;
+      bool exit = false;
 
       while (!exit)
       {
-         switch (op_state)
+         switch (run.op_state)
          {
+           case INIT:
+              run.p_iter = program_list.begin();
+              run.op_state = WRITE_HEAD;
+              // fall through
+
            case WRITE_HEAD:
               // common data for every section
               // if table's length is > available space, we'll
@@ -76,42 +72,41 @@ namespace sigen
               section.set08Bits(0);
 
               sec_bytes = BASE_LEN; // the minimum section size
-              op_state = (!p ? GET_PROGRAM : WRITE_PROGRAM);
+              run.op_state = (!run.p ? GET_PROGRAM : WRITE_PROGRAM);
               break;
 
            case GET_PROGRAM:
               // fetch the next service
-              if (p_iter != program_list.end())
+              if (run.p_iter != program_list.end())
               {
-                 p = (*p_iter++).get();
+                 run.p = (*run.p_iter++).get();
 
-                 // can we add it?
+                 // does adding it exceed capacity?
                  if ( (sec_bytes + Program::BASE_LEN) > getMaxDataLen() )
                  {
-                    // no soup for you
-                    op_state = WRITE_HEAD;
+                    // yes
+                    run.op_state = WRITE_HEAD;
                     exit = true;
                     break;
                  }
                  // we can add it
-                 op_state = WRITE_PROGRAM;
+                 run.op_state = WRITE_PROGRAM;
               }
               else
               {
                  // done with all programs.. all sections are done!
-                 op_state = WRITE_HEAD;
-                 p = nullptr;
+                 run = Context();
                  exit = done = true;
                  break;
               }
               break;
 
            case WRITE_PROGRAM:
-              section.set16Bits(p->number);
-              section.set16Bits( rbits(0xe000) | p->pid );
+              section.set16Bits(run.p->number);
+              section.set16Bits( rbits(0xe000) | run.p->pid );
 
               sec_bytes += Program::BASE_LEN;
-              op_state = GET_PROGRAM;
+              run.op_state = GET_PROGRAM;
               break;
          }
       }

@@ -73,6 +73,16 @@ namespace sigen {
          void buildSections(Section &) const;
 
          bool writeSection(Section&, ui16, ui16 &) const;
+
+      private:
+         enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
+         mutable struct Context {
+            Context() : op_state(INIT), d(nullptr) {}
+
+            State_t op_state;
+            const Descriptor *d;
+            std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter;
+         } run;
       };
 
       // sdt data members begin here
@@ -80,6 +90,15 @@ namespace sigen {
 
       // the list of services
       std::list<std::unique_ptr<Service> > service_list;
+
+      enum State_t { INIT, WRITE_HEAD, GET_SERVICE, WRITE_SERVICE };
+      mutable struct Context {
+         Context() : op_state(INIT), serv(nullptr) {}
+         
+         State_t op_state;
+         const Service *serv;
+         std::list<std::unique_ptr<Service> >::const_iterator s_iter;
+      } run;
 
    protected:
       // constructor

@@ -99,7 +99,17 @@ namespace sigen {
             es_info_length(0), elementary_pid(epid), type(t)
          { }
 
-         bool writeSection(Section&, ui16, ui16 &) const;
+         bool writeSection(Section& s, ui16 max_data_len, ui16& sec_bytes) const;
+
+      private:
+         enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
+         mutable struct Context {
+            Context() : op_state(INIT), tsd(nullptr) {}
+
+            State_t op_state;
+            const Descriptor *tsd;
+            std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter;
+         } run;
       };
 
       // instance variables
@@ -107,6 +117,19 @@ namespace sigen {
       ui16 pcr_pid : 13;
       DescList prog_desc;
       std::list<std::unique_ptr<ElementaryStream> > es_list; // the list of streams
+
+      enum State_t { INIT, WRITE_HEAD, GET_PROG_DESC, WRITE_PROG_DESC,
+                     GET_XPORT_STREAM, WRITE_XPORT_STREAM };
+      mutable struct Context {
+         Context() : d_done(false), op_state(INIT), pd(nullptr), es(nullptr) {}
+
+         bool d_done;
+         State_t op_state;
+         const Descriptor *pd;
+         const ElementaryStream *es;
+         std::list<std::unique_ptr<Descriptor> >::const_iterator pd_iter;
+         std::list<std::unique_ptr<ElementaryStream> >::const_iterator es_iter;
+      } run;
 
    protected:
       bool addElemStreamDesc(ElementaryStream&, Descriptor &);

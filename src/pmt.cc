@@ -84,36 +84,24 @@ namespace sigen
    //
    bool PMT::writeSection(Section& section, ui8 cur_sec, ui16 &sec_bytes) const
    {
-      enum State_t {
-         WRITE_HEAD,
-         GET_PROG_DESC, WRITE_PROG_DESC,
-         GET_XPORT_STREAM, WRITE_XPORT_STREAM
-      };
-
       ui8 *prog_info_len_pos = 0;
       ui16 d_len, prog_info_len = 0;
-      bool done, exit;
-      static bool d_done = false;
-      static State_t op_state = WRITE_HEAD;
-      static const Descriptor *pd = nullptr;
-      static const ElementaryStream *ts = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator pd_iter = prog_desc.begin();
-      static std::list<std::unique_ptr<ElementaryStream> >::const_iterator ts_iter = es_list.begin();
-
-      // associate the iterators to the list
-      if (!d_done)
-         if (!pd)
-            pd_iter = prog_desc.begin();
-
-      if (!ts)
-         ts_iter = es_list.begin();
-
-      done = exit = false;
+      bool done = false, exit = false;
 
       while (!exit)
       {
-         switch (op_state)
+         switch (run.op_state)
          {
+           case INIT:
+              // associate the iterators to the list
+              if (!run.d_done)
+                 if (!run.pd)
+                    run.pd_iter = prog_desc.begin();
+
+              if (!run.es)
+                 run.es_iter = es_list.begin();
+              run.op_state = WRITE_HEAD;
+
            case WRITE_HEAD:
               // common data for every section
               // if table's length is > max_section_len, we'll
@@ -137,7 +125,7 @@ namespace sigen
               section.set16Bits( 0 );
 
               sec_bytes = BASE_LEN; // the minimum section size
-              op_state = (!pd ? GET_PROG_DESC : WRITE_PROG_DESC);
+              run.op_state = (!run.pd ? GET_PROG_DESC : WRITE_PROG_DESC);
               break;
 
            case GET_PROG_DESC:
@@ -147,68 +135,68 @@ namespace sigen
                                 rbits(~LEN_MASK) |
                                 (prog_info_len & LEN_MASK) );
 
-              if (!d_done)
+              if (!run.d_done)
               {
                  // fetch the next program descriptor
-                 if (pd_iter != prog_desc.end())
+                 if (run.pd_iter != prog_desc.end())
                  {
-                    pd = (*pd_iter++).get();
+                    run.pd = (*run.pd_iter++).get();
 
                     // check if we can fit it in this section
-                    if (sec_bytes + pd->length() > getMaxDataLen())
+                    if (sec_bytes + run.pd->length() > getMaxDataLen())
                     {
                        // we can't.. return so we can get a new section
                        // we'll add it when we come back
-                       op_state = WRITE_HEAD;
+                       run.op_state = WRITE_HEAD;
                        exit = true;
                     }
                     else // we found one to write
-                       op_state = WRITE_PROG_DESC;
+                       run.op_state = WRITE_PROG_DESC;
                     break;
                  }
                  else
                  {
-                    pd = nullptr;
-                    d_done = true;
+                    run.pd = nullptr;
+                    run.d_done = true;
                     // fall through
                  }
               }
 
               // done with all program descriptors.. move on to the
               // transport streams
-              op_state = (!ts ? GET_XPORT_STREAM : WRITE_XPORT_STREAM);
+              run.op_state = (!run.es ? GET_XPORT_STREAM : WRITE_XPORT_STREAM);
               break;
 
            case WRITE_PROG_DESC:
               // add the network descriptor
-              pd->buildSections(section);
+              run.pd->buildSections(section);
 
-              d_len = pd->length();
+              d_len = run.pd->length();
               sec_bytes += d_len;
               prog_info_len += d_len;
 
               // try to add another one
-              op_state = GET_PROG_DESC;
+              run.op_state = GET_PROG_DESC;
               break;
 
            case GET_XPORT_STREAM:
               // fetch a transport stream
-              if (ts_iter != es_list.end())
+              if (run.es_iter != es_list.end())
               {
-                 ts = (*ts_iter++).get();
+                 run.es = (*run.es_iter++).get();
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
-                 if (!ts->descriptors.empty())
+                 if (!run.es->descriptors.empty())
                  {
-                    const Descriptor *d = ts->descriptors.front().get();
+                    const Descriptor *d = run.es->descriptors.front().get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + PMT::ElementaryStream::BASE_LEN + d->length()) >
                          getMaxDataLen() )
                     {
                        // won't fit.. wait until the next section
-                       op_state = WRITE_HEAD;
+                       run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
                     }
@@ -219,21 +207,19 @@ namespace sigen
                     if ( (sec_bytes + PMT::ElementaryStream::BASE_LEN) > getMaxDataLen() )
                     {
                        // nope.. wait also
-                       op_state = WRITE_HEAD;
+                       run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
                     }
                  }
                  // all is ok.. add it
-                 op_state = WRITE_XPORT_STREAM;
+                 run.op_state = WRITE_XPORT_STREAM;
               }
               else
               {
                  // no more network descriptors or transport streams, so
                  // all sections are done!
-                 ts = nullptr;
-                 d_done = false;
-                 op_state = WRITE_HEAD;
+                 run = Context();
                  exit = done = true;
                  break;
               }
@@ -241,13 +227,13 @@ namespace sigen
 
            case WRITE_XPORT_STREAM:
               // finally write it
-              if (!(*ts).writeSection(section, getMaxDataLen(), sec_bytes))
+              if (!(*run.es).writeSection(section, getMaxDataLen(), sec_bytes))
               {
-                 op_state = WRITE_HEAD;
+                 run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
               }
-              op_state = GET_XPORT_STREAM;
+              run.op_state = GET_XPORT_STREAM;
               break;
          }
       }
@@ -260,26 +246,20 @@ namespace sigen
    //
    bool PMT::ElementaryStream::writeSection(Section& section, ui16 max_data_len, ui16 &sec_bytes) const
    {
-      enum State_t { WRITE_HEAD, GET_DESC, WRITE_DESC };
-
-      static State_t op_state = WRITE_HEAD;
-
       ui8 *ts_desc_len_pos = 0;
       ui16 d_len, ts_desc_len = 0;
-      bool exit, done;
-      static const Descriptor *tsd = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter = descriptors.begin();
-
-      exit = done = false;
-
-      // set the descriptor iterator
-      if (!tsd)
-         tsd_iter = descriptors.begin();
+      bool exit = false, done = false;
 
       while (!exit)
       {
-         switch (op_state)
+         switch (run.op_state)
          {
+           case INIT:
+              // set the descriptor iterator
+              if (!run.tsd)
+                 run.tsd_iter = descriptors.begin();
+              run.op_state = WRITE_HEAD;
+
            case WRITE_HEAD:
               // write the pmt transport stream data
               section.set08Bits(type);
@@ -293,43 +273,42 @@ namespace sigen
               // increment the byte count
               sec_bytes += ElementaryStream::BASE_LEN;
 
-              op_state = (!tsd ? GET_DESC : WRITE_DESC);
+              run.op_state = (!run.tsd ? GET_DESC : WRITE_DESC);
               break;
 
            case GET_DESC:
-              if (tsd_iter != descriptors.end())
+              if (run.tsd_iter != descriptors.end())
               {
-                 tsd = (*tsd_iter++).get();
+                 run.tsd = (*run.tsd_iter++).get();
 
                  // make sure we can fit it
-                 if ( (sec_bytes + tsd->length()) > max_data_len )
+                 if ( (sec_bytes + run.tsd->length()) > max_data_len )
                  {
-                    op_state = WRITE_HEAD;
+                    run.op_state = WRITE_HEAD;
                     exit = true;
                     break;
                  }
-                 op_state = WRITE_DESC;
+                 run.op_state = WRITE_DESC;
               }
               else
               {
                  // no more descriptors.. done writing this xport stream,
-                 tsd = nullptr;
-                 op_state = WRITE_HEAD;
+                 run = Context();
                  exit = done = true;
                  break;
               }
               break;
 
            case WRITE_DESC:
-              tsd->buildSections(section);
+              run.tsd->buildSections(section);
 
               // increment all byte counts
-              d_len = tsd->length();
+              d_len = run.tsd->length();
               sec_bytes += d_len;
               ts_desc_len += d_len;
 
               // try to get another one
-              op_state = GET_DESC;
+              run.op_state = GET_DESC;
               break;
          }
       }

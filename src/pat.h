@@ -69,6 +69,15 @@ namespace sigen {
       // the list of program / pids
       std::list<std::unique_ptr<Program> > program_list;
 
+      enum State_t { INIT, WRITE_HEAD, GET_PROGRAM, WRITE_PROGRAM };
+      mutable struct Context {
+         Context() : op_state(INIT), p(nullptr) {}
+
+         State_t op_state;
+         const Program *p;
+         std::list<std::unique_ptr<Program> >::const_iterator p_iter;
+      } run;
+
    protected:
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };

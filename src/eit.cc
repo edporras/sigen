@@ -170,26 +170,20 @@ namespace sigen
                           ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
                           ui16 &sec_bytes) const
    {
-      enum State_t { WRITE_HEAD, GET_EVENT, WRITE_EVENT };
-
-      bool done, exit;
-      static State_t op_state = WRITE_HEAD;
-      static const Event *event = nullptr;
-      static std::list<std::unique_ptr<Event> >::const_iterator ev_iter = event_list.begin();
-
-      // init
-      exit = done = false;
-
-      // buildSection() is defined in the derived EIT class (PF_EIT, or
-      // ES_EIT).. when they call this, they will passed the event list we're
-      // building sections on
-      if (!event)
-         ev_iter = event_list.begin();
+      bool done = false, exit = false;
 
       while (!exit)
       {
-         switch (op_state)
+         switch (run.op_state)
          {
+           case INIT:
+              // buildSection() is defined in the derived EIT class (PF_EIT, or
+              // ES_EIT).. when they call this, they will passed the event list we're
+              // building sections on
+              if (!run.event)
+                 run.ev_iter = event_list.begin();
+              run.op_state = WRITE_HEAD;
+
            case WRITE_HEAD:
               // common data for every section
               // if table's length is > available space, we'll
@@ -211,18 +205,18 @@ namespace sigen
               section.set08Bits( last_tid );          // last_table_id
 
               sec_bytes = BASE_LEN; // the minimum section size
-              op_state = (!event ? GET_EVENT : WRITE_EVENT);
+              run.op_state = (!run.event ? GET_EVENT : WRITE_EVENT);
               break;
 
            case GET_EVENT:
               // fetch the next event
-              if (ev_iter != event_list.end())
+              if (run.ev_iter != event_list.end())
               {
-                 event = (*ev_iter++).get();
+                 run.event = (*run.ev_iter++).get();
 
-                 if (!event->descriptors.list().empty())
+                 if (!run.event->descriptors.list().empty())
                  {
-                    const Descriptor *d = event->descriptors.front().get();
+                    const Descriptor *d = run.event->descriptors.front().get();
 
                     // check if we can fit it with at least one descriptor
                     if (sec_bytes + Event::BASE_LEN + d->length() >
@@ -230,7 +224,7 @@ namespace sigen
                     {
                        // we can't, so let's get another section to write
                        // this event to
-                       op_state = WRITE_HEAD;
+                       run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
                     }
@@ -241,19 +235,18 @@ namespace sigen
                     if ( (sec_bytes + Event::BASE_LEN) > getMaxDataLen() )
                     {
                        // no soup for you
-                       op_state = WRITE_HEAD;
+                       run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
                     }
                  }
                  // we can add it
-                 op_state = WRITE_EVENT;
+                 run.op_state = WRITE_EVENT;
               }
               else
               {
                  // done with all services.. all sections are done!
-                 op_state = WRITE_HEAD;
-                 event = nullptr;
+                 run = Context();
                  exit = done = true;
                  break;
               }
@@ -261,13 +254,13 @@ namespace sigen
 
            case WRITE_EVENT:
               // try to write it
-              if (!(*event).writeSection(section, getMaxDataLen(), sec_bytes))
+              if (!(*run.event).writeSection(section, getMaxDataLen(), sec_bytes))
               {
-                 op_state = WRITE_HEAD;
+                 run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
               }
-              op_state = GET_EVENT;
+              run.op_state = GET_EVENT;
               break;
          }
       }
@@ -280,26 +273,21 @@ namespace sigen
    //
    bool EIT::Event::writeSection(Section& section, ui16 max_data_len, ui16 &sec_bytes) const
    {
-      enum State_t { WRITE_HEAD, GET_DESC, WRITE_DESC };
-
       ui8 *d_loop_len_pos = 0;
       ui16 desc_loop_len = 0;
-      bool done, exit;
-      static State_t op_state = WRITE_HEAD;
-      static const Descriptor *d = nullptr;
-      static std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter;
-
-      // set the descriptor list iterator to this event's
-      // descriptor list
-      if (!d)
-         d_iter = descriptors.begin();
-
-      done = exit = false;
+      bool done = false, exit = false;
 
       while (!exit)
       {
-         switch (op_state)
+         switch (run.op_state)
          {
+           case INIT:
+              // set the descriptor list iterator to this event's
+              // descriptor list
+              if (!run.d)
+                 run.d_iter = descriptors.begin();
+              run.op_state = WRITE_HEAD;
+
            case WRITE_HEAD:
               // write the event data
               section.set16Bits(id);
@@ -323,28 +311,27 @@ namespace sigen
               // increment the byte count
               sec_bytes += EIT::Event::BASE_LEN;
 
-              op_state = (!d ? GET_DESC : WRITE_DESC);
+              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
               break;
 
            case GET_DESC:
-              if (d_iter != descriptors.end())
+              if (run.d_iter != descriptors.end())
               {
-                 d = (*d_iter++).get();
+                 run.d = (*run.d_iter++).get();
 
                  // make sure we can fit it
-                 if (sec_bytes + d->length() > max_data_len)
+                 if (sec_bytes + run.d->length() > max_data_len)
                  {
                     // can't exit and wait to complete
-                    op_state = WRITE_HEAD;
+                    run.op_state = WRITE_HEAD;
                     exit = true;
                     break;
                  }
-                 op_state = WRITE_DESC;
+                 run.op_state = WRITE_DESC;
               }
               else
               {
-                 d = nullptr;
-                 op_state = WRITE_HEAD;
+                 run = Context();
                  exit = done = true;
                  break;
               }
@@ -353,14 +340,14 @@ namespace sigen
            case WRITE_DESC:
               {
                  // the service descriptors
-                 d->buildSections(section);
+                 run.d->buildSections(section);
 
-                 ui16 d_len = d->length();
+                 ui16 d_len = run.d->length();
                  sec_bytes += d_len;
                  desc_loop_len += d_len;
 
                  // try to get another one
-                 op_state = GET_DESC;
+                 run.op_state = GET_DESC;
               }
               break;
          }
