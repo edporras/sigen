@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.6.6 - 2019-05-24
+### Changed
+* Completely replaced `PtrWrapped` with `std::unique_ptr` (not available
+  back in '99). This is probably overkill anyway.
+* Disable many default and copy constructors, etc.
+* Split tests into separate files.
+
 ## 2.6.5 - 2019-05-22
 ### Added
 * Better test suite comparing output against reference binaries.
