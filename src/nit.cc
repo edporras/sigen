@@ -69,13 +69,12 @@ namespace sigen
    bool NIT::addXportStreamDesc(ui16 xsid, ui16 on_id, Descriptor& d)
    {
       // lookup the transport_stream by the passed id
-      for (std::unique_ptr<XportStream>& xsp : xport_streams)
-      {
-         XportStream& xs = *xsp;
-         if ( (xs.id == xsid) && (xs.original_network_id == on_id) )
-            return addXportStreamDesc(xs, d);
-      }
-      return false;
+      auto it = std::find_if(xport_streams.begin(), xport_streams.end(),
+                             [=](auto& xsp) { return xsp->equals(xsid, on_id); });
+      if (it == xport_streams.end())
+         return false;
+
+      return addXportStreamDesc(**it, d);
    }
 
    //
@@ -83,12 +82,11 @@ namespace sigen
    //
    bool NIT::addXportStreamDesc(Descriptor& d)
    {
-      if (!xport_streams.empty()) {
-         return addXportStreamDesc(*xport_streams.back(), d);
-      }
-      return false;
-   }
+      if (xport_streams.empty())
+         return false;
 
+      return addXportStreamDesc(*xport_streams.back(), d);
+   }
 
    //
    // actually adds the descriptor to the transport stream
@@ -121,12 +119,8 @@ namespace sigen
            case INIT:
               // associate the iterators to the lists.. once they reach the
               // end, they'll take care to reset themselves
-              if (!run.nd_done)
-                 if (!run.nd)
-                    run.nd_iter = network_desc.begin();
-
-              if (!run.ts)
-                 run.ts_iter = xport_streams.begin();
+              run.nd_iter = network_desc.begin();
+              run.ts_iter = xport_streams.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -233,10 +227,8 @@ namespace sigen
                  // at least one
                  if (!run.ts->descriptors.empty())
                  {
-                    const Descriptor *d = run.ts->descriptors.front().get();
-
                     // check the size with the descriptor
-                    if ( (sec_bytes + XportStream::BASE_LEN + d->length()) >
+                    if ( (sec_bytes + XportStream::BASE_LEN + run.ts->descriptors.front()->length()) >
                          getMaxDataLen() )
                     {
                        // won't fit.. wait until the next section
@@ -329,10 +321,9 @@ namespace sigen
               // if we have descriptors available..
               if (run.tsd_iter != descriptors.end())
               {
-                 // ... fetch the next one
                  run.tsd = (*run.tsd_iter++).get();
 
-                 // make sure we can fit it
+                 // make sure we can fit the next one
                  if ( (sec_bytes + run.tsd->length()) > max_data_len )
                  {
                     run.op_state = WRITE_HEAD;
@@ -414,18 +405,16 @@ namespace sigen
       incOutLevel();
       for (const std::unique_ptr<XportStream>& xsp : xport_streams)
       {
-         const XportStream& ts = *xsp;
-
          headerStr(o, XPORT_STREAM_S, false);
 
-         identStr(o, XPORT_STREAM_ID_S, ts.id);
-         identStr(o, ORIG_NETWORK_ID_S, ts.original_network_id, true);
+         identStr(o, XPORT_STREAM_ID_S, xsp->id);
+         identStr(o, ORIG_NETWORK_ID_S, xsp->original_network_id, true);
          identStr(o, RESERVED_FU_S, rbits(0xf));
-         identStr(o, DESC_LEN_S, ts.descriptors.loop_length(), true);
+         identStr(o, DESC_LEN_S, xsp->descriptors.loop_length(), true);
          o << std::endl;
 
          // dump the descriptors (inherited method)
-         ts.descriptors.dump(o);
+         xsp->descriptors.dump(o);
       }
       decOutLevel();
    }

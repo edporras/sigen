@@ -67,6 +67,7 @@ namespace sigen {
             id(tsid), original_network_id(onid) { }
 
          int length() const { return descriptors.loop_length() + BASE_LEN; }
+         bool equals(ui16 tsid, ui16 onid) const { return (tsid == id && onid == original_network_id); }
 
          bool writeSection(Section& , ui16, ui16 &, ui16 &) const;
 
@@ -86,6 +87,15 @@ namespace sigen {
       DescList network_desc;
       std::list<std::unique_ptr<XportStream> > xport_streams;
 
+      // private methods
+      bool addXportStreamDesc(XportStream& , Descriptor &);
+      virtual bool writeSection(Section& , ui8, ui16 &) const;
+
+#ifdef ENABLE_DUMP
+      void dumpXportStreams(std::ostream &) const;
+#endif
+
+      // section building state tracking
       enum State_t { INIT, WRITE_HEAD, GET_NET_DESC, WRITE_NET_DESC, WRITE_XPORT_LOOP_LEN,
                      GET_XPORT_STREAM, WRITE_XPORT_STREAM };
       mutable struct Context {
@@ -109,13 +119,6 @@ namespace sigen {
          PSITable(static_cast<ui8>(type), network_id, BASE_LEN, MAX_SEC_LEN, ver, cni),
          xport_stream_loop_length(0)
       { }
-
-      bool addXportStreamDesc(XportStream& , Descriptor &);
-      virtual bool writeSection(Section& , ui8, ui16 &) const;
-
-#ifdef ENABLE_DUMP
-      void dumpXportStreams(std::ostream &) const;
-#endif
    };
 
    // public interface to create NIT tables
