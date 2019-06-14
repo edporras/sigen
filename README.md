@@ -1,4 +1,4 @@
-C++ Si Generation Library 2.6.6
+C++ Si Generation Library 2.7.0
 ===============================
 
 A C++ [MPG PSI](https://en.wikipedia.org/wiki/Program-specific_information) and

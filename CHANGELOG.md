@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.7.0 - 2019-06-14
+### Changed
+* Now handling descriptor data loop length within `DescList`.
+* All descriptor lists replaced with `DescList`. Now used as a member
+  instead of a super-class.
+* Moved length checks to inner-most methods.
+* Switched many descriptors with inner lists of structs to use
+  `std::unique_ptr`.
+* No longer tracking section-build state with static values.
+
+### Removed
+* `reserved` arguments. This was a bad idea.
+
 ## 2.6.6 - 2019-05-24
 ### Changed
 * Completely replaced `PtrWrapped` with `std::unique_ptr` (not available
