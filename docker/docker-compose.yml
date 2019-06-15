@@ -1,0 +1,9 @@
+version: "3"
+services:
+
+  sigen:
+    image: sigen_image:stock
+    stdin_open: true
+    tty: true
+    volumes:
+      - /Volumes/homes/ep/work/sigen:/home/ned/app

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -x -e
+
+autoreconf -i &&
+    ./configure &&
+    make -j 3 clean check &&
+    make distclean &> /dev/null

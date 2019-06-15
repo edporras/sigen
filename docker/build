@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+docker build -f docker/Dockerfile -t sigen_image:stock .
