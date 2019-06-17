@@ -48,11 +48,11 @@ namespace sigen {
 #endif
 
    protected:
-      enum { BASE_LEN = 11, MAX_SEC_LEN = 4096 };
+      enum { MAX_SEC_LEN = 4096 };
 
       // only derived classes can build this type
       EIT(ui8 tid, ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni) :
-         PSITable(tid, sid, BASE_LEN, MAX_SEC_LEN, ver, cni),
+         PSITable(tid, sid, 11, MAX_SEC_LEN, ver, cni),
          xport_stream_id(xsid),
          original_network_id(onid)
       { }

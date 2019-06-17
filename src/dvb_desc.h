@@ -39,7 +39,7 @@ namespace sigen {
    //
    struct BouquetNameDesc : public StringDataDesc
    {
-      enum { TAG = 0x47 }; // BASE_LEN is implicitly defined by StringDataDesc
+      enum { TAG = 0x47 };
 
       // constructor
       BouquetNameDesc(const std::string& data) : StringDataDesc(TAG, data) { }
@@ -59,10 +59,10 @@ namespace sigen {
    class CAIdentifierDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x53, BASE_LEN = 0 };
+      enum { TAG = 0x53 };
 
       // constructor
-      CAIdentifierDesc() : Descriptor(TAG, BASE_LEN) {}
+      CAIdentifierDesc() : Descriptor(TAG) {}
 
       // utility methods
       bool addSystemId(ui16);
@@ -83,11 +83,11 @@ namespace sigen {
    class CountryAvailabilityDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x49, BASE_LEN = 1 };
+      enum { TAG = 0x49 };
 
       // constructor
       CountryAvailabilityDesc(bool caf) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 1),
          country_availability_flag(caf)
       {}
       CountryAvailabilityDesc() = delete;
@@ -115,12 +115,12 @@ namespace sigen {
    class DataBroadcastDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x64, BASE_LEN = 8 };
+      enum { TAG = 0x64 };
 
       // constructor - takes selector data as string instance
       DataBroadcastDesc(ui16 db_id, ui8 ctag, const std::string& sel_byte,
                         const std::string& lang_code, const std::string& txt) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 8),
          selector_byte( incLength(sel_byte) ), text( incLength(txt) ),
          code(lang_code), data_broadcast_id(db_id), component_tag(ctag)
       { }
@@ -148,7 +148,7 @@ namespace sigen {
    //
    struct DSNGDesc : public StringDataDesc
    {
-      enum { TAG = 0x68 }; // BASE_LEN is implicitly defined by StringDataDesc
+      enum { TAG = 0x68 };
 
       // constructor
       DSNGDesc(const std::string& data) : StringDataDesc(TAG, data) { }
@@ -166,11 +166,11 @@ namespace sigen {
    class LocalTimeOffsetDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x58, BASE_LEN = 0 };
+      enum { TAG = 0x58 };
 
       // constructor
       LocalTimeOffsetDesc() :
-         Descriptor(TAG, BASE_LEN) {}
+         Descriptor(TAG) {}
 
       // utility
       bool addTimeOffset(const LanguageCode& code, ui8 country_region_id,
@@ -217,7 +217,7 @@ namespace sigen {
    class MosaicDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x51, BASE_LEN = 1 };
+      enum { TAG = 0x51 };
 
       // constructor
       MosaicDesc(bool mep, ui8 num_hor_cells, ui8 num_ver_cells);
@@ -242,10 +242,10 @@ namespace sigen {
    //
    struct MultilingualBouquetNameDesc : public MultilingualTextDesc
    {
-      enum { TAG = 0x5c, BASE_LEN = 0 };
+      enum { TAG = 0x5c };
 
       // constructor
-      MultilingualBouquetNameDesc() : MultilingualTextDesc(TAG, BASE_LEN) {}
+      MultilingualBouquetNameDesc() : MultilingualTextDesc(TAG) {}
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -261,11 +261,11 @@ namespace sigen {
    class PartialTransportStreamDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x63, BASE_LEN = 8 };
+      enum { TAG = 0x63 };
 
       // constructor
       PartialTransportStreamDesc(ui32 pk_rate, ui32 min_osr, ui16 max_osb) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 8),
          peak_rate( pk_rate ),
          min_overall_smoothing_rate( min_osr ),
          max_overall_smoothing_buffer( max_osb )
@@ -294,7 +294,7 @@ namespace sigen {
    //
    struct PrivateDataSpecifierDesc : public PrimitiveDatatypeDesc<ui32>
    {
-      enum { TAG = 0x5f }; // BASE_LEN is implicitly 4 (ui32)
+      enum { TAG = 0x5f };
 
       // constructor
       PrivateDataSpecifierDesc(ui32 d) : PrimitiveDatatypeDesc<ui32>(TAG, d) {}
@@ -313,10 +313,10 @@ namespace sigen {
    class ServiceListDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x41, BASE_LEN = 0 };
+      enum { TAG = 0x41 };
 
       // constructor
-      ServiceListDesc() : Descriptor(TAG, BASE_LEN) { }
+      ServiceListDesc() : Descriptor(TAG) { }
 
       // utility
       bool addService(ui16 service_id, ui8 service_type);
@@ -392,7 +392,7 @@ namespace sigen {
    class TelephoneDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x57, BASE_LEN = 3 };
+      enum { TAG = 0x57 };
 
       // constructor
       TelephoneDesc(bool fa,

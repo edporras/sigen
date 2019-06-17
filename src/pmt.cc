@@ -124,7 +124,7 @@ namespace sigen
               // increment the internal data pointer of the buffer
               section.set16Bits( 0 );
 
-              sec_bytes = BASE_LEN; // the minimum section size
+              sec_bytes = BASE_LENGTH; // the minimum section size
               run.op_state = (!run.pd ? GET_PROG_DESC : WRITE_PROG_DESC);
               break;
 

@@ -249,7 +249,7 @@ namespace sigen
 #if 0
    // NOT YET IMPLEMENTED
    MosaicDesc::MosaicDesc(bool mep, ui8 num_hor_cells, ui8 num_ver_cells, bool rsrvd) :
-      Descriptor(TAG, BASE_LEN),
+      Descriptor(TAG, 1),
       num_horizontal_elem_cells(num_hor_cells),
       num_vertical_elem_cells(num_ver_cells),
       mosaic_entry_point(mep),
@@ -350,7 +350,7 @@ namespace sigen
                                 const std::string &cp, const std::string &iac,
                                 const std::string &oc, const std::string &nac,
                                 const std::string &cn) :
-      Descriptor(TAG, BASE_LEN),
+      Descriptor(TAG, 3),
       country_prefix(cp),
       international_area_code(iac),
       operator_code(oc),

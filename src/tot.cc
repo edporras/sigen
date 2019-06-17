@@ -36,7 +36,7 @@ namespace sigen
    //
    ui16 TOT::getMaxDataLen() const
    {
-      return getMaxSectionLen() - STable::BASE_LEN - Section::CRC_LEN;
+      return getMaxSectionLen() - 3 - Section::CRC_LEN;
    }
 
    //

@@ -35,7 +35,7 @@ namespace sigen
    // ---------------------------------------
    ComponentDesc::ComponentDesc(ui8 sc, ui8 ctype, ui8 ctag, const std::string &code,
                                 const std::string &t) :
-      Descriptor(TAG, BASE_LEN),
+      Descriptor(TAG, 6),
       text( incLength(t) ),  // size the string
       language_code(code),
       component_type(ctype),
@@ -337,7 +337,7 @@ namespace sigen
    // ---------------------------------------
    ShortEventDesc::ShortEventDesc(const std::string &code, const std::string &ev_name,
                                   const std::string &ev_text) :
-      Descriptor(TAG, BASE_LEN),
+      Descriptor(TAG, 5),
       language_code(code), name( incLength(ev_name) ),
       text( incLength(ev_text) )
    {
@@ -385,7 +385,7 @@ namespace sigen
    // constructor / destructor
    ShortSmoothingBufferDesc::ShortSmoothingBufferDesc(ui8 size, ui8 leak_rate,
                                                       const std::string &dvb_rsrvd) :
-      Descriptor(TAG, BASE_LEN),
+      Descriptor(TAG, 1),
       DVB_reserved( incLength(dvb_rsrvd) ),  // size the string
       sb_size(size), sb_leak_rate(leak_rate)
    {

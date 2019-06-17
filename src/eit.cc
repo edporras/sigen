@@ -204,7 +204,7 @@ namespace sigen
               section.set08Bits( segm_last_sec_num ); // segment last section num
               section.set08Bits( last_tid );          // last_table_id
 
-              sec_bytes = BASE_LEN; // the minimum section size
+              sec_bytes = BASE_LENGTH; // the minimum section size
               run.op_state = (!run.event ? GET_EVENT : WRITE_EVENT);
               break;
 

@@ -35,7 +35,7 @@ namespace sigen {
    class AC3Desc : public Descriptor
    {
    public:
-      enum { TAG = 0x6a, BASE_LEN = 1 };
+      enum { TAG = 0x6a };
 
       // keys for the possible fields that can be set in this descriptor
       enum flag_t {
@@ -45,7 +45,7 @@ namespace sigen {
 
       // constructor
       AC3Desc(const std::string info = "") :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 1),
          additional_info( incLength(info) )
       { }
 
@@ -88,7 +88,7 @@ namespace sigen {
    class AncillaryDataDesc : public PrimitiveDatatypeDesc<ui8>
    {
    public:
-      enum { TAG = 0x6b }; // BASE_LEN implictly 1 (ui8)
+      enum { TAG = 0x6b };
 
       // ancillary data identifier values
       enum { DVD_VIDEO = 0x01,
@@ -117,7 +117,7 @@ namespace sigen {
    class DataBroadcastIdDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x66, BASE_LEN = 2 };
+      enum { TAG = 0x66 };
 
       enum {
          DATA_PIPE = 0x0001,
@@ -133,7 +133,7 @@ namespace sigen {
 
       // constructor
       DataBroadcastIdDesc(ui16 db_id, const std::string& sel_bytes = "") :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 2),
          data_broadcast_id(db_id)
       {}
       DataBroadcastIdDesc() = delete;
@@ -159,11 +159,11 @@ namespace sigen {
    class ServiceMoveDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x60, BASE_LEN = 6 };
+      enum { TAG = 0x60 };
 
       // constructor
       ServiceMoveDesc(ui16 onid, ui16 xsid, ui16 sid) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 6),
          original_network_id(onid), xport_stream_id(xsid), new_service_id(sid)
       {}
       ServiceMoveDesc() = delete;
@@ -190,7 +190,7 @@ namespace sigen {
    //
    struct StreamIdentifierDesc : public PrimitiveDatatypeDesc<ui8>
    {
-      enum { TAG = 0x52 }; // BASE_LEN implictly 1 (ui8)
+      enum { TAG = 0x52 };
 
       // constructor
       StreamIdentifierDesc(ui8 c_tag) : PrimitiveDatatypeDesc<ui8>(TAG, c_tag) {}
@@ -209,10 +209,10 @@ namespace sigen {
    class SubtitlingDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x59, BASE_LEN = 0 };
+      enum { TAG = 0x59 };
 
       // constructor
-      SubtitlingDesc() : Descriptor(TAG, BASE_LEN) {}
+      SubtitlingDesc() : Descriptor(TAG) {}
 
       // utility
       bool addSubtitling(const std::string& lang_code, ui8 type, ui16 c_page_id,
@@ -250,7 +250,7 @@ namespace sigen {
    class TeletextDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x56, BASE_LEN = 0 };
+      enum { TAG = 0x56 };
 
       // defined teletext types
       enum Type {
@@ -261,7 +261,7 @@ namespace sigen {
       };
 
       // contructor
-      TeletextDesc() : Descriptor(TAG, BASE_LEN) {}
+      TeletextDesc() : Descriptor(TAG) {}
 
       // utility
       bool addTeletext(const std::string& lang_code, ui8 type, ui8 mag_num,

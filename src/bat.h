@@ -43,7 +43,7 @@ namespace sigen {
 
       // constructor
       BAT(ui16 bouquet_id, ui8 ver, bool cni = true) :
-         PSITable(TID, bouquet_id, BASE_LEN, MAX_SEC_LEN, ver, cni),
+         PSITable(TID, bouquet_id, 9, MAX_SEC_LEN, ver, cni),
          xport_stream_loop_length(0)
       { }
       BAT() = delete;
@@ -60,7 +60,7 @@ namespace sigen {
 #endif
 
    private:
-      enum { BASE_LEN = 9, TID = 0x4a, MAX_SEC_LEN = 1024 };
+      enum { TID = 0x4a, MAX_SEC_LEN = 1024 };
 
       // BAT members
       ui16 xport_stream_loop_length;

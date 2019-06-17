@@ -64,7 +64,7 @@ namespace sigen {
 
       // constructor
       PMT(ui16 prog_num, ui16 pcrpid, ui8 ver, bool cni = true) :
-         PSITable(TID, prog_num, BASE_LEN, MAX_SEC_LEN, ver, cni, D_BIT),
+         PSITable(TID, prog_num, 9, MAX_SEC_LEN, ver, cni, D_BIT),
          program_info_length(0),
          pcr_pid(pcrpid)
       { }
@@ -83,7 +83,7 @@ namespace sigen {
    private:
       enum { D_BIT = 0,
              TID = 0x02,
-             BASE_LEN = 9, MAX_SEC_LEN = 1024 };
+             MAX_SEC_LEN = 1024 };
 
       // the stream holder struct - private to the pmt
       struct ElementaryStream {

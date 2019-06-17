@@ -37,7 +37,7 @@ namespace sigen {
    class ComponentDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x50, BASE_LEN = 6 };
+      enum { TAG = 0x50 };
 
       // constructor
       ComponentDesc(ui8 sc, ui8 ctype, ui8 ctag,
@@ -66,10 +66,10 @@ namespace sigen {
    class ContentDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x54, BASE_LEN = 0 };
+      enum { TAG = 0x54 };
 
       // constructor
-      ContentDesc() : Descriptor(TAG, BASE_LEN) { }
+      ContentDesc() : Descriptor(TAG) { }
 
       // utility
       bool addContent(ui8 nl1, ui8 nl2, ui8 un1, ui8 un2);
@@ -105,12 +105,12 @@ namespace sigen {
    class ExtendedEventDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x4e, BASE_LEN = 6, MAX_DESC_IDX = 16 };
+      enum { TAG = 0x4e, MAX_DESC_IDX = 16 };
 
       // constructor
       ExtendedEventDesc(const std::string& lang_code, const std::string& evtext,
                         ui8 desc_num, ui8 last_desc_num = 0) :
-         Descriptor(TAG, BASE_LEN ),
+         Descriptor(TAG, 6 ),
          language_code( lang_code ),
          text( incLength(evtext) ),
          descriptor_number( desc_num ),
@@ -171,11 +171,11 @@ namespace sigen {
    class MultilingualComponentDesc : public MultilingualTextDesc
    {
    public:
-      enum { TAG = 0x5e, BASE_LEN = 1 };
+      enum { TAG = 0x5e };
 
       // constructor
       MultilingualComponentDesc(ui8 ctag) :
-         MultilingualTextDesc(TAG, BASE_LEN),
+         MultilingualTextDesc(TAG, 1),
          component_tag(ctag)
       {}
       MultilingualComponentDesc() = delete;
@@ -198,10 +198,10 @@ namespace sigen {
    class ParentalRatingDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x55, BASE_LEN = 0 };
+      enum { TAG = 0x55 };
 
       // constructor
-      ParentalRatingDesc() : Descriptor(TAG, BASE_LEN) { }
+      ParentalRatingDesc() : Descriptor(TAG) { }
 
       // utility
       bool addRating(const std::string& code, ui8 r);
@@ -236,11 +236,11 @@ namespace sigen {
    class PDCDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x69, BASE_LEN = 3 };
+      enum { TAG = 0x69 };
 
       // constructor
       PDCDesc(ui32 pil) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 3),
          programme_identification_label(pil)
       { }
       PDCDesc() = delete;
@@ -264,7 +264,7 @@ namespace sigen {
    class ShortEventDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x4d, BASE_LEN = 5 };
+      enum { TAG = 0x4d };
 
       // constructor
       ShortEventDesc(const std::string& code, const std::string& ev_name,
@@ -292,7 +292,7 @@ namespace sigen {
    class ShortSmoothingBufferDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x61, BASE_LEN = 1 };
+      enum { TAG = 0x61 };
 
       // constructor
       ShortSmoothingBufferDesc(ui8 size, ui8 leak_rate,
@@ -322,11 +322,11 @@ namespace sigen {
    class TimeShiftedEventDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x4f, BASE_LEN = 4 };
+      enum { TAG = 0x4f };
 
       // constructor
       TimeShiftedEventDesc(ui16 sid,  ui16 evid) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 4),
          ref_service_id(sid), ref_event_id(evid)
       {}
       TimeShiftedEventDesc() = delete;

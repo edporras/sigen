@@ -70,7 +70,7 @@ namespace sigen
               // for now set it to 0,
               section.set08Bits(0);//last_sec_num);
 
-              sec_bytes = BASE_LEN; // the minimum section size
+              sec_bytes = BASE_LENGTH; // the minimum section size
               run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
               break;
 

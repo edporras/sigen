@@ -37,13 +37,11 @@ namespace sigen {
    class SSULinkageDesc : public LinkageDesc
    {
    public:
-      enum { BASE_LEN = 1 };
-
       // constructor for linkage types 0x09
       SSULinkageDesc(ui16 xsid, ui16 onid, ui16 sid) :
          LinkageDesc(xsid, onid, sid, LinkageDesc::SSUS),
          OUI_data_length(0)
-      { incLength( BASE_LEN ); }
+      { incLength( 1 ); }
       SSULinkageDesc() = delete;
 
       // utility
@@ -86,8 +84,6 @@ namespace sigen {
    class SSUScanLinkageDesc : public LinkageDesc
    {
    public:
-      enum { BASE_LEN = 1 };
-
       enum TableType{
          TABLE_TYPE_UNDEF = 0x00,
          TABLE_TYPE_NIT   = 0x01,

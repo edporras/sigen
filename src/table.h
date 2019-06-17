@@ -37,6 +37,7 @@ namespace sigen {
    //
    // abstract superclass for both tables and descriptors
    struct Table {
+      Table(ui16 base_len) : BASE_LENGTH(base_len) {}
       virtual ~Table() { }
 
       // helper to fill reserved bits
@@ -46,6 +47,14 @@ namespace sigen {
       virtual void dump(std::ostream &) const = 0;
       virtual void dumpHeader(std::ostream &, STRID) const = 0;
 #endif
+
+      const ui16 BASE_LENGTH;
+
+      // prohibit
+      Table(const Table&) = delete;
+      Table(const Table&&) = delete;
+      Table& operator=(const Table&) = delete;
+      Table& operator=(const Table&&) = delete;
    };
 
    //
@@ -55,11 +64,6 @@ namespace sigen {
    {
    public:
       virtual ~STable() {}
-      // prohibit
-      STable(const STable&) = delete;
-      STable(const STable&&) = delete;
-      STable& operator=(const STable&) = delete;
-      STable& operator=(const STable&&) = delete;
 
       // accessors
       ui8 getId() const { return id; }
@@ -75,13 +79,13 @@ namespace sigen {
       virtual void buildSections(TStream &) const = 0;
 
    protected:
-      enum { BASE_LEN = 3,
-             LEN_MASK = 0x0fff,
+      enum { LEN_MASK = 0x0fff,
              MAX_TABLE_LEN = 65536 }; // max size for storage of total table data
       // (pre section split)
 
       // protected constructors for derived classes
       STable(ui8 tid, ui8 min_len, ui16 max_len, bool ssi = false, bool data_bit = true) :
+         Table(min_len),
          max_section_length(max_len),
          id(tid),
          section_syntax_indicator(ssi),
@@ -116,9 +120,7 @@ namespace sigen {
       };
 
       // used by the derived tables to check for available space for data
-      virtual ui16 getMaxDataLen() const {
-         return max_section_length - BASE_LEN;
-      }
+      virtual ui16 getMaxDataLen() const { return max_section_length - 3; }
 
       void buildSections(Section &) const;
       ui16 buildLengthData(ui16) const;
@@ -140,7 +142,7 @@ namespace sigen {
       bool private_bit;               // reserved_future_use in some
 
       ui16 length;                    // data length (not including CRC and
-      // 3-byte header (STable::BASE_LEN))
+                                      // 3-byte header)
    };
 
 

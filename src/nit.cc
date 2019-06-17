@@ -144,7 +144,7 @@ namespace sigen
               // increment the internal data pointer of the buffer
               section.set16Bits(network_desc.loop_length());
 
-              sec_bytes = BASE_LEN; // the minimum section size
+              sec_bytes = BASE_LENGTH; // the minimum section size
               run.op_state = (!run.nd ? GET_NET_DESC : WRITE_NET_DESC);
               break;
 

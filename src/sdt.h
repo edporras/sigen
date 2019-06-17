@@ -50,7 +50,7 @@ namespace sigen {
 #endif
 
    private:
-      enum { BASE_LEN = 8, MAX_SEC_LEN = 1024 };
+      enum { MAX_SEC_LEN = 1024 };
 
       // the service holder class - private to the sdt
       struct Service {
@@ -104,7 +104,7 @@ namespace sigen {
       // constructor
       SDT(ui16 xport_str_id, ui16 orig_network_id, SDT::Type type, ui8 ver,
           bool cni = true) :
-         PSITable(static_cast<ui8>(type), xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni),
+         PSITable(static_cast<ui8>(type), xport_str_id, 8, MAX_SEC_LEN, ver, cni),
          original_network_id(orig_network_id)
       { }
 

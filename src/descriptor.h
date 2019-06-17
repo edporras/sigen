@@ -36,10 +36,6 @@ namespace sigen {
    class Descriptor : public Table
    {
    public:
-      Descriptor(const Descriptor&) = delete;
-      Descriptor(const Descriptor&&) = delete;
-      Descriptor& operator=(const Descriptor&) = delete;
-      Descriptor& operator=(const Descriptor&&) = delete;
       virtual ~Descriptor() { }
 
       // getter methods
@@ -53,11 +49,12 @@ namespace sigen {
       ui16 total_length; // 8-bit field but stored wider for computations
 
    protected:
-      enum { BASE_LEN = 2, MAX_LEN = 255, CAPACITY = MAX_LEN + BASE_LEN };
+      enum { MAX_LEN = 255, CAPACITY = 257 };
 
       // protected constructor for derived classes
-      Descriptor(ui8 t, ui8 l) :
-         tag(t), total_length(l + BASE_LEN) { }
+      Descriptor(ui8 t, ui8 l = 0) :
+         Table(l + 2),
+         tag(t), total_length(BASE_LENGTH) { }
 
       // methods to be used by the derived descriptor classes
 #ifdef ENABLE_DUMP
@@ -82,11 +79,9 @@ namespace sigen {
    class PrimitiveDatatypeDesc : public Descriptor
    {
    protected:
-      enum { BASE_LEN = sizeof(T) };
-
       // constructor
       PrimitiveDatatypeDesc(ui8 tag, const T &d) :
-         Descriptor(tag, BASE_LEN),
+         Descriptor(tag, sizeof(T)),
          data(d) {}
       PrimitiveDatatypeDesc() = delete;
 
@@ -121,7 +116,7 @@ namespace sigen {
    protected:
       // constructor
       StringDataDesc(ui8 tag, const std::string &str) :
-         Descriptor(tag, BASE_LEN),
+         Descriptor(tag, 0),
          data( incLength(str) ) {
       }
 
@@ -139,7 +134,6 @@ namespace sigen {
 #endif
 
    private:
-      enum { BASE_LEN = 0 };
       std::string data;
    };
 
@@ -169,7 +163,7 @@ namespace sigen {
       std::list<std::unique_ptr<Text> > ml_text_list;
 
       // protected constructor - only derived classes can build this
-      MultilingualTextDesc(ui8 tag, ui8 base_len) : Descriptor(tag, base_len) {}
+      MultilingualTextDesc(ui8 tag, ui8 base_len = 0) : Descriptor(tag, base_len) {}
 
 #ifdef ENABLE_DUMP
       // make it a pure virtual method to disallow instantiation of this

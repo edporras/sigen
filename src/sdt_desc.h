@@ -36,10 +36,10 @@ namespace sigen {
    class MultilingualServiceNameDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x5d, BASE_LEN = 0 };
+      enum { TAG = 0x5d };
 
       // constructor
-      MultilingualServiceNameDesc() : Descriptor(TAG, BASE_LEN) {}
+      MultilingualServiceNameDesc() : Descriptor(TAG) {}
 
       // utility
       bool addLanguage(const std::string& code, const std::string& prov_name,
@@ -81,10 +81,10 @@ namespace sigen {
    class NVODReferenceDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x4b, BASE_LEN = 0 };
+      enum { TAG = 0x4b };
 
       // constructor
-      NVODReferenceDesc() : Descriptor(TAG, BASE_LEN) {}
+      NVODReferenceDesc() : Descriptor(TAG) {}
 
       // utility
       bool addIdentifiers(ui16 xsid, ui16 onid, ui16 sid);
@@ -120,11 +120,11 @@ namespace sigen {
    class ServiceDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x48, BASE_LEN = 3 };
+      enum { TAG = 0x48 };
 
       // constructor
       ServiceDesc(ui8 t, const std::string& pn, const std::string& n) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 3),
          provider_name( incLength( pn ) ),
          name( incLength(n) ),
          type(t)
@@ -153,7 +153,7 @@ namespace sigen {
    //
    struct TimeShiftedServiceDesc : public PrimitiveDatatypeDesc<ui16>
    {
-      enum { TAG = 0x4c }; // BASE_LEN implicitly is 2 (ui16)
+      enum { TAG = 0x4c };
 
       // constructor
       TimeShiftedServiceDesc(ui16 sid) :

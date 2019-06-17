@@ -39,7 +39,7 @@ namespace sigen {
 
       // constructor
       PAT(ui16 xport_str_id, ui8 ver, bool cni = true) :
-         PSITable(TID, xport_str_id, BASE_LEN, MAX_SEC_LEN, ver, cni, D_BIT)
+         PSITable(TID, xport_str_id, 5, MAX_SEC_LEN, ver, cni, D_BIT)
       { }
       PAT() = delete;
 
@@ -53,7 +53,7 @@ namespace sigen {
    private:
       enum { D_BIT = 0,
              TID = 0x00,
-             BASE_LEN = 5, MAX_SEC_LEN = 1024 };
+             MAX_SEC_LEN = 1024 };
 
       // the program / pid holder struct - private to the pat
       struct Program {

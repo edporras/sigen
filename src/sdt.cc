@@ -120,7 +120,7 @@ namespace sigen
               section.set16Bits(original_network_id);
               section.set08Bits( rbits(0xff) ); // reserved (8)
 
-              sec_bytes = BASE_LEN; // the minimum section size
+              sec_bytes = BASE_LENGTH; // the minimum section size
               run.op_state = (!run.serv ? GET_SERVICE : WRITE_SERVICE);
               break;
 

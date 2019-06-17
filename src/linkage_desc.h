@@ -34,7 +34,7 @@ namespace sigen {
    class LinkageDesc : public Descriptor
    {
    public:
-      enum { TAG = 0x4a, BASE_LEN = 7 };
+      enum { TAG = 0x4a };
 
       // linkage types
       enum Linkage_t {
@@ -58,7 +58,7 @@ namespace sigen {
       //    1. 0x08: Use the MobileHandoverLinkageDesc class
       //    2. 0x0A: Use the SSUScanLinkageDescr class
       LinkageDesc(ui16 xsid, ui16 onid, ui16 sid, ui8 lnkg_type) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 7),
          xport_stream_id(xsid),
          original_network_id(onid),
          service_id(sid),
@@ -91,8 +91,6 @@ namespace sigen {
    class MobileHandoverLinkageDesc : public LinkageDesc
    {
    public:
-      enum { BASE_LEN = 3 };
-
       enum Handover_t {
          HO_RESERVED            = 0x00,
          HO_IDENTICAL_SERVICE   = 0x01,

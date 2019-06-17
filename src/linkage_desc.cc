@@ -85,7 +85,7 @@ namespace sigen {
       network_id(nid),
       initial_service_id(isid)
    {
-      incLength(MobileHandoverLinkageDesc::BASE_LEN);
+      incLength(3);
 
       if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED)
       {

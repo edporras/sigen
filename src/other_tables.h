@@ -41,7 +41,7 @@ namespace sigen {
    public:
       enum { PID = 0x13 };
 
-      RST() : STable(TID, BASE_LEN, MAX_SEC_LEN) {}
+      RST() : STable(TID, 0, MAX_SEC_LEN) {}
 
       // utility
       bool addXportStream(ui16 xsid, ui16 onid, ui16 sid,
@@ -53,7 +53,7 @@ namespace sigen {
 #endif
 
    private:
-      enum { BASE_LEN = 0, MAX_SEC_LEN = 1024, TID = 0x71 };
+      enum { MAX_SEC_LEN = 1024, TID = 0x71 };
 
       // the private transport stream class
       struct XportStream {
@@ -100,6 +100,6 @@ namespace sigen {
    private:
       std::string data;
 
-      enum { BASE_LEN = 0, MAX_SEC_LEN = 4096, TID = 0x72 };
+      enum { MAX_SEC_LEN = 4096, TID = 0x72 };
    };
 } // namespace

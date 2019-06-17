@@ -38,11 +38,11 @@ namespace sigen {
    class AudioStreamDesc : public Descriptor
    {
    public:
-      enum { TAG = 3, BASE_LEN = 1 };
+      enum { TAG = 3 };
 
       // constructor
       AudioStreamDesc(bool fff, bool ID, ui8 l) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 1),
          free_format_flag(fff), id(ID), layer(l)
       { }
       AudioStreamDesc() = delete;
@@ -67,11 +67,11 @@ namespace sigen {
    class CADesc : public Descriptor
    {
    public:
-      enum { TAG = 9, BASE_LEN = 4 };
+      enum { TAG = 9 };
 
       // constructor
       CADesc(ui16 casid, ui16 cap, const std::string& data) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 4),
          CA_system_id(casid), CA_pid(cap),
          private_data( incLength(data) )
       { }
@@ -99,11 +99,11 @@ namespace sigen {
    class CopyrightDesc : public Descriptor
    {
    public:
-      enum { TAG = 13, BASE_LEN = 4 };
+      enum { TAG = 13 };
 
       // constructor
       CopyrightDesc(ui32 ci, const std::string& data) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 4),
          identifier(ci), info( incLength(data) )
       { }
       CopyrightDesc() = delete;
@@ -129,7 +129,7 @@ namespace sigen {
    //
    struct DataStreamAlignmentDesc : public PrimitiveDatatypeDesc<ui8>
    {
-      enum { TAG = 6 }; // BASE_LEN implicitly 1 (ui8)
+      enum { TAG = 6 };
 
       enum VS_Alignment_t {
          SLICE = 0x01,
@@ -161,7 +161,7 @@ namespace sigen {
    class HierarchyDesc : public Descriptor
    {
    public:
-      enum { TAG = 4, BASE_LEN = 4 };
+      enum { TAG = 4 };
 
       enum { SPATIAL_SCALABILITY = 1,
              SNR_SCALABILITY,
@@ -172,7 +172,7 @@ namespace sigen {
       // constructor
       HierarchyDesc(ui8 h_type, ui8 h_layer_index, ui8 h_embedded_layer,
                     ui8 h_priority) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 4),
          type(h_type), layer_index(h_layer_index),
          embedded_layer(h_embedded_layer), priority(h_priority)
       { }
@@ -200,11 +200,11 @@ namespace sigen {
    class IBPDesc : public Descriptor
    {
    public:
-      enum { TAG = 18, BASE_LEN = 2 };
+      enum { TAG = 18 };
 
       // constructor
       IBPDesc(bool cgf, bool igf, ui16 mgl) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 2),
          closed_gop_flag(cgf), identical_gop_flag(igf),
          max_gop_len(mgl)
       { }
@@ -230,7 +230,7 @@ namespace sigen {
    class ISO639LanguageDesc : public Descriptor
    {
    public:
-      enum { TAG = 10, BASE_LEN = 0 };
+      enum { TAG = 10 };
 
       // audio types
       enum AudioType_t {
@@ -240,7 +240,7 @@ namespace sigen {
       };
 
       // constructor
-      ISO639LanguageDesc() : Descriptor(TAG, BASE_LEN) {}
+      ISO639LanguageDesc() : Descriptor(TAG) {}
 
       // utility
       bool addLanguage(const std::string& code, ui8 audio_type);
@@ -271,11 +271,11 @@ namespace sigen {
    class MaximumBitrateDesc : public Descriptor
    {
    public:
-      enum { TAG = 14, BASE_LEN = 3 };
+      enum { TAG = 14 };
 
       // constructor
       MaximumBitrateDesc(ui32 max_br) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 3),
          maximum_bitrate(max_br)
       { }
       MaximumBitrateDesc() = delete;
@@ -298,12 +298,12 @@ namespace sigen {
    class MultiplexBufferUtilizationDesc : public Descriptor
    {
    public:
-      enum { TAG = 12, BASE_LEN = 4 };
+      enum { TAG = 12 };
       enum Strategy_t { EARLY = 1, LATE, MIDDLE };
 
       // constructor
       MultiplexBufferUtilizationDesc(bool bvf, ui16 ltw_o_lb, ui16 ltw_o_ub) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 4),
          bound_valid_flag(bvf),
          LTW_offset_lb(ltw_o_lb), LTW_offset_ub(ltw_o_ub)
       { }
@@ -331,7 +331,7 @@ namespace sigen {
    //
    struct PrivateDataIndicatorDesc : public PrimitiveDatatypeDesc<ui32>
    {
-      enum { TAG = 15 }; // BASE_LEN is implicitly 4 (ui32)
+      enum { TAG = 15 };
 
       // constructor
       PrivateDataIndicatorDesc(ui32 pdi) :
@@ -352,11 +352,11 @@ namespace sigen {
    class RegistrationDesc : public Descriptor
    {
    public:
-      enum { TAG = 5, BASE_LEN = 4 };
+      enum { TAG = 5 };
 
       // constructor
       RegistrationDesc(ui32 fi, const std::string& data) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 4),
          identifier(fi), info( incLength(data) )
       { }
       RegistrationDesc() = delete;
@@ -381,11 +381,11 @@ namespace sigen {
    class SmoothingBufferDesc : public Descriptor
    {
    public:
-      enum { TAG = 16, BASE_LEN = 6 };
+      enum { TAG = 16 };
 
       // constructor
       SmoothingBufferDesc(ui32 sblr, ui32 size) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 6),
          sb_leak_rate(sblr), sb_size(size)
       { }
       SmoothingBufferDesc() = delete;
@@ -405,16 +405,16 @@ namespace sigen {
 
 
    // ---------------------------
-   // STD Descriptor (what were they thinking?)
+   // STD Descriptor
    //
    class STDDesc : public Descriptor
    {
    public:
-      enum { TAG = 17, BASE_LEN = 1 };
+      enum { TAG = 17 };
 
       // constructor
       STDDesc(bool lvf) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 1),
          leak_valid_flag(lvf)
       { }
       STDDesc() = delete;
@@ -437,11 +437,11 @@ namespace sigen {
    class SystemClockDesc : public Descriptor
    {
    public:
-      enum { TAG = 11, BASE_LEN = 2 };
+      enum { TAG = 11 };
 
       // constructor
       SystemClockDesc(bool ecri, ui8 cai, ui8 cae) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 2),
          clock_accuracy_integer(cai),
          clock_accuracy_exponent(cae),
          external_clock_reference_indicator(ecri)
@@ -468,11 +468,11 @@ namespace sigen {
    class TargetBackgroundGridDesc : public Descriptor
    {
    public:
-      enum { TAG = 7, BASE_LEN = 4 };
+      enum { TAG = 7 };
 
       // constructor
       TargetBackgroundGridDesc(ui16 hs, ui16 vs, ui8 par) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 4),
          horizontal_size(hs), vertical_size(vs), pel_aspect_ratio(par)
       { }
       TargetBackgroundGridDesc() = delete;
@@ -498,11 +498,11 @@ namespace sigen {
    class VideoStreamDesc : public Descriptor
    {
    public:
-      enum { TAG = 2, BASE_LEN = 1 };
+      enum { TAG = 2 };
 
       // Use this constructor if MPEG_2_flag is 0
       VideoStreamDesc(bool mfrf, ui8 frc, bool cpf, bool spf) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 1),
          multiple_frame_rate_flag(mfrf), MPEG_2_flag(false),
          constrained_parameter_flag(cpf), still_picture_flag(spf),
          frame_rate_code(frc)
@@ -510,7 +510,7 @@ namespace sigen {
       // Use this one if MPEG_2_flag is 1
       VideoStreamDesc(bool mfrf, ui8 frc, bool cpf, bool spf,
                       ui8 pali, ui8 cf, bool fref) :
-         Descriptor(TAG, BASE_LEN + 2), // extra data needs 2 bytes
+         Descriptor(TAG, 3), // extra data needs 2 bytes
          multiple_frame_rate_flag(mfrf), MPEG_2_flag(true),
          constrained_parameter_flag(cpf), still_picture_flag(spf),
          frame_rate_extension_flag(fref), profile_and_level_indication(pali),
@@ -547,11 +547,11 @@ namespace sigen {
    class VideoWindowDesc : public Descriptor
    {
    public:
-      enum { TAG = 8, BASE_LEN = 4 };
+      enum { TAG = 8 };
 
       // constructor
       VideoWindowDesc(ui16 ho, ui16 vo, ui8 wp) :
-         Descriptor(TAG, BASE_LEN),
+         Descriptor(TAG, 4),
          horizontal_offset(ho), vertical_offset(vo), window_priority(wp)
       { }
       VideoWindowDesc() = delete;

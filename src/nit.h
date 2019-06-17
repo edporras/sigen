@@ -86,7 +86,7 @@ namespace sigen {
       };
 
    private:
-      enum { BASE_LEN = 9, MAX_SEC_LEN = 1024 };
+      enum { MAX_SEC_LEN = 1024 };
 
       // NIT members
       ui16 xport_stream_loop_length;
@@ -122,7 +122,7 @@ namespace sigen {
       // protected constructor - type refers to ACTUAL or OTHER,
       // reserved is the state of reserved bits
       NIT(ui16 network_id, NIT::Type type, ui8 ver, bool cni = true) :
-         PSITable(static_cast<ui8>(type), network_id, BASE_LEN, MAX_SEC_LEN, ver, cni),
+         PSITable(static_cast<ui8>(type), network_id, 9, MAX_SEC_LEN, ver, cni),
          xport_stream_loop_length(0)
       { }
    };

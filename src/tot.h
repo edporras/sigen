@@ -42,7 +42,7 @@ namespace sigen {
       // time provided
       TOT() : TOT(UTC()) { }
       TOT(const UTC &t) :
-         STable(TID, BASE_LEN, MAX_SEC_LEN),
+         STable(TID, 7, MAX_SEC_LEN),
          utc(t)
       { }
 
@@ -63,7 +63,7 @@ namespace sigen {
    private:
       UTC utc;
 
-      enum { BASE_LEN = 7, MAX_SEC_LEN = 1024, TID = 0x73 };
+      enum { MAX_SEC_LEN = 1024, TID = 0x73 };
 
       DescList descriptors;
    };

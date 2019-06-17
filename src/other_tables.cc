@@ -108,7 +108,7 @@ namespace sigen
    //
 
    Stuffing::Stuffing(const std::string& d, bool ssi) :
-      STable(TID, BASE_LEN, MAX_SEC_LEN, ssi, true),
+      STable(TID, 0, MAX_SEC_LEN, ssi, true),
       data( d )
    {
       // !!! check to make sure it fits!
@@ -116,7 +116,7 @@ namespace sigen
 
 
    Stuffing::Stuffing(ui8 d, ui16 len, bool ssi) :
-      STable(TID, BASE_LEN, MAX_SEC_LEN, ssi, true),
+      STable(TID, 0, MAX_SEC_LEN, ssi, true),
       data( std::string(d, len) )
    {
       // !!! check to make sure it fits!

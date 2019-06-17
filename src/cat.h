@@ -39,8 +39,7 @@ namespace sigen {
 
       // constructor
       CAT(ui8 ver, bool cni = true) :
-         PSITable(TID, rbits(0xffff), BASE_LEN, MAX_SEC_LEN,
-                  ver, cni, D_BIT)
+         PSITable(TID, rbits(0xffff), 5, MAX_SEC_LEN, ver, cni, D_BIT)
       { }
       CAT() = delete;
 
@@ -54,7 +53,7 @@ namespace sigen {
    private:
       enum { D_BIT = 0,
              TID = 0x01,
-             BASE_LEN = 5, MAX_SEC_LEN = 1024 };
+             MAX_SEC_LEN = 1024 };
 
       // list of descriptors
       DescList descriptors;

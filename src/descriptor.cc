@@ -34,7 +34,7 @@ namespace sigen
    void Descriptor::buildSections(Section& s) const
    {
       s.set08Bits(tag);
-      s.set08Bits(total_length - BASE_LEN);
+      s.set08Bits(total_length - 2);
    }
 
 
@@ -47,7 +47,7 @@ namespace sigen
 
       o << std::hex;
       identStr(o, TAG_S, tag);
-      identStr(o, LEN_S, total_length - BASE_LEN, true);
+      identStr(o, LEN_S, total_length - 2, true);
    }
 #endif
 

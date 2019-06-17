@@ -116,10 +116,10 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set32Bits( _frequency );
-      s.set16Bits( rbits(0xfff0) | _fec_outer );
-      s.set08Bits( _modulation );
-      s.set32Bits( (_symbol_rate << 4) | _fec_inner );
+      s.set32Bits( frequency );
+      s.set16Bits( rbits(0xfff0) | fec_outer );
+      s.set08Bits( modulation );
+      s.set32Bits( (symbol_rate << 4) | fec_inner );
    }
 
 
@@ -130,12 +130,12 @@ namespace sigen
    {
       dumpHeader( o, CABLE_DEL_SYS_D_S );
 
-      identStr(o, FREQ_S, _frequency);
+      identStr(o, FREQ_S, frequency);
       identStr(o, RESERVED_FU_S, rbits(0xfff));
-      identStr(o, FEC_O_S, _fec_outer);
-      identStr(o, MOD_S, _modulation);
-      identStr(o, SYM_RATE_S, _symbol_rate);
-      identStr(o, FEC_I_S, _fec_inner);
+      identStr(o, FEC_O_S, fec_outer);
+      identStr(o, MOD_S, modulation);
+      identStr(o, SYM_RATE_S, symbol_rate);
+      identStr(o, FEC_I_S, fec_inner);
    }
 #endif
 
@@ -411,10 +411,10 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set32Bits( _frequency );
-      s.set16Bits( _orbital_position );
-      s.set08Bits( (_west_east << 7) | (_polarisation << 5) | _modulation );
-      s.set32Bits( (_symbol_rate << 4) | _fec_inner );
+      s.set32Bits( frequency );
+      s.set16Bits( orbital_position );
+      s.set08Bits( (west_east << 7) | (polarisation << 5) | modulation );
+      s.set32Bits( (symbol_rate << 4) | fec_inner );
    }
 
 
@@ -423,13 +423,13 @@ namespace sigen
    {
       dumpHeader( o, SAT_DEL_SYS_D_S );
 
-      identStr(o, FREQ_S, _frequency);
-      identStr(o, ORB_POS_S, _orbital_position);
-      identStr(o, WEST_EAST_S, _west_east);
-      identStr(o, POL_S, _polarisation);
-      identStr(o, MOD_S, _modulation);
-      identStr(o, SYM_RATE_S, _symbol_rate);
-      identStr(o, FEC_I_S, _fec_inner);
+      identStr(o, FREQ_S, frequency);
+      identStr(o, ORB_POS_S, orbital_position);
+      identStr(o, WEST_EAST_S, west_east);
+      identStr(o, POL_S, polarisation);
+      identStr(o, MOD_S, modulation);
+      identStr(o, SYM_RATE_S, symbol_rate);
+      identStr(o, FEC_I_S, fec_inner);
    }
 #endif
 
@@ -445,16 +445,16 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      s.set32Bits( _ctr_frequency );
-      s.set08Bits( (_bandwidth << 5) |
+      s.set32Bits( ctr_frequency );
+      s.set08Bits( (bandwidth << 5) |
                    rbits(0x1f) );
-      s.set08Bits( (_constellation << 6) |
-                   (_hierarchy_info << 3) |
-                   _cr_HP_stream );
-      s.set08Bits( (_cr_LP_stream << 5) |
-                   (_guard_interval << 3) |
-                   (_transmission_mode << 1) |
-                   _other_freq_flag );
+      s.set08Bits( (constellation << 6) |
+                   (hierarchy_info << 3) |
+                   cr_HP_stream );
+      s.set08Bits( (cr_LP_stream << 5) |
+                   (guard_interval << 3) |
+                   (transmission_mode << 1) |
+                   other_freq_flag );
 
       s.set32Bits( rbits(0xffffffff) );
    }
@@ -465,17 +465,17 @@ namespace sigen
    {
       dumpHeader( o, TER_DEL_SYS_D_S );
 
-      identStr( o, FREQ_S, _ctr_frequency);
+      identStr( o, FREQ_S, ctr_frequency);
 
-      identStr( o, BANDWIDTH_S, _bandwidth );
+      identStr( o, BANDWIDTH_S, bandwidth );
       identStr( o, RESERVED_FU_S, rbits(0x1f) );
-      identStr( o, CONSTELLATION_S, _constellation );
-      identStr( o, H_INFO_S, _hierarchy_info );
-      identStr( o, CR_HP_STREAM_S, _cr_HP_stream );
-      identStr( o, CR_LP_STREAM_S, _cr_LP_stream );
-      identStr( o, GUARD_INTERV_S, _guard_interval );
-      identStr( o, TRANS_MODE_S, _transmission_mode );
-      identStr( o, OTHER_FREQ_FLAG_S, _other_freq_flag );
+      identStr( o, CONSTELLATION_S, constellation );
+      identStr( o, H_INFO_S, hierarchy_info );
+      identStr( o, CR_HP_STREAM_S, cr_HP_stream );
+      identStr( o, CR_LP_STREAM_S, cr_LP_stream );
+      identStr( o, GUARD_INTERV_S, guard_interval );
+      identStr( o, TRANS_MODE_S, transmission_mode );
+      identStr( o, OTHER_FREQ_FLAG_S, other_freq_flag );
 
       identStr( o, RESERVED_S, rbits(0xffffffff) );
    }
