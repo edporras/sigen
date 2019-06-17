@@ -22,7 +22,6 @@
 // -----------------------------------
 
 #include <iostream>
-#include <utility>
 #include <string>
 #include <list>
 #include "table.h"
@@ -44,7 +43,7 @@ namespace sigen
          return false;
 
       // we can fit it, so let's try to add it
-      xport_stream_list.push_back(std::make_unique<XportStream>(xsid, onid, sid, eid, rs));
+      xport_stream_list.emplace_back(xsid, onid, sid, eid, rs);
       return true;
    }
 
@@ -58,10 +57,8 @@ namespace sigen
       STable::buildSections(*s);
 
       // write the transport stream data
-      for ( const std::unique_ptr<XportStream>& xsp : xport_stream_list)
+      for (const XportStream& xs : xport_stream_list)
       {
-         const XportStream& xs = *xsp;
-
          s->set16Bits(xs.id);
          s->set16Bits(xs.original_network_id);
          s->set16Bits(xs.service_id);
@@ -82,10 +79,8 @@ namespace sigen
 
       // dump the transport streams
       incOutLevel();
-      for ( const std::unique_ptr<XportStream>& xsp : xport_stream_list)
+      for (const XportStream& xs : xport_stream_list)
       {
-         const XportStream& xs = *xsp;
-
          headerStr(o, XPORT_STREAM_S, false);
 
          identStr(o, XPORT_STREAM_ID_S, xs.id);

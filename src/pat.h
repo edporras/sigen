@@ -23,7 +23,6 @@
 #pragma once
 
 #include <list>
-#include <memory>
 #include "table.h"
 
 namespace sigen {
@@ -62,10 +61,17 @@ namespace sigen {
 
          // constructor
          Program(ui16 n, ui16 p) : number(n), pid(p) {}
+
+         Program() = delete;
+         Program(Program&) = delete;
+         Program(const Program&) = delete;
+         Program(const Program&&) = delete;
+         Program& operator=(const Program&) = delete;
+         Program& operator=(const Program&&) = delete;
       };
 
       // the list of program / pids
-      std::list<std::unique_ptr<Program> > program_list;
+      std::list<Program> program_list;
 
       enum State_t { INIT, WRITE_HEAD, GET_PROGRAM, WRITE_PROGRAM };
       mutable struct Context {
@@ -73,7 +79,7 @@ namespace sigen {
 
          State_t op_state;
          const Program *p;
-         std::list<std::unique_ptr<Program> >::const_iterator p_iter;
+         std::list<Program>::const_iterator p_iter;
       } run;
 
    protected:

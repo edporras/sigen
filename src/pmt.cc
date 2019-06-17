@@ -32,7 +32,7 @@ namespace sigen
       if ( !incLength(ElementaryStream::BASE_LEN) )
          return false;
 
-      es_list.push_back(std::make_unique<ElementaryStream>(elem_pid, type));
+      es_list.emplace_back(elem_pid, type);
       return true;
    }
 
@@ -43,10 +43,8 @@ namespace sigen
    bool PMT::addElemStreamDesc(ui16 elem_pid, Descriptor &d)
    {
       // look for the stream
-      for ( std::unique_ptr<ElementaryStream>& esp : es_list)
+      for (ElementaryStream& stream : es_list)
       {
-         ElementaryStream& stream = *esp;
-
          if (stream.elementary_pid == elem_pid)
             return addElemStreamDesc(stream, d);
       }
@@ -59,7 +57,7 @@ namespace sigen
    bool PMT::addElemStreamDesc(Descriptor &d)
    {
       if (!es_list.empty()) {
-         return addElemStreamDesc( *(es_list.back()), d );
+         return addElemStreamDesc( es_list.back(), d );
       }
       return false;
    }
@@ -183,7 +181,7 @@ namespace sigen
               // fetch a transport stream
               if (run.es_iter != es_list.end())
               {
-                 run.es = (*run.es_iter++).get();
+                 run.es = &(*run.es_iter++);
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
@@ -341,10 +339,8 @@ namespace sigen
       incOutLevel(); // indent output
       headerStr(o, STREAM_LIST_S, false);
 
-      for (const std::unique_ptr<ElementaryStream>& esp : es_list)
+      for (const ElementaryStream& stream : es_list)
       {
-         const ElementaryStream& stream = *esp;
-
          identStr(o, STREAM_TYPE_S, stream.type, true);
          identStr(o, RESERVED_S, rbits(0x07) );
          identStr(o, ELEM_PID_S, stream.elementary_pid, true);

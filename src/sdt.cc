@@ -39,7 +39,7 @@ namespace sigen
       if ( !incLength( Service::BASE_LEN) )
          return false;
 
-      service_list.push_back(std::make_unique<Service>(sid, esf, epff, rs, fca));
+      service_list.emplace_back(sid, esf, epff, rs, fca);
       return true;
    }
 
@@ -50,9 +50,8 @@ namespace sigen
    bool SDT::addServiceDesc(ui16 sid, Descriptor &d)
    {
       // look for the id in the list
-      for (std::unique_ptr<Service>& sp : service_list)
+      for (Service& service : service_list)
       {
-         Service& service = *sp;
          if (service.id == sid)
             return addServiceDesc(service, d);
       }
@@ -66,7 +65,7 @@ namespace sigen
    bool SDT::addServiceDesc(Descriptor &d)
    {
       if (!service_list.empty()) {
-         return addServiceDesc(*service_list.back(), d);
+         return addServiceDesc(service_list.back(), d);
       }
       return false;
    }
@@ -128,7 +127,7 @@ namespace sigen
               // fetch the next service
               if (run.s_iter != service_list.end())
               {
-                 run.serv = (*run.s_iter++).get();
+                 run.serv = &(*run.s_iter++);
 
                  if (!run.serv->descriptors.empty())
                  {
@@ -289,10 +288,8 @@ namespace sigen
       incOutLevel();
       headerStr(o, SERVICE_LIST_S, false);
 
-      for (const std::unique_ptr<Service>& sp : service_list)
+      for (const Service& service : service_list)
       {
-         const Service& service =  *sp;
-
          o << std::hex;
          identStr(o, SERVICE_ID_S, service.id, true);
          identStr(o, RESERVED_FU_S, rbits(0x3f)); // reserved future use

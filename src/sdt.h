@@ -87,7 +87,7 @@ namespace sigen {
       ui16 original_network_id;
 
       // the list of services
-      std::list<std::unique_ptr<Service> > service_list;
+      std::list<Service> service_list;
 
       enum State_t { INIT, WRITE_HEAD, GET_SERVICE, WRITE_SERVICE };
       mutable struct Context {
@@ -95,7 +95,7 @@ namespace sigen {
          
          State_t op_state;
          const Service *serv;
-         std::list<std::unique_ptr<Service> >::const_iterator s_iter;
+         std::list<Service>::const_iterator s_iter;
       } run;
 
    protected:

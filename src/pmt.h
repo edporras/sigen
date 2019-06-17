@@ -114,7 +114,7 @@ namespace sigen {
       ui16 program_info_length;
       ui16 pcr_pid : 13;
       DescList prog_desc;
-      std::list<std::unique_ptr<ElementaryStream> > es_list; // the list of streams
+      std::list<ElementaryStream> es_list; // the list of streams
 
       enum State_t { INIT, WRITE_HEAD, GET_PROG_DESC, WRITE_PROG_DESC,
                      GET_XPORT_STREAM, WRITE_XPORT_STREAM };
@@ -126,7 +126,7 @@ namespace sigen {
          const Descriptor *pd;
          const ElementaryStream *es;
          std::list<std::unique_ptr<Descriptor> >::const_iterator pd_iter;
-         std::list<std::unique_ptr<ElementaryStream> >::const_iterator es_iter;
+         std::list<ElementaryStream>::const_iterator es_iter;
       } run;
 
    protected:

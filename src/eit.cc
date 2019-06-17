@@ -38,15 +38,14 @@ namespace sigen
    // adds an event to the passed list...
    // protected function to be used by the derived classes
    //
-   bool EIT::addEvent(std::list<std::unique_ptr<Event> > &e_list, ui16 evid,
-                      UTC time, BCDTime dur, ui8 rs, bool fca)
+   bool EIT::addEvent(std::list<Event> &e_list, ui16 evid, UTC time, BCDTime dur, ui8 rs, bool fca)
    {
       // make sure we can fit it
       if ( !incLength( Event::BASE_LEN) )
          return false;
 
       // add the event to the list
-      e_list.push_back(std::make_unique<Event>(evid, time, dur, rs, fca));
+      e_list.emplace_back(evid, time, dur, rs, fca);
       return true;
    }
 
@@ -56,13 +55,11 @@ namespace sigen
    // adds a descriptor to event with the specified id..
    // protected function to be used by the derived classes
    //
-   bool EIT::addEventDesc(std::list<std::unique_ptr<Event> > &e_list, ui16 evid,
-                          Descriptor &d)
+   bool EIT::addEventDesc(std::list<Event> &e_list, ui16 evid, Descriptor &d)
    {
       // look for the id in the list.. if found, add the descriptor to it
-      for (std::unique_ptr<Event>& ep : e_list)
+      for (Event& event : e_list)
       {
-         Event& event = *ep;
          if (event.id == evid)
             return addEventDesc(event, d);
       }
@@ -75,10 +72,10 @@ namespace sigen
    // adds the descriptor to the last event added
    // protected function to be used by the derived classes
    //
-   bool EIT::addEventDesc(std::list<std::unique_ptr<Event> > &e_list, Descriptor &d)
+   bool EIT::addEventDesc(std::list<Event> &e_list, Descriptor &d)
    {
       if (!e_list.empty()) {
-         return addEventDesc( *e_list.back(), d );
+         return addEventDesc( e_list.back(), d );
       }
       return false;
    }
@@ -122,15 +119,13 @@ namespace sigen
    //
    // dumps the passed event list
    //
-   void EIT::dumpEventList(std::ostream &o, const std::list<std::unique_ptr<Event> > &e_list) const
+   void EIT::dumpEventList(std::ostream &o, const std::list<Event> &e_list) const
    {
       // display the event list
       incOutLevel();
 
-      for (const std::unique_ptr<Event>& ep : e_list)
+      for (const Event& event : e_list)
       {
-         const Event& event = *ep;
-
          o << std::hex;
          identStr(o, EVENT_ID_S, event.id);
          identStr(o, START_TIME_S);
@@ -165,7 +160,7 @@ namespace sigen
    // anybody calling the other one
    //
    bool EIT::writeSection(Section& section,
-                          const std::list<std::unique_ptr<Event> > &event_list,
+                          const std::list<Event> &event_list,
                           ui8 last_tid,
                           ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
                           ui16 &sec_bytes) const
@@ -212,7 +207,7 @@ namespace sigen
               // fetch the next event
               if (run.ev_iter != event_list.end())
               {
-                 run.event = (*run.ev_iter++).get();
+                 run.event = &(*run.ev_iter++);
 
                  if (!run.event->descriptors.list().empty())
                  {

@@ -21,7 +21,6 @@
 // -----------------------------------
 
 #include <iostream>
-#include <utility>
 #include <list>
 #include "table.h"
 #include "pat.h"
@@ -37,7 +36,7 @@ namespace sigen
       if ( !incLength(Program::BASE_LEN) )
          return false;
 
-      program_list.push_back( std::make_unique<Program>(sid, pid) );
+      program_list.emplace_back(sid, pid);
       return true;
    }
 
@@ -79,7 +78,7 @@ namespace sigen
               // fetch the next service
               if (run.p_iter != program_list.end())
               {
-                 run.p = (*run.p_iter++).get();
+                 run.p = &(*run.p_iter++);
 
                  // does adding it exceed capacity?
                  if ( (sec_bytes + Program::BASE_LEN) > getMaxDataLen() )
@@ -125,10 +124,8 @@ namespace sigen
 
       // program list
       incOutLevel(); // indent output
-      for (const std::unique_ptr<Program>& pp : program_list)
+      for (const Program& program : program_list)
       {
-         const Program& program = *pp;
-
          identStr(o, PROGRAM_NUM_S, program.number, true);
          identStr(o, RESERVED_S, rbits(0x07) );
          identStr(o, PID_S, program.pid, true);

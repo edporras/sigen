@@ -99,14 +99,13 @@ namespace sigen {
       ui16 original_network_id;
 
       // event/descriptor add routines
-      bool addEvent(std::list<std::unique_ptr<Event> > &, ui16, UTC, BCDTime, ui8,
-                    bool);
-      bool addEventDesc(std::list<std::unique_ptr<Event> > &, ui16, Descriptor &);
-      bool addEventDesc(std::list<std::unique_ptr<Event> > &, Descriptor &);
+      bool addEvent(std::list<Event> &, ui16, UTC, BCDTime, ui8, bool);
+      bool addEventDesc(std::list<Event> &, ui16, Descriptor &);
+      bool addEventDesc(std::list<Event> &, Descriptor &);
       bool addEventDesc(Event& , Descriptor &);
 
       // table builder routines
-      bool writeSection(Section& s, const std::list<std::unique_ptr<Event> > &e_list,
+      bool writeSection(Section& s, const std::list<Event> &e_list,
                         ui8 last_tid,
                         ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
                         ui16 &sec_bytes) const;
@@ -114,7 +113,7 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dumpHeader(std::ostream &) const = 0;
       virtual void dumpEvents(std::ostream &) const = 0;
-      void dumpEventList(std::ostream &, const std::list<std::unique_ptr<Event> > &) const;
+      void dumpEventList(std::ostream &, const std::list<Event> &) const;
 #endif
 
       // dummy function - we use a different writeSection for EIT's,
@@ -129,7 +128,7 @@ namespace sigen {
 
          State_t op_state;
          const Event *event;
-         std::list<std::unique_ptr<Event> >::const_iterator ev_iter;
+         std::list<Event>::const_iterator ev_iter;
       } run;
    };
 
@@ -144,7 +143,7 @@ namespace sigen {
 
    private:
       enum { PRESENT, FOLLOWING };
-      std::list<std::unique_ptr<Event> > event_list[2]; // present = 0, following = 1
+      std::list<Event> event_list[2]; // present = 0, following = 1
 
    public:
       // present event utility functions
@@ -211,7 +210,7 @@ namespace sigen {
    private:
       enum { ACTUAL_BASE = 0x50, OTHER_BASE_0x60 };
 
-      std::list<std::unique_ptr<Event> > event_list;
+      std::list<Event> event_list;
 
 //   ES_EIT(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true) :
 //       EIT(TID, sid, xsid, onid, ver, cni) { }

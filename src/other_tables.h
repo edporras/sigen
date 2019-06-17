@@ -23,7 +23,6 @@
 
 #pragma once
 
-#include <memory>
 #include <list>
 #include <string>
 #include "table.h"
@@ -72,7 +71,7 @@ namespace sigen {
       };
 
       // the list of transport streams
-      std::list<std::unique_ptr<XportStream> > xport_stream_list;
+      std::list<XportStream> xport_stream_list;
    };
 
 
