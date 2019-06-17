@@ -38,9 +38,10 @@ namespace sigen {
    class NIT_BAT : public PSITable
    {
    public:
-      NIT_BAT() = delete;
+      enum { NIT_ACTUAL_TID = 0x40, NIT_OTHER_TID = 0x41, BAT_TID = 0x4a };
 
       bool addDesc(Descriptor &);                                    // add a table descriptor
+
       bool addXportStream(ui16 xs_id, ui16 on_id);                   // add a transport stream
       bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &); // add a descriptor to the indicate transport stream
       bool addXportStreamDesc(Descriptor &);                         // adds it to the last stream added
@@ -48,6 +49,9 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
 #endif
+
+   private:
+      enum { MAX_SEC_LEN = 1024 };
 
       // the transport stream struct - public as the BAT uses it too
       struct XportStream
@@ -66,7 +70,7 @@ namespace sigen {
          XportStream(const XportStream&&) = delete;
          XportStream operator=(const XportStream&) = delete;
          XportStream operator=(const XportStream&&) = delete;
-         
+
          int length() const { return descriptors.loop_length() + BASE_LEN; }
          bool equals(ui16 tsid, ui16 onid) const { return (tsid == id && onid == original_network_id); }
 
@@ -83,9 +87,6 @@ namespace sigen {
             std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter;
          } run;
       };
-
-   private:
-      enum { MAX_SEC_LEN = 1024 };
 
       // NIT members
       ui16 xport_stream_loop_length;
@@ -124,10 +125,6 @@ namespace sigen {
          PSITable(type, id, 9, MAX_SEC_LEN, ver, cni),
          xport_stream_loop_length(0)
       { }
-
-#ifdef ENABLE_DUMP
-      virtual void dump_hdr(std::ostream&) const = 0;
-#endif
    };
 
    //
@@ -146,49 +143,31 @@ namespace sigen {
       { }
    };
 
-   
    // public interface to create NIT tables
    struct NITActual : public NIT
    {
-      enum { TID = 0x40 };
-
       NITActual(ui16 network_id, ui8 ver, bool cni = true) :
-         NIT(TID, network_id, ver, cni)
+         NIT(NIT_BAT::NIT_ACTUAL_TID, network_id, ver, cni)
       { }
-
-#ifdef ENABLE_DUMP
-      virtual void dump_hdr(std::ostream&) const;
-#endif
    };
 
    struct NITOther : public NIT
    {
-      enum { TID = 0x41 };
-
       NITOther(ui16 network_id, ui8 ver, bool cni = true) :
-         NIT(TID, network_id, ver, cni)
+         NIT(NIT_BAT::NIT_OTHER_TID, network_id, ver, cni)
       { }
-
-#ifdef ENABLE_DUMP
-      virtual void dump_hdr(std::ostream&) const;
-#endif
    };
 
    // public interface for the BAT
    struct BAT : public NIT_BAT
    {
-      enum { PID = 0x11, TID = 0x4a };
+      enum { PID = 0x11 };
 
       // constructor
       BAT(ui16 bouquet_id, ui8 ver, bool cni = true) :
-         NIT_BAT(TID, bouquet_id, ver, cni)
+         NIT_BAT(NIT_BAT::BAT_TID, bouquet_id, ver, cni)
       { }
 
       bool addBouquetDesc(Descriptor& d) { return addDesc(d); }
-
-#ifdef ENABLE_DUMP
-      virtual void dump_hdr(std::ostream&) const;
-#endif
    };
-   
 } // sigen namespace

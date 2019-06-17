@@ -371,13 +371,22 @@ namespace sigen
    void NIT_BAT::dump(std::ostream& o) const
    {
       // dump the table's header
-      dump_hdr(o);
+      if (getId() == NIT_BAT::NIT_ACTUAL_TID || getId() == NIT_BAT::NIT_OTHER_TID) {
+         dumpHeader( o,
+                     ((getId() == NIT_BAT::NIT_ACTUAL_TID) ? NIT_DUMP_ACTUAL_S : NIT_DUMP_OTHER_S),
+                     NETWORK_ID_S, true );
+      } else {
+         // BAT
+         dumpHeader( o, BAT_DUMP_S, BOUQUET_ID_S, true );
+      }
 
       // reserved bits
       identStr(o, RESERVED_FU_S, rbits(0xf));
 
-      // network descriptors
-      identStr(o, NETWORK_DESC_LEN_S, descriptors.loop_length(), true);
+      // descriptors
+      identStr(o,
+               ((getId() == NIT_BAT::BAT_TID) ? BOUQUET_DESC_LEN_S : NETWORK_DESC_LEN_S),
+               descriptors.loop_length(), true);
       o << std::endl;
 
       descriptors.dump(o);
@@ -417,20 +426,6 @@ namespace sigen
       decOutLevel();
    }
 
-   void NITActual::dump_hdr(std::ostream& o) const
-   {
-      dumpHeader( o, NIT_DUMP_ACTUAL_S, NETWORK_ID_S, true );
-   }
-
-   void NITOther::dump_hdr(std::ostream& o) const
-   {
-      dumpHeader( o, NIT_DUMP_OTHER_S, NETWORK_ID_S, true );
-   }
-
-   void BAT::dump_hdr(std::ostream& o) const
-   {
-      dumpHeader( o, BAT_DUMP_S, BOUQUET_ID_S );
-   }
 #endif
 
 } // namespace sigen

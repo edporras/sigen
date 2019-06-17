@@ -277,7 +277,7 @@ namespace sigen
    {
       // table header
       dumpHeader( o,
-                  ((getId() == SDT::ACTUAL) ? SDT_DUMP_ACTUAL_S : SDT_DUMP_OTHER_S),
+                  ((getId() == SDT::ACTUAL_TID) ? SDT_DUMP_ACTUAL_S : SDT_DUMP_OTHER_S),
                   XPORT_STREAM_ID_S );
 
       // sdt-specific
