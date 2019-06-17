@@ -36,6 +36,8 @@ namespace sigen {
    //
    // abstract superclass for both tables and descriptors
    struct Table {
+      const ui16 BASE_LENGTH;
+
       Table(ui16 base_len) : BASE_LENGTH(base_len) {}
       virtual ~Table() { }
 
@@ -47,7 +49,15 @@ namespace sigen {
       virtual void dumpHeader(std::ostream &, STRID) const = 0;
 #endif
 
-      const ui16 BASE_LENGTH;
+      // for lists of inner structs
+      struct ListItem {
+         ListItem() = default;
+
+         ListItem(const ListItem&) = delete;
+         ListItem(const ListItem&&) = delete;
+         ListItem operator=(const ListItem&) = delete;
+         ListItem operator=(const ListItem&&) = delete;
+      };
 
       // prohibit
       Table(const Table&) = delete;
@@ -183,6 +193,20 @@ namespace sigen {
       virtual void dumpHeader(std::ostream &o, STRID table_label,
                               STRID ext_label, bool hexdec = false) const;
 #endif
+
+      // for inner class with descriptor lists
+      struct ListItem : public STable::ListItem {
+      protected:
+         // section building state tracking
+         enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
+         mutable struct Context {
+            Context() : op_state(INIT), d(nullptr) {}
+
+            State_t op_state;
+            const Descriptor *d;
+            std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter;
+         } run;
+      };
 
    private:
       ui16 table_id_extension;        // id extension for private tables

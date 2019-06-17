@@ -254,8 +254,8 @@ namespace sigen
          {
            case INIT:
               // set the descriptor iterator
-              if (!run.tsd)
-                 run.tsd_iter = descriptors.begin();
+              if (!run.d)
+                 run.d_iter = descriptors.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -271,16 +271,16 @@ namespace sigen
               // increment the byte count
               sec_bytes += ElementaryStream::BASE_LEN;
 
-              run.op_state = (!run.tsd ? GET_DESC : WRITE_DESC);
+              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
               break;
 
            case GET_DESC:
-              if (run.tsd_iter != descriptors.end())
+              if (run.d_iter != descriptors.end())
               {
-                 run.tsd = (*run.tsd_iter++).get();
+                 run.d = (*run.d_iter++).get();
 
                  // make sure we can fit it
-                 if ( (sec_bytes + run.tsd->length()) > max_data_len )
+                 if ( (sec_bytes + run.d->length()) > max_data_len )
                  {
                     run.op_state = WRITE_HEAD;
                     exit = true;
@@ -298,10 +298,10 @@ namespace sigen
               break;
 
            case WRITE_DESC:
-              run.tsd->buildSections(section);
+              run.d->buildSections(section);
 
               // increment all byte counts
-              d_len = run.tsd->length();
+              d_len = run.d->length();
               sec_bytes += d_len;
               ts_desc_len += d_len;
 

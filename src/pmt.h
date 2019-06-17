@@ -84,7 +84,7 @@ namespace sigen {
              MAX_SEC_LEN = 1024 };
 
       // the stream holder struct - private to the pmt
-      struct ElementaryStream {
+      struct ElementaryStream : public PSITable::ListItem {
          enum { BASE_LEN = 5 };
 
          ui16 es_info_length;
@@ -96,18 +96,9 @@ namespace sigen {
          ElementaryStream(ui16 epid, ui8 t) :
             es_info_length(0), elementary_pid(epid), type(t)
          { }
+         ElementaryStream() = delete;
 
          bool writeSection(Section& s, ui16 max_data_len, ui16& sec_bytes) const;
-
-      private:
-         enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
-         mutable struct Context {
-            Context() : op_state(INIT), tsd(nullptr) {}
-
-            State_t op_state;
-            const Descriptor *tsd;
-            std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter;
-         } run;
       };
 
       // instance variables

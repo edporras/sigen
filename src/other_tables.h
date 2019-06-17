@@ -55,7 +55,7 @@ namespace sigen {
       enum { MAX_SEC_LEN = 1024, TID = 0x71 };
 
       // the private transport stream class
-      struct XportStream {
+      struct XportStream : public STable::ListItem {
          enum { BASE_LEN = 9 };
 
          ui16 id;
@@ -68,6 +68,7 @@ namespace sigen {
          XportStream(ui16 xsid, ui16 onid, ui16 sid, ui16 eid, ui8 rs) :
             id(xsid), original_network_id(onid),
             service_id(sid), event_id(eid), running_status(rs) {}
+         XportStream() = delete;
       };
 
       // the list of transport streams

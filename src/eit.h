@@ -57,7 +57,7 @@ namespace sigen {
       { }
 
       // the private event class
-      struct Event {
+      struct Event : public PSITable::ListItem {
          enum { BASE_LEN = 12 };
 
          // instance variables
@@ -77,21 +77,12 @@ namespace sigen {
             running_status(rs),
             free_CA_mode(fcam)
          { }
+         Event() = delete;
 
          // utility
          void buildSections(Section &) const;
 
          bool writeSection(Section& , ui16 , ui16 &) const;
-
-      private:
-         enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
-         mutable struct Context {
-            Context() : op_state(INIT), d(nullptr) {}
-
-            State_t op_state;
-            const Descriptor *d;
-            std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter;
-         } run;
       };
 
       // common EIT data members begin here

@@ -53,7 +53,7 @@ namespace sigen {
              MAX_SEC_LEN = 1024 };
 
       // the program / pid holder struct - private to the pat
-      struct Program {
+      struct Program : public STable::ListItem {
          enum { BASE_LEN = 4 };
 
          ui16 number;
@@ -61,13 +61,7 @@ namespace sigen {
 
          // constructor
          Program(ui16 n, ui16 p) : number(n), pid(p) {}
-
          Program() = delete;
-         Program(Program&) = delete;
-         Program(const Program&) = delete;
-         Program(const Program&&) = delete;
-         Program& operator=(const Program&) = delete;
-         Program& operator=(const Program&&) = delete;
       };
 
       // the list of program / pids

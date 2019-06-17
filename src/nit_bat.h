@@ -54,7 +54,7 @@ namespace sigen {
       enum { MAX_SEC_LEN = 1024 };
 
       // the transport stream struct - public as the BAT uses it too
-      struct XportStream
+      struct XportStream : public PSITable::ListItem
       {
          enum { BASE_LEN = 6 };
 
@@ -65,27 +65,12 @@ namespace sigen {
          // constructor
          XportStream(ui16 tsid, ui16 onid) :
             id(tsid), original_network_id(onid) { }
-
-         XportStream(const XportStream&) = delete;
-         XportStream(const XportStream&&) = delete;
-         XportStream operator=(const XportStream&) = delete;
-         XportStream operator=(const XportStream&&) = delete;
+         XportStream() = delete;
 
          int length() const { return descriptors.loop_length() + BASE_LEN; }
          bool equals(ui16 tsid, ui16 onid) const { return (tsid == id && onid == original_network_id); }
 
          bool writeSection(Section& , ui16, ui16 &, ui16 &) const;
-
-      private:
-         // section building state tracking
-         enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
-         mutable struct Context {
-            Context() : op_state(INIT), tsd(nullptr) {}
-
-            State_t op_state;
-            const Descriptor *tsd;
-            std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter;
-         } run;
       };
 
       // NIT members
