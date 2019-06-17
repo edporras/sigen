@@ -20,8 +20,6 @@
 // version.cc: library version string holder
 // -----------------------------------
 
-#include <string>
-#include <sstream>
 #include "version.h"
 #include "config.h"
 
@@ -31,4 +29,4 @@ namespace sigen
    {
       return SIGEN_VERSION;
    }
-} // namespace
+}
