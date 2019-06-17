@@ -27,6 +27,7 @@
 #include <list>
 #include "table.h"
 #include "util.h"
+#include "nit.h"
 
 namespace sigen {
 
@@ -61,40 +62,10 @@ namespace sigen {
    private:
       enum { BASE_LEN = 9, TID = 0x4a, MAX_SEC_LEN = 1024 };
 
-      // the transport stream struct
-      struct XportStream
-      {
-         enum { BASE_LEN = 6 };
-
-         ui16 id;                  // transport stream id
-         ui16 original_network_id;
-         DescList descriptors;
-
-         // constructor
-         XportStream(ui16 tsid, ui16 onid) :
-            id(tsid), original_network_id(onid)
-         { }
-
-         // utility methods
-         int length() const { return descriptors.loop_length() + BASE_LEN; }
-
-         bool writeSection(Section& , ui16, ui16 &, ui16 &) const;
-
-      private:
-         enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
-         mutable struct Context {
-            Context() : op_state(INIT), tsd(nullptr) {}
-
-            State_t op_state;
-            const Descriptor *tsd;
-            std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter;
-         } run;
-      };
-
       // BAT members
       ui16 xport_stream_loop_length;
       DescList bouquet_desc;
-      std::list<std::unique_ptr<XportStream> > xport_streams; // transport streams
+      std::list<NIT::XportStream> xport_streams; // transport streams
 
       enum State_t { INIT, WRITE_HEAD, GET_BOUQUET_DESC, WRITE_BOUQUET_DESC, WRITE_XPORT_LOOP_LEN,
                      GET_XPORT_STREAM, WRITE_XPORT_STREAM };
@@ -104,12 +75,12 @@ namespace sigen {
          bool bd_done;
          State_t op_state;
          const Descriptor *bd;
-         const XportStream *ts;
+         const NIT::XportStream *ts;
          std::list<std::unique_ptr<Descriptor> >::const_iterator bd_iter;
-         std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter;
+         std::list<NIT::XportStream>::const_iterator ts_iter;
       } run;
    protected:
-      bool addXportStreamDesc(XportStream& , Descriptor &);
+      bool addXportStreamDesc(NIT::XportStream& , Descriptor &);
       virtual bool writeSection(Section& , ui8, ui16 &) const;
 
 #ifdef ENABLE_DUMP

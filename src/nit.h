@@ -50,10 +50,7 @@ namespace sigen {
       virtual void dump(std::ostream &) const;
 #endif
 
-   private:
-      enum { BASE_LEN = 9, MAX_SEC_LEN = 1024 };
-
-      // the transport stream struct
+      // the transport stream struct - public as the BAT uses it too
       struct XportStream
       {
          enum { BASE_LEN = 6 };
@@ -87,6 +84,9 @@ namespace sigen {
             std::list<std::unique_ptr<Descriptor> >::const_iterator tsd_iter;
          } run;
       };
+
+   private:
+      enum { BASE_LEN = 9, MAX_SEC_LEN = 1024 };
 
       // NIT members
       ui16 xport_stream_loop_length;

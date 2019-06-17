@@ -51,13 +51,13 @@ namespace sigen
    //
    bool BAT::addXportStream(ui16 xport_stream_id, ui16 original_network_id)
    {
-      if ( !incLength(XportStream::BASE_LEN) )
+      if ( !incLength(NIT::XportStream::BASE_LEN) )
          return false;
 
-      xport_streams.push_back(std::make_unique<XportStream>(xport_stream_id, original_network_id));
+      xport_streams.emplace_back(xport_stream_id, original_network_id);
 
       // increment the lengths
-      xport_stream_loop_length += XportStream::BASE_LEN;
+      xport_stream_loop_length += NIT::XportStream::BASE_LEN;
       return true;
    }
 
@@ -68,9 +68,8 @@ namespace sigen
    bool BAT::addXportStreamDesc(ui16 tsid, ui16 on_id, Descriptor &d)
    {
       // lookup the transport_stream by the passed id
-      for (std::unique_ptr<XportStream>& xsp : xport_streams)
+      for (NIT::XportStream& ts : xport_streams)
       {
-         XportStream& ts = *xsp;
          if ( (ts.id == tsid) && (ts.original_network_id == on_id) )
             return addXportStreamDesc(ts, d);
       }
@@ -83,7 +82,7 @@ namespace sigen
    bool BAT::addXportStreamDesc(Descriptor &d)
    {
       if (!xport_streams.empty()) {
-         return addXportStreamDesc( *xport_streams.back(), d );
+         return addXportStreamDesc( xport_streams.back(), d );
       }
       return false;
    }
@@ -92,7 +91,7 @@ namespace sigen
    //
    // actually adds the descriptor to the transport stream
    //
-   bool BAT::addXportStreamDesc(XportStream& ts, Descriptor &d)
+   bool BAT::addXportStreamDesc(NIT::XportStream& ts, Descriptor &d)
    {
       ui16 d_len = d.length();
       if ( !incLength(d_len) )
@@ -225,7 +224,7 @@ namespace sigen
               // fetch a transport stream
               if (run.ts_iter != xport_streams.end())
               {
-                 run.ts = (*run.ts_iter++).get();
+                 run.ts = &(*run.ts_iter++);
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
@@ -234,7 +233,7 @@ namespace sigen
                     const Descriptor *d = run.ts->descriptors.front().get();
 
                     // check the size with the descriptor
-                    if ( (sec_bytes + XportStream::BASE_LEN + d->length()) >
+                    if ( (sec_bytes + NIT::XportStream::BASE_LEN + d->length()) >
                          getMaxDataLen() )
                     {
                        // won't fit.. wait until the next section
@@ -246,7 +245,7 @@ namespace sigen
                  else
                  {
                     // check if this XS with no descs will fit here
-                    if ( (sec_bytes + XportStream::BASE_LEN) > getMaxDataLen() )
+                    if ( (sec_bytes + NIT::XportStream::BASE_LEN) > getMaxDataLen() )
                     {
                        // nope.. wait also
                        run.op_state = WRITE_HEAD;
@@ -288,85 +287,6 @@ namespace sigen
 
 
    //
-   // state machine for writing the transport streams
-   //
-   bool BAT::XportStream::writeSection(Section& section, ui16 max_data_len, ui16 &sec_bytes, ui16 &ts_loop_len) const
-   {
-      ui8 *ts_desc_len_pos = 0;
-      ui16 d_len, ts_desc_len = 0;
-      bool exit = false, done = false;
-
-      while (!exit)
-      {
-         switch (run.op_state)
-         {
-           case INIT:
-              // set the descriptor iterator
-              if (!run.tsd)
-                 run.tsd_iter = descriptors.begin();
-              run.op_state = WRITE_HEAD;
-
-           case WRITE_HEAD:
-              // write the transport stream data
-              section.set16Bits(id);
-              section.set16Bits(original_network_id);
-
-              // save the position for the desc loop len.. we'll update it later
-              ts_desc_len_pos = section.getCurDataPosition();
-              section.set16Bits( 0 );
-
-              // increment the byte count
-              sec_bytes += XportStream::BASE_LEN;
-              ts_loop_len += XportStream::BASE_LEN;
-
-              run.op_state = (!run.tsd ? GET_DESC : WRITE_DESC);
-              break;
-
-           case GET_DESC:
-              if (run.tsd_iter != descriptors.end())
-              {
-                 run.tsd = (*run.tsd_iter++).get();
-
-                 // make sure we can fit it
-                 if ( (sec_bytes + run.tsd->length()) > max_data_len )
-                 {
-                    run.op_state = WRITE_HEAD;
-                    exit = true;
-                    break;
-                 }
-                 run.op_state = WRITE_DESC;
-              }
-              else
-              {
-                 // no more descriptors.. done writing this xport stream,
-                 run = Context();
-                 exit = done = true;
-                 break;
-              }
-              break;
-
-           case WRITE_DESC:
-              run.tsd->buildSections(section);
-
-              // increment all byte counts
-              d_len = run.tsd->length();
-              sec_bytes += d_len;
-              ts_loop_len += d_len;
-              ts_desc_len += d_len;
-
-              // try to get another one
-              run.op_state = GET_DESC;
-              break;
-         }
-      }
-      // write the desc loop length
-      section.set16Bits( ts_desc_len_pos,
-                         rbits( ~LEN_MASK) | (ts_desc_len & LEN_MASK) );
-      return done;
-   }
-
-
-   //
    // dumps to stdout
    //
 #ifdef ENABLE_DUMP
@@ -403,10 +323,8 @@ namespace sigen
 
       // display each transport stream's data & descriptors
       incOutLevel();
-      for (const std::unique_ptr<XportStream>& xsp : xport_streams)
+      for (const NIT::XportStream& ts : xport_streams)
       {
-         const XportStream &ts = *xsp;
-
          headerStr(o, XPORT_STREAM_S, false);
 
          identStr(o, XPORT_STREAM_ID_S, ts.id);
