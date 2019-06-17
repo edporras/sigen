@@ -25,7 +25,6 @@
 #include <memory>
 #include <list>
 #include "table.h"
-#include "util.h"
 
 namespace sigen {
 

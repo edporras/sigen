@@ -25,7 +25,6 @@
 #include <memory>
 #include <list>
 #include "types.h"
-#include "util.h"
 #include "dump.h"
 
 namespace sigen {

@@ -30,7 +30,7 @@
 #include <list>
 #include "dump.h"
 #include "tstream.h"
-#include "util.h"
+#include "language_code.h"
 
 namespace sigen
 {

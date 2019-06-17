@@ -17,7 +17,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// util.h: miscellaneous utilities
+// language_code.h: representation of an ISO-639-2 language code
 // -----------------------------------
 
 #pragma once
@@ -32,22 +32,18 @@ namespace sigen {
    //
    class LanguageCode
    {
-   private:
-      std::string code;
-
-      void refit();
-
    public:
-      enum { BASE_LEN = 3 };
+      enum { ISO_639_2_CODE_LENGTH = 3 };
 
-      // constructor
+      // constructors
       LanguageCode(const char* c) : LanguageCode(std::string(c)) { }
-      LanguageCode(const std::string &c) : code(c) { refit(); }
+      LanguageCode(const std::string &c);
       LanguageCode() = delete;
 
-      // util
       const std::string& str() const { return code; }
-      ui32 length() const { return code.length(); }
+
+   private:
+      std::string code = { ' ', ' ', ' ' };
    };
 
 } // sigen namespace

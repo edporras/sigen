@@ -252,7 +252,7 @@ namespace sigen {
 
    private:
       struct Language {
-         enum { BASE_LEN = LanguageCode::BASE_LEN + 1 };
+         enum { BASE_LEN = LanguageCode::ISO_639_2_CODE_LENGTH + 1 };
 
          LanguageCode code;
          ui8 audio_type;

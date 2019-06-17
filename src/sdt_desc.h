@@ -25,7 +25,6 @@
 #include <memory>
 #include <string>
 #include <list>
-#include "util.h"
 #include "descriptor.h"
 
 namespace sigen {
@@ -53,7 +52,7 @@ namespace sigen {
 
    private:
       struct Language {
-         enum { BASE_LEN = LanguageCode::BASE_LEN + 2 };
+         enum { BASE_LEN = LanguageCode::ISO_639_2_CODE_LENGTH + 2 };
 
          LanguageCode language_code;
          std::string provider_name;

@@ -17,10 +17,10 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// util.cc: miscellaneous utilities
+// language_code.cc: 
 // -----------------------------------
 
-#include "util.h"
+#include "language_code.h"
 
 namespace sigen {
 
@@ -28,12 +28,13 @@ namespace sigen {
    // Language Code container class
    //
 
-   // constructor
+   // constructor - codes should be 3-chars long. This truncates if
+   // longer but leaves invalid ones w/ less than 3 chars as is
+   // (space-padding).
    //
-   void LanguageCode::refit()
+   LanguageCode::LanguageCode(const std::string& c) :
+      code(c, 0, (c.length() < ISO_639_2_CODE_LENGTH ? c.length() : ISO_639_2_CODE_LENGTH))
    {
-      if (code.length() > BASE_LEN)
-         code.resize(3);
    }
 
 } // namespace

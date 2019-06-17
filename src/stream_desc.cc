@@ -26,7 +26,6 @@
 #include "descriptor.h"
 #include "stream_desc.h"
 #include "tstream.h"
-#include "util.h"
 
 namespace sigen
 {

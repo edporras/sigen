@@ -25,6 +25,7 @@
 #include <list>
 #include <string>
 #include <memory>
+#include "language_code.h"
 #include "table.h"
 #include "tstream.h"
 

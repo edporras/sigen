@@ -23,7 +23,6 @@
 #pragma once
 
 #include "table.h"
-#include "util.h"
 
 namespace sigen {
 

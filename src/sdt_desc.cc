@@ -27,7 +27,6 @@
 #include "descriptor.h"
 #include "sdt_desc.h"
 #include "tstream.h"
-#include "util.h"
 
 namespace sigen
 {

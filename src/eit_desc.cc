@@ -26,7 +26,6 @@
 #include "descriptor.h"
 #include "eit_desc.h"
 #include "tstream.h"
-#include "util.h"
 
 namespace sigen
 {

@@ -27,7 +27,6 @@
 #include "descriptor.h"
 #include "tstream.h"
 #include "dvb_desc.h"
-#include "util.h"
 
 namespace sigen
 {
@@ -81,7 +80,7 @@ namespace sigen
    bool CountryAvailabilityDesc::addCountry(const std::string &code)
    {
       // make sure we can add this entry
-      if ( !incLength( LanguageCode::BASE_LEN) )
+      if ( !incLength( LanguageCode::ISO_639_2_CODE_LENGTH ) )
          return false;
 
       // and add it

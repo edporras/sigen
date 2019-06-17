@@ -26,7 +26,6 @@
 #include <list>
 #include "table.h"
 #include "utc.h"
-#include "util.h"
 
 namespace sigen {
 

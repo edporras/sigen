@@ -15,6 +15,7 @@ libsigen_la_SOURCES = \
 	dvb_desc.cc \
 	eit.cc \
 	eit_desc.cc \
+	language_code.cc \
 	linkage_desc.cc \
 	nit.cc \
 	nit_desc.cc \
@@ -32,7 +33,6 @@ libsigen_la_SOURCES = \
 	tot.cc \
 	tstream.cc \
 	utc.cc \
-	util.cc \
 	version.cc
 
 libsigenincludedir = $(includedir)/sigen
@@ -45,6 +45,7 @@ libsigeninclude_HEADERS = \
 	dvb_desc.h \
 	eit.h \
 	eit_desc.h \
+	language_code.h \
 	linkage_desc.h \
 	nit.h \
 	nit_desc.h \
@@ -64,7 +65,6 @@ libsigeninclude_HEADERS = \
 	tstream.h \
 	types.h \
 	utc.h \
-	util.h \
 	version.h
 
 

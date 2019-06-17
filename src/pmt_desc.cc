@@ -27,7 +27,6 @@
 #include "descriptor.h"
 #include "pmt_desc.h"
 #include "tstream.h"
-#include "util.h"
 
 namespace sigen
 {
