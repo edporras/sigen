@@ -56,7 +56,7 @@ namespace sigen
          return false;
 
       // add it to the link list
-      xport_streams.push_back(std::make_unique<XportStream>(xport_stream_id, original_network_id));
+      xport_streams.emplace_back(xport_stream_id, original_network_id);
 
       // increment the lengths
       xport_stream_loop_length += XportStream::BASE_LEN;
@@ -71,11 +71,11 @@ namespace sigen
    {
       // lookup the transport_stream by the passed id
       auto it = std::find_if(xport_streams.begin(), xport_streams.end(),
-                             [=](auto& xsp) { return xsp->equals(xsid, on_id); });
+                             [=](auto& xs) { return xs.equals(xsid, on_id); });
       if (it == xport_streams.end())
          return false;
 
-      return addXportStreamDesc(**it, d);
+      return addXportStreamDesc(*it, d);
    }
 
    //
@@ -86,7 +86,7 @@ namespace sigen
       if (xport_streams.empty())
          return false;
 
-      return addXportStreamDesc(*xport_streams.back(), d);
+      return addXportStreamDesc(xport_streams.back(), d);
    }
 
    //
@@ -222,7 +222,7 @@ namespace sigen
               // fetch a transport stream
               if (run.ts_iter != xport_streams.end())
               {
-                 run.ts = (*run.ts_iter++).get();
+                 run.ts = &(*run.ts_iter++);
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
@@ -404,18 +404,18 @@ namespace sigen
 
       // display each transport stream's data & descriptors
       incOutLevel();
-      for (const std::unique_ptr<XportStream>& xsp : xport_streams)
+      for (const XportStream& xs : xport_streams)
       {
          headerStr(o, XPORT_STREAM_S, false);
 
-         identStr(o, XPORT_STREAM_ID_S, xsp->id);
-         identStr(o, ORIG_NETWORK_ID_S, xsp->original_network_id, true);
+         identStr(o, XPORT_STREAM_ID_S, xs.id);
+         identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id, true);
          identStr(o, RESERVED_FU_S, rbits(0xf));
-         identStr(o, DESC_LEN_S, xsp->descriptors.loop_length(), true);
+         identStr(o, DESC_LEN_S, xs.descriptors.loop_length(), true);
          o << std::endl;
 
          // dump the descriptors (inherited method)
-         xsp->descriptors.dump(o);
+         xs.descriptors.dump(o);
       }
       decOutLevel();
    }

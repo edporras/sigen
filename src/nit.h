@@ -66,12 +66,18 @@ namespace sigen {
          XportStream(ui16 tsid, ui16 onid) :
             id(tsid), original_network_id(onid) { }
 
+         XportStream(const XportStream&) = delete;
+         XportStream(const XportStream&&) = delete;
+         XportStream operator=(const XportStream&) = delete;
+         XportStream operator=(const XportStream&&) = delete;
+         
          int length() const { return descriptors.loop_length() + BASE_LEN; }
          bool equals(ui16 tsid, ui16 onid) const { return (tsid == id && onid == original_network_id); }
 
          bool writeSection(Section& , ui16, ui16 &, ui16 &) const;
 
       private:
+         // section building state tracking
          enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };
          mutable struct Context {
             Context() : op_state(INIT), tsd(nullptr) {}
@@ -85,7 +91,7 @@ namespace sigen {
       // NIT members
       ui16 xport_stream_loop_length;
       DescList network_desc;
-      std::list<std::unique_ptr<XportStream> > xport_streams;
+      std::list<XportStream> xport_streams;
 
       // private methods
       bool addXportStreamDesc(XportStream& , Descriptor &);
@@ -109,7 +115,7 @@ namespace sigen {
          const Descriptor *nd;
          const XportStream *ts;
          std::list<std::unique_ptr<Descriptor> >::const_iterator nd_iter;
-         std::list<std::unique_ptr<XportStream> >::const_iterator ts_iter;
+         std::list<XportStream>::const_iterator ts_iter;
       } run;
 
    protected:
