@@ -24,7 +24,6 @@
 
 #include <list>
 #include <string>
-#include <memory>
 #include "language_code.h"
 #include "table.h"
 #include "tstream.h"
@@ -146,7 +145,7 @@ namespace sigen {
    {
    public:
       // general struct for data in loops
-      struct Text {
+      struct Text : public STable::ListItem {
          enum { BASE_LEN = 4 };
 
          // data
@@ -155,13 +154,14 @@ namespace sigen {
 
          // constructor
          Text(const LanguageCode& c, const std::string &t) : code(c), data(t) { }
+         Text() = delete;
 
          ui16 length() const { return BASE_LEN + data.length(); }
       };
 
    protected:
       // descriptor data members begin here
-      std::list<std::unique_ptr<Text> > ml_text_list;
+      std::list<Text> ml_text_list;
 
       // protected constructor - only derived classes can build this
       MultilingualTextDesc(ui8 tag, ui8 base_len = 0) : Descriptor(tag, base_len) {}

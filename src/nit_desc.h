@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <memory>
 #include <string>
 #include <list>
 #include "descriptor.h"
@@ -210,15 +209,15 @@ namespace sigen {
       };
 
       // announcement data struct
-      struct Announcement {
+      struct Announcement : public STable::ListItem {
          enum { BASE_LEN = 1 };
 
-         ui8 type : 4,
-            reference_type : 3;
+         ui8  type : 4,
+              reference_type : 3;
          ui16 original_network_id,
-            xport_stream_id,
-            service_id;
-         ui8 component_tag;
+              xport_stream_id,
+              service_id;
+         ui8  component_tag;
 
          // constructor
          Announcement(ui8 announcement_type, ui8 ref_type,
@@ -229,7 +228,8 @@ namespace sigen {
             xport_stream_id( tsid ),
             service_id( sid ),
             component_tag( c_tag )
-         { }
+         {}
+         Announcement() = delete;
 
          ui8 length() const { return BASE_LEN +
                (reference_type < NUM_DEFINED_REF_TYPES ?
@@ -271,8 +271,8 @@ namespace sigen {
       enum { TAG = 0x6d };
 
       // funky descriptor with a loop within a loop
-      struct Link {
-         struct SubCell {
+      struct Link : public STable::ListItem {
+         struct SubCell : public STable::ListItem {
             enum { BASE_LEN = 5 };
 
             ui8 cell_id_extension;
@@ -282,6 +282,7 @@ namespace sigen {
             SubCell( ui8 cid_ext, ui32 xposer_freq ) :
                cell_id_extension( cid_ext ),
                transposer_frequency( xposer_freq ) { }
+            SubCell() = delete;
          };
 
          // Link members
@@ -289,16 +290,16 @@ namespace sigen {
 
          ui16 cell_id;
          ui32 frequency;
-         std::list<std::unique_ptr<SubCell> > subcell_list;
+         std::list<SubCell> subcell_list;
 
          // constructor
          Link(ui16 c_id, ui32 freq) :
             cell_id( c_id ),
             frequency( freq )
          { }
+         Link() = delete;
 
-         ui8 length() const { return BASE_LEN +
-               subcell_list.size() * SubCell::BASE_LEN; }
+         ui8 length() const { return BASE_LEN + subcell_list.size() * SubCell::BASE_LEN; }
       };
 
 
@@ -320,7 +321,7 @@ namespace sigen {
 
    private:
       // descriptor data members
-      std::list<std::unique_ptr<Link> > cflink_list;
+      std::list<Link> cflink_list;
 
    protected:
       bool addLinkSubCell(Link& l, ui8 cid_ext, ui32 xposer_freq);
@@ -336,8 +337,8 @@ namespace sigen {
       enum { TAG = 0x6c };
 
       // another funky descriptor with a loop within a loop
-      struct Cell {
-         struct SubCell {
+      struct Cell : public STable::ListItem {
+         struct SubCell : public STable::ListItem {
             enum { BASE_LEN = 8 };
 
             ui8 cell_id_extension;
@@ -355,6 +356,7 @@ namespace sigen {
                extend_of_latitude( ext_lat ),
                extend_of_longitude( ext_lon )
             { }
+            SubCell() = delete;
          };
 
          // Cell members
@@ -366,7 +368,7 @@ namespace sigen {
          ui32 extend_of_latitude : 12,
               extend_of_longitude : 12;
 
-         std::list<std::unique_ptr<SubCell> > subcell_list;
+         std::list<SubCell> subcell_list;
 
          // constructor
          Cell(ui16 c_id, ui16 lat, ui16 lon, ui16 ext_lat, ui16 ext_lon) :
@@ -376,9 +378,9 @@ namespace sigen {
             extend_of_latitude( ext_lat ),
             extend_of_longitude( ext_lon )
          { }
+         Cell() = delete;
 
-         ui8 length() const { return BASE_LEN +
-               subcell_list.size() * SubCell::BASE_LEN; }
+         ui8 length() const { return BASE_LEN + subcell_list.size() * SubCell::BASE_LEN; }
       };
 
 
@@ -402,7 +404,7 @@ namespace sigen {
 
    private:
       // descriptor data members
-      std::list<std::unique_ptr<Cell> > cell_list;
+      std::list<Cell> cell_list;
 
    protected:
       bool addCellSubCell(Cell& cell, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,

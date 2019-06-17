@@ -20,7 +20,6 @@
 // stream_desc.cc: class definitions for the mpeg stream descriptors
 // -----------------------------------
 
-#include <utility>
 #include <string>
 #include <list>
 #include "descriptor.h"
@@ -194,7 +193,7 @@ namespace sigen
 
       // add it to the list (passing the string invokes the LanguageCode
       // single-arg convert constructor automatically)
-      language_list.push_back( std::make_unique<Language>(code, audio_type) );
+      language_list.emplace_back(code, audio_type);
       return true;
    }
 
@@ -208,8 +207,8 @@ namespace sigen
       // write the language codes
       for (const auto& lang : language_list)
       {
-         s.setBits( lang->code );
-         s.set08Bits( lang->audio_type );
+         s.setBits( lang.code );
+         s.set08Bits( lang.audio_type );
       }
    }
 
@@ -224,8 +223,8 @@ namespace sigen
       incOutLevel();
       for (const auto& lang : language_list)
       {
-         identStr( o, LANGUAGE_CODE_S, lang->code );
-         identStr( o, AUDIO_TYPE_S, lang->audio_type );
+         identStr( o, LANGUAGE_CODE_S, lang.code );
+         identStr( o, AUDIO_TYPE_S, lang.audio_type );
       }
       decOutLevel();
    }

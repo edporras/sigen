@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <memory>
 #include <list>
 #include <string>
 #include <vector>
@@ -45,8 +44,7 @@ namespace sigen {
       SSULinkageDesc() = delete;
 
       // utility
-      bool addOUI(ui32 OUI); // with empty selector bytes
-      bool addOUI(ui32 OUI, const std::vector<ui8>& bytes);
+      bool addOUI(ui32 OUI, const std::vector<ui8>& bytes = {});
       bool setPrivateData(const std::vector<ui8>& bytes);
 
       virtual void buildSections(Section&) const;
@@ -67,14 +65,13 @@ namespace sigen {
          OUIData(ui32 oui, const std::vector<ui8>& bytes) :
             OUI(oui), selector_bytes(bytes) { }
 
-         ui8 length() const { return selector_bytes.size() + BASE_LEN; }
+         ui8 length() const { return expected_length(selector_bytes); }
+         static ui8 expected_length(const std::vector<ui8>& sel_bytes) { return BASE_LEN + sel_bytes.size(); }
       };
 
       ui8 OUI_data_length;
-      std::vector<ui8> private_data;
-
-      bool addOUI(const OUIData& oui_data);
       std::list<SSULinkageDesc::OUIData> oui_list;
+      std::vector<ui8> private_data;
    };
 
 
@@ -158,13 +155,14 @@ namespace sigen {
             selector_bytes(sel_bytes)
          { }
 
-         ui8 length() const { return BASE_LEN + selector_bytes.size(); }
+         ui8 length() const { return expected_length(selector_bytes); }
+         static ui8 expected_length(const std::vector<ui8>& sel_bytes) { return BASE_LEN + sel_bytes.size(); }
       };
 
       ui8 OUI_data_len;
       std::string private_data;
 
       // descriptor OUI list
-      std::list<std::unique_ptr<OUIData> > oui_list;
+      std::list<OUIData> oui_list;
    };
 } // sigen namespace

@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <memory>
 #include <string>
 #include <list>
 #include "descriptor.h"
@@ -62,14 +61,17 @@ namespace sigen {
          Language(const std::string& code, const std::string& pn,
                   const std::string& sn) :
             language_code(code), provider_name(pn), service_name(sn) {}
+         Language() = delete;
 
          // utility
-         ui8 length() const { return provider_name.length() +
-               service_name.length() + BASE_LEN; }
+         ui8 length() const { return expected_length(provider_name, service_name); }
+         static ui8 expected_length(const std::string& prov_name, const std::string& serv_name) {
+            return BASE_LEN + prov_name.length() + serv_name.length();
+         }
       };
 
       // the list of language structs
-      std::list<std::unique_ptr<Language> > language_list;
+      std::list<Language> language_list;
    };
 
 
@@ -95,7 +97,7 @@ namespace sigen {
 #endif
 
    private:
-      struct Ident {
+      struct Ident : public STable::ListItem {
          enum { BASE_LEN = 6 };
 
          ui16 xport_stream_id;
@@ -105,10 +107,11 @@ namespace sigen {
          // constructor
          Ident(ui16 xsid, ui16 onid, ui16 sid) :
             xport_stream_id(xsid), original_network_id(onid), service_id(sid) {}
+         Ident() = delete;
       };
 
       // the list of ident structs
-      std::list<std::unique_ptr<Ident> > ident_list;
+      std::list<Ident> ident_list;
    };
 
 

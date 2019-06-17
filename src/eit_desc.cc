@@ -87,7 +87,7 @@ namespace sigen
          return false;
 
       // create an entry and add it
-      content_list.push_back( std::make_unique<Content>(nl1, nl2, un1, un2) );
+      content_list.emplace_back(nl1, nl2, un1, un2);
       return true;
    }
 
@@ -101,8 +101,8 @@ namespace sigen
 
       for (const auto &content : content_list)
       {
-         s.set08Bits( (content->nibble_level_1 << 4) | content->nibble_level_2 );
-         s.set08Bits( (content->user_nibble_1 << 4) | content->user_nibble_2 );
+         s.set08Bits( (content.nibble_level_1 << 4) | content.nibble_level_2 );
+         s.set08Bits( (content.user_nibble_1 << 4) | content.user_nibble_2 );
       }
    }
 
@@ -117,10 +117,10 @@ namespace sigen
       incOutLevel();
       for (const auto &content : content_list)
       {
-         identStr(o, CONTENT_NL_1, content->nibble_level_1);
-         identStr(o, CONTENT_NL_2, content->nibble_level_2);
-         identStr(o, USER_NL_1, content->user_nibble_1);
-         identStr(o, USER_NL_2, content->user_nibble_2);
+         identStr(o, CONTENT_NL_1, content.nibble_level_1);
+         identStr(o, CONTENT_NL_2, content.nibble_level_2);
+         identStr(o, USER_NL_1, content.user_nibble_1);
+         identStr(o, USER_NL_2, content.user_nibble_2);
       }
       decOutLevel();
    }
@@ -271,7 +271,7 @@ namespace sigen
          return false;
 
       // add it
-      rating_list.push_back( std::make_unique<Rating>(code, rating) );
+      rating_list.emplace_back(code, rating);
       return true;
    }
 
@@ -284,8 +284,8 @@ namespace sigen
 
       for (const auto &rating : rating_list)
       {
-         s.setBits( rating->country_code );
-         s.set08Bits( rating->value );
+         s.setBits( rating.country_code );
+         s.set08Bits( rating.value );
       }
    }
 
@@ -299,8 +299,8 @@ namespace sigen
       incOutLevel();
       for (const auto &rating : rating_list)
       {
-         identStr(o, CODE_S, rating->country_code);
-         identStr(o, RATING_S, static_cast<ui16>(rating->value));
+         identStr(o, CODE_S, rating.country_code);
+         identStr(o, RATING_S, static_cast<ui16>(rating.value));
       }
       decOutLevel();
    }

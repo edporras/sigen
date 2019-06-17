@@ -21,7 +21,6 @@
 // -----------------------------------
 
 #include <iostream>
-#include <utility>
 #include <string>
 #include <list>
 #include "descriptor.h"
@@ -84,7 +83,7 @@ namespace sigen
          return false;
 
       // and add it
-      country_list.push_back( std::make_unique<LanguageCode>(code) );
+      country_list.emplace_back(code);
       return true;
    }
 
@@ -97,7 +96,7 @@ namespace sigen
       s.set08Bits( country_availability_flag << 7 | rbits(0x7f) );
 
       for (const auto& lc : country_list)
-         s.setBits( *lc );
+         s.setBits( lc );
    }
 
 #ifdef ENABLE_DUMP
@@ -112,7 +111,7 @@ namespace sigen
 
       incOutLevel();
       for (const auto& lc : country_list)
-         identStr(o, COUNTRY_CODE_S, *lc);
+         identStr(o, COUNTRY_CODE_S, lc);
       decOutLevel();
    }
 #endif
@@ -176,8 +175,8 @@ namespace sigen
          return false;
 
       // ok, so create on to add
-      time_offset_list.push_back(std::make_unique<TimeOffset>(code, country_region_id, offset_polarity, lt_offset,
-                                                              time_of_change, next_time_offset));
+      time_offset_list.emplace_back(code, country_region_id, offset_polarity, lt_offset,
+                                    time_of_change, next_time_offset);
       return true;
    }
 
@@ -193,18 +192,18 @@ namespace sigen
       for (const auto &offset : time_offset_list)
       {
          // now set the data
-         s.setBits( offset->country_code );
-         s.set08Bits( (offset->country_region_id << 2) |
+         s.setBits( offset.country_code );
+         s.set08Bits( (offset.country_region_id << 2) |
                       (rbits(0x01) << 1) |
-                      (offset->local_time_offset_polarity) );
-         s.set16Bits( offset->local_time_offset );
+                      (offset.local_time_offset_polarity) );
+         s.set16Bits( offset.local_time_offset );
 
-         s.set16Bits( offset->time_of_change.mjd );
-         s.set08Bits( offset->time_of_change.time.getBCDHour() );
-         s.set08Bits( offset->time_of_change.time.getBCDMinute() );
-         s.set08Bits( offset->time_of_change.time.getBCDSecond() );
+         s.set16Bits( offset.time_of_change.mjd );
+         s.set08Bits( offset.time_of_change.time.getBCDHour() );
+         s.set08Bits( offset.time_of_change.time.getBCDMinute() );
+         s.set08Bits( offset.time_of_change.time.getBCDSecond() );
 
-         s.set16Bits( offset->next_time_offset );
+         s.set16Bits( offset.next_time_offset );
       }
    }
 
@@ -223,18 +222,18 @@ namespace sigen
       {
          o << std::endl;
 
-         identStr(o, COUNTRY_CODE_S, offset->country_code);
-         identStr(o, COUNTRY_REGION_ID_S, offset->country_region_id);
+         identStr(o, COUNTRY_CODE_S, offset.country_code);
+         identStr(o, COUNTRY_REGION_ID_S, offset.country_region_id);
          identStr(o, RESERVED_S, rbits(0x01));
-         identStr(o, LTO_POLARITY_S, offset->local_time_offset_polarity);
+         identStr(o, LTO_POLARITY_S, offset.local_time_offset_polarity);
 
-         identStr(o, LOCAL_TIME_OFFSET_S, offset->local_time_offset);
+         identStr(o, LOCAL_TIME_OFFSET_S, offset.local_time_offset);
 
          identStr(o, UTC_S);
-         o << offset->time_of_change << std::endl;
+         o << offset.time_of_change << std::endl;
 
          o << std::hex;
-         identStr(o, NEXT_TIME_OFFSET_S, offset->next_time_offset);
+         identStr(o, NEXT_TIME_OFFSET_S, offset.next_time_offset);
       }
       decOutLevel();
    }
@@ -305,7 +304,7 @@ namespace sigen
          return false;
 
       // and then add it
-      service_list.push_back( std::make_unique<Service>(id, type) );
+      service_list.emplace_back(id, type);
       return true;
    }
 
@@ -318,8 +317,8 @@ namespace sigen
 
       for (const auto &service : service_list)
       {
-         s.set16Bits( service->id );
-         s.set08Bits( service->type );
+         s.set16Bits( service.id );
+         s.set08Bits( service.type );
       }
    }
 
@@ -334,8 +333,8 @@ namespace sigen
 
       for (const auto &service : service_list)
       {
-         identStr(o, SERVICE_ID_S, service->id, true);
-         identStr(o, TYPE_S, service->type);
+         identStr(o, SERVICE_ID_S, service.id, true);
+         identStr(o, TYPE_S, service.type);
       }
       decOutLevel();
    }

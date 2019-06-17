@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <memory>
 #include <list>
 #include "descriptor.h"
 
@@ -251,16 +250,17 @@ namespace sigen {
 #endif
 
    private:
-      struct Language {
+      struct Language : public STable::ListItem {
          enum { BASE_LEN = LanguageCode::ISO_639_2_CODE_LENGTH + 1 };
 
          LanguageCode code;
          ui8 audio_type;
 
          Language( const std::string& lc, ui8 at ) : code(lc), audio_type(at) { }
+         Language() = delete;
       };
 
-      std::list<std::unique_ptr<Language> > language_list;
+      std::list<Language> language_list;
    };
 
 

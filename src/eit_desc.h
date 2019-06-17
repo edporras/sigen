@@ -81,7 +81,7 @@ namespace sigen {
 
    private:
       // content data struct
-      struct Content {
+      struct Content : public STable::ListItem {
          enum { BASE_LEN = 2 };
 
          ui8 nibble_level_1 : 4,
@@ -93,9 +93,10 @@ namespace sigen {
          Content(ui8 nl1, ui8 nl2, ui8 un1, ui8 un2) :
             nibble_level_1(nl1), nibble_level_2(nl2),
             user_nibble_1(un1), user_nibble_2(un2) { }
+         Content() = delete;
       };
 
-      std::list<std::unique_ptr<Content> > content_list;
+      std::list<Content> content_list;
    };
 
 
@@ -134,7 +135,7 @@ namespace sigen {
 
    private:
       // event item data struct
-      struct Item {
+      struct Item : public STable::ListItem {
          enum { BASE_LEN = 2 };
 
          std::string description;
@@ -143,6 +144,7 @@ namespace sigen {
          // constructor
          Item(const std::string &d, const std::string& n) :
             description(d), name(n) { }
+         Item() = delete;
 
          ui16 length() const {
             return description.length() + name.length() + BASE_LEN;
@@ -213,7 +215,7 @@ namespace sigen {
 
    private:
       // rating data struct
-      struct Rating {
+      struct Rating : public STable::ListItem {
          enum { BASE_LEN = 4 };
 
          LanguageCode country_code;
@@ -222,10 +224,11 @@ namespace sigen {
          // constructor
          Rating(const std::string& code, ui8 r) :
             country_code(code), value(r) { }
+         Rating() = delete;
       };
 
       // descriptor data beings here
-      std::list<std::unique_ptr<Rating> > rating_list;
+      std::list<Rating> rating_list;
    };
 
 

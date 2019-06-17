@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <memory>
 #include <list>
 #include <string>
 #include "descriptor.h"
@@ -104,7 +103,7 @@ namespace sigen {
    private:
       bool country_availability_flag;
 
-      std::list<std::unique_ptr<LanguageCode> > country_list;
+      std::list<LanguageCode> country_list;
    };
 
 
@@ -185,7 +184,7 @@ namespace sigen {
 
    private:
       // loop data
-      struct TimeOffset {
+      struct TimeOffset : public STable::ListItem {
          enum { BASE_LEN = 13 };
 
          // offset data
@@ -203,9 +202,10 @@ namespace sigen {
             next_time_offset(nto), country_region_id(crid),
             local_time_offset_polarity(ltop)
          { }
+         TimeOffset() = delete;
       };
 
-      std::list<std::unique_ptr<TimeOffset> > time_offset_list;
+      std::list<TimeOffset> time_offset_list;
    };
 
 
@@ -328,8 +328,7 @@ namespace sigen {
 
    private:
       // service structs for the list
-      struct Service
-      {
+      struct Service : public STable::ListItem {
          enum { BASE_LEN = 3 };
 
          ui16 id;
@@ -337,9 +336,10 @@ namespace sigen {
 
          // constructors
          Service(ui16 sid, ui8 stype) : id(sid), type(stype) {}
+         Service() = delete;
       };
 
-      std::list<std::unique_ptr<Service> > service_list;
+      std::list<Service> service_list;
    };
 
 

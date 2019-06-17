@@ -21,7 +21,6 @@
 // -----------------------------------
 
 #include <iostream>
-#include <utility>
 #include <list>
 #include "descriptor.h"
 #include "tstream.h"
@@ -145,29 +144,24 @@ namespace sigen
    //
    bool CellFrequencyLinkDesc::addLink(ui16 cell_id, ui32 frequency)
    {
-      std::unique_ptr<Link> cflink(new Link(cell_id, frequency));
-
-      if (!incLength(cflink->length()))
+      if (!incLength(Link::BASE_LEN))
          return false;
 
-      cflink_list.push_back( std::move(cflink) );
+      cflink_list.emplace_back(cell_id, frequency);
       return true;
    }
 
 
    //
    // helper method to add a subcell to a link in the list
-   bool CellFrequencyLinkDesc::addLinkSubCell(Link& link, ui8 cid_ext,
-                                              ui32 xposer_freq)
+   bool CellFrequencyLinkDesc::addLinkSubCell(Link& link, ui8 cid_ext, ui32 xposer_freq)
    {
-      std::unique_ptr<Link::SubCell> subcell(new Link::SubCell(cid_ext, xposer_freq));
-
       // check if it fits
       if ( !incLength( Link::SubCell::BASE_LEN ) )
          return false;
 
       // add it
-      link.subcell_list.push_back(std::move(subcell));
+      link.subcell_list.emplace_back(cid_ext, xposer_freq);
       return true;
    }
 
@@ -179,8 +173,8 @@ namespace sigen
       {
          // if found, add a subcell
          // TODO: algo!!!
-         if ( link->cell_id == cell_id && link->frequency == frequency )
-            return addLinkSubCell(*link, cid_ext, xposer_freq);
+         if ( link.cell_id == cell_id && link.frequency == frequency )
+            return addLinkSubCell(link, cid_ext, xposer_freq);
       }
 
       return false;
@@ -191,7 +185,7 @@ namespace sigen
       // if any have been added, try to add teh subcell to the one in the
       // end
       if (!cflink_list.empty())
-         return addLinkSubCell( *cflink_list.back(), cid_ext, xposer_freq );
+         return addLinkSubCell( cflink_list.back(), cid_ext, xposer_freq );
 
       return false;
    }
@@ -204,14 +198,14 @@ namespace sigen
 
       for (const auto& link : cflink_list)
       {
-         s.set16Bits( link->cell_id );
-         s.set32Bits( link->frequency );
-         s.set08Bits( link->subcell_list.size() * Link::SubCell::BASE_LEN );
+         s.set16Bits( link.cell_id );
+         s.set32Bits( link.frequency );
+         s.set08Bits( link.subcell_list.size() * Link::SubCell::BASE_LEN );
 
-         for (const auto &subcell : link->subcell_list)
+         for (const auto &subcell : link.subcell_list)
          {
-            s.set08Bits( subcell->cell_id_extension );
-            s.set32Bits( subcell->transposer_frequency );
+            s.set08Bits( subcell.cell_id_extension );
+            s.set32Bits( subcell.transposer_frequency );
          }
 
       }
@@ -224,14 +218,14 @@ namespace sigen
 
       for (const auto& link : cflink_list)
       {
-         identStr(o, CELL_ID_S, link->cell_id );
-         identStr(o, FREQ_S, link->frequency );
-         identStr(o, SUBCELL_INFO_LOOP_LEN_S, link->subcell_list.size() * Link::SubCell::BASE_LEN );
+         identStr(o, CELL_ID_S, link.cell_id );
+         identStr(o, FREQ_S, link.frequency );
+         identStr(o, SUBCELL_INFO_LOOP_LEN_S, link.subcell_list.size() * Link::SubCell::BASE_LEN );
 
-         for (const auto& subcell : link->subcell_list)
+         for (const auto& subcell : link.subcell_list)
          {
-            identStr(o, CELL_ID_EXT_S, subcell->cell_id_extension );
-            identStr(o, XPOSER_FREQ_S, subcell->transposer_frequency );
+            identStr(o, CELL_ID_EXT_S, subcell.cell_id_extension );
+            identStr(o, XPOSER_FREQ_S, subcell.transposer_frequency );
          }
 
       }
@@ -247,28 +241,22 @@ namespace sigen
 
    //
    // add a cell to the list
-   bool CellListDesc::addCell(ui16 id, ui16 lat, ui16 lon,
-                              ui16 ext_lat, ui16 ext_lon)
+   bool CellListDesc::addCell(ui16 id, ui16 lat, ui16 lon,  ui16 ext_lat, ui16 ext_lon)
    {
-      std::unique_ptr<Cell> cell(new Cell(id, lat, lon, ext_lat, ext_lon));
-
       if ( !incLength(Cell::BASE_LEN) )
          return false;
 
-      cell_list.push_back( std::move(cell) );
+      cell_list.emplace_back(id, lat, lon, ext_lat, ext_lon);
       return true;
    }
 
-   bool CellListDesc::addCellSubCell(Cell& cell, ui8 cid_ext,
-                                     ui16 sc_lat, ui16 sc_lon,
+   bool CellListDesc::addCellSubCell(Cell& cell, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
                                      ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
-      std::unique_ptr<Cell::SubCell> subcell(new Cell::SubCell(cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon));
-
       if ( !incLength( Cell::SubCell::BASE_LEN ) )
          return false;
 
-      cell.subcell_list.push_back( std::move(subcell) );
+      cell.subcell_list.emplace_back(cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon);
       return true;
    }
 
@@ -280,8 +268,8 @@ namespace sigen
       for (auto& cell : cell_list)
       {
          // TODO: algo
-         if (cell->id == cell_id)
-            return addCellSubCell(*cell, cid_ext, sc_lat, sc_lon,
+         if (cell.id == cell_id)
+            return addCellSubCell(cell, cid_ext, sc_lat, sc_lon,
                                   sc_ext_lat, sc_ext_lon);
       }
       return false;
@@ -294,7 +282,7 @@ namespace sigen
       if (cell_list.empty())
          return false;
 
-      return addCellSubCell( *cell_list.back(), cid_ext, sc_lat, sc_lon,
+      return addCellSubCell( cell_list.back(), cid_ext, sc_lat, sc_lon,
                              sc_ext_lat, sc_ext_lon );
    }
 
@@ -306,19 +294,19 @@ namespace sigen
 
       for (const auto& cell : cell_list)
       {
-         s.set16Bits( cell->id );
-         s.set16Bits( cell->latitude );
-         s.set16Bits( cell->longitude );
-         s.set16Bits( cell->extend_of_latitude );
-         s.set16Bits( cell->extend_of_longitude );
+         s.set16Bits( cell.id );
+         s.set16Bits( cell.latitude );
+         s.set16Bits( cell.longitude );
+         s.set16Bits( cell.extend_of_latitude );
+         s.set16Bits( cell.extend_of_longitude );
 
-         for (const auto& subcell : cell->subcell_list)
+         for (const auto& subcell : cell.subcell_list)
          {
-            s.set08Bits( subcell->cell_id_extension );
-            s.set16Bits( subcell->latitude );
-            s.set16Bits( subcell->longitude );
-            s.set24Bits( (subcell->extend_of_latitude << 12) |
-                         subcell->extend_of_longitude );
+            s.set08Bits( subcell.cell_id_extension );
+            s.set16Bits( subcell.latitude );
+            s.set16Bits( subcell.longitude );
+            s.set24Bits( (subcell.extend_of_latitude << 12) |
+                         subcell.extend_of_longitude );
          }
 
       }
@@ -331,19 +319,19 @@ namespace sigen
 
       for (const auto& cell : cell_list)
       {
-         identStr( o, CELL_ID_S, cell->id );
-         identStr( o, CELL_LATITUDE_S, cell->latitude );
-         identStr( o, CELL_LONGITUDE_S, cell->longitude );
-         identStr( o, CELL_EXT_LAT_S, cell->extend_of_latitude );
-         identStr( o, CELL_EXT_LON_S, cell->extend_of_longitude );
+         identStr( o, CELL_ID_S, cell.id );
+         identStr( o, CELL_LATITUDE_S, cell.latitude );
+         identStr( o, CELL_LONGITUDE_S, cell.longitude );
+         identStr( o, CELL_EXT_LAT_S, cell.extend_of_latitude );
+         identStr( o, CELL_EXT_LON_S, cell.extend_of_longitude );
 
-         for (const auto& subcell : cell->subcell_list)
+         for (const auto& subcell : cell.subcell_list)
          {
-            identStr( o, CELL_ID_EXT_S, subcell->cell_id_extension );
-            identStr( o, SUBCELL_LAT_S, subcell->latitude );
-            identStr( o, SUBCELL_LON_S, subcell->longitude );
-            identStr( o, SUBCELL_EXT_LAT_S, subcell->extend_of_latitude );
-            identStr( o, SUBCELL_EXT_LON_S, subcell->extend_of_longitude );
+            identStr( o, CELL_ID_EXT_S, subcell.cell_id_extension );
+            identStr( o, SUBCELL_LAT_S, subcell.latitude );
+            identStr( o, SUBCELL_LON_S, subcell.longitude );
+            identStr( o, SUBCELL_EXT_LAT_S, subcell.extend_of_latitude );
+            identStr( o, SUBCELL_EXT_LON_S, subcell.extend_of_longitude );
          }
 
       }

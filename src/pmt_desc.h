@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <memory>
 #include <list>
 #include "descriptor.h"
 
@@ -223,7 +222,7 @@ namespace sigen {
 #endif
 
    private:
-      struct Subtitling
+      struct Subtitling : public STable::ListItem
       {
          enum { BASE_LEN = 8 };
 
@@ -236,9 +235,10 @@ namespace sigen {
          Subtitling( const std::string code, ui8 st, ui16 cpid, ui16 apid ) :
             language_code(code), composition_page_id(cpid),
             ancillary_page_id(apid), type(st) { }
+         Subtitling() = delete;
       };
 
-      std::list<std::unique_ptr<Subtitling> > subtitling_list;
+      std::list<Subtitling> subtitling_list;
    };
 
 
@@ -272,7 +272,7 @@ namespace sigen {
 #endif
 
    private:
-      struct Teletext
+      struct Teletext : public STable::ListItem
       {
          enum { BASE_LEN = 5 };
 
@@ -285,9 +285,10 @@ namespace sigen {
          Teletext(const std::string& code, ui8 t, ui8 mn, ui8 pn) :
             language_code(code), page_number(pn), type(t),
             magazine_number(mn) { }
+         Teletext() = delete;
       };
 
-      std::list<std::unique_ptr<Teletext> > teletext_list;
+      std::list<Teletext> teletext_list;
    };
 
 } // sigen namespace
