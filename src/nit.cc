@@ -23,6 +23,7 @@
 #include <iostream>
 #include <utility>
 #include <list>
+#include <algorithm>
 #include "table.h"
 #include "descriptor.h"
 #include "tstream.h"
