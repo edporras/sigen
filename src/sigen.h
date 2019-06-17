@@ -35,8 +35,7 @@
 #include "dump.h"
 
 #include "table.h"
-#include "nit.h"
-#include "bat.h"
+#include "nit_bat.h"
 #include "sdt.h"
 #include "pat.h"
 #include "pmt.h"

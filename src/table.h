@@ -64,6 +64,8 @@ namespace sigen {
    public:
       virtual ~STable() {}
 
+      STable() = delete;
+
       // accessors
       ui8 getId() const { return id; }
       ui16 getMaxSectionLen() const { return max_section_length; }
@@ -80,7 +82,7 @@ namespace sigen {
    protected:
       enum { LEN_MASK = 0x0fff,
              MAX_TABLE_LEN = 65536 }; // max size for storage of total table data
-      // (pre section split)
+                                      // (pre section split)
 
       // protected constructors for derived classes
       STable(ui8 tid, ui8 min_len, ui16 max_len, bool ssi = false, bool data_bit = true) :
@@ -135,7 +137,7 @@ namespace sigen {
 
    private:
       ui16 max_section_length;        // the maximum length of each sub-section
-      // (specified by the class' MAX_SEC_LEN)
+                                      // (specified by the class' MAX_SEC_LEN)
       ui8 id;
       bool section_syntax_indicator;
       bool private_bit;               // reserved_future_use in some

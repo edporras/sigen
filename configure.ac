@@ -25,7 +25,7 @@ AC_INIT([sigen], [sigen_version], [ep@digressed.net])
 AM_INIT_AUTOMAKE
 LT_INIT
 
-AC_CONFIG_SRCDIR([src/bat.cc])
+AC_CONFIG_SRCDIR([src/version.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile])
 AC_CONFIG_MACRO_DIR([m4])

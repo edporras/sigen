@@ -17,7 +17,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// nit.h: class definition for the NIT
+// nit_bar.h: class definition for the NIT & BAT
 // -----------------------------------
 
 #pragma once
@@ -31,17 +31,16 @@ namespace sigen {
    class Descriptor;
 
    //
-   // the NIT
+   // the NIT & BAT are basically exactly the same. THis base class
+   // handles all the logic but can't be instantiaited. Instead, use
+   // NITActual, NITOther, and BAT classes below
    //
-   class NIT : public PSITable
+   class NIT_BAT : public PSITable
    {
    public:
-      enum Type { ACTUAL = 0x40, OTHER = 0x41 };
-      enum { PID = 0x10 };
+      NIT_BAT() = delete;
 
-      NIT() = delete;
-
-      bool addNetworkDesc(Descriptor &);                             // add a network descriptor
+      bool addDesc(Descriptor &);                                    // add a table descriptor
       bool addXportStream(ui16 xs_id, ui16 on_id);                   // add a transport stream
       bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &); // add a descriptor to the indicate transport stream
       bool addXportStreamDesc(Descriptor &);                         // adds it to the last stream added
@@ -90,7 +89,7 @@ namespace sigen {
 
       // NIT members
       ui16 xport_stream_loop_length;
-      DescList network_desc;
+      DescList descriptors;
       std::list<XportStream> xport_streams;
 
       // private methods
@@ -121,25 +120,75 @@ namespace sigen {
    protected:
       // protected constructor - type refers to ACTUAL or OTHER,
       // reserved is the state of reserved bits
-      NIT(ui16 network_id, NIT::Type type, ui8 ver, bool cni = true) :
-         PSITable(static_cast<ui8>(type), network_id, 9, MAX_SEC_LEN, ver, cni),
+      NIT_BAT(ui8 type, ui16 id, ui8 ver, bool cni = true) :
+         PSITable(type, id, 9, MAX_SEC_LEN, ver, cni),
          xport_stream_loop_length(0)
+      { }
+
+#ifdef ENABLE_DUMP
+      virtual void dump_hdr(std::ostream&) const = 0;
+#endif
+   };
+
+   //
+   // base NIT class
+   class NIT : public NIT_BAT {
+   public:
+      enum { PID = 0x10 };
+
+      bool addNetworkDesc(Descriptor& d) { return addDesc(d); }
+
+   protected:
+      // protected constructor - type refers to ACTUAL or OTHER,
+      // reserved is the state of reserved bits
+      NIT(ui8 type, ui16 network_id, ui8 ver, bool cni = true) :
+         NIT_BAT(type, network_id, ver, cni)
       { }
    };
 
+   
    // public interface to create NIT tables
    struct NITActual : public NIT
    {
+      enum { TID = 0x40 };
+
       NITActual(ui16 network_id, ui8 ver, bool cni = true) :
-         NIT(network_id, NIT::ACTUAL, ver, cni)
+         NIT(TID, network_id, ver, cni)
       { }
+
+#ifdef ENABLE_DUMP
+      virtual void dump_hdr(std::ostream&) const;
+#endif
    };
 
    struct NITOther : public NIT
    {
+      enum { TID = 0x41 };
+
       NITOther(ui16 network_id, ui8 ver, bool cni = true) :
-         NIT(network_id, NIT::OTHER, ver, cni)
+         NIT(TID, network_id, ver, cni)
       { }
+
+#ifdef ENABLE_DUMP
+      virtual void dump_hdr(std::ostream&) const;
+#endif
    };
 
+   // public interface for the BAT
+   struct BAT : public NIT_BAT
+   {
+      enum { PID = 0x11, TID = 0x4a };
+
+      // constructor
+      BAT(ui16 bouquet_id, ui8 ver, bool cni = true) :
+         NIT_BAT(TID, bouquet_id, ver, cni)
+      { }
+
+      bool addBouquetDesc(Descriptor& d) { return addDesc(d); }
+
+#ifdef ENABLE_DUMP
+      virtual void dump_hdr(std::ostream&) const;
+#endif
+   };
+   
 } // sigen namespace

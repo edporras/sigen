@@ -9,7 +9,6 @@ AM_CXXFLAGS = $(SIGEN_BUILD_CPPFLAGS)
 # the previous manual Makefile
 lib_LTLIBRARIES = libsigen.la
 libsigen_la_SOURCES = \
-	bat.cc \
 	cat.cc \
 	descriptor.cc \
 	dvb_desc.cc \
@@ -17,7 +16,7 @@ libsigen_la_SOURCES = \
 	eit_desc.cc \
 	language_code.cc \
 	linkage_desc.cc \
-	nit.cc \
+	nit_bat.cc \
 	nit_desc.cc \
 	other_tables.cc \
 	packetizer.cc \
@@ -37,7 +36,6 @@ libsigen_la_SOURCES = \
 
 libsigenincludedir = $(includedir)/sigen
 libsigeninclude_HEADERS = \
-	bat.h \
 	cat.h \
 	descriptor.h \
 	dump.h \
@@ -47,7 +45,7 @@ libsigeninclude_HEADERS = \
 	eit_desc.h \
 	language_code.h \
 	linkage_desc.h \
-	nit.h \
+	nit_bat.h \
 	nit_desc.h \
 	other_tables.h \
 	packetizer.h \
