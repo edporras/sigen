@@ -53,15 +53,26 @@ namespace sigen {
    //
    class STable : public Table
    {
-   private:
-      ui16 max_section_length;        // the maximum length of each sub-section
-      // (specified by the class' MAX_SEC_LEN)
-      ui8 id;
-      bool section_syntax_indicator;
-      bool private_bit;               // reserved_future_use in some
+   public:
+      virtual ~STable() {}
+      // prohibit
+      STable(const STable&) = delete;
+      STable(const STable&&) = delete;
+      STable& operator=(const STable&) = delete;
+      STable& operator=(const STable&&) = delete;
 
-      ui16 length;                    // data length (not including CRC and
-      // 3-byte header (STable::BASE_LEN))
+      // accessors
+      ui8 getId() const { return id; }
+      ui16 getMaxSectionLen() const { return max_section_length; }
+      ui16 getDataLength() const { return length; }
+
+      // utility
+      // max section length is reduced by the offset set with this
+      void setSectionReservedLen(ui8 l) { max_section_length -= l; }
+      // override max_section_length with this
+      void setMaxSectionLen(ui16 l) { max_section_length = l; }
+
+      virtual void buildSections(TStream &) const = 0;
 
    protected:
       enum { BASE_LEN = 3,
@@ -78,7 +89,6 @@ namespace sigen {
          length(min_len)
       { }
 
-   public:
       // contains a list of descriptors and tracks the data
       // length. Handles taking ownership of the descriptor pointer to
       // auto-delete when table goes out of scope.
@@ -105,28 +115,6 @@ namespace sigen {
 #endif
       };
 
-      virtual ~STable() {}
-
-      // prohibit
-      STable(const STable&) = delete;
-      STable(const STable&&) = delete;
-      STable& operator=(const STable&) = delete;
-      STable& operator=(const STable&&) = delete;
-
-      // accessors
-      ui8 getId() const { return id; }
-      ui16 getMaxSectionLen() const { return max_section_length; }
-      ui16 getDataLength() const { return length; }
-
-      // utility
-      // max section length is reduced by the offset set with this
-      void setSectionReservedLen(ui8 l) { max_section_length -= l; }
-      // override max_section_length with this
-      void setMaxSectionLen(ui16 l) { max_section_length = l; }
-
-      virtual void buildSections(TStream &) const = 0;
-
-   protected:
       // used by the derived tables to check for available space for data
       virtual ui16 getMaxDataLen() const {
          return max_section_length - BASE_LEN;
@@ -143,6 +131,16 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dumpHeader(std::ostream &o, STRID) const;
 #endif
+
+   private:
+      ui16 max_section_length;        // the maximum length of each sub-section
+      // (specified by the class' MAX_SEC_LEN)
+      ui8 id;
+      bool section_syntax_indicator;
+      bool private_bit;               // reserved_future_use in some
+
+      ui16 length;                    // data length (not including CRC and
+      // 3-byte header (STable::BASE_LEN))
    };
 
 
@@ -152,11 +150,6 @@ namespace sigen {
    //
    class PSITable : public STable
    {
-   private:
-      ui16 table_id_extension;        // id extension for private tables
-      ui8 version_number : 5;         // ver_num (5)
-      bool current_next_indicator;    // cur_next (1)
-
    public:
       virtual void buildSections(TStream &) const;
 
@@ -187,6 +180,11 @@ namespace sigen {
       virtual void dumpHeader(std::ostream &o, STRID table_label,
                               STRID ext_label, bool hexdec = false) const;
 #endif
+
+   private:
+      ui16 table_id_extension;        // id extension for private tables
+      ui8 version_number : 5;         // ver_num (5)
+      bool current_next_indicator;    // cur_next (1)
    };
 
 } // namespace
