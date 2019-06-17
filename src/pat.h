@@ -40,7 +40,6 @@ namespace sigen {
       PAT(ui16 xport_str_id, ui8 ver, bool cni = true) :
          PSITable(TID, xport_str_id, 5, MAX_SEC_LEN, ver, cni, D_BIT)
       { }
-      PAT() = delete;
 
       bool addProgram(ui16 sid, ui16 pid);
       bool addNetworkPid(ui16 pid) { return addProgram(0, pid); } // network pids are on sid 0

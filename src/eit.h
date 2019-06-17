@@ -147,8 +147,6 @@ namespace sigen {
       std::list<std::unique_ptr<Event> > event_list[2]; // present = 0, following = 1
 
    public:
-      PF_EIT() = delete;
-
       // present event utility functions
       bool addPresentEvent(ui16 evid, UTC time, BCDTime dur, ui8 rs, bool fca) {
          return addEvent(event_list[PRESENT], evid, time, dur, rs, fca);

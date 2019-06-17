@@ -40,7 +40,6 @@ namespace sigen {
       CAT(ui8 ver, bool cni = true) :
          PSITable(TID, rbits(0xffff), 5, MAX_SEC_LEN, ver, cni, D_BIT)
       { }
-      CAT() = delete;
 
       // utility
       bool addDesc(Descriptor &);
