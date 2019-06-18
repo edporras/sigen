@@ -112,6 +112,13 @@ namespace sigen {
    public:
       enum { SSU_SERVICE_DATA_BROADCAST_ID = 0x000A };
 
+      enum {
+         UPDATE_TYPE_PROPIETARY               = 0x0,
+         UPDATE_TYPE_STANDARD_UPDATE_CAROUSEL = 0x1,
+         UPDATE_TYPE_SSU_WITH_UNT             = 0x2,
+         UPDATE_TYPE_SSU_USING_RETURN_CHANNEL = 0x3,
+      };
+
       // constructor
       SSUDataBroadcastIdDesc() :
          DataBroadcastIdDesc(SSU_SERVICE_DATA_BROADCAST_ID),
@@ -134,13 +141,6 @@ namespace sigen {
       // OUI data struct
       struct OUIData {
          enum { BASE_LEN = 6 };
-
-         enum {
-            UPDATE_TYPE_PROPIETARY               = 0x0,
-            UPDATE_TYPE_STANDARD_UPDATE_CAROUSEL = 0x1,
-            UPDATE_TYPE_SSU_WITH_UNT             = 0x2,
-            UPDATE_TYPE_SSU_USING_RETURN_CHANNEL = 0x3,
-         };
 
          // data
          ui32 OUI:24;
