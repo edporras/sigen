@@ -53,13 +53,34 @@ namespace tests
       AncillaryDataDesc *add = new AncillaryDataDesc(0x51);
       pmt.addProgramDesc( *add );
 
-      // add a stream
+      // add streams
+      pmt.addElemStream( sigen::PMT::ES_ISO_IEC_11172_AUDIO, 0x21 );
       pmt.addElemStream( sigen::PMT::ES_ISO_IEC_11172_VIDEO, 0x22 );
 
       // and descriptors to it. As above, the table will claim
       // ownership and handle freeing it
       LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, 0xf );
       pmt.addElemStreamDesc( *ld );
+
+      MobileHandoverLinkageDesc *mhld = new MobileHandoverLinkageDesc(0x2000, 0x1000, 100,
+                                                                      MobileHandoverLinkageDesc::HO_ASSOCIATED_SERVICE,
+                                                                      MobileHandoverLinkageDesc::NIT,
+                                                                      100, 20);
+      pmt.addElemStreamDesc( 0x21, *mhld ); // add by matching es pid
+
+      SSUDataBroadcastIdDesc* ssudbid = new SSUDataBroadcastIdDesc;
+      std::vector<ui8> v = { 1, 2, 3, 4, 5, 6, 7 };
+      ssudbid->addOUI(0x2001,
+                      SSUDataBroadcastIdDesc::UPDATE_TYPE_SSU_USING_RETURN_CHANNEL,
+                      1, 2, v);
+      pmt.addElemStreamDesc(*ssudbid);
+
+      SSUScanLinkageDesc* ssusld = new SSUScanLinkageDesc(0x1000, 0x2000, 0x100, SSUScanLinkageDesc::TABLE_TYPE_BAT);
+      pmt.addElemStreamDesc(*ssusld);
+
+      SSULinkageDesc* ssuld = new SSULinkageDesc(0x1000, 0x2000, 0x101);
+      ssuld->addOUI(0x12345, v);
+      pmt.addElemStreamDesc(*ssuld);
 
       DUMP(pmt);
       pmt.buildSections(t);
