@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include <list>
 #include "descriptor.h"
@@ -189,8 +190,7 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // write the offset loop
-      for (const auto &offset : time_offset_list)
-      {
+      for (const auto &offset : time_offset_list) {
          // now set the data
          s.setBits( offset.country_code );
          s.set08Bits( (offset.country_region_id << 2) |
@@ -218,8 +218,7 @@ namespace sigen
 
       // write the offset loop
       incOutLevel();
-      for (const auto &offset : time_offset_list)
-      {
+      for (const auto &offset : time_offset_list) {
          o << std::endl;
 
          identStr(o, COUNTRY_CODE_S, offset.country_code);
@@ -315,8 +314,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const auto &service : service_list)
-      {
+      for (const auto &service : service_list) {
          s.set16Bits( service.id );
          s.set08Bits( service.type );
       }
@@ -331,8 +329,7 @@ namespace sigen
       // dump the descriptor's data
       incOutLevel();
 
-      for (const auto &service : service_list)
-      {
+      for (const auto &service : service_list) {
          identStr(o, SERVICE_ID_S, service.id, true);
          identStr(o, TYPE_S, service.type);
       }
@@ -349,42 +346,31 @@ namespace sigen
                                 const std::string &oc, const std::string &nac,
                                 const std::string &cn) :
       Descriptor(TAG, 3),
-      country_prefix(cp),
-      international_area_code(iac),
-      operator_code(oc),
-      national_area_code(nac),
-      core_number(cn),
+      country_prefix(set_code(cp, MAX_CP_LEN)),
+      international_area_code(set_code(iac, MAX_IAC_LEN)),
+      operator_code(set_code(oc, MAX_OC_LEN)),
+      national_area_code(set_code(nac, MAX_NAC_LEN)),
+      core_number(set_code(cn, MAX_CN_LEN)),
       connection_type(ct),
       foreign_availability(fa)
    {
-      // add the length of the strings making sure each string is not
-      // exceeding its max length
-      setCode(country_prefix, cp, MAX_CP_LEN);
-      setCode(international_area_code, iac, MAX_IAC_LEN);
-      setCode(operator_code, oc, MAX_OC_LEN);
-      setCode(national_area_code, nac, MAX_NAC_LEN);
-      setCode(core_number, cn, MAX_CN_LEN);
    }
 
 
    //
    // checks the string size to make sure they can fit.. if not, it
    // resizes the string
-   void TelephoneDesc::setCode(std::string &dest_c, const std::string &c, ui8 max)
+   std::string TelephoneDesc::set_code(const std::string &c, ui8 max)
    {
-      ui8 len = c.length();
+      std::string code(c);
 
-      if (len)
-      {
+      if (!code.empty()) {
          // set it to the max if it exceeds it
-         if (len > max)
-         {
-            len = max;
-            dest_c = c.substr(0, len);
-         }
-         // increase the size of the descriptor by the length
+         ui8 len = std::min(static_cast<unsigned long>(c.length()), static_cast<unsigned long>(max));
          incLength(len);
+         code.resize(len);
       }
+      return code;
    }
 
 

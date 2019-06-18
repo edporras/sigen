@@ -74,22 +74,19 @@ namespace sigen
 
       // first, figure out the 4-bit flag field.. check if it's set and
       // if so, set the appropriate bit to on
-      for (i = 0; i < VALUE_COUNT; i++) {
+      for (i = 0; i < VALUE_COUNT; i++)
          flags |= field[ i ].is_set << (7 - i);
-      }
 
       // reserved bits follow, so set them
-      for (; i < 8; i++) {
+      for (; i < 8; i++)
          flags |= rbits(0x1) << (7 - i);
-      }
 
       s.set08Bits( flags );
 
       // now set the actual values if they exist
       for (i = 0; i < VALUE_COUNT; i++) {
-         if ( field[ i ].is_set ) {
+         if ( field[ i ].is_set )
             s.set08Bits( field[ i ].value );
-         }
       }
 
       // and finally the reserved-future use bytes
@@ -104,17 +101,14 @@ namespace sigen
       dumpHeader(o, AC3_D_S);
 
       int i;
-      for (i = 0; i < VALUE_COUNT; i++) {
+      for (i = 0; i < VALUE_COUNT; i++)
          identStr( o, flag_strid[ i ], field[ i ].is_set);
-      }
 
       identStr(o, RESERVED_S, rbits(0xff));
 
-      for (i = 0; i < VALUE_COUNT; i++)
-      {
-         if (field[ i ].is_set) {
+      for (i = 0; i < VALUE_COUNT; i++) {
+         if (field[ i ].is_set)
             identStr( o, value_strid[ i ], field[ i ].value );
-         }
       }
 
       identStr(o, ADDITIONAL_INFO_S, additional_info);
@@ -210,8 +204,7 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // iterate through the list and write the data
-      for (const auto &subt : subtitling_list)
-      {
+      for (const auto &subt : subtitling_list) {
          s.setBits( subt.language_code );
          s.set08Bits( subt.type );
          s.set16Bits( subt.composition_page_id );
@@ -228,8 +221,7 @@ namespace sigen
 
       // iterate through the list and write the data
       incOutLevel();
-      for (const auto &subt : subtitling_list)
-      {
+      for (const auto &subt : subtitling_list) {
          identStr(o, LANGUAGE_CODE_S, subt.language_code);
          identStr(o, TYPE_S, subt.type);
          identStr(o, COMPOSITION_PAGE_ID_S, subt.composition_page_id);
@@ -267,8 +259,7 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // iterate through the list and write the data
-      for (const auto &teletext : teletext_list)
-      {
+      for (const auto &teletext : teletext_list) {
          s.setBits( teletext.language_code );
          s.set08Bits( (teletext.type << 3) | (teletext.magazine_number) );
          s.set08Bits( teletext.page_number );
@@ -284,8 +275,7 @@ namespace sigen
 
       // iterate through the list and write the data
       incOutLevel();
-      for (const auto &teletext : teletext_list)
-      {
+      for (const auto &teletext : teletext_list) {
          identStr(o, LANGUAGE_CODE_S, teletext.language_code);
          identStr(o, TYPE_S, teletext.type);
          identStr(o, MAGAZINE_NUM_S, teletext.magazine_number);

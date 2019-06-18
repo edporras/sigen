@@ -53,8 +53,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const auto &lang : language_list)
-      {
+      for (const auto &lang : language_list) {
          // write the code
          s.setBits( lang.language_code );
 
@@ -76,8 +75,7 @@ namespace sigen
       dumpHeader(o, MULTILING_SERV_NAME_D_S);
 
       incOutLevel();
-      for (const auto &lang : language_list)
-      {
+      for (const auto &lang : language_list) {
          identStr(o, CODE_S, lang.language_code);
          identStr(o, PROV_NAME_LEN_S, lang.provider_name.length(), true);
          identStr(o, PROV_NAME_S, lang.provider_name);
@@ -112,8 +110,7 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // cycle through the list and write the bytes
-      for (const auto &ident : ident_list)
-      {
+      for (const auto &ident : ident_list) {
          s.set16Bits( ident.xport_stream_id );
          s.set16Bits( ident.original_network_id );
          s.set16Bits( ident.service_id );
@@ -129,8 +126,7 @@ namespace sigen
 
       // dump the descriptor's data
       incOutLevel();
-      for (const auto &ident : ident_list)
-      {
+      for (const auto &ident : ident_list) {
          identStr(o, XPORT_STREAM_ID_S, ident.xport_stream_id);
          identStr(o, ORIG_NETWORK_ID_S, ident.original_network_id);
          identStr(o, SERVICE_ID_S, ident.service_id, true);

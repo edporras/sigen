@@ -20,6 +20,7 @@
 // language_code.cc: 
 // -----------------------------------
 
+#include <string>
 #include "language_code.h"
 
 namespace sigen {

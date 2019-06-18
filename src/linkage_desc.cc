@@ -88,14 +88,10 @@ namespace sigen {
       incLength(3);
 
       if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED)
-      {
          incLength( sizeof(network_id) );
-      }
 
       if (origin_type == MobileHandoverLinkageDesc::NIT)
-      {
          incLength( sizeof(initial_service_id) );
-      }
    }
 
    //
@@ -109,13 +105,11 @@ namespace sigen {
                    rbits(0x7) << 1 |
                    origin_type );
 
-      if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED) {
+      if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED)
          s.set16Bits( network_id );
-      }
 
-      if (origin_type == MobileHandoverLinkageDesc::NIT) {
+      if (origin_type == MobileHandoverLinkageDesc::NIT)
          s.set16Bits( initial_service_id );
-      }
 
       s.setBits( private_data );
    }
@@ -132,13 +126,11 @@ namespace sigen {
       identStr( o, RESERVED_FU_S, rbits(0x7) );
       identStr( o, ORIGIN_TYPE_S, origin_type );
 
-      if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED) {
+      if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED)
          identStr( o, NETWORK_ID_S, network_id, true );
-      }
 
-      if (origin_type == MobileHandoverLinkageDesc::NIT) {
+      if (origin_type == MobileHandoverLinkageDesc::NIT)
          identStr( o, INITIAL_SERV_ID_S, initial_service_id, true );
-      }
 
       identStr(o, PVT_DATA_S, private_data);
    }

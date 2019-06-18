@@ -56,8 +56,7 @@ namespace sigen
    //
    bool Descriptor::incLength(ui8 len)
    {
-      if (lengthFits(len))
-      {
+      if (lengthFits(len)) {
          total_length += len;
          return true;
       }
@@ -75,8 +74,7 @@ namespace sigen
       ui16 len = new_str.length();
 
       // determine if the current string can fit
-      if ( !lengthFits(len) )
-      {
+      if ( !lengthFits(len) ) {
          // nope.. truncate it to the max size
          ui16 free_space = CAPACITY - total_length;
 
@@ -115,8 +113,7 @@ namespace sigen
    // writes the loop's data to the section
    void MultilingualTextDesc::buildLoopData(Section& s) const
    {
-      for (const auto& text : ml_text_list)
-      {
+      for (const auto& text : ml_text_list) {
          // write its data
          s.setBits( text.code ); // lang code
          s.set08Bits( static_cast<ui8>(text.data.length()) );  // text length
@@ -132,8 +129,7 @@ namespace sigen
    {
       incOutLevel();
 
-      for (const auto& text : ml_text_list)
-      {
+      for (const auto& text : ml_text_list) {
          identStr(o, CODE_S, text.code);
          identStr(o, NAME_LEN_S, text.data.length(), true);
          identStr(o, data_type, text.data);

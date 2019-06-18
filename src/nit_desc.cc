@@ -57,14 +57,12 @@ namespace sigen
       s.set16Bits( announcement_support_indicator );
 
       // iterate through the list and write the data
-      for (const auto& ann : announcement_list)
-      {
+      for (const auto& ann : announcement_list) {
          s.set08Bits( (ann.type << 4) |
                       rbits(0x08) |
                       ann.reference_type );
 
-         if (ann.actual_serv_info)
-         {
+         if (ann.actual_serv_info) {
             s.set16Bits( ann.actual_serv_info->original_network_id );
             s.set16Bits( ann.actual_serv_info->xport_stream_id );
             s.set16Bits( ann.actual_serv_info->service_id );
@@ -83,14 +81,12 @@ namespace sigen
       identStr( o, ANNOUNCEMENT_SUPPORT_IND_S, announcement_support_indicator );
 
       incOutLevel();
-      for (const auto& ann : announcement_list)
-      {
+      for (const auto& ann : announcement_list) {
          identStr( o, ANNOUNCEMENT_TYPE_S, ann.type );
          identStr( o, RESERVED_FU_S, true );
          identStr( o, REF_TYPE_S, ann.reference_type );
 
-         if (ann.actual_serv_info)
-         {
+         if (ann.actual_serv_info) {
             identStr( o, ORIG_NETWORK_ID_S, ann.actual_serv_info->original_network_id );
             identStr( o, XPORT_STREAM_ID_S, ann.actual_serv_info->xport_stream_id );
             identStr( o, SERVICE_ID_S, ann.actual_serv_info->service_id, true );
@@ -192,18 +188,15 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const auto& link : cflink_list)
-      {
+      for (const auto& link : cflink_list) {
          s.set16Bits( link.cell_id );
          s.set32Bits( link.frequency );
          s.set08Bits( link.subcell_list.size() * Link::SubCell::BASE_LEN );
 
-         for (const auto &subcell : link.subcell_list)
-         {
+         for (const auto &subcell : link.subcell_list) {
             s.set08Bits( subcell.cell_id_extension );
             s.set32Bits( subcell.transposer_frequency );
          }
-
       }
    }
 
@@ -212,23 +205,18 @@ namespace sigen
    {
       dumpHeader( o, CELL_FREQ_LINK_D_S );
 
-      for (const auto& link : cflink_list)
-      {
+      for (const auto& link : cflink_list) {
          identStr(o, CELL_ID_S, link.cell_id );
          identStr(o, FREQ_S, link.frequency );
          identStr(o, SUBCELL_INFO_LOOP_LEN_S, link.subcell_list.size() * Link::SubCell::BASE_LEN );
 
-         for (const auto& subcell : link.subcell_list)
-         {
+         for (const auto& subcell : link.subcell_list) {
             identStr(o, CELL_ID_EXT_S, subcell.cell_id_extension );
             identStr(o, XPOSER_FREQ_S, subcell.transposer_frequency );
          }
-
       }
    }
 #endif
-
-
 
 
    // ---------------------------------------
@@ -286,23 +274,20 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const auto& cell : cell_list)
-      {
+      for (const auto& cell : cell_list) {
          s.set16Bits( cell.id );
          s.set16Bits( cell.latitude );
          s.set16Bits( cell.longitude );
          s.set16Bits( cell.extend_of_latitude );
          s.set16Bits( cell.extend_of_longitude );
 
-         for (const auto& subcell : cell.subcell_list)
-         {
+         for (const auto& subcell : cell.subcell_list) {
             s.set08Bits( subcell.cell_id_extension );
             s.set16Bits( subcell.latitude );
             s.set16Bits( subcell.longitude );
             s.set24Bits( (subcell.extend_of_latitude << 12) |
                          subcell.extend_of_longitude );
          }
-
       }
    }
 
@@ -311,23 +296,20 @@ namespace sigen
    {
       dumpHeader(o, CELL_LIST_D_S);
 
-      for (const auto& cell : cell_list)
-      {
+      for (const auto& cell : cell_list) {
          identStr( o, CELL_ID_S, cell.id );
          identStr( o, CELL_LATITUDE_S, cell.latitude );
          identStr( o, CELL_LONGITUDE_S, cell.longitude );
          identStr( o, CELL_EXT_LAT_S, cell.extend_of_latitude );
          identStr( o, CELL_EXT_LON_S, cell.extend_of_longitude );
 
-         for (const auto& subcell : cell.subcell_list)
-         {
+         for (const auto& subcell : cell.subcell_list) {
             identStr( o, CELL_ID_EXT_S, subcell.cell_id_extension );
             identStr( o, SUBCELL_LAT_S, subcell.latitude );
             identStr( o, SUBCELL_LON_S, subcell.longitude );
             identStr( o, SUBCELL_EXT_LAT_S, subcell.extend_of_latitude );
             identStr( o, SUBCELL_EXT_LON_S, subcell.extend_of_longitude );
          }
-
       }
    }
 #endif

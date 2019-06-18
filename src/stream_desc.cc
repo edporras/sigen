@@ -205,8 +205,7 @@ namespace sigen
       Descriptor::buildSections(s);
 
       // write the language codes
-      for (const auto& lang : language_list)
-      {
+      for (const auto& lang : language_list) {
          s.setBits( lang.code );
          s.set08Bits( lang.audio_type );
       }
@@ -221,8 +220,7 @@ namespace sigen
       dumpHeader(o, ISO_639_LANG_D_S);
 
       incOutLevel();
-      for (const auto& lang : language_list)
-      {
+      for (const auto& lang : language_list) {
          identStr( o, LANGUAGE_CODE_S, lang.code );
          identStr( o, AUDIO_TYPE_S, lang.audio_type );
       }
@@ -450,8 +448,7 @@ namespace sigen
                    (constrained_parameter_flag << 1) |
                    (still_picture_flag) );
 
-      if (MPEG_2_flag)
-      {
+      if (MPEG_2_flag) {
          s.set08Bits( profile_and_level_indication );
          s.set08Bits( (chroma_format << 6) |
                       (frame_rate_extension_flag << 5) |
@@ -473,8 +470,7 @@ namespace sigen
       identStr(o, CONSTR_PARAM_FLAG_S, constrained_parameter_flag);
       identStr(o, STILL_PICT_FLAG_S, still_picture_flag);
 
-      if (MPEG_2_flag)
-      {
+      if (MPEG_2_flag) {
          identStr(o, PROF_LVL_IND_S, profile_and_level_indication);
          identStr(o, CHROMA_FORMAT_S, chroma_format);
          identStr(o, FRM_RATE_EXT_FLAG_S, frame_rate_extension_flag);

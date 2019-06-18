@@ -99,8 +99,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const auto &content : content_list)
-      {
+      for (const auto &content : content_list) {
          s.set08Bits( (content.nibble_level_1 << 4) | content.nibble_level_2 );
          s.set08Bits( (content.user_nibble_1 << 4) | content.user_nibble_2 );
       }
@@ -115,8 +114,7 @@ namespace sigen
       dumpHeader(o, CONTENT_D_S);
 
       incOutLevel();
-      for (const auto &content : content_list)
-      {
+      for (const auto &content : content_list) {
          identStr(o, CONTENT_NL_1, content.nibble_level_1);
          identStr(o, CONTENT_NL_2, content.nibble_level_2);
          identStr(o, USER_NL_1, content.user_nibble_1);
@@ -177,8 +175,7 @@ namespace sigen
       s.set08Bits( itemListSize() );
 
       // write the loop data
-      for (const auto& item : item_list)
-      {
+      for (const auto& item : item_list) {
          // the loop's description field
          s.set08Bits( item->description.length() );
          s.setBits( item->description );
@@ -208,8 +205,7 @@ namespace sigen
       // the loop of items
       incOutLevel();
 
-      for (const auto& item : item_list)
-      {
+      for (const auto& item : item_list) {
          identStr(o, DESCRPTN_LEN_S, item->description.length(), true);
          identStr(o, DESCRPTN_S, item->description);
          identStr(o, ITEM_LEN_S, item->name.length(), true);
@@ -282,8 +278,7 @@ namespace sigen
    {
       Descriptor::buildSections(s);
 
-      for (const auto &rating : rating_list)
-      {
+      for (const auto &rating : rating_list) {
          s.setBits( rating.country_code );
          s.set08Bits( rating.value );
       }
@@ -297,8 +292,7 @@ namespace sigen
       dumpHeader(o, PARENTAL_RATING_D_S);
 
       incOutLevel();
-      for (const auto &rating : rating_list)
-      {
+      for (const auto &rating : rating_list) {
          identStr(o, CODE_S, rating.country_code);
          identStr(o, RATING_S, static_cast<ui16>(rating.value));
       }

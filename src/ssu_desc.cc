@@ -66,8 +66,7 @@ namespace sigen
 
       s.set08Bits( OUI_data_length );
 
-      for (const OUIData &oui : oui_list)
-      {
+      for (const OUIData &oui : oui_list) {
          s.set24Bits( oui.OUI );
          s.set08Bits( oui.selector_bytes.size() );
          s.setBits( oui.selector_bytes );
@@ -87,8 +86,7 @@ namespace sigen
       identStr( o, OUI_DATA_LEN_S, OUI_data_length );
 
       incOutLevel();
-      for (const OUIData &oui : oui_list)
-      {
+      for (const OUIData &oui : oui_list) {
          identStr(o, OUI_S, oui.OUI);
          identStr(o, SELECTOR_LEN_S, oui.selector_bytes.size(), true);
          identStr(o, SELECTOR_S, oui.selector_bytes);
@@ -158,15 +156,13 @@ namespace sigen
 
       s.set08Bits( OUI_data_len );
 
-      for (const auto &oui : oui_list)
-      {
+      for (const auto &oui : oui_list) {
          s.set24Bits( oui.OUI );
          s.set08Bits( rbits(0xf0) | oui.update_type );
          s.set08Bits( rbits(0xc0) | (oui.update_versioning_flag << 5) | oui.update_version );
          s.set08Bits( oui.selector_bytes.size() );
-         if ( oui.selector_bytes.size() ) {
+         if ( oui.selector_bytes.size() )
             s.setBits( oui.selector_bytes );
-         }
       }
 
       s.setBits( private_data );
@@ -180,8 +176,7 @@ namespace sigen
       identStr(o, OUI_DATA_LEN_S, OUI_data_len);
 
       incOutLevel();
-      for (const auto &oui : oui_list)
-      {
+      for (const auto &oui : oui_list) {
          identStr(o, OUI_S, oui.OUI);
          identStr(o, RESERVED_S, rbits(0x0f));
          identStr(o, UPDATE_TYPE_S, oui.update_type);

@@ -426,11 +426,11 @@ namespace sigen {
       std::string operator_code;
       std::string national_area_code;
       std::string core_number;
-      ui8 connection_type : 5;
+      ui8  connection_type : 5;
       bool foreign_availability;
 
    protected:
-      void setCode(std::string& dest_c, const std::string& src_c, ui8 max);
+      std::string set_code(const std::string& src_c, ui8 max);
    };
 
 } // sigen namespace
