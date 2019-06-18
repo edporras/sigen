@@ -3,7 +3,7 @@ Table id            : 0x40
 Section syn. ind.   : 0x1
 rsvrd. future use   : 0x1
 reserved            : 0x3
-Table length        : 698 (0x2ba)
+Table length        : 787 (0x313)
 Network id          : 256 (0x100)
 reserved            : 0x3
 Version number      : 0x1
@@ -43,7 +43,7 @@ Network desc. len   : 311 (0x137)
 
 
 rsvrd. future use   : 0xf
-Xprt str loop len   : 378 (0x17a)
+Xprt str loop len   : 467 (0x1d3)
 
  - *-- Transport Stream --* -
  Xport stream id     : 0x20
@@ -185,7 +185,7 @@ Xprt str loop len   : 378 (0x17a)
  Xport stream id     : 0x21
  Orig. network id    : 49 (0x31)
  rsvrd. future use   : 0xf
- Desc. len           : 188 (0xbc)
+ Desc. len           : 277 (0x115)
 
   - Satellite Delivery System Descriptor -
   Tag                 : 0x43
@@ -328,6 +328,56 @@ Xprt str loop len   : 378 (0x17a)
    Component type      : 0x3
 
 
+  - Cell Frequency Link Descriptor -
+  Tag                 : 0x6d
+  Length              : 41 (0x29)
+  Cell id             : 0xa
+  Frequency           : 0x2710
+  Subcell loop len    : 0xa
+  Cell id ext.        : 0xb
+  Xposer frequency    : 0x3e8
+  Cell id ext.        : 0xc
+  Xposer frequency    : 0xce4
+  Cell id             : 0xa
+  Frequency           : 0x2af8
+  Subcell loop len    : 0x5
+  Cell id ext.        : 0xc
+  Xposer frequency    : 0xbb8
+  Cell id             : 0xb
+  Frequency           : 0x9c40
+  Subcell loop len    : 0x5
+  Cell id ext.        : 0x15
+  Xposer frequency    : 0x7d0
+
+  - Cell List Descriptor -
+  Tag                 : 0x6c
+  Length              : 44 (0x2c)
+  Cell id             : 0x1
+  Cell latitude       : 0xbb8
+  Cell longitude      : 0x7d0
+  Cell ext. of lat.   : 0x22b
+  Cell ext. of lon.   : 0x41
+  Cell id ext.        : 0x14
+  Subcell lat.        : 0xbb8
+  Subcell lon.        : 0x7d0
+  Subcell ext. of lat.: 0x22b
+  Subcell ext. of lon.: 0x41
+  Cell id ext.        : 0x15
+  Subcell lat.        : 0xbb9
+  Subcell lon.        : 0x7d1
+  Subcell ext. of lat.: 0x22c
+  Subcell ext. of lon.: 0x42
+  Cell id             : 0x2
+  Cell latitude       : 0xfa0
+  Cell longitude      : 0xbb8
+  Cell ext. of lat.   : 0x5b3
+  Cell ext. of lon.   : 0x28f
+  Cell id ext.        : 0x16
+  Subcell lat.        : 0xbba
+  Subcell lon.        : 0x7d2
+  Subcell ext. of lat.: 0x22d
+  Subcell ext. of lon.: 0x29c
+
 
 
 
@@ -372,9 +422,9 @@ Xprt str loop len   : 378 (0x17a)
 [0224] 21 00 31 f0 10 43 0b 00 00 03 e8 07 d0 c0 00 00   !.1..C..........
 [0240] 00 10 52 01 88 d6 98 3a 05                        ..R....:.
 
-- sec: 2, length: 194, size (max): 300, data: 
-[0000] 40 f0 bf 01 00 c3 02 02 f0 00 f0 b2 00 21 00 31   @............!.1
-[0016] f0 ac 41 96 00 c8 02 00 c9 02 00 ca 02 00 cb 02   ..A.............
+- sec: 2, length: 283, size (max): 300, data: 
+[0000] 40 f1 18 01 00 c3 02 02 f0 00 f1 0b 00 21 00 31   @............!.1
+[0016] f1 05 41 96 00 c8 02 00 c9 02 00 ca 02 00 cb 02   ..A.............
 [0032] 00 cc 02 00 cd 02 00 ce 02 00 cf 02 00 d0 02 00   ................
 [0048] d1 02 00 d2 02 00 d3 02 00 d4 02 00 d5 02 00 d6   ................
 [0064] 02 00 d7 02 00 d8 02 00 d9 02 00 da 02 00 db 02   ................
@@ -384,7 +434,12 @@ Xprt str loop len   : 378 (0x17a)
 [0128] 00 ec 02 00 ed 02 00 ee 02 00 ef 02 00 f0 02 00   ................
 [0144] f1 02 00 f2 02 00 f3 02 00 f4 02 00 f5 02 00 f6   ................
 [0160] 02 00 f7 02 00 f8 02 00 f9 02 6e 12 00 21 08 10   ..........n..!..
-[0176] 00 12 00 04 00 03 5a 11 00 13 00 04 02 03 6d e8   ......Z.......m.
-[0192] c9 e2                                             ..
+[0176] 00 12 00 04 00 03 5a 11 00 13 00 04 02 03 6d 29   ......Z.......m)
+[0192] 00 0a 00 00 27 10 0a 0b 00 00 03 e8 0c 00 00 0c   ....'...........
+[0208] e4 00 0a 00 00 2a f8 05 0c 00 00 0b b8 00 0b 00   .....*..........
+[0224] 00 9c 40 05 15 00 00 07 d0 6c 2c 00 01 0b b8 07   ..@......l,.....
+[0240] d0 02 2b 00 41 14 0b b8 07 d0 22 b0 41 15 0b b9   ..+.A.....".A...
+[0256] 07 d1 22 c0 42 00 02 0f a0 0b b8 05 b3 02 8f 16   ..".B...........
+[0272] 0b ba 07 d2 22 d2 9c 85 71 df ad                  ...."...q..
 
 PASS test_nit.sh (exit status: 0)

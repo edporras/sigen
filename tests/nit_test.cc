@@ -85,6 +85,24 @@ namespace tests
 
       nit.addXportStreamDesc( *asd );
 
+      CellFrequencyLinkDesc* cfld = new CellFrequencyLinkDesc;
+      cfld->addLink(10, 10000);
+      cfld->addLink(10, 11000);
+      cfld->addLinkSubCell(10, 10000, 11, 1000);
+      cfld->addLinkSubCell(10, 10000, 12, 3300);
+      cfld->addLinkSubCell(12, 3000); // adds to the last Link added
+      cfld->addLink(11, 40000);
+      cfld->addLinkSubCell(11, 40000, 21, 2000);
+      nit.addXportStreamDesc(*cfld);
+
+      CellListDesc* cld = new CellListDesc;
+      cld->addCell(1, 3000, 2000, 555, 65);
+      cld->addCellSubCell(1, 20, 3000, 2000, 555, 65);
+      cld->addCellSubCell(21, 3001, 2001, 556, 66);
+      cld->addCell(2, 4000, 3000, 5555, 655);
+      cld->addCellSubCell(22, 3002, 2002, 557, 668);
+      nit.addXportStreamDesc(*cld);
+
       DUMP(nit);
       nit.buildSections(t);
 
