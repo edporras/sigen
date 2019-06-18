@@ -210,30 +210,35 @@ namespace sigen {
 
       // announcement data struct
       struct Announcement : public STable::ListItem {
-         enum { BASE_LEN = 1 };
+         // present if ref_type is 0x01, 0x02, or 0x03
+         struct ActualServInfo {
+            ActualServInfo(ui16 onid, ui16 tsid, ui16 sid, ui8 c_tag) :
+               original_network_id(onid), xport_stream_id(tsid), service_id(sid), component_tag(c_tag) {}
 
-         ui8  type : 4,
-              reference_type : 3;
-         ui16 original_network_id,
-              xport_stream_id,
-              service_id;
-         ui8  component_tag;
+            ui16 original_network_id,
+                 xport_stream_id,
+                 service_id;
+            ui8  component_tag;
+         };
+
+         ui8 type : 4,
+             reference_type : 3;
+         ActualServInfo* actual_serv_info;
 
          // constructor
          Announcement(ui8 announcement_type, ui8 ref_type,
                       ui16 onid, ui16 tsid, ui16 sid, ui8 c_tag) :
             type( announcement_type ),
             reference_type( ref_type ),
-            original_network_id( onid ),
-            xport_stream_id( tsid ),
-            service_id( sid ),
-            component_tag( c_tag )
+            actual_serv_info((ref_type < DIFFERENT_SERVICE_AND_TRANSPORT_STREAM) ?
+                             new ActualServInfo(onid, tsid, sid, c_tag) :
+                             nullptr)
          {}
          Announcement() = delete;
+         ~Announcement() { delete actual_serv_info; }
 
-         ui8 length() const { return BASE_LEN +
-               (reference_type < NUM_DEFINED_REF_TYPES ?
-				7 : 0); }
+         ui8 length() const { return expected_length(reference_type); }
+         static ui8 expected_length(ui8 ref_type) { return (ref_type < NUM_DEFINED_REF_TYPES ? 8 : 1); }
       };
 
       // constructor
@@ -243,10 +248,14 @@ namespace sigen {
       { }
       AnnouncementSupportDesc() = delete;
 
-      // utility methods
+      // populate announcement loop - this method is for ref_types 0x01, 0x02, 0x03
       bool addAnnouncement(ui8 type, ui8 reference_type,
-                           ui16 onid = 0, ui16 tsid = 0, ui16 sid = 0,
-                           ui8 c_tag = 0);
+                           ui16 onid, ui16 tsid, ui16 sid,
+                           ui8 c_tag);
+      // for ref_type 0x04
+      bool addAnnouncement(ui8 type) {
+         return addAnnouncement(type, DIFFERENT_SERVICE_AND_TRANSPORT_STREAM, 0, 0, 0, 0);
+      }
 
       virtual void buildSections(Section&) const;
 
@@ -257,7 +266,7 @@ namespace sigen {
    private:
       // descriptor data members
       ui16 announcement_support_indicator;
-      std::list<std::unique_ptr<Announcement> > announcement_list;
+      std::list<Announcement> announcement_list;
    };
 
 

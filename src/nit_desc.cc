@@ -38,14 +38,12 @@ namespace sigen
                                                  ui16 onid, ui16 tsid,
                                                  ui16 sid, ui8 c_tag)
    {
-      std::unique_ptr<Announcement> ann(new Announcement(type, reference_type, onid, tsid, sid, c_tag));
-
       // try to increment the descriptor's length
-      if (!incLength( ann->length() ))
+      if (!incLength( Announcement::expected_length(reference_type) ))
          return false; // can't do it - full
 
       // add it to the list
-      announcement_list.push_back( std::move(ann) );
+      announcement_list.emplace_back(type, reference_type, onid, tsid, sid, c_tag);
       return true;
    }
 
@@ -60,16 +58,16 @@ namespace sigen
       // iterate through the list and write the data
       for (const auto& ann : announcement_list)
       {
-         s.set08Bits( (ann->type << 4) |
+         s.set08Bits( (ann.type << 4) |
                       rbits(0x08) |
-                      ann->reference_type );
+                      ann.reference_type );
 
-         if (ann->reference_type < NUM_DEFINED_REF_TYPES)
+         if (ann.actual_serv_info)
          {
-            s.set16Bits( ann->original_network_id );
-            s.set16Bits( ann->xport_stream_id );
-            s.set16Bits( ann->service_id );
-            s.set08Bits( ann->component_tag );
+            s.set16Bits( ann.actual_serv_info->original_network_id );
+            s.set16Bits( ann.actual_serv_info->xport_stream_id );
+            s.set16Bits( ann.actual_serv_info->service_id );
+            s.set08Bits( ann.actual_serv_info->component_tag );
          }
       }
    }
@@ -86,16 +84,16 @@ namespace sigen
       incOutLevel();
       for (const auto& ann : announcement_list)
       {
-         identStr( o, ANNOUNCEMENT_TYPE_S, ann->type );
+         identStr( o, ANNOUNCEMENT_TYPE_S, ann.type );
          identStr( o, RESERVED_FU_S, true );
-         identStr( o, REF_TYPE_S, ann->reference_type );
+         identStr( o, REF_TYPE_S, ann.reference_type );
 
-         if (ann->reference_type < NUM_DEFINED_REF_TYPES)
+         if (ann.actual_serv_info)
          {
-            identStr( o, ORIG_NETWORK_ID_S, ann->original_network_id );
-            identStr( o, XPORT_STREAM_ID_S, ann->xport_stream_id );
-            identStr( o, SERVICE_ID_S, ann->service_id, true );
-            identStr( o, COMPONENT_TAG_S, ann->component_tag );
+            identStr( o, ORIG_NETWORK_ID_S, ann.actual_serv_info->original_network_id );
+            identStr( o, XPORT_STREAM_ID_S, ann.actual_serv_info->xport_stream_id );
+            identStr( o, SERVICE_ID_S, ann.actual_serv_info->service_id, true );
+            identStr( o, COMPONENT_TAG_S, ann.actual_serv_info->component_tag );
          }
          o << std::endl;
       }
