@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <list>
+#include <algorithm>
 #include "descriptor.h"
 #include "tstream.h"
 #include "nit_desc.h"
@@ -163,29 +164,26 @@ namespace sigen
       return true;
    }
 
-   bool CellFrequencyLinkDesc::addLinkSubCell(ui16 cell_id, ui32 frequency,
-                                              ui8 cid_ext, ui32 xposer_freq)
+   bool CellFrequencyLinkDesc::addLinkSubCell(ui16 cell_id, ui32 frequency, ui8 cid_ext, ui32 xposer_freq)
    {
       // look for a matching c/f link
-      for (auto& link : cflink_list)
-      {
-         // if found, add a subcell
-         // TODO: algo!!!
-         if ( link.cell_id == cell_id && link.frequency == frequency )
-            return addLinkSubCell(link, cid_ext, xposer_freq);
-      }
+      auto it = std::find_if(cflink_list.begin(), cflink_list.end(),
+                             [=](const auto& l) { return (l.cell_id == cell_id &&
+                                                          l.frequency == frequency); });
+      if (it == cflink_list.end())
+         return false;
 
-      return false;
+      return addLinkSubCell(*it, cid_ext, xposer_freq);
    }
 
    bool CellFrequencyLinkDesc::addLinkSubCell(ui8 cid_ext, ui32 xposer_freq)
    {
       // if any have been added, try to add teh subcell to the one in the
       // end
-      if (!cflink_list.empty())
-         return addLinkSubCell( cflink_list.back(), cid_ext, xposer_freq );
+      if (cflink_list.empty())
+         return false;
 
-      return false;
+      return addLinkSubCell( cflink_list.back(), cid_ext, xposer_freq );
    }
 
    //
@@ -263,14 +261,12 @@ namespace sigen
                                      ui16 sc_lat, ui16 sc_lon,
                                      ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
-      for (auto& cell : cell_list)
-      {
-         // TODO: algo
-         if (cell.id == cell_id)
-            return addCellSubCell(cell, cid_ext, sc_lat, sc_lon,
-                                  sc_ext_lat, sc_ext_lon);
-      }
-      return false;
+      auto it = std::find_if(cell_list.begin(), cell_list.end(),
+                             [=](const auto& c) { return c.id == cell_id; });
+      if (it == cell_list.end())
+         return false;
+
+      return addCellSubCell(*it, cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon);
    }
 
    // adds the subcell to the most recently added cell
