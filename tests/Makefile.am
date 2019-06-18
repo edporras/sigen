@@ -13,6 +13,8 @@ dvb_builder_SOURCES = \
 	tot_test.cc \
 	cat_test.cc \
 	tdt_test.cc \
+	rst_test.cc \
+	st_test.cc \
 	$(top_builddir)/src/sigen.h
 
 
@@ -23,7 +25,9 @@ TESTS = \
 	test_nit.sh \
 	test_pat.sh \
 	test_pmt.sh \
+	test_rst.sh \
 	test_sdt.sh \
+	test_st.sh \
 	test_tdt.sh \
 	test_tot.sh
 

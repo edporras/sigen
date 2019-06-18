@@ -57,8 +57,7 @@ namespace sigen
       STable::buildSections(*s);
 
       // write the transport stream data
-      for (const XportStream& xs : xport_stream_list)
-      {
+      for (const XportStream& xs : xport_stream_list) {
          s->set16Bits(xs.id);
          s->set16Bits(xs.original_network_id);
          s->set16Bits(xs.service_id);
@@ -79,8 +78,7 @@ namespace sigen
 
       // dump the transport streams
       incOutLevel();
-      for (const XportStream& xs : xport_stream_list)
-      {
+      for (const XportStream& xs : xport_stream_list) {
          headerStr(o, XPORT_STREAM_S, false);
 
          identStr(o, XPORT_STREAM_ID_S, xs.id);
@@ -101,22 +99,12 @@ namespace sigen
    // ------------------------------------
    // the Stuffing Table
    //
-
    Stuffing::Stuffing(const std::string& d, bool ssi) :
       STable(TID, 0, MAX_SEC_LEN, ssi, true),
-      data( d )
+      data( (d.length() > CAPACITY) ? d.substr(0, CAPACITY) : d)
    {
-      // !!! check to make sure it fits!
+      incLength(data.length());
    }
-
-
-   Stuffing::Stuffing(ui8 d, ui16 len, bool ssi) :
-      STable(TID, 0, MAX_SEC_LEN, ssi, true),
-      data( std::string(d, len) )
-   {
-      // !!! check to make sure it fits!
-   }
-
 
    //
    // the actual table builder

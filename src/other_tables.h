@@ -85,10 +85,8 @@ namespace sigen {
       // constructor for NULL terminated data
       Stuffing(const std::string& data, bool ssi = true);
       // constructor where we replicate the passed data
-      Stuffing(ui8 data, ui16 len, bool ssi = true);
-
-      // accessors
-      const std::string& getDataByte() const { return data; }
+      Stuffing(ui16 len, ui8 data, bool ssi = true) :
+         Stuffing(std::string(len, data), ssi) {}
 
       // utility
       virtual void buildSections(TStream&) const;
@@ -100,6 +98,6 @@ namespace sigen {
    private:
       std::string data;
 
-      enum { MAX_SEC_LEN = 4096, TID = 0x72 };
+      enum { TID = 0x72, MAX_SEC_LEN = 4096, CAPACITY = 4093 };
    };
 } // namespace

@@ -1,9 +1,6 @@
 Must do:
 
 * Tables need to provide MAX_SIZE to base class for checking with incLength.
-  Related:
-
-  Stuffing table must check it does not exceed max sec size
 
 =====================================
 The following are NOT YET implemented.
