@@ -76,13 +76,11 @@ namespace sigen
 
            case GET_PROGRAM:
               // fetch the next service
-              if (run.p_iter != program_list.end())
-              {
+              if (run.p_iter != program_list.end()) {
                  run.p = &(*run.p_iter++);
 
                  // does adding it exceed capacity?
-                 if ( (sec_bytes + Program::BASE_LEN) > getMaxDataLen() )
-                 {
+                 if ( (sec_bytes + Program::BASE_LEN) > getMaxDataLen() ) {
                     // yes
                     run.op_state = WRITE_HEAD;
                     exit = true;
@@ -91,8 +89,7 @@ namespace sigen
                  // we can add it
                  run.op_state = WRITE_PROGRAM;
               }
-              else
-              {
+              else {
                  // done with all programs.. all sections are done!
                  run = Context();
                  exit = done = true;
@@ -124,8 +121,7 @@ namespace sigen
 
       // program list
       incOutLevel(); // indent output
-      for (const Program& program : program_list)
-      {
+      for (const Program& program : program_list) {
          identStr(o, PROGRAM_NUM_S, program.number, true);
          identStr(o, RESERVED_S, rbits(0x07) );
          identStr(o, PID_S, program.pid, true);

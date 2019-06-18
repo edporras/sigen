@@ -64,18 +64,17 @@ namespace sigen
    //
    void STable::DescList::dump(std::ostream &o) const
    {
-      if (!empty())
-      {
-         incOutLevel();
+      if (empty())
+         return;
 
-         for (const std::unique_ptr<Descriptor>& dp : d_list)
-         {
-            dp->dump(o);
-            o << std::endl;
-         }
+      incOutLevel();
+
+      for (const std::unique_ptr<Descriptor>& dp : d_list) {
+         dp->dump(o);
          o << std::endl;
-         decOutLevel();
       }
+      o << std::endl;
+      decOutLevel();
    }
 #endif
 
@@ -84,8 +83,7 @@ namespace sigen
    // amount
    bool STable::incLength(ui32 l)
    {
-      if (lengthFits(l))
-      {
+      if (lengthFits(l)) {
          length += l;
          return true;
       }
@@ -187,8 +185,7 @@ namespace sigen
               // write as much data as we can to this section
               if (writeSection(*s, cur_sec, sec_bytes))
                  state = END_TABLE;
-              else
-              {
+              else {
                  // writeSection() returned 'false' which means it is not done
                  // so we increment the section count
                  cur_sec++;
@@ -199,19 +196,13 @@ namespace sigen
               break;
 
            case END_TABLE:
-              {
-                 // done with the table.. update the last_section field
-                 // in all the sections
-                 std::list<Section *>::iterator s_iter = table_sections.begin();
-
-                 while (s_iter != table_sections.end())
-                 {
-                    s = *s_iter++;
-                    s->set08Bits(7, cur_sec); // save the last_section_number
-                    s->calcCrc();         	   // crc it
-                 }
-                 done = true;
+              // done with the table.. update the last_section field
+              // in all the sections
+              for (auto sp : table_sections) {
+                 sp->set08Bits(7, cur_sec); // save the last_section_number
+                 sp->calcCrc();             // crc the section
               }
+              done = true;
               break;
          }
       }

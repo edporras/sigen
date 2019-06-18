@@ -76,13 +76,11 @@ namespace sigen
 
            case GET_DESC:
               // fetch the next descriptor
-              if (run.d_iter != descriptors.end())
-              {
+              if (run.d_iter != descriptors.end()) {
                  run.d = (*run.d_iter++).get();
 
                  // check if we can fit it in this section
-                 if (sec_bytes + run.d->length() > getMaxDataLen())
-                 {
+                 if (sec_bytes + run.d->length() > getMaxDataLen()) {
                     // we can't.. return so we can get a new section
                     // we'll add it when we come back
                     run.op_state = WRITE_HEAD;
@@ -92,8 +90,7 @@ namespace sigen
                     run.op_state = WRITE_DESC;
                  break;
               }
-              else
-              {
+              else {
                  // no more descriptors so all sections are done!
                  run = Context();
                  exit = done = true;

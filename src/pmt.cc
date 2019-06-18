@@ -3,6 +3,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <algorithm>
 #include <utility>
 #include <list>
 #include "table.h"
@@ -43,12 +44,12 @@ namespace sigen
    bool PMT::addElemStreamDesc(ui16 elem_pid, Descriptor &d)
    {
       // look for the stream
-      for (ElementaryStream& stream : es_list)
-      {
-         if (stream.elementary_pid == elem_pid)
-            return addElemStreamDesc(stream, d);
-      }
-      return false;
+      auto it = std::find_if(es_list.begin(), es_list.end(),
+                             [=](const auto& es) { return es.elementary_pid == elem_pid; });
+      if (it == es_list.end())
+         return false;
+
+      return addElemStreamDesc(*it, d);
    }
 
    //
@@ -56,10 +57,10 @@ namespace sigen
    //
    bool PMT::addElemStreamDesc(Descriptor &d)
    {
-      if (!es_list.empty()) {
-         return addElemStreamDesc( es_list.back(), d );
-      }
-      return false;
+      if (es_list.empty())
+         return false;
+
+      return addElemStreamDesc( es_list.back(), d );
    }
 
    //
@@ -92,12 +93,8 @@ namespace sigen
          {
            case INIT:
               // associate the iterators to the list
-              if (!run.d_done)
-                 if (!run.pd)
-                    run.pd_iter = prog_desc.begin();
-
-              if (!run.es)
-                 run.es_iter = es_list.begin();
+              run.pd_iter = prog_desc.begin();
+              run.es_iter = es_list.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -133,16 +130,13 @@ namespace sigen
                                 rbits(~LEN_MASK) |
                                 (prog_info_len & LEN_MASK) );
 
-              if (!run.d_done)
-              {
+              if (!run.d_done) {
                  // fetch the next program descriptor
-                 if (run.pd_iter != prog_desc.end())
-                 {
+                 if (run.pd_iter != prog_desc.end()) {
                     run.pd = (*run.pd_iter++).get();
 
                     // check if we can fit it in this section
-                    if (sec_bytes + run.pd->length() > getMaxDataLen())
-                    {
+                    if (sec_bytes + run.pd->length() > getMaxDataLen()) {
                        // we can't.. return so we can get a new section
                        // we'll add it when we come back
                        run.op_state = WRITE_HEAD;
@@ -152,8 +146,7 @@ namespace sigen
                        run.op_state = WRITE_PROG_DESC;
                     break;
                  }
-                 else
-                 {
+                 else {
                     run.pd = nullptr;
                     run.d_done = true;
                     // fall through
@@ -179,31 +172,26 @@ namespace sigen
 
            case GET_XPORT_STREAM:
               // fetch a transport stream
-              if (run.es_iter != es_list.end())
-              {
+              if (run.es_iter != es_list.end()) {
                  run.es = &(*run.es_iter++);
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
-                 if (!run.es->descriptors.empty())
-                 {
+                 if (!run.es->descriptors.empty()) {
                     const Descriptor *d = run.es->descriptors.front().get();
 
                     // check the size with the descriptor
                     if ( (sec_bytes + PMT::ElementaryStream::BASE_LEN + d->length()) >
-                         getMaxDataLen() )
-                    {
+                         getMaxDataLen() ) {
                        // won't fit.. wait until the next section
                        run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
                     }
                  }
-                 else
-                 {
+                 else {
                     // check if this XS with no descs will fit here
-                    if ( (sec_bytes + PMT::ElementaryStream::BASE_LEN) > getMaxDataLen() )
-                    {
+                    if ( (sec_bytes + PMT::ElementaryStream::BASE_LEN) > getMaxDataLen() ) {
                        // nope.. wait also
                        run.op_state = WRITE_HEAD;
                        exit = true;
@@ -213,8 +201,7 @@ namespace sigen
                  // all is ok.. add it
                  run.op_state = WRITE_XPORT_STREAM;
               }
-              else
-              {
+              else {
                  // no more network descriptors or transport streams, so
                  // all sections are done!
                  run = Context();
@@ -225,8 +212,7 @@ namespace sigen
 
            case WRITE_XPORT_STREAM:
               // finally write it
-              if (!(*run.es).writeSection(section, getMaxDataLen(), sec_bytes))
-              {
+              if (!(*run.es).writeSection(section, getMaxDataLen(), sec_bytes)) {
                  run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
@@ -254,8 +240,7 @@ namespace sigen
          {
            case INIT:
               // set the descriptor iterator
-              if (!run.d)
-                 run.d_iter = descriptors.begin();
+              run.d_iter = descriptors.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -275,21 +260,18 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (run.d_iter != descriptors.end())
-              {
+              if (run.d_iter != descriptors.end()) {
                  run.d = (*run.d_iter++).get();
 
                  // make sure we can fit it
-                 if ( (sec_bytes + run.d->length()) > max_data_len )
-                 {
+                 if ( (sec_bytes + run.d->length()) > max_data_len ) {
                     run.op_state = WRITE_HEAD;
                     exit = true;
                     break;
                  }
                  run.op_state = WRITE_DESC;
               }
-              else
-              {
+              else {
                  // no more descriptors.. done writing this xport stream,
                  run = Context();
                  exit = done = true;
@@ -339,8 +321,7 @@ namespace sigen
       incOutLevel(); // indent output
       headerStr(o, STREAM_LIST_S, false);
 
-      for (const ElementaryStream& stream : es_list)
-      {
+      for (const ElementaryStream& stream : es_list) {
          identStr(o, STREAM_TYPE_S, stream.type, true);
          identStr(o, RESERVED_S, rbits(0x07) );
          identStr(o, ELEM_PID_S, stream.elementary_pid, true);

@@ -155,16 +155,13 @@ namespace sigen
                                 rbits(~LEN_MASK) |
                                 (net_desc_len & LEN_MASK) );
 
-              if (!run.nd_done)
-              {
+              if (!run.nd_done) {
                  // fetch the next network descriptor
-                 if (run.nd_iter != descriptors.end())
-                 {
+                 if (run.nd_iter != descriptors.end()) {
                     run.nd = (*run.nd_iter++).get();
 
                     // check if we can fit it in this section
-                    if (sec_bytes + run.nd->length() > getMaxDataLen())
-                    {
+                    if (sec_bytes + run.nd->length() > getMaxDataLen()) {
                        // holy crap, this is a special case! if the
                        // section is filled with net descriptors, we
                        // must sitll write the XS loop length!
@@ -180,8 +177,7 @@ namespace sigen
                        run.op_state = WRITE_NET_DESC;
                     break;
                  }
-                 else
-                 {
+                 else {
                     run.nd_done = true;
                     run.nd = nullptr;
                     // fall through
@@ -220,26 +216,22 @@ namespace sigen
            case GET_XPORT_STREAM:
 
               // fetch a transport stream
-              if (run.ts_iter != xport_streams.end())
-              {
+              if (run.ts_iter != xport_streams.end()) {
                  run.ts = &(*run.ts_iter++);
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
-                 if (!run.ts->descriptors.empty())
-                 {
+                 if (!run.ts->descriptors.empty()) {
                     // check the size with the descriptor
                     if ( (sec_bytes + XportStream::BASE_LEN + run.ts->descriptors.front()->length()) >
-                         getMaxDataLen() )
-                    {
+                         getMaxDataLen() ) {
                        // won't fit.. wait until the next section
                        run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
                     }
                  }
-                 else
-                 {
+                 else {
                     // check if this XS with no descs will fit here
                     if ( (sec_bytes + XportStream::BASE_LEN) > getMaxDataLen() )
                     {
@@ -252,8 +244,7 @@ namespace sigen
                  // all is ok.. add it
                  run.op_state = WRITE_XPORT_STREAM;
               }
-              else
-              {
+              else {
                  // no more network descriptors or transport streams, so
                  // all sections are done!
                  run = Context();
@@ -264,8 +255,7 @@ namespace sigen
 
            case WRITE_XPORT_STREAM:
               // finally write it
-              if (!(*run.ts).writeSection(section, getMaxDataLen(), sec_bytes, ts_loop_len))
-              {
+              if (!(*run.ts).writeSection(section, getMaxDataLen(), sec_bytes, ts_loop_len)) {
                  run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
@@ -320,21 +310,18 @@ namespace sigen
 
            case GET_DESC:
               // if we have descriptors available..
-              if (run.d_iter != descriptors.end())
-              {
+              if (run.d_iter != descriptors.end()) {
                  run.d = (*run.d_iter++).get();
 
                  // make sure we can fit the next one
-                 if ( (sec_bytes + run.d->length()) > max_data_len )
-                 {
+                 if ( (sec_bytes + run.d->length()) > max_data_len ) {
                     run.op_state = WRITE_HEAD;
                     exit = true;
                     break;
                  }
                  run.op_state = WRITE_DESC;
               }
-              else
-              {
+              else {
                  // no more descriptors.. done writing this xport stream,
                  run = Context();
                  exit = done = true;

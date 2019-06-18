@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <algorithm>
 #include <list>
 #include <utility>
 #include "table.h"
@@ -50,12 +51,12 @@ namespace sigen
    bool SDT::addServiceDesc(ui16 sid, Descriptor &d)
    {
       // look for the id in the list
-      for (Service& service : service_list)
-      {
-         if (service.id == sid)
-            return addServiceDesc(service, d);
-      }
-      return false;
+      auto it = std::find_if(service_list.begin(), service_list.end(),
+                             [=](const auto& s) { return s.id == sid; });
+      if (it == service_list.end())
+         return false;
+
+      return addServiceDesc(*it, d);
    }
 
 
@@ -64,10 +65,10 @@ namespace sigen
    //
    bool SDT::addServiceDesc(Descriptor &d)
    {
-      if (!service_list.empty()) {
-         return addServiceDesc(service_list.back(), d);
-      }
-      return false;
+      if (service_list.empty())
+         return false;
+
+      return addServiceDesc(service_list.back(), d);
    }
 
 
@@ -77,7 +78,6 @@ namespace sigen
    bool SDT::addServiceDesc(Service& serv, Descriptor &d)
    {
       ui16 d_len = d.length();
-
       // make sure we can add it (max desc loop len = 2^16 - 1)
       if ( !incLength(d_len) )
          return false;
@@ -99,8 +99,7 @@ namespace sigen
          switch (run.op_state)
          {
            case INIT:
-              if (!run.serv)
-                 run.s_iter = service_list.begin();
+              run.s_iter = service_list.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -125,18 +124,15 @@ namespace sigen
 
            case GET_SERVICE:
               // fetch the next service
-              if (run.s_iter != service_list.end())
-              {
+              if (run.s_iter != service_list.end()) {
                  run.serv = &(*run.s_iter++);
 
-                 if (!run.serv->descriptors.empty())
-                 {
+                 if (!run.serv->descriptors.empty()) {
                     const Descriptor *d = run.serv->descriptors.front().get();
 
                     // check if we can fit it with at least one descriptor
                     if (sec_bytes + Service::BASE_LEN + d->length() >
-                        getMaxDataLen())
-                    {
+                        getMaxDataLen()) {
                        // we can't, so let's get another section to write
                        // this service to
                        run.op_state = WRITE_HEAD;
@@ -144,11 +140,9 @@ namespace sigen
                        break;
                     }
                  }
-                 else
-                 {
+                 else {
                     // no descriptors.. can we add the empty service?
-                    if ( (sec_bytes + Service::BASE_LEN) > getMaxDataLen() )
-                    {
+                    if ( (sec_bytes + Service::BASE_LEN) > getMaxDataLen() ) {
                        // no soup for you
                        run.op_state = WRITE_HEAD;
                        exit = true;
@@ -158,8 +152,7 @@ namespace sigen
                  // we can add it
                  run.op_state = WRITE_SERVICE;
               }
-              else
-              {
+              else {
                  // done with all services.. all sections are done!
                  run = Context();
                  exit = done = true;
@@ -169,8 +162,7 @@ namespace sigen
 
            case WRITE_SERVICE:
               // try to write it
-              if (!(*run.serv).writeSection(section, getMaxDataLen(), sec_bytes))
-              {
+              if (!(*run.serv).writeSection(section, getMaxDataLen(), sec_bytes)) {
                  run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
@@ -199,8 +191,7 @@ namespace sigen
            case INIT:
               // set the descriptor list iterator to this service's
               // descriptor list
-              if (!run.d)
-                 run.d_iter = descriptors.begin();
+              run.d_iter = descriptors.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -222,13 +213,11 @@ namespace sigen
               break;
 
            case GET_DESC:
-              if (run.d_iter != descriptors.end())
-              {
+              if (run.d_iter != descriptors.end()) {
                  run.d = (*run.d_iter++).get();
 
                  // make sure we can fit it
-                 if (sec_bytes + run.d->length() > max_data_length)
-                 {
+                 if (sec_bytes + run.d->length() > max_data_length) {
                     // can't exit and wait to complete
                     run.op_state = WRITE_HEAD;
                     exit = true;
@@ -236,8 +225,7 @@ namespace sigen
                  }
                  run.op_state = WRITE_DESC;
               }
-              else
-              {
+              else {
                  run = Context();
                  exit = done = true;
                  break;
@@ -288,8 +276,7 @@ namespace sigen
       incOutLevel();
       headerStr(o, SERVICE_LIST_S, false);
 
-      for (const Service& service : service_list)
-      {
+      for (const Service& service : service_list) {
          o << std::hex;
          identStr(o, SERVICE_ID_S, service.id, true);
          identStr(o, RESERVED_FU_S, rbits(0x3f)); // reserved future use
