@@ -216,8 +216,7 @@ namespace sigen
    // these don't increment the cur position
    bool Section::set08Bits(ui8 idx, ui8 d)
    {
-      if (idx > size)
-      {
+      if (idx > size) {
          std::cerr << "Section::set08Bits(ui8, ui8): invalid index.. set aborted" << std::endl;
          return false;
       }
@@ -234,8 +233,7 @@ namespace sigen
 
    bool Section::set16Bits(ui16 idx, ui16 d)
    {
-      if (idx + 1 > size)
-      {
+      if (idx + 1 > size) {
          std::cerr << "Section::set16Bits(ui16, ui16): invalid index.. set aborted" << std::endl;
          return false;
       }
@@ -342,8 +340,7 @@ namespace sigen
       int cnt = 0;
 
       // dump all sections
-      for (const Section *s : section_list)
-      {
+      for (const Section *s : section_list) {
          o << "- sec: " << std::dec << cnt++
            << ", length: " << std::dec << s->length()
            << ", size (max): " << std::dec << s->capacity()
@@ -354,5 +351,4 @@ namespace sigen
       o.flags( f );
    }
 #endif
-
-} // namespace
+}
