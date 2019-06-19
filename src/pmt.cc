@@ -74,7 +74,6 @@ namespace sigen
 
       // take ownership and store it
       stream.descriptors.add(d, 0); // PMT output does not carry a loop length
-      stream.es_info_length += d_len;
       return true;
    }
 
@@ -265,7 +264,7 @@ namespace sigen
          identStr(o, RESERVED_S, rbits(0x07) );
          identStr(o, ELEM_PID_S, stream.elementary_pid, true);
          identStr(o, RESERVED_S, rbits(0x0f) );
-         identStr(o, ES_INFO_LEN_S, stream.es_info_length, true);
+         identStr(o, ES_INFO_LEN_S, stream.descriptors.loop_length(), true);
 
          o << std::endl;
 

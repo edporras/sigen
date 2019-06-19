@@ -117,7 +117,7 @@ Program info len    : 109 (0x6d)
  reserved            : 0x7
  Elementary PID      : 33 (0x21)
  reserved            : 0xf
- ES info len         : 16 (0x10)
+ ES info len         : 0 (0)
 
   - Linkage Descriptor -
   Tag                 : 0x4a
@@ -137,7 +137,7 @@ Program info len    : 109 (0x6d)
  reserved            : 0x7
  Elementary PID      : 34 (0x22)
  reserved            : 0xf
- ES info len         : 57 (0x39)
+ ES info len         : 0 (0)
 
   - Linkage Descriptor -
   Tag                 : 0x4a

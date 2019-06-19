@@ -87,13 +87,12 @@ namespace sigen {
       struct ElementaryStream : public PSITable::ListItem {
          enum { BASE_LEN = 5 };
 
-         ui16 es_info_length;
          ui16 elementary_pid : 13;
          ui8 type;
 
          // constructor
          ElementaryStream(ui16 epid, ui8 t) :
-            es_info_length(0), elementary_pid(epid), type(t)
+            elementary_pid(epid), type(t)
          { }
          ElementaryStream() = delete;
 
