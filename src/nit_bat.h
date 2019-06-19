@@ -66,7 +66,6 @@ namespace sigen {
             id(tsid), original_network_id(onid) { }
          XportStream() = delete;
 
-         int length() const { return descriptors.loop_length() + BASE_LEN; }
          bool equals(ui16 tsid, ui16 onid) const { return (tsid == id && onid == original_network_id); }
 
          // writes item header bytes, returns num bytes written

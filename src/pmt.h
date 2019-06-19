@@ -96,6 +96,8 @@ namespace sigen {
          { }
          ElementaryStream() = delete;
 
+         bool equals(ui16 pid) const { return pid == elementary_pid; }
+
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const;
       };

@@ -78,6 +78,8 @@ namespace sigen {
          { }
          Event() = delete;
 
+         bool equals(ui16 ev_id) const { return ev_id == id; }
+
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const;
          // writes the 2-byte desc loop len

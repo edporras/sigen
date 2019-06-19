@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include <algorithm>
 #include <utility>
 #include <list>
 #include "table.h"
@@ -58,12 +59,12 @@ namespace sigen
    bool EIT::addEventDesc(std::list<Event> &e_list, ui16 evid, Descriptor &d)
    {
       // look for the id in the list.. if found, add the descriptor to it
-      for (Event& event : e_list)
-      {
-         if (event.id == evid)
-            return addEventDesc(event, d);
-      }
-      return false;
+      auto it = std::find_if(e_list.begin(), e_list.end(),
+                             [=](const auto& e) { return e.equals(evid); });
+      if (it == e_list.end())
+         return false;
+
+      return addEventDesc(*it, d);
    }
 
 
@@ -252,7 +253,7 @@ namespace sigen
 
 
    //
-   // state machine for writing each event to the stream
+   // data writers for EIT::Event
    //
    ui8 EIT::Event::write_header(Section& section) const
    {

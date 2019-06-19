@@ -67,6 +67,8 @@ namespace sigen {
             free_ca_mode(fca) {}
          Service() = delete;
 
+         bool equals(ui16 sid) const { return sid == id; }
+
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const;
          // writes the 2-byte desc loop len

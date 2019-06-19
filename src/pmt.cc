@@ -45,7 +45,7 @@ namespace sigen
    {
       // look for the stream
       auto it = std::find_if(es_list.begin(), es_list.end(),
-                             [=](const auto& es) { return es.elementary_pid == elem_pid; });
+                             [=](const auto& es) { return es.equals(elem_pid); });
       if (it == es_list.end())
          return false;
 
@@ -225,7 +225,7 @@ namespace sigen
 
 
    //
-   // state machine for writing the transport streams
+   // data writers for PMT::ElementaryStream
    //
    ui8 PMT::ElementaryStream::write_header(Section& section) const
    {

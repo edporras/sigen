@@ -52,7 +52,7 @@ namespace sigen
    {
       // look for the id in the list
       auto it = std::find_if(service_list.begin(), service_list.end(),
-                             [=](const auto& s) { return s.id == sid; });
+                             [=](const auto& s) { return s.equals(sid); });
       if (it == service_list.end())
          return false;
 
@@ -176,7 +176,7 @@ namespace sigen
 
 
    //
-   // state machine for writing each service to the stream
+   // data writers for SDT::Service
    //
    ui8 SDT::Service::write_header(Section& section) const
    {
