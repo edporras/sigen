@@ -212,7 +212,7 @@ namespace sigen
 
            case WRITE_XPORT_STREAM:
               // finally write it
-              if (!(*run.es).writeSection(section, getMaxDataLen(), sec_bytes)) {
+              if (!(*run.es).write_section(section, getMaxDataLen(), sec_bytes)) {
                  run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
@@ -228,76 +228,15 @@ namespace sigen
    //
    // state machine for writing the transport streams
    //
-   bool PMT::ElementaryStream::writeSection(Section& section, ui16 max_data_len, ui16 &sec_bytes) const
+   ui8 PMT::ElementaryStream::write_header(Section& section) const
    {
-      ui8 *ts_desc_len_pos = 0;
-      ui16 d_len, ts_desc_len = 0;
-      bool exit = false, done = false;
+      // write the pmt transport stream data
+      section.set08Bits(type);
+      section.set16Bits( rbits(0xe000) |
+                         elementary_pid );
 
-      while (!exit)
-      {
-         switch (run.op_state)
-         {
-           case INIT:
-              // set the descriptor iterator
-              run.d_iter = descriptors.begin();
-              run.op_state = WRITE_HEAD;
-
-           case WRITE_HEAD:
-              // write the pmt transport stream data
-              section.set08Bits(type);
-              section.set16Bits( rbits(0xe000) |
-                                 elementary_pid );
-
-              // save the position for the desc loop len.. we'll update it later
-              ts_desc_len_pos = section.getCurDataPosition();
-              section.set16Bits( 0 );
-
-              // increment the byte count
-              sec_bytes += ElementaryStream::BASE_LEN;
-
-              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
-              break;
-
-           case GET_DESC:
-              if (run.d_iter != descriptors.end()) {
-                 run.d = (*run.d_iter++).get();
-
-                 // make sure we can fit it
-                 if ( (sec_bytes + run.d->length()) > max_data_len ) {
-                    run.op_state = WRITE_HEAD;
-                    exit = true;
-                    break;
-                 }
-                 run.op_state = WRITE_DESC;
-              }
-              else {
-                 // no more descriptors.. done writing this xport stream,
-                 run = Context();
-                 exit = done = true;
-                 break;
-              }
-              break;
-
-           case WRITE_DESC:
-              run.d->buildSections(section);
-
-              // increment all byte counts
-              d_len = run.d->length();
-              sec_bytes += d_len;
-              ts_desc_len += d_len;
-
-              // try to get another one
-              run.op_state = GET_DESC;
-              break;
-         }
-      }
-      // write the desc loop length
-      section.set16Bits( ts_desc_len_pos,
-                         rbits(~LEN_MASK) | (ts_desc_len & LEN_MASK) );
-      return done;
+      return ElementaryStream::BASE_LEN - 2;
    }
-
 
 #ifdef ENABLE_DUMP
    //

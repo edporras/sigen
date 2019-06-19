@@ -162,7 +162,7 @@ namespace sigen
 
            case WRITE_SERVICE:
               // try to write it
-              if (!(*run.serv).writeSection(section, getMaxDataLen(), sec_bytes)) {
+              if (!(*run.serv).write_section(section, getMaxDataLen(), sec_bytes)) {
                  run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
@@ -178,82 +178,23 @@ namespace sigen
    //
    // state machine for writing each service to the stream
    //
-   bool SDT::Service::writeSection(Section& section, ui16 max_data_length, ui16 &sec_bytes) const
+   ui8 SDT::Service::write_header(Section& section) const
    {
-      ui8 *d_loop_len_pos = 0;
-      ui16 desc_loop_len = 0;
-      bool done = false, exit = false;
+      // write the service data
+      section.set16Bits(id);
+      section.set08Bits( rbits(0xfc) |
+                         eit_schedule |
+                         eit_present_following );
 
-      while (!exit)
-      {
-         switch (run.op_state)
-         {
-           case INIT:
-              // set the descriptor list iterator to this service's
-              // descriptor list
-              run.d_iter = descriptors.begin();
-              run.op_state = WRITE_HEAD;
+      return SDT::Service::BASE_LEN - 2;
+   }
 
-           case WRITE_HEAD:
-              // write the service data
-              section.set16Bits(id);
-              section.set08Bits( rbits(0xfc) |
-                                 eit_schedule |
-                                 eit_present_following );
-
-              // save the position of the desc loop length..
-              // we'll set it when we're done
-              d_loop_len_pos = section.getCurDataPosition();
-              section.set16Bits( 0 );
-
-              // increment the byte count
-              sec_bytes += SDT::Service::BASE_LEN;
-
-              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
-              break;
-
-           case GET_DESC:
-              if (run.d_iter != descriptors.end()) {
-                 run.d = (*run.d_iter++).get();
-
-                 // make sure we can fit it
-                 if (sec_bytes + run.d->length() > max_data_length) {
-                    // can't exit and wait to complete
-                    run.op_state = WRITE_HEAD;
-                    exit = true;
-                    break;
-                 }
-                 run.op_state = WRITE_DESC;
-              }
-              else {
-                 run = Context();
-                 exit = done = true;
-                 break;
-              }
-              break;
-
-           case WRITE_DESC:
-              {
-                 // the service descriptors
-                 run.d->buildSections(section);
-
-                 ui16 d_len = run.d->length();
-                 sec_bytes += d_len;
-                 desc_loop_len += d_len;
-
-                 // try to get another one
-                 run.op_state = GET_DESC;
-              }
-              break;
-         }
-      }
-
-      // done with this service.. write the desc_loop_len
-      section.set16Bits( d_loop_len_pos,
+   void SDT::Service::write_desc_loop_len(Section& section, ui8* pos, ui16 len) const
+   {
+      section.set16Bits( pos,
                          (running_status << 13) |
                          (free_ca_mode << 12) |
-                         (desc_loop_len & LEN_MASK) );
-      return done;
+                         (len & LEN_MASK) );
    }
 
 #ifdef ENABLE_DUMP
@@ -297,23 +238,5 @@ namespace sigen
       o << std::endl;
    }
 #endif
-
-
-
-   // =============================================
-   // the private SDT::Service class
-
-   //
-   // write to the stream
-   void SDT::Service::buildSections(Section &s) const
-   {
-      s.set16Bits( id );
-      s.set08Bits( rbits(0xfc) | (eit_schedule << 1) |
-                   eit_present_following );
-      s.set16Bits( (running_status << 13) | (free_ca_mode << 12) |
-                   (descriptors.loop_length() & 0x0fff) );
-
-      descriptors.buildSections(s);
-   }
 
 } // namespace sigen

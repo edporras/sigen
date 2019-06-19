@@ -196,6 +196,16 @@ namespace sigen {
 
       // for inner class with descriptor lists
       struct ListItem : public STable::ListItem {
+         DescList descriptors;
+
+         // controls the state machine for writing the loop's section data
+         bool write_section(Section& sec, ui16 max_data_len, ui16 &sec_bytes,
+                            ui16 *item_loop_len = nullptr) const;
+         // writes item header bytes, returns num bytes written
+         virtual ui8 write_header(Section& sec) const = 0;
+         // writes the 2-byte desc loop len
+         virtual void write_desc_loop_len(Section& sec, ui8* pos, ui16 len) const;
+
       protected:
          // section building state tracking
          enum State_t { INIT, WRITE_HEAD, GET_DESC, WRITE_DESC };

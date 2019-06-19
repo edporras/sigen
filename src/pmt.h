@@ -90,7 +90,6 @@ namespace sigen {
          ui16 es_info_length;
          ui16 elementary_pid : 13;
          ui8 type;
-         DescList descriptors;
 
          // constructor
          ElementaryStream(ui16 epid, ui8 t) :
@@ -98,7 +97,8 @@ namespace sigen {
          { }
          ElementaryStream() = delete;
 
-         bool writeSection(Section& s, ui16 max_data_len, ui16& sec_bytes) const;
+         // writes item header bytes, returns num bytes written
+         virtual ui8 write_header(Section& sec) const;
       };
 
       // instance variables

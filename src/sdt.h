@@ -59,7 +59,6 @@ namespace sigen {
          bool eit_schedule;
          bool eit_present_following;
          bool free_ca_mode;
-         DescList descriptors;
 
          // constructor
          Service(ui16 sid, bool esf, bool epff, ui8 rs, bool fca) :
@@ -68,10 +67,10 @@ namespace sigen {
             free_ca_mode(fca) {}
          Service() = delete;
 
-         // utility
-         void buildSections(Section &) const;
-
-         bool writeSection(Section&, ui16, ui16 &) const;
+         // writes item header bytes, returns num bytes written
+         virtual ui8 write_header(Section& sec) const;
+         // writes the 2-byte desc loop len
+         virtual void write_desc_loop_len(Section& sec, ui8* pos, ui16 len) const;
       };
 
       // sdt data members begin here

@@ -223,6 +223,87 @@ namespace sigen
                    current_next_indicator );
    }
 
+   bool PSITable::ListItem::write_section(Section& section, ui16 max_data_len,
+                                          ui16& sec_bytes, ui16* loop_len_ptr) const
+   {
+      ui8 header_len;
+      ui8* desc_loop_len_pos = 0;
+      ui16 d_len, desc_loop_len = 0;
+      bool exit = false, done = false;
+
+      while (!exit)
+      {
+         switch (run.op_state)
+         {
+           case INIT:
+              // set the descriptor iterator
+              run.d_iter = descriptors.begin();
+              run.op_state = WRITE_HEAD;
+
+           case WRITE_HEAD:
+              header_len = write_header(section) + 2;
+
+              // save the position for the desc loop len.. we'll update it later
+              desc_loop_len_pos = section.getCurDataPosition();
+              section.set16Bits( 0 );
+
+              // increment the byte count
+              sec_bytes += header_len;
+              if (loop_len_ptr)
+                 *loop_len_ptr += header_len;
+
+              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
+              break;
+
+           case GET_DESC:
+              // if we have descriptors available..
+              if (run.d_iter != descriptors.end()) {
+                 run.d = (*run.d_iter++).get();
+
+                 // make sure we can fit the next one
+                 if ( (sec_bytes + run.d->length()) > max_data_len ) {
+                    run.op_state = WRITE_HEAD;
+                    exit = true;
+                    break;
+                 }
+                 run.op_state = WRITE_DESC;
+              }
+              else {
+                 // no more descriptors.. done writing this xport stream,
+                 run = Context();
+                 exit = done = true;
+                 break;
+              }
+              break;
+
+           case WRITE_DESC:
+              run.d->buildSections(section);
+
+              // increment all byte counts
+              d_len = run.d->length();
+              sec_bytes += d_len;
+              if (loop_len_ptr)
+                 *loop_len_ptr += d_len;
+              desc_loop_len += d_len;
+
+              // try to get another one
+              run.op_state = GET_DESC;
+              break;
+         }
+      }
+      // write the desc loop length
+      write_desc_loop_len(section, desc_loop_len_pos, desc_loop_len);
+
+      return done;
+   }
+
+   //
+   // general case. Some tables will define their own (e.g., SDT, EIT)
+   void PSITable::ListItem::write_desc_loop_len(Section& section, ui8* pos, ui16 len) const
+   {
+      section.set16Bits( pos, rbits(~LEN_MASK) | (len & LEN_MASK) );
+   }
+
 #ifdef ENABLE_DUMP
    //
    // displays the reserved | version | current_next byte

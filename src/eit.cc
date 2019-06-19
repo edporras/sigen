@@ -238,7 +238,7 @@ namespace sigen
 
            case WRITE_EVENT:
               // try to write it
-              if (!(*run.event).writeSection(section, getMaxDataLen(), sec_bytes)) {
+              if (!(*run.event).write_section(section, getMaxDataLen(), sec_bytes)) {
                  run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
@@ -254,92 +254,32 @@ namespace sigen
    //
    // state machine for writing each event to the stream
    //
-   bool EIT::Event::writeSection(Section& section, ui16 max_data_len, ui16 &sec_bytes) const
+   ui8 EIT::Event::write_header(Section& section) const
    {
-      ui8 *d_loop_len_pos = 0;
-      ui16 desc_loop_len = 0;
-      bool done = false, exit = false;
+      // write the event data
+      section.set16Bits(id);
 
-      while (!exit)
-      {
-         switch (run.op_state)
-         {
-           case INIT:
-              // set the descriptor list iterator to this event's
-              // descriptor list
-              run.d_iter = descriptors.begin();
-              run.op_state = WRITE_HEAD;
+      // start utc
+      section.set16Bits(utc.mjd);
+      section.set08Bits(utc.time.getBCDHour());
+      section.set08Bits(utc.time.getBCDMinute());
+      section.set08Bits(utc.time.getBCDSecond());
 
-           case WRITE_HEAD:
-              // write the event data
-              section.set16Bits(id);
+      // duration
+      section.set08Bits(duration.getBCDHour());
+      section.set08Bits(duration.getBCDMinute());
+      section.set08Bits(duration.getBCDSecond());
 
-              // start utc
-              section.set16Bits(utc.mjd);
-              section.set08Bits(utc.time.getBCDHour());
-              section.set08Bits(utc.time.getBCDMinute());
-              section.set08Bits(utc.time.getBCDSecond());
-
-              // duration
-              section.set08Bits(duration.getBCDHour());
-              section.set08Bits(duration.getBCDMinute());
-              section.set08Bits(duration.getBCDSecond());
-
-              // save the position of the desc loop length..
-              // we'll set it when we're done
-              d_loop_len_pos = section.getCurDataPosition();
-              section.set16Bits( 0 );
-
-              // increment the byte count
-              sec_bytes += EIT::Event::BASE_LEN;
-
-              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
-              break;
-
-           case GET_DESC:
-              if (run.d_iter != descriptors.end()) {
-                 run.d = (*run.d_iter++).get();
-
-                 // make sure we can fit it
-                 if (sec_bytes + run.d->length() > max_data_len) {
-                    // can't exit and wait to complete
-                    run.op_state = WRITE_HEAD;
-                    exit = true;
-                    break;
-                 }
-                 run.op_state = WRITE_DESC;
-              }
-              else {
-                 run = Context();
-                 exit = done = true;
-                 break;
-              }
-              break;
-
-           case WRITE_DESC:
-              {
-                 // the service descriptors
-                 run.d->buildSections(section);
-
-                 ui16 d_len = run.d->length();
-                 sec_bytes += d_len;
-                 desc_loop_len += d_len;
-
-                 // try to get another one
-                 run.op_state = GET_DESC;
-              }
-              break;
-         }
-      }
-
-      // done with this service.. write the desc_loop_len
-      section.set16Bits( d_loop_len_pos,
-                         (running_status << 13) |
-                         (free_CA_mode << 12) |
-                         (desc_loop_len & LEN_MASK) );
-      return done;
+      return EIT::Event::BASE_LEN - 2;
    }
 
+   void EIT::Event::write_desc_loop_len(Section& section, ui8* pos, ui16 len) const
+   {
+      section.set16Bits( pos,
+                         (running_status << 13) |
+                         (free_CA_mode << 12) |
+                         (len & LEN_MASK) );
+   }
 
    //
    // controls the table building.. eit's need special section builders
@@ -352,16 +292,13 @@ namespace sigen
    //
    void PF_EIT::buildSections(TStream &strm) const
    {
-      ui8 cur_sec, last_sec;
       ui16 sec_bytes;
-      Section *s;
 
       // build the present & following sections
-      last_sec = FOLLOWING;
-      for (cur_sec = PRESENT; cur_sec <= FOLLOWING; cur_sec++) {
+      for (ui8 cur_sec = PRESENT, last_sec = FOLLOWING; cur_sec <= FOLLOWING; cur_sec++) {
          // allocate space for the section (use getMaxSectionLen() to include
          // room for CRC)
-         s = strm.getNewSection(getMaxSectionLen());
+         Section *s = strm.getNewSection(getMaxSectionLen());
 
          // write the section
          writeSection(*s, event_list[cur_sec], getId(), // id is table_id
@@ -392,39 +329,7 @@ namespace sigen
       dumpEventList(o, event_list[FOLLOWING]);
       decOutLevel();
    }
-#endif
 
-
-
-   // =============================================
-   // the private EIT::Event class
-
-   // utility
-   void EIT::Event::buildSections(Section &s) const
-   {
-      s.set16Bits(id);
-
-      // date / time
-      s.set16Bits(utc.mjd);
-      s.set08Bits(utc.time.getBCDHour());
-      s.set08Bits(utc.time.getBCDMinute());
-      s.set08Bits(utc.time.getBCDSecond());
-
-      // duration
-      s.set08Bits( duration.getBCDHour() );
-      s.set08Bits( duration.getBCDMinute() );
-      s.set08Bits( duration.getBCDSecond() );
-
-      s.set16Bits( (running_status << 13) |
-                   (free_CA_mode << 12) |
-                   descriptors.loop_length() );
-
-      // descriptor loop
-      descriptors.buildSections(s);
-   }
-
-
-#ifdef ENABLE_DUMP
    //
    // debug
    void PF_EIT::dumpHeader(std::ostream &o) const

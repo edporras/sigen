@@ -66,7 +66,6 @@ namespace sigen {
          BCDTime duration;
          ui8 running_status : 3;
          bool free_CA_mode;
-         DescList descriptors;
 
          // constructor
          Event(ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs,
@@ -79,10 +78,10 @@ namespace sigen {
          { }
          Event() = delete;
 
-         // utility
-         void buildSections(Section &) const;
-
-         bool writeSection(Section& , ui16 , ui16 &) const;
+         // writes item header bytes, returns num bytes written
+         virtual ui8 write_header(Section& sec) const;
+         // writes the 2-byte desc loop len
+         virtual void write_desc_loop_len(Section& sec, ui8* pos, ui16 len) const;
       };
 
       // common EIT data members begin here

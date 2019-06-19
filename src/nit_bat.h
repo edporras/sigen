@@ -60,7 +60,6 @@ namespace sigen {
 
          ui16 id;                  // transport stream id
          ui16 original_network_id;
-         DescList descriptors;
 
          // constructor
          XportStream(ui16 tsid, ui16 onid) :
@@ -70,7 +69,8 @@ namespace sigen {
          int length() const { return descriptors.loop_length() + BASE_LEN; }
          bool equals(ui16 tsid, ui16 onid) const { return (tsid == id && onid == original_network_id); }
 
-         bool writeSection(Section& , ui16, ui16 &, ui16 &) const;
+         // writes item header bytes, returns num bytes written
+         virtual ui8 write_header(Section& sec) const;
       };
 
       // NIT members

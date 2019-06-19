@@ -255,7 +255,7 @@ namespace sigen
 
            case WRITE_XPORT_STREAM:
               // finally write it
-              if (!(*run.ts).writeSection(section, getMaxDataLen(), sec_bytes, ts_loop_len)) {
+              if (!(*run.ts).write_section(section, getMaxDataLen(), sec_bytes, &ts_loop_len)) {
                  run.op_state = WRITE_HEAD;
                  exit = true;
                  break;
@@ -276,80 +276,14 @@ namespace sigen
    //
    // state machine for writing the transport streams
    //
-   bool NIT_BAT::XportStream::writeSection(Section& section, ui16 max_data_len,
-                                           ui16& sec_bytes, ui16& ts_loop_len) const
+   ui8 NIT_BAT::XportStream::write_header(Section& section) const
    {
-      ui8 *ts_desc_len_pos = 0;
-      ui16 d_len, ts_desc_len = 0;
-      bool exit = false, done = false;
+      // write the transport stream data
+      section.set16Bits(id);
+      section.set16Bits(original_network_id);
 
-      while (!exit)
-      {
-         switch (run.op_state)
-         {
-           case INIT:
-              // set the descriptor iterator
-              run.d_iter = descriptors.begin();
-              run.op_state = WRITE_HEAD;
-
-           case WRITE_HEAD:
-              // write the transport stream data
-              section.set16Bits(id);
-              section.set16Bits(original_network_id);
-
-              // save the position for the desc loop len.. we'll update it later
-              ts_desc_len_pos = section.getCurDataPosition();
-              section.set16Bits( 0 );
-
-              // increment the byte count
-              sec_bytes += XportStream::BASE_LEN;
-              ts_loop_len += XportStream::BASE_LEN;
-
-              run.op_state = (!run.d ? GET_DESC : WRITE_DESC);
-              break;
-
-           case GET_DESC:
-              // if we have descriptors available..
-              if (run.d_iter != descriptors.end()) {
-                 run.d = (*run.d_iter++).get();
-
-                 // make sure we can fit the next one
-                 if ( (sec_bytes + run.d->length()) > max_data_len ) {
-                    run.op_state = WRITE_HEAD;
-                    exit = true;
-                    break;
-                 }
-                 run.op_state = WRITE_DESC;
-              }
-              else {
-                 // no more descriptors.. done writing this xport stream,
-                 run = Context();
-                 exit = done = true;
-                 break;
-              }
-              break;
-
-           case WRITE_DESC:
-              run.d->buildSections(section);
-
-              // increment all byte counts
-              d_len = run.d->length();
-              sec_bytes += d_len;
-              ts_loop_len += d_len;
-              ts_desc_len += d_len;
-
-              // try to get another one
-              run.op_state = GET_DESC;
-              break;
-         }
-      }
-      // write the desc loop length
-      section.set16Bits( ts_desc_len_pos,
-                         rbits(~LEN_MASK) |
-                         (ts_desc_len & LEN_MASK) );
-      return done;
+      return XportStream::BASE_LEN - 2;
    }
-
 
    //
    // dumps to stdout
