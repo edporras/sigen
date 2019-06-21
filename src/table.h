@@ -36,14 +36,6 @@ namespace sigen {
    //
    // abstract superclass for both tables and descriptors
    struct Table {
-      const ui16 BASE_LENGTH;
-
-      Table(ui16 base_len) : BASE_LENGTH(base_len) {}
-      virtual ~Table() { }
-
-      // helper to fill reserved bits
-      static ui32 rbits(ui32 mask);
-
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const = 0;
       virtual void dumpHeader(std::ostream &, STRID) const = 0;
@@ -58,6 +50,15 @@ namespace sigen {
          ListItem operator=(const ListItem&) = delete;
          ListItem operator=(const ListItem&&) = delete;
       };
+
+   protected:
+      const ui16 BASE_LENGTH;
+
+      Table(ui16 base_len) : BASE_LENGTH(base_len) {}
+      virtual ~Table() { }
+
+      // helper to fill reserved bits
+      static ui32 rbits(ui32 mask);
 
       // prohibit
       Table(const Table&) = delete;
@@ -87,7 +88,7 @@ namespace sigen {
       // override max_section_length with this
       void setMaxSectionLen(ui16 l) { max_section_length = l; }
 
-      virtual void buildSections(TStream &) const = 0;
+      virtual void buildSections(TStream& stream) const = 0;
 
    protected:
       enum { LEN_MASK = 0x0fff,
