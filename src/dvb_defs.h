@@ -77,8 +77,10 @@ namespace sigen {
             CIRCULAR_RIGHT_POL,
          };
          enum Mod_t {
-            UNDEF_MOD,
+            AUTO_MOD,
             QPSK_MOD,
+            EIGHT_PSK_MOD,
+            SIXTEEN_QAM,
          };
       }
 

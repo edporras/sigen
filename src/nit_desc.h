@@ -34,9 +34,7 @@ namespace sigen {
    class DeliveryDesc : public Descriptor
    {
    protected:
-      DeliveryDesc(ui8 tag, ui8 len) :
-         Descriptor(tag, len)
-      { }
+      DeliveryDesc(ui8 tag, ui8 len) : Descriptor(tag, len) { }
       DeliveryDesc() = delete;
    };
 
@@ -50,12 +48,11 @@ namespace sigen {
       enum { TAG = 0x44 };
 
       // constructor
-      CableDeliverySystemDesc(ui32 freq,
-                              ui32 sym_rate,
+      CableDeliverySystemDesc(ui32 freq, ui32 sym_rate,
                               ui8 fec_o = Dvb::Cable::UNDEF_FECO,
                               ui8 mod = Dvb::Cable::UNDEF_MOD,
-                              ui8 fec_i = Dvb::UNDEF_FECI) :
-         DeliveryDesc(TAG, 11),
+                              ui8 fec_i = Dvb::UNDEF_FECI)
+         : DeliveryDesc(TAG, 11),
          frequency(freq),
          symbol_rate(sym_rate),
          modulation(mod),
@@ -87,12 +84,11 @@ namespace sigen {
       enum { TAG = 0x43 };
 
       // constructor
-      SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate,
-                                  bool wef = false,
+      SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef = false,
                                   ui8 pol = Dvb::Sat::LINEAR_HOR_POL,
-                                  ui8 mod = Dvb::Sat::UNDEF_MOD,
-                                  ui8 fec_i = Dvb::UNDEF_FECI) :
-         DeliveryDesc(TAG, 11),
+                                  ui8 mod = Dvb::Sat::AUTO_MOD,
+                                  ui8 fec_i = Dvb::UNDEF_FECI)
+         : DeliveryDesc(TAG, 11),
          frequency(freq),
          symbol_rate(sym_rate),
          orbital_position(orb_pos),
@@ -130,8 +126,8 @@ namespace sigen {
       // constructor
       TerrestrialDeliverySystemDesc(ui32 cfreq, ui8 bandw, ui8 constel,
                                     ui8 hier_i, ui8 cr_HP, ui8 cr_LP,
-                                    ui8 guard_i, ui8 trans_m, bool other_f_f) :
-         Descriptor(TAG, 11),
+                                    ui8 guard_i, ui8 trans_m, bool other_f_f)
+         : Descriptor(TAG, 11),
          ctr_frequency(cfreq),
          bandwidth(bandw),
          constellation(constel),
@@ -440,13 +436,14 @@ namespace sigen {
       };
 
       // constructor
-      FrequencyListDesc(ui8 ct) :
-         Descriptor(TAG, 1),
+      FrequencyListDesc(ui8 ct)
+         : Descriptor(TAG, 1),
          coding_type(ct) { }
       FrequencyListDesc() = delete;
 
       // utility functions
-      bool addFrequency(ui32 f);
+      bool addFrequency(ui32 centre_freq);
+
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
