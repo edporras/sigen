@@ -144,6 +144,19 @@ namespace sigen {
    class MultilingualTextDesc : public Descriptor
    {
    public:
+      bool addText(const LanguageCode& lang, const std::string& text);
+
+      [[deprecated("replaced by addText()")]] bool addLanguage(const LanguageCode& lang,
+                                                               const std::string& text) {
+         return addText(lang, text);
+      }
+
+      virtual void buildSections(Section &s) const {
+         Descriptor::buildSections(s);
+         buildLoopData(s);
+      }
+
+   protected:
       // general struct for data in loops
       struct Text : public STable::ListItem {
          enum { BASE_LEN = 4 };
@@ -159,7 +172,6 @@ namespace sigen {
          ui16 length() const { return BASE_LEN + data.length(); }
       };
 
-   protected:
       // descriptor data members begin here
       std::list<Text> ml_text_list;
 
@@ -179,14 +191,6 @@ namespace sigen {
 #endif
 
       void buildLoopData(Section &) const;
-
-   public:
-      // utility
-      bool addLanguage(const LanguageCode& lang, const std::string &code);
-      virtual void buildSections(Section &s) const {
-         Descriptor::buildSections(s);
-         buildLoopData(s);
-      }
    };
 
 } // sigen namespace

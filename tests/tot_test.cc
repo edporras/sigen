@@ -30,14 +30,14 @@ namespace tests
       tot.addDesc( *smd );
 
       MultilingualBouquetNameDesc* mlbnd = new MultilingualBouquetNameDesc;
-      mlbnd->addLanguage("fre", "Jus d'orang");
-      mlbnd->addLanguage("spa", "Jugo de naranja");
+      mlbnd->addText("fre", "Jus d'orang");
+      mlbnd->addText("spa", "Jugo de naranja");
 
       tot.addDesc(*mlbnd);
 
       MultilingualComponentDesc* mlcd = new MultilingualComponentDesc(0x22);
-      mlcd->addLanguage("fre", "Je sui fatigue");
-      mlcd->addLanguage("spa", "Estoy cansado");
+      mlcd->addText("fre", "Je sui fatigue");
+      mlcd->addText("spa", "Estoy cansado");
 
       tot.addDesc(*mlcd);
 

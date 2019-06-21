@@ -24,8 +24,8 @@ namespace tests
 
       // multiling net name
       MultilingualNetworkNameDesc *mlnnd = new MultilingualNetworkNameDesc;
-      mlnnd->addLanguage("fre", "France");
-      mlnnd->addLanguage("spa", "Francia");
+      mlnnd->addText("fre", "France");
+      mlnnd->addText("spa", "Francia");
 
       nit.addNetworkDesc( *mlnnd );
 

@@ -94,8 +94,7 @@ namespace sigen
 
    //
    // adds a new language to the specified network
-   bool MultilingualTextDesc::addLanguage(const LanguageCode& code,
-                                          const std::string& text)
+   bool MultilingualTextDesc::addText(const LanguageCode& code, const std::string& text)
    {
       // check if we can even fit a lang code & text length byte
       if (!incLength(Text::BASE_LEN))
