@@ -275,6 +275,26 @@ namespace sigen {
    public:
       enum { TAG = 0x6d };
 
+      CellFrequencyLinkDesc() : Descriptor(TAG) { }
+      bool addCell(ui16 cell_id, ui32 frequency);
+      bool addSubCell(ui8 cid_ext, ui32 xposer_freq);
+      bool addSubCell(ui16 cell_id, ui8 cid_ext, ui32 xposer_freq);
+
+      [[deprecated("replaced by addCell()")]] bool addLink(ui16 cid, ui32 f) { return addCell(cid, f); }
+      [[deprecated("replaced by addSubCell()")]] bool addLinkSubCell(ui8 cid_ext, ui32 f) {
+          return addSubCell(cid_ext, f);
+       }
+      [[deprecated("replaced by addSubCell()")]] bool addLinkSubCell(ui16 cid, ui32 f, ui16 cid_ext, ui32 xf) {
+         return addSubCell(cid, cid_ext, xf);
+      }
+
+      virtual void buildSections(Section&) const;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream&) const;
+#endif
+
+   private:
       // funky descriptor with a loop within a loop
       struct Link : public STable::ListItem {
          struct SubCell : public STable::ListItem {
@@ -307,29 +327,11 @@ namespace sigen {
          ui8 length() const { return BASE_LEN + subcell_list.size() * SubCell::BASE_LEN; }
       };
 
-
-      // constructor
-      CellFrequencyLinkDesc() : Descriptor(TAG) { }
-
-      // utility methods
-      bool addLink(ui16 cell_id, ui32 frequency);
-      bool addLinkSubCell(ui16 cell_id, ui32 frequency, ui8 cid_ext,
-                          ui32 xposer_freq);
-      // adds to the most recently added link
-      bool addLinkSubCell(ui8 cid_ext, ui32 xposer_freq);
-
-      virtual void buildSections(Section&) const;
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream&) const;
-#endif
-
-   private:
       // descriptor data members
       std::list<Link> cflink_list;
 
    protected:
-      bool addLinkSubCell(Link& l, ui8 cid_ext, ui32 xposer_freq);
+      bool add_subcell(Link& l, ui8 cid_ext, ui32 xposer_freq);
    };
 
 

@@ -137,7 +137,7 @@ namespace sigen
    // ---------------------------------------
    // cell frequency link descriptor
    //
-   bool CellFrequencyLinkDesc::addLink(ui16 cell_id, ui32 frequency)
+   bool CellFrequencyLinkDesc::addCell(ui16 cell_id, ui32 frequency)
    {
       if (!incLength(Link::BASE_LEN))
          return false;
@@ -146,10 +146,9 @@ namespace sigen
       return true;
    }
 
-
    //
    // helper method to add a subcell to a link in the list
-   bool CellFrequencyLinkDesc::addLinkSubCell(Link& link, ui8 cid_ext, ui32 xposer_freq)
+   bool CellFrequencyLinkDesc::add_subcell(Link& link, ui8 cid_ext, ui32 xposer_freq)
    {
       // check if it fits
       if ( !incLength( Link::SubCell::BASE_LEN ) )
@@ -160,26 +159,25 @@ namespace sigen
       return true;
    }
 
-   bool CellFrequencyLinkDesc::addLinkSubCell(ui16 cell_id, ui32 frequency, ui8 cid_ext, ui32 xposer_freq)
+   bool CellFrequencyLinkDesc::addSubCell(ui16 cell_id, ui8 cid_ext, ui32 xposer_freq)
    {
       // look for a matching c/f link
       auto it = std::find_if(cflink_list.begin(), cflink_list.end(),
-                             [=](const auto& l) { return (l.cell_id == cell_id &&
-                                                          l.frequency == frequency); });
+                             [=](const auto& l) { return (l.cell_id == cell_id); });
       if (it == cflink_list.end())
          return false;
 
-      return addLinkSubCell(*it, cid_ext, xposer_freq);
+      return add_subcell(*it, cid_ext, xposer_freq);
    }
 
-   bool CellFrequencyLinkDesc::addLinkSubCell(ui8 cid_ext, ui32 xposer_freq)
+   bool CellFrequencyLinkDesc::addSubCell(ui8 cid_ext, ui32 xposer_freq)
    {
       // if any have been added, try to add teh subcell to the one in the
       // end
       if (cflink_list.empty())
          return false;
 
-      return addLinkSubCell( cflink_list.back(), cid_ext, xposer_freq );
+      return add_subcell( cflink_list.back(), cid_ext, xposer_freq );
    }
 
    //
