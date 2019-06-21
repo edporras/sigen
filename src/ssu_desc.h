@@ -38,7 +38,7 @@ namespace sigen {
    public:
       // constructor for linkage types 0x09
       SSULinkageDesc(ui16 xsid, ui16 onid, ui16 sid) :
-         LinkageDesc(xsid, onid, sid, LinkageDesc::SSUS),
+         LinkageDesc(LinkageDesc::SSUS, xsid, onid, sid),
          OUI_data_length(0)
       { incLength( 1 ); }
       SSULinkageDesc() = delete;
@@ -89,7 +89,7 @@ namespace sigen {
 
       // constructor for linkage types 0x0A
       SSUScanLinkageDesc(ui16 xsid, ui16 onid, ui16 sid, TableType t_type) :
-         LinkageDesc(xsid, onid, sid, LinkageDesc::TS_SSU_BAT_OR_NIT),
+         LinkageDesc(LinkageDesc::TS_SSU_BAT_OR_NIT, xsid, onid, sid),
          table_type(t_type)
       { }
       SSUScanLinkageDesc() = delete;

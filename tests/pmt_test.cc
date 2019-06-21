@@ -64,9 +64,14 @@ namespace tests
 
       MobileHandoverLinkageDesc *mhld = new MobileHandoverLinkageDesc(0x2000, 0x1000, 100,
                                                                       MobileHandoverLinkageDesc::HO_ASSOCIATED_SERVICE,
-                                                                      MobileHandoverLinkageDesc::NIT,
                                                                       100, 20);
       pmt.addElemStreamDesc( 0x21, *mhld ); // add by matching es pid
+
+      try
+      {
+         // should throw
+         LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, LinkageDesc::SSUS );
+      } catch (std::domain_error& e) {}
 
       SSUDataBroadcastIdDesc* ssudbid = new SSUDataBroadcastIdDesc;
       std::vector<ui8> v = { 1, 2, 3, 4, 5, 6, 7 };

@@ -21,7 +21,9 @@
 // -----------------------------------
 
 #include <iostream>
+#include <sstream>
 #include <list>
+#include <stdexcept>
 #include "descriptor.h"
 #include "tstream.h"
 #include "linkage_desc.h"
@@ -31,6 +33,29 @@ namespace sigen {
    // ---------------------------------------
    // linkage descriptor
    //
+   LinkageDesc::LinkageDesc(ui16 xsid, ui16 onid, ui16 sid, ui8 lnkg_type) :
+      Descriptor(TAG, 7),
+      xport_stream_id(xsid),
+      original_network_id(onid),
+      service_id(sid),
+      linkage_type(lnkg_type)
+   {
+      switch (linkage_type)
+      {
+        case MOBILE_HAND_OVER:
+        case TS_SSU_BAT_OR_NIT:
+        case SSUS:
+           {
+              std::stringstream msg;
+              msg << "Attempt to create LinkageDesc with type " << std::hex << linkage_type;
+              throw std::domain_error(msg.str());
+           }
+           break;
+        default:
+           break;
+      }
+   }
+
    bool LinkageDesc::setPrivateData(const std::vector<ui8>& data)
    {
       // check if we can fit it
@@ -76,14 +101,14 @@ namespace sigen {
 
 
    //
-   // MobileHandoverLinkageDesc constructor
-   MobileHandoverLinkageDesc:: MobileHandoverLinkageDesc(ui16 xsid, ui16 onid, ui16 sid,
-                                                         Handover_t hot, Origin_t ot, ui16 nid, ui16 isid) :
-      LinkageDesc(xsid, onid, sid, MOBILE_HAND_OVER),
+   // MobileHandoverLinkageDesc private constructor
+   MobileHandoverLinkageDesc::MobileHandoverLinkageDesc(ui16 xs_id, ui16 onid, ui16 sid, Handover_t hot, Origin_t ot,
+                                                        ui16 net_id, ui16 init_serv_id)
+      : LinkageDesc(MOBILE_HAND_OVER, xs_id, onid, sid),
       hand_over_type(hot),
       origin_type(ot),
-      network_id(nid),
-      initial_service_id(isid)
+      network_id(net_id),
+      initial_service_id(init_serv_id)
    {
       incLength(3);
 

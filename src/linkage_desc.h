@@ -57,23 +57,24 @@ namespace sigen {
       //  - do not use this for linkage types:
       //    1. 0x08: Use the MobileHandoverLinkageDesc class
       //    2. 0x0A: Use the SSUScanLinkageDescr class
-      LinkageDesc(ui16 xsid, ui16 onid, ui16 sid, ui8 lnkg_type) :
+      LinkageDesc(ui16 xs_id, ui16 onid, ui16 sid, ui8 linkage_type);
+      LinkageDesc() = delete;
+
+      bool setPrivateData(const std::vector<ui8>& data);
+
+      virtual void buildSections(Section&) const;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream&) const;
+#endif
+   protected:
+      LinkageDesc(Linkage_t lnkg_type, ui16 xsid, ui16 onid, ui16 sid) :
          Descriptor(TAG, 7),
          xport_stream_id(xsid),
          original_network_id(onid),
          service_id(sid),
          linkage_type(lnkg_type)
-      { }
-      LinkageDesc() = delete;
-
-      // utility
-      virtual void buildSections(Section&) const;
-
-      bool setPrivateData(const std::vector<ui8>& data);
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream&) const;
-#endif
+      {}
 
    private:
       // data
@@ -99,16 +100,18 @@ namespace sigen {
       };
 
       enum Origin_t {
-         NIT                 = 0x0,
-         SDT                 = 0x1
+         NIT                    = 0x0,
+         SDT                    = 0x1,
       };
 
-      // constructor for linkage types other than MOBILE_HAND_OVER (0x08)
-      MobileHandoverLinkageDesc(ui16 xsid, ui16 onid, ui16 sid,
-                                Handover_t hot, Origin_t ot, ui16 nid, ui16 isid);
+      MobileHandoverLinkageDesc(ui16 xs_id, ui16 onid, ui16 sid, Handover_t hot, ui16 net_id)
+         : MobileHandoverLinkageDesc(xs_id, onid, sid, hot, MobileHandoverLinkageDesc::SDT, net_id, 0)
+      {}
+      MobileHandoverLinkageDesc(ui16 xs_id, ui16 onid, ui16 sid, Handover_t hot, ui16 net_id, ui16 init_serv_id)
+         : MobileHandoverLinkageDesc(xs_id, onid, sid, hot, MobileHandoverLinkageDesc::NIT, net_id, init_serv_id)
+      {}
       MobileHandoverLinkageDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -117,12 +120,13 @@ namespace sigen {
 
    private:
       // added as of 300 468 v1.4.1
-      ui8 hand_over_type : 4;
+      ui8  hand_over_type : 4;
       bool origin_type;
       ui16 network_id;
       ui16 initial_service_id;
-
       std::vector<ui8> private_data;
-   };
 
+      MobileHandoverLinkageDesc(ui16 xs_id, ui16 onid, ui16 sid, Handover_t hot, Origin_t ot,
+                                ui16 net_id, ui16 init_serv_id);
+   };
 } // namespace
