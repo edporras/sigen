@@ -86,13 +86,13 @@ namespace tests
       nit.addXportStreamDesc( *asd );
 
       CellFrequencyLinkDesc* cfld = new CellFrequencyLinkDesc;
-      cfld->addLink(10, 10000);
-      cfld->addLink(10, 11000);
-      cfld->addLinkSubCell(10, 10000, 11, 1000);
-      cfld->addLinkSubCell(10, 10000, 12, 3300);
-      cfld->addLinkSubCell(12, 3000); // adds to the last Link added
-      cfld->addLink(11, 40000);
-      cfld->addLinkSubCell(11, 40000, 21, 2000);
+      cfld->addCell(10, 10000);
+      cfld->addCell(10, 11000);
+      cfld->addSubCell(10, 11, 1000);
+      cfld->addSubCell(10, 12, 3300);
+      cfld->addSubCell(12, 3000); // adds to the last cell added
+      cfld->addCell(11, 40000);
+      cfld->addSubCell(11, 21, 2000);
       nit.addXportStreamDesc(*cfld);
 
       CellListDesc* cld = new CellListDesc;
