@@ -97,10 +97,10 @@ namespace tests
 
       CellListDesc* cld = new CellListDesc;
       cld->addCell(1, 3000, 2000, 555, 65);
-      cld->addCellSubCell(1, 20, 3000, 2000, 555, 65);
-      cld->addCellSubCell(21, 3001, 2001, 556, 66);
+      cld->addSubCell(1, 20, 3000, 2000, 555, 65);
+      cld->addSubCell(21, 3001, 2001, 556, 66);
       cld->addCell(2, 4000, 3000, 5555, 655);
-      cld->addCellSubCell(22, 3002, 2002, 557, 668);
+      cld->addSubCell(22, 3002, 2002, 557, 668);
       nit.addXportStreamDesc(*cld);
 
       DUMP(nit);
