@@ -208,6 +208,25 @@ namespace sigen {
          NUM_DEFINED_REF_TYPES
       };
 
+      AnnouncementSupportDesc(ui16 announcement_support_ind)
+         : Descriptor( TAG, 2 ),
+         announcement_support_indicator(announcement_support_ind)
+      { }
+      AnnouncementSupportDesc() = delete;
+      bool addAnnouncement(ui8 type, ui8 reference_type,
+                           ui16 onid, ui16 ts_id, ui16 sid,
+                           ui8 c_tag);
+      bool addAnnouncement(ui8 type) {
+         return addAnnouncement(type, DIFFERENT_SERVICE_AND_TRANSPORT_STREAM, 0, 0, 0, 0);
+      }
+
+      virtual void buildSections(Section&) const;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream&) const;
+#endif
+
+   private:
       // announcement data struct
       struct Announcement : public STable::ListItem {
          // present if ref_type is 0x01, 0x02, or 0x03
@@ -241,29 +260,6 @@ namespace sigen {
          static ui8 expected_length(ui8 ref_type) { return (ref_type < NUM_DEFINED_REF_TYPES ? 8 : 1); }
       };
 
-      // constructor
-      AnnouncementSupportDesc(ui16 announcement_support_ind) :
-         Descriptor( TAG, 2 ),
-         announcement_support_indicator(announcement_support_ind)
-      { }
-      AnnouncementSupportDesc() = delete;
-
-      // populate announcement loop - this method is for ref_types 0x01, 0x02, 0x03
-      bool addAnnouncement(ui8 type, ui8 reference_type,
-                           ui16 onid, ui16 tsid, ui16 sid,
-                           ui8 c_tag);
-      // for ref_type 0x04
-      bool addAnnouncement(ui8 type) {
-         return addAnnouncement(type, DIFFERENT_SERVICE_AND_TRANSPORT_STREAM, 0, 0, 0, 0);
-      }
-
-      virtual void buildSections(Section&) const;
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream&) const;
-#endif
-
-   private:
       // descriptor data members
       ui16 announcement_support_indicator;
       std::list<Announcement> announcement_list;
