@@ -345,6 +345,29 @@ namespace sigen {
    public:
       enum { TAG = 0x6c };
 
+      CellListDesc() : Descriptor(TAG) { }
+      bool addCell(ui16 id, ui16 lat, ui16 lon, ui16 ext_lat, ui16 ext_lon);
+      bool addSubCell(ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
+                      ui16 sc_ext_lat, ui16 sc_ext_lon);
+      bool addSubCell(ui16 id, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
+                      ui16 sc_ext_lat, ui16 sc_ext_lon);
+
+      [[deprecated("replaced by addSubCell()")]] bool addCellSubCell(ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
+                                                                     ui16 sc_ext_lat, ui16 sc_ext_lon) {
+         return addSubCell(cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon);
+      }
+      [[deprecated("replaced by addSubCell()")]] bool addCellSubCell(ui16 id, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
+                                                                     ui16 sc_ext_lat, ui16 sc_ext_lon) {
+         return addSubCell(id, cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon);
+      }
+
+      virtual void buildSections(Section&) const;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream&) const;
+#endif
+
+   private:
       // another funky descriptor with a loop within a loop
       struct Cell : public STable::ListItem {
          struct SubCell : public STable::ListItem {
@@ -392,32 +415,12 @@ namespace sigen {
          ui8 length() const { return BASE_LEN + subcell_list.size() * SubCell::BASE_LEN; }
       };
 
-
-      // constructor
-      CellListDesc() : Descriptor(TAG) { }
-
-      // utility methods
-      bool addCell(ui16 id, ui16 lat, ui16 lon, ui16 ext_lat, ui16 ext_lon);
-      bool addCellSubCell(ui16 id, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
-                          ui16 sc_ext_lat, ui16 sc_ext_lon);
-
-      // adds the subcell to the most recently added cell
-      bool addCellSubCell(ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
-                          ui16 sc_ext_lat, ui16 sc_ext_lon);
-
-      virtual void buildSections(Section&) const;
-
-#ifdef ENABLE_DUMP
-      virtual void dump(std::ostream&) const;
-#endif
-
-   private:
       // descriptor data members
       std::list<Cell> cell_list;
 
    protected:
-      bool addCellSubCell(Cell& cell, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
-                          ui16 sc_ext_lat, ui16 sc_ext_lon);
+      bool add_subcell(Cell& cell, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
+                       ui16 sc_ext_lat, ui16 sc_ext_lon);
    };
 
 

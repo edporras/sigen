@@ -234,8 +234,8 @@ namespace sigen
       return true;
    }
 
-   bool CellListDesc::addCellSubCell(Cell& cell, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
-                                     ui16 sc_ext_lat, ui16 sc_ext_lon)
+   bool CellListDesc::add_subcell(Cell& cell, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
+                                  ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
       if ( !incLength( Cell::SubCell::BASE_LEN ) )
          return false;
@@ -245,27 +245,27 @@ namespace sigen
    }
 
 
-   bool CellListDesc::addCellSubCell(ui16 cell_id, ui8 cid_ext,
-                                     ui16 sc_lat, ui16 sc_lon,
-                                     ui16 sc_ext_lat, ui16 sc_ext_lon)
+   bool CellListDesc::addSubCell(ui16 cell_id, ui8 cid_ext,
+                                 ui16 sc_lat, ui16 sc_lon,
+                                 ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
       auto it = std::find_if(cell_list.begin(), cell_list.end(),
                              [=](const auto& c) { return c.id == cell_id; });
       if (it == cell_list.end())
          return false;
 
-      return addCellSubCell(*it, cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon);
+      return add_subcell(*it, cid_ext, sc_lat, sc_lon, sc_ext_lat, sc_ext_lon);
    }
 
    // adds the subcell to the most recently added cell
-   bool CellListDesc::addCellSubCell(ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
-                                     ui16 sc_ext_lat, ui16 sc_ext_lon)
+   bool CellListDesc::addSubCell(ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
+                                 ui16 sc_ext_lat, ui16 sc_ext_lon)
    {
       if (cell_list.empty())
          return false;
 
-      return addCellSubCell( cell_list.back(), cid_ext, sc_lat, sc_lon,
-                             sc_ext_lat, sc_ext_lon );
+      return add_subcell( cell_list.back(), cid_ext, sc_lat, sc_lon,
+                          sc_ext_lat, sc_ext_lon );
    }
 
    //
