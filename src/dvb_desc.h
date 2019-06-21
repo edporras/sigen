@@ -118,11 +118,14 @@ namespace sigen {
 
       // constructor - takes selector data as string instance
       DataBroadcastDesc(ui16 db_id, ui8 ctag, const std::string& sel_byte,
-                        const std::string& lang_code, const std::string& txt) :
-         Descriptor(TAG, 8),
+                        const std::string& lang_code, const std::string& txt)
+         : Descriptor(TAG, 8),
          selector_byte( incLength(sel_byte) ), text( incLength(txt) ),
          code(lang_code), data_broadcast_id(db_id), component_tag(ctag)
       { }
+      DataBroadcastDesc(ui16 db_id, const std::string& sel_byte,
+                        const std::string& lang_code, const std::string& txt)
+         : DataBroadcastDesc(db_id, 0, sel_byte, lang_code, txt) {}
       DataBroadcastDesc() = delete;
 
       // utility
