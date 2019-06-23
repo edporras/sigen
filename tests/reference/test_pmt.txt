@@ -18,27 +18,27 @@ Program info len    : 109 (0x6d)
  Length              : 40 (0x28)
   Language code       : "eng"
   Type                : 0x1
-  Connection type     : 0x1000
+  Compositn. pg. id   : 0x1000
   Ancillary pg. id    : 0x1010
 
   Language code       : "fre"
   Type                : 0x1
-  Connection type     : 0x1000
+  Compositn. pg. id   : 0x1000
   Ancillary pg. id    : 0x1010
 
   Language code       : "deu"
   Type                : 0x1
-  Connection type     : 0x1000
+  Compositn. pg. id   : 0x1000
   Ancillary pg. id    : 0x1010
 
   Language code       : "spa"
   Type                : 0x1
-  Connection type     : 0x1000
+  Compositn. pg. id   : 0x1000
   Ancillary pg. id    : 0x1010
 
   Language code       : "rus"
   Type                : 0x1
-  Connection type     : 0x1000
+  Compositn. pg. id   : 0x1000
   Ancillary pg. id    : 0x1010
 
 
@@ -98,11 +98,11 @@ Program info len    : 109 (0x6d)
  - AC-3 Descriptor -
  Tag                 : 0x6a
  Length              : 3 (0x3)
- AC-3 type flag      : 0
+ Component type flag : 0
  bsid_flag           : 0x1
  mainid flag         : 0
  asvc flag           : 0x1
- reserved            : 0xff
+ reserved            : 0xf
  bsid                : 0x2
  asvc                : 0x4
 

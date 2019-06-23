@@ -67,10 +67,10 @@ Xprt str loop len   : 467 (0x1d3)
   Frequency           : 0x1111
   Bandwidth           : 0x4
   rsvrd. future use   : 0x1f
-  Cnstr. param. flag  : 0x3
+  Constellation       : 0x3
   Hierarchy info      : 0x1
-  Code rate LP stream : 0x7
-  Coding type         : 0x3
+  Code rate HP stream : 0x7
+  Code rate LP stream : 0x3
   Guard interval      : 0x3
   Transmission mode   : 0x2
   Other freq flag     : 0
@@ -201,7 +201,7 @@ Xprt str loop len   : 467 (0x1d3)
   - Stream Identifier Descriptor -
   Tag                 : 0x52
   Length              : 1 (0x1)
-  Component type      : 0x88
+  Component tag       : 0x88
 
   - Service List Descriptor -
   Tag                 : 0x41
@@ -317,7 +317,7 @@ Xprt str loop len   : 467 (0x1d3)
    Orig. network id    : 0x1000
    Xport stream id     : 0x1200
    Service id          : 1024 (0x400)
-   Component type      : 0x3
+   Component tag       : 0x3
 
    Announcement type   : 0x5
    rsvrd. future use   : 0x1
@@ -325,7 +325,7 @@ Xprt str loop len   : 467 (0x1d3)
    Orig. network id    : 0x1100
    Xport stream id     : 0x1300
    Service id          : 1026 (0x402)
-   Component type      : 0x3
+   Component tag       : 0x3
 
 
   - Cell Frequency Link Descriptor -

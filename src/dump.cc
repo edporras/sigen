@@ -74,6 +74,7 @@ namespace sigen
          "Clock accuracy int",        // CLOCK_ACCURACY_INT_S
          "Closed gop flag",           // CLOSED_GOP_F_S
          "ISO 639 Code",              // CODE_S
+         "Coding type",               // CODING_TYPE_D
          "Component tag",             // COMPONENT_TAG_S
          "Component type",            // COMPONENT_TYPE_S
          "Compositn. pg. id",         // COMPOSITION_PAGE_ID_S
@@ -93,7 +94,6 @@ namespace sigen
          "Copyright info",            // COPYRIGHT_INFO_S
          "Code rate HP stream",       // CR_HP_STREAM_S
          "Code rate LP stream",       // CR_LP_STREAM_S
-         "Coding type",               // CODING_TYPE_S
          "Current next ind.",         // CURR_NEXT_IND_S
          "Data",                      // DATA_S
          "Data broadcast id",         // DATA_BCAST_ID_S

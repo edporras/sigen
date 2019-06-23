@@ -23,7 +23,7 @@ Current next ind.   : 0x1
  Mult. frm. rt flag  : 0
  Frame rate code     : 0x9
  MPEG2 flag          : 0
- Content nbl lvl 1   : 0
+ Cnstr. param. flag  : 0
  Still pic flag      : 0x1
 
  - Video Stream Descriptor -
@@ -32,7 +32,7 @@ Current next ind.   : 0x1
  Mult. frm. rt flag  : 0
  Frame rate code     : 0x9
  MPEG2 flag          : 0x1
- Content nbl lvl 1   : 0
+ Cnstr. param. flag  : 0
  Still pic flag      : 0x1
  Prof/level ind.     : 0x88
  Chroma format       : 0x2
@@ -68,8 +68,8 @@ Current next ind.   : 0x1
  - Copyright Descriptor -
  Tag                 : 0xd
  Length              : 15 (0xf)
- Copyright info      : 0x88990011
- Code rate HP stream : "(c) 2001 ep"
+ Copyright ident     : 0x88990011
+ Copyright info      : "(c) 2001 ep"
 
  - Multiplex Buff Utilization Descriptor -
  Tag                 : 0xc
@@ -131,28 +131,28 @@ Current next ind.   : 0x1
  - Content Descriptor -
  Tag                 : 0x54
  Length              : 12 (0xc)
+  Content nbl lvl 1   : 0x1
   Content nbl lvl 2   : 0x1
-  Core number         : 0x1
   User nibble 1       : 0xc
   User nibble 2       : 0x1
-  Content nbl lvl 2   : 0x2
-  Core number         : 0x1
+  Content nbl lvl 1   : 0x2
+  Content nbl lvl 2   : 0x1
   User nibble 1       : 0xb
   User nibble 2       : 0x1
-  Content nbl lvl 2   : 0x3
-  Core number         : 0x1
+  Content nbl lvl 1   : 0x3
+  Content nbl lvl 2   : 0x1
   User nibble 1       : 0xa
   User nibble 2       : 0x1
-  Content nbl lvl 2   : 0x4
-  Core number         : 0x1
+  Content nbl lvl 1   : 0x4
+  Content nbl lvl 2   : 0x1
   User nibble 1       : 0x9
   User nibble 2       : 0x1
-  Content nbl lvl 2   : 0x5
-  Core number         : 0x1
+  Content nbl lvl 1   : 0x5
+  Content nbl lvl 2   : 0x1
   User nibble 1       : 0x8
   User nibble 2       : 0x1
-  Content nbl lvl 2   : 0x6
-  Core number         : 0x1
+  Content nbl lvl 1   : 0x6
+  Content nbl lvl 2   : 0x1
   User nibble 1       : 0x7
   User nibble 2       : 0x1
 
@@ -160,7 +160,7 @@ Current next ind.   : 0x1
  Tag                 : 0x62
  Length              : 25 (0x19)
  rsvrd. future use   : 0x3f
- Component tag       : 0x2
+ Coding type         : 0x2
   Frequency           : 0x1000
   Frequency           : 0x2000
   Frequency           : 0x3000
@@ -205,8 +205,8 @@ Current next ind.   : 0x1
  Length              : 25 (0x19)
  rsvrd. future use   : 0xf
  Stream content      : 0x2
- Compositn. pg. id   : 0x4
- Component type      : 0x5
+ Component type      : 0x4
+ Component tag       : 0x5
  ISO 639 Code        : "eng"
  Text                : "blah blah blah blah"
 

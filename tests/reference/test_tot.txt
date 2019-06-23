@@ -82,7 +82,7 @@ Desc. loop len      : 171 (0xab)
  - Multilingual Component Descriptor -
  Tag                 : 0x5e
  Length              : 36 (0x24)
- Component type      : 0x22
+ Component tag       : 0x22
   ISO 639 Code        : "fre"
   Name length         : 14 (0xe)
   Text                : "Je sui fatigue"

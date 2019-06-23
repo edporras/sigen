@@ -4,7 +4,7 @@ Section syn. ind.   : 0x1
 rsvrd. future use   : 0x1
 reserved            : 0x3
 Table length        : 38 (0x26)
-Bouquet id          : 0x1000
+Bouquet id          : 4096 (0x1000)
 reserved            : 0x3
 Version number      : 0x10
 Current next ind.   : 0x1
@@ -22,20 +22,20 @@ Xprt str loop len   : 15 (0xf)
 
  - *-- Transport Stream --* -
  Xport stream id     : 0x64
- Orig. network id    : 0xc8
+ Orig. network id    : 200 (0xc8)
  rsvrd. future use   : 0xf
  Desc. len           : 0 (0)
 
  - *-- Transport Stream --* -
  Xport stream id     : 0x64
- Orig. network id    : 0xc9
+ Orig. network id    : 201 (0xc9)
  rsvrd. future use   : 0xf
  Desc. len           : 3 (0x3)
 
   - Stream Identifier Descriptor -
   Tag                 : 0x52
   Length              : 1 (0x1)
-  Component type      : 0x2
+  Component tag       : 0x2
 
 
 
