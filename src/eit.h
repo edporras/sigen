@@ -91,7 +91,7 @@ namespace sigen {
       ui16 original_network_id;
 
       // event/descriptor add routines
-      bool addEvent(std::list<Event> &, ui16, UTC, BCDTime, ui8, bool);
+      bool addEvent(std::list<Event> &l, ui16 id, const UTC& st, const BCDTime& d, ui8 rs, bool fca);
       bool addEventDesc(std::list<Event> &, ui16, Descriptor &);
       bool addEventDesc(std::list<Event> &, Descriptor &);
       bool addEventDesc(Event& , Descriptor &);
@@ -139,26 +139,28 @@ namespace sigen {
 
    public:
       // present event utility functions
-      bool addPresentEvent(ui16 evid, UTC time, BCDTime dur, ui8 rs, bool fca) {
-         return addEvent(event_list[PRESENT], evid, time, dur, rs, fca);
+      bool addPresentEvent(ui16 ev_id, const UTC& start_time, const BCDTime& duration,
+                           ui8 running_status, bool free_CA_mode) {
+         return addEvent(event_list[PRESENT], ev_id, start_time, duration, running_status, free_CA_mode);
       }
-      bool addPresentEventDesc(ui16 evid, Descriptor &d) {
-         return addEventDesc(event_list[PRESENT], evid, d);
+      bool addPresentEventDesc(Descriptor& desc) {
+         return addEventDesc(event_list[PRESENT], desc);
       }
       // adds it to the last event added
-      bool addPresentEventDesc(Descriptor &d) {
-         return addEventDesc(event_list[PRESENT], d);
+      bool addPresentEventDesc(ui16 ev_id, Descriptor& desc) {
+         return addEventDesc(event_list[PRESENT], ev_id, desc);
       }
       // following event utility functions
-      bool addFollowingEvent(ui16 evid, UTC time, BCDTime dur, ui8 rs, bool fca) {
-         return addEvent(event_list[FOLLOWING], evid, time, dur, rs, fca);
+      bool addFollowingEvent(ui16 ev_id, const UTC& start_time, const BCDTime& duration,
+                             ui8 running_status, bool free_CA_mode) {
+         return addEvent(event_list[FOLLOWING], ev_id, start_time, duration, running_status, free_CA_mode);
       }
-      bool addFollowingEventDesc(ui16 evid, Descriptor &d) {
-         return addEventDesc(event_list[FOLLOWING], evid, d);
+      bool addFollowingEventDesc(Descriptor& desc) {
+         return addEventDesc(event_list[FOLLOWING], desc);
       }
       // adds it to the last event added
-      bool addFollowingEventDesc(Descriptor &d) {
-         return addEventDesc(event_list[FOLLOWING], d);
+      bool addFollowingEventDesc(ui16 ev_id, Descriptor& desc) {
+         return addEventDesc(event_list[FOLLOWING], ev_id, desc);
       }
 
       // top-level table builder
@@ -180,14 +182,14 @@ namespace sigen {
    // public interface classes
    struct PF_EITActual : public PF_EIT
    {
-      PF_EITActual(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true) :
-         PF_EIT(sid, xsid, onid, PF_EIT::ACTUAL, ver, cni) { }
+      PF_EITActual(ui16 sid, ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
+         : PF_EIT(sid, xs_id, on_id, PF_EIT::ACTUAL, version_number, current_next_indicator) { }
    };
 
    struct PF_EITOther : public PF_EIT
    {
-      PF_EITOther(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true) :
-         PF_EIT(sid, xsid, onid, PF_EIT::OTHER, ver, cni) { }
+      PF_EITOther(ui16 sid, ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
+         : PF_EIT(sid, xs_id, on_id, PF_EIT::OTHER, version_number, current_next_indicator) { }
    };
 
 

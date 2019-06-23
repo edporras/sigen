@@ -39,7 +39,7 @@ namespace sigen
    // adds an event to the passed list...
    // protected function to be used by the derived classes
    //
-   bool EIT::addEvent(std::list<Event> &e_list, ui16 evid, UTC time, BCDTime dur, ui8 rs, bool fca)
+   bool EIT::addEvent(std::list<Event> &e_list, ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs, bool fca)
    {
       // make sure we can fit it
       if ( !incLength( Event::BASE_LEN) )
