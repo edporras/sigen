@@ -137,10 +137,7 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Data Broadcast Id Descriptor
-   //
-   class DataBroadcastIdDesc : public Descriptor
+   class _DataBroadcastIdDesc : public Descriptor
    {
    public:
       enum { TAG = 0x66 };
@@ -163,9 +160,29 @@ namespace sigen {
          MHP_APPLICATION_PRESENCE                = 0x00F2,
       };
 
-      // constructor
-      DataBroadcastIdDesc(ui16 db_id) : DataBroadcastIdDesc(db_id, 0) {}
-      DataBroadcastIdDesc() = delete;
+      _DataBroadcastIdDesc() = delete;
+
+      virtual void buildSections(Section&) const;
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream& o) const;
+#endif
+
+   protected:
+      const ui16 data_broadcast_id;
+
+      // Also used by derived classes to pass the broadcast id and
+      // base length of their data
+      _DataBroadcastIdDesc(ui16 db_id, ui8 base_len = 0)
+         : Descriptor(TAG, base_len + 2),
+           data_broadcast_id(db_id)
+      {}
+   };
+
+   class DataBroadcastIdDesc : public _DataBroadcastIdDesc
+   {
+   public:
+      DataBroadcastIdDesc(ui16 db_id) : _DataBroadcastIdDesc(db_id) {}
 
       // set private data bytes
       bool setSelectorBytes(const std::vector<ui8>& bytes);
@@ -177,16 +194,7 @@ namespace sigen {
 #endif
 
    private:
-      ui16 data_broadcast_id;
       std::vector<ui8> selector_bytes;
-
-   protected:
-      // Also used by derived classes to pass the broadcast id and
-      // base length of their data
-      DataBroadcastIdDesc(ui16 db_id, ui8 base_len)
-         : Descriptor(TAG, base_len + 2),
-           data_broadcast_id(db_id)
-      {}
    };
 
 

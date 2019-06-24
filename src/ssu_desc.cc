@@ -153,7 +153,7 @@ namespace sigen
 
    void SSUDataBroadcastIdDesc::buildSections(Section& s) const
    {
-      DataBroadcastIdDesc::buildSections(s);
+      _DataBroadcastIdDesc::buildSections(s);
 
       s.set08Bits( OUI_data_len );
 
@@ -172,7 +172,7 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void SSUDataBroadcastIdDesc::dump(std::ostream& o) const
    {
-      DataBroadcastIdDesc::dump(o);
+      _DataBroadcastIdDesc::dump(o);
 
       identStr(o, OUI_DATA_LEN_S, OUI_data_len);
 

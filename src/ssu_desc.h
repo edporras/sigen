@@ -106,7 +106,7 @@ namespace sigen {
    // ---------------------------
    // SSU Data Broadcast Id Descriptor
    //
-   class SSUDataBroadcastIdDesc : public DataBroadcastIdDesc
+   class SSUDataBroadcastIdDesc : public _DataBroadcastIdDesc
    {
    public:
       enum UpdateType {
@@ -119,7 +119,7 @@ namespace sigen {
 
       // constructor
       SSUDataBroadcastIdDesc()
-         : DataBroadcastIdDesc(DataBroadcastIdDesc::SSU, 1),
+         : _DataBroadcastIdDesc(DataBroadcastIdDesc::SSU, 1),
            OUI_data_len(0)
       {
       }

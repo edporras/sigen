@@ -125,6 +125,23 @@ namespace sigen
 
 
    //
+   // Adbstract Data Broadcast Id Descriptor
+   // ---------------------------------------
+   void _DataBroadcastIdDesc::buildSections(Section& s) const
+   {
+      Descriptor::buildSections(s);
+      s.set16Bits( data_broadcast_id );
+   }
+
+#ifdef ENABLE_DUMP
+   void _DataBroadcastIdDesc::dump(std::ostream& o) const
+   {
+      dumpHeader(o, DATA_BCAST_ID_D_S);
+      identStr(o, DATA_BCAST_ID_S, data_broadcast_id, true);
+   }
+#endif
+
+   //
    // Data Broadcast Id Descriptor
    // ---------------------------------------
    bool DataBroadcastIdDesc::setSelectorBytes(const std::vector<ui8>& bytes)
@@ -140,18 +157,14 @@ namespace sigen
 
    void DataBroadcastIdDesc::buildSections(Section& s) const
    {
-      Descriptor::buildSections(s);
-
-      s.set16Bits( data_broadcast_id );
+      _DataBroadcastIdDesc::buildSections(s);
       s.setBits( selector_bytes );
    }
 
 #ifdef ENABLE_DUMP
    void DataBroadcastIdDesc::dump(std::ostream& o) const
    {
-      dumpHeader(o, DATA_BCAST_ID_D_S);
-
-      identStr(o, DATA_BCAST_ID_S, data_broadcast_id, true);
+      _DataBroadcastIdDesc::dump(o);
       identStr(o, SELECTOR_S, selector_bytes);
    }
 #endif
