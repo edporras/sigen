@@ -1,5 +1,34 @@
 # Change Log
 
+## 2.7.1 - 2019-06-24
+### Fixed
+* Stuffing table now correctly sets data length.
+* Trace output of PMT that included extra value.
+* Dvb::Sat modulation enums and many others.
+* Dumb order error in dump constants.
+
+### Changed
+* Switch most classes away from unique_ptr and use emplace_back.
+* Refactored all inner state machines for section building of items
+  with a list of descriptors.
+* Consolidated NIT & BAT classes as the format is basically equal.
+* Deprecated MultilingualDesc addLanguage method in favor of
+  addText().
+* Many members that should not have been public are now private or
+  protected.
+* Deprecated methods in CellListDesc and CellFrequenctLinkDesc in
+  favor of others with better names.
+* EIT methods now take const ref to UTC and BCDtime types.
+* Reworked AC3Desc.
+
+### Added
+* LinkageDesc now throws std::domain_error if an attempt to create
+  with a type for which a subclass exists to handle the descriptor.
+* New DataBroadcastIdDesc that does not take optional component tag as
+  arg. New abstract class.
+* Support for ExtendedAC3Desc.
+* Doxygen documentation.
+
 ## 2.7.0 - 2019-06-14
 ### Changed
 * Now handling descriptor data loop length within `DescList`.

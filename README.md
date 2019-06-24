@@ -1,4 +1,4 @@
-C++ Si Generation Library 2.7.0
+C++ Si Generation Library 2.7.1
 ===============================
 
 A C++ [MPG PSI](https://en.wikipedia.org/wiki/Program-specific_information) and
@@ -78,16 +78,8 @@ See tests/*.cc for more thorough examples of building various tables. Here's a s
 
     DUMP(t);       // debug - dump the contents of the TStream binary data
 
-    // each Section holds an ui8[] with the data. we can write it to an
-    // ostream (file, etc) by using the write method defined by
-    // Section. Alternatively, you can have direct access to the binary
-    // data by invoking getBinaryData().. regardless, iterate throguh
-    // the list and do whatever you need like so:
-    for (const Section* section : t.section_list)
-    {
-       // const ui8* sec_data = section.getBinaryData();
-    }
-
+    // you can write it to disk, packetize it, etc
+    t.write("tables.ts");
 ```
 
 Program output:
@@ -175,6 +167,8 @@ UTC                 : 0xdf69 (6/20/2015), 19:00:17
 Known Problems
 ==============
 
-There were a few missing DVB descriptors that needed to be
-implemented - see [TODO](TODO). Aside from that, this was used across
-several broadcast systems and various testing environments.
+There are a few descriptors that needed to be implemented - see
+[TODO](TODO). They were not required by the customer so they never
+made it in. Regardless, this library was used on at least two
+production systems (N.A. and Spain) and to generate tables for
+various testing environments.
