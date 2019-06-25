@@ -157,7 +157,7 @@ namespace sigen
          "Min over. smth. rate",      // MIN_OS_RATE_S
          "Mix-info exists flag",      // MIXINFO_EXISTS_FLAG_S
          "Modulation",                // MOD_S
-         "MPEG2 flag",                // MPEG_2_FLAG_S
+         "MPEG1 only flag",           // MPEG_1_ONLY_FLAG_S
          "Mplex delay var",           // MPLEX_DELAY_VAR_S
          "Mplex strategy",            // MPLEX_STRATEGY_S
          "Mult. frm. rt flag",        // MULT_FRM_RATE_FLAG_S
@@ -239,6 +239,7 @@ namespace sigen
          "User nibble 1",             // USER_NL_1
          "User nibble 2",             // USER_NL_2
          "UTC",                       // UTC_S
+         "Variable rate audio ind.",  // VAR_RATE_AUD_IND_S
          "Version number",            // VER_NUM_S
          "Vertical offset",           // VERT_OFFSET_S
          "Vertical size",             // VERT_SIZE_S

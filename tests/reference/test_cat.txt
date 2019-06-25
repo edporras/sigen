@@ -15,6 +15,7 @@ Current next ind.   : 0x1
  Free format flag    : 0x1
  Id                  : 0
  Layer               : 0x2
+ Variable rate audio ind.: 0x1
  reserved            : 0xf
 
  - Video Stream Descriptor -
@@ -22,7 +23,7 @@ Current next ind.   : 0x1
  Length              : 1 (0x1)
  Mult. frm. rt flag  : 0
  Frame rate code     : 0x9
- MPEG2 flag          : 0
+ MPEG1 only flag     : 0x1
  Cnstr. param. flag  : 0
  Still pic flag      : 0x1
 
@@ -31,7 +32,7 @@ Current next ind.   : 0x1
  Length              : 3 (0x3)
  Mult. frm. rt flag  : 0
  Frame rate code     : 0x9
- MPEG2 flag          : 0x1
+ MPEG1 only flag     : 0
  Cnstr. param. flag  : 0
  Still pic flag      : 0x1
  Prof/level ind.     : 0x88
@@ -220,8 +221,8 @@ Current next ind.   : 0x1
 -- Section dump - num_sections: 1 --
 
 - sec: 0, length: 370, size (max): 1024, data: 
-[0000] 01 b1 6f ff ff e9 00 00 03 01 af 02 01 49 02 03   ..o..........I..
-[0016] 4d 88 bf 09 12 46 53 f2 34 74 68 69 73 20 69 73   M....FS.4this is
+[0000] 01 b1 6f ff ff e9 00 00 03 01 af 02 01 4d 02 03   ..o..........M..
+[0016] 49 88 bf 09 12 46 53 f2 34 74 68 69 73 20 69 73   I....FS.4this is
 [0032] 20 61 20 74 65 73 74 04 04 f2 d5 d6 d7 0e 03 e3    a test.........
 [0048] 42 43 0d 0f 88 99 00 11 28 63 29 20 32 30 30 31   BC......(c) 2001
 [0064] 20 65 70 0c 04 6f ff 80 27 0b 02 f7 7f 07 04 00    ep..o..'.......
@@ -242,7 +243,7 @@ Current next ind.   : 0x1
 [0304] 2e 61 1c 44 57 68 61 74 20 69 73 20 61 20 73 6d   .a.DWhat is a sm
 [0320] 6f 6f 74 68 69 6e 67 20 62 75 66 66 65 72 3f 50   oothing buffer?P
 [0336] 19 f2 04 05 65 6e 67 62 6c 61 68 20 62 6c 61 68   ....engblah blah
-[0352] 20 62 6c 61 68 20 62 6c 61 68 66 02 45 45 a6 4d    blah blahf.EE.M
-[0368] 85 aa                                             ..
+[0352] 20 62 6c 61 68 20 62 6c 61 68 66 02 45 45 14 82    blah blahf.EE..
+[0368] 89 9c                                             ..
 
-PASS test_cat.sh (exit status: 0)
+FAIL test_cat.sh (exit status: 4)

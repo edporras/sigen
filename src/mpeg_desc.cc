@@ -41,7 +41,8 @@ namespace sigen
       s.set08Bits( (free_format_flag << 7) |
                    (id << 6) |
                    (layer << 4) |
-                   rbits(0xf) );
+                   (variable_rate_indicator << 3) |
+                   rbits(0x7) );
    }
 
 
@@ -55,6 +56,7 @@ namespace sigen
       identStr(o, FREE_FRMT_FLAG_S, free_format_flag);
       identStr(o, ID_S, id);
       identStr(o, LAYER_S, layer);
+      identStr(o, VAR_RATE_AUD_IND_S, variable_rate_indicator);
       identStr(o, RESERVED_S, rbits(0xf) );
    }
 #endif
@@ -444,11 +446,11 @@ namespace sigen
 
       s.set08Bits( (multiple_frame_rate_flag << 7) |
                    (frame_rate_code << 3) |
-                   (MPEG_2_flag << 2) |
+                   (MPEG_1_only_flag << 2) |
                    (constrained_parameter_flag << 1) |
                    (still_picture_flag) );
 
-      if (MPEG_2_flag) {
+      if (!MPEG_1_only_flag) {
          s.set08Bits( profile_and_level_indication );
          s.set08Bits( (chroma_format << 6) |
                       (frame_rate_extension_flag << 5) |
@@ -466,11 +468,11 @@ namespace sigen
 
       identStr(o, MULT_FRM_RATE_FLAG_S, multiple_frame_rate_flag);
       identStr(o, FRM_RATE_CODE_S, frame_rate_code);
-      identStr(o, MPEG_2_FLAG_S, MPEG_2_flag);
+      identStr(o, MPEG_1_ONLY_FLAG_S, MPEG_1_only_flag);
       identStr(o, CONSTR_PARAM_FLAG_S, constrained_parameter_flag);
       identStr(o, STILL_PICT_FLAG_S, still_picture_flag);
 
-      if (MPEG_2_flag) {
+      if (!MPEG_1_only_flag) {
          identStr(o, PROF_LVL_IND_S, profile_and_level_indication);
          identStr(o, CHROMA_FORMAT_S, chroma_format);
          identStr(o, FRM_RATE_EXT_FLAG_S, frame_rate_extension_flag);

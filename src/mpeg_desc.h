@@ -40,9 +40,9 @@ namespace sigen {
       enum { TAG = 3 };
 
       // constructor
-      AudioStreamDesc(bool fff, bool ID, ui8 l) :
-         Descriptor(TAG, 1),
-         free_format_flag(fff), id(ID), layer(l)
+      AudioStreamDesc(bool free_fmt_f, bool ID, ui8 lyr, bool var_rate_indic = true)
+         : Descriptor(TAG, 1),
+           free_format_flag(free_fmt_f), id(ID), layer(lyr), variable_rate_indicator(var_rate_indic)
       { }
       AudioStreamDesc() = delete;
 
@@ -56,6 +56,7 @@ namespace sigen {
    private:
       bool free_format_flag;
       bool id;
+      bool variable_rate_indicator;
       ui8 layer : 2;
    };
 
@@ -500,21 +501,13 @@ namespace sigen {
    public:
       enum { TAG = 2 };
 
-      // Use this constructor if MPEG_2_flag is 0
-      VideoStreamDesc(bool mfrf, ui8 frc, bool cpf, bool spf) :
-         Descriptor(TAG, 1),
-         multiple_frame_rate_flag(mfrf), MPEG_2_flag(false),
-         constrained_parameter_flag(cpf), still_picture_flag(spf),
-         frame_rate_code(frc)
+      VideoStreamDesc(bool mult_frame_rate_f, ui8 frame_rate_code, bool constr_param_f, bool still_pic_f)
+         : VideoStreamDesc(mult_frame_rate_f, frame_rate_code, constr_param_f, still_pic_f, true)
       { }
-      // Use this one if MPEG_2_flag is 1
-      VideoStreamDesc(bool mfrf, ui8 frc, bool cpf, bool spf,
-                      ui8 pali, ui8 cf, bool fref) :
-         Descriptor(TAG, 3), // extra data needs 2 bytes
-         multiple_frame_rate_flag(mfrf), MPEG_2_flag(true),
-         constrained_parameter_flag(cpf), still_picture_flag(spf),
-         frame_rate_extension_flag(fref), profile_and_level_indication(pali),
-         frame_rate_code(frc), chroma_format(cf)
+      VideoStreamDesc(bool mult_frame_rate_f, ui8 frame_rate_code, bool constr_param_f, bool still_pic_f,
+                      ui8 profile_and_level_indic, ui8 chroma_fmt, bool frame_rate_ext_f)
+         : VideoStreamDesc(mult_frame_rate_f, frame_rate_code, constr_param_f, still_pic_f, false,
+                           profile_and_level_indic, chroma_fmt, frame_rate_ext_f)
       { }
       VideoStreamDesc() = delete;
 
@@ -527,15 +520,27 @@ namespace sigen {
 
    private:
       bool multiple_frame_rate_flag;
-      bool MPEG_2_flag;
+      bool MPEG_1_only_flag;
       bool constrained_parameter_flag;
       bool still_picture_flag;
       bool frame_rate_extension_flag;
 
-      // if MPEG_2_flag = 1, the following fields are required
+      // if MPEG_1_only_flag = 0, the following fields are required
       ui8 profile_and_level_indication;
       ui8 frame_rate_code : 4,
           chroma_format : 2;
+
+      VideoStreamDesc(bool mult_frame_rate_f, ui8 frame_rate_code, bool constr_param_f, bool still_pic_f,
+                      bool mpeg_1_only_f, ui8 profile_and_level_indic = 0, ui8 chroma_fmt = 0,
+                      bool frame_rate_ext_f = false)
+         : Descriptor(TAG, (mpeg_1_only_f ? 1 : 3)), // extra data needs 2 bytes
+           multiple_frame_rate_flag(mult_frame_rate_f), MPEG_1_only_flag(mpeg_1_only_f),
+           constrained_parameter_flag(constr_param_f), still_picture_flag(still_pic_f),
+           frame_rate_extension_flag(frame_rate_ext_f),
+           profile_and_level_indication(profile_and_level_indic),
+           frame_rate_code(frame_rate_code), chroma_format(chroma_fmt)
+      { }
+
    };
 
 
