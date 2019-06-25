@@ -435,7 +435,7 @@ namespace sigen {
       /*!
        * \brief Constructor to identify DVB streams.
        */
-      TransportStreamDesc() : StringDataDesc( TAG, "DVB" ) {}
+      TransportStreamDesc() : TransportStreamDesc("DVB") {}
       /*!
        * \brief Constructor to identifies others.
        * \param data bytes identifying the stream.
