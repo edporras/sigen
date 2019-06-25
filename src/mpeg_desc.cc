@@ -17,13 +17,13 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// stream_desc.cc: class definitions for the mpeg stream descriptors
+// mpeg_desc.cc: class definitions for the mpeg stream descriptors
 // -----------------------------------
 
 #include <string>
 #include <list>
 #include "descriptor.h"
-#include "stream_desc.h"
+#include "mpeg_desc.h"
 #include "tstream.h"
 
 namespace sigen

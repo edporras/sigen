@@ -47,7 +47,7 @@
 
 #include "descriptor.h"
 #include "dvb_desc.h"
-#include "stream_desc.h"
+#include "mpeg_desc.h"
 #include "nit_desc.h"
 #include "linkage_desc.h"
 #include "sdt_desc.h"

@@ -16,6 +16,7 @@ libsigen_la_SOURCES = \
 	eit_desc.cc \
 	language_code.cc \
 	linkage_desc.cc \
+	mpeg_desc.cc \
 	nit_bat.cc \
 	nit_desc.cc \
 	other_tables.cc \
@@ -26,7 +27,6 @@ libsigen_la_SOURCES = \
 	sdt.cc \
 	sdt_desc.cc \
 	ssu_desc.cc \
-	stream_desc.cc \
 	table.cc \
 	tdt.cc \
 	tot.cc \
@@ -45,6 +45,7 @@ libsigeninclude_HEADERS = \
 	eit_desc.h \
 	language_code.h \
 	linkage_desc.h \
+	mpeg_desc.h \
 	nit_bat.h \
 	nit_desc.h \
 	other_tables.h \
@@ -56,7 +57,6 @@ libsigeninclude_HEADERS = \
 	sdt_desc.h \
 	sigen.h \
 	ssu_desc.h \
-	stream_desc.h \
 	table.h \
 	tdt.h \
 	tot.h \
