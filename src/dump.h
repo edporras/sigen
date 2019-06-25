@@ -35,14 +35,13 @@ namespace sigen {
 
    class LanguageCode;
 
+
    // output vars
    //
    enum STRID {
       IGNORE_S,           // NULL
 
       // identifier strings
-      AC3TYPE_S,          // AC-3 type
-      AC3TYPE_FLAG_S,     // AC-3 type flag
       ADDITIONAL_INFO_S,  // Additional info
       ALIGNMENT_TYPE_S,   // Alignment type
       ANCILLARY_DATA_IDENT_S, // Ancillary data ident.
@@ -76,6 +75,7 @@ namespace sigen {
       CODING_TYPE_S,      // Coding type
       COMPONENT_TAG_S,    // Component tag
       COMPONENT_TYPE_S,   // Component type
+      COMPONENT_TYPE_FLAG_S, // Component type flag
       COMPOSITION_PAGE_ID_S, // Compositn. pg. id
       CONNECTION_TYPE_S,  // Connection type
       CONSTELLATION_S,    // Constellation
@@ -155,6 +155,7 @@ namespace sigen {
       MAX_OS_BUFFER_S,    // Max over. smth. buf
       MDV_VALID_FLAG_S,   // Mdv valid flag
       MIN_OS_RATE_S,      // Min over. smth. rate
+      MIXINFO_EXISTS_FLAG_S, // Mixinfo exists flag
       MOD_S,              // Modulation
       MPEG_2_FLAG_S,      // MPEG2 flag
       MPLEX_DELAY_VAR_S,  // Mplex delay var
@@ -217,6 +218,12 @@ namespace sigen {
       SUBCELL_LON_S,      // Subcell lon.
       SUBCELL_EXT_LAT_S,  // Subcell ext. of lat.
       SUBCELL_EXT_LON_S,  // Subcell ext. of lon.
+      SUBSTREAM_1_S,      // Substream 1
+      SUBSTREAM_1_FLAG_S, // Substream 1 flag
+      SUBSTREAM_2_S,      // Substream 2
+      SUBSTREAM_2_FLAG_S, // Substream 2 flag
+      SUBSTREAM_3_S,      // Substream 3
+      SUBSTREAM_3_FLAG_S, // Substream 3 flag
       SYM_RATE_S,         // Symbol rate
       TAG_S,              // Tag
       TID_S,              // Table id

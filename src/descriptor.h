@@ -45,16 +45,16 @@ namespace sigen {
       virtual void buildSections(Section &) const;
 
    private:
-      ui8 tag;
       ui16 total_length; // 8-bit field but stored wider for computations
-
    protected:
+      const ui8 tag;
+
       enum { MAX_LEN = 255, CAPACITY = 257 };
 
       // protected constructor for derived classes
       Descriptor(ui8 t, ui8 l = 0) :
          Table(l + 2),
-         tag(t), total_length(BASE_LENGTH) { }
+         total_length(BASE_LENGTH), tag(t) { }
 
       // methods to be used by the derived descriptor classes
 #ifdef ENABLE_DUMP

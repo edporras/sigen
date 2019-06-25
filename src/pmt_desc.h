@@ -23,6 +23,7 @@
 #pragma once
 
 #include <list>
+#include <vector>
 #include "descriptor.h"
 
 namespace sigen {
@@ -30,25 +31,19 @@ namespace sigen {
    // ---------------------------
    // AC-3 Descriptor (EN 300 468 v1.4.1, Annex E)
    //
-   class AC3Desc : public Descriptor
+   class _AC3Desc : public Descriptor
    {
    public:
-      enum { TAG = 0x6a };
+      // prohibit - use the derived classes for AC3Desc or
+      // ExtendedAC3Desc
+      _AC3Desc() = delete;
 
-      // keys for the possible fields that can be set in this descriptor
-      enum flag_t {
-         AC3TYPE, BSID, MAINID, ASVC,
-         VALUE_COUNT // internal use
-      };
+      void setComponentType(ui8 c_type) { set_value(COMPONENT_TYPE, c_type); }
+      void setBSID(ui8 bsid) { set_value(BSID, bsid); }
+      void setMainid(ui8 mainid) { set_value(MAINID, mainid); }
+      void setASVC(ui8 asvc) { set_value(ASVC, asvc); }
 
-      // constructor
-      AC3Desc(const std::string info = "") :
-         Descriptor(TAG, 1),
-         additional_info( incLength(info) )
-      { }
-
-      // utility
-      void setValue(flag_t key, ui8 value);
+      void setAdditionalInfo(const std::vector<ui8>& addl_info_bytes);
 
       virtual void buildSections(Section&) const;
 
@@ -56,26 +51,56 @@ namespace sigen {
       virtual void dump(std::ostream& o) const;
 #endif
 
-   private:
-      struct entry {
-         bool is_set;
-         ui8 value;
+   protected:
+      // values of the possible flags
+      enum flag_t {
+         COMPONENT_TYPE,
+         BSID,
+         MAINID,
+         ASVC,
+         MIXINFO_EXISTS,
+         SUBSTREAM_1,
+         SUBSTREAM_2,
+         SUBSTREAM_3,
 
-         entry() : is_set(false) { }
+         NUM_FLAGS
       };
 
-#ifdef ENABLE_DUMP
-      // define the STRIDs to use for the flags & values in dump.[ch] and
-      // set the ones to use in pmt_desc.c
-      static STRID flag_strid[VALUE_COUNT];
-      static STRID value_strid[VALUE_COUNT];
-#endif
+   private:
+      struct entry {
+         bool on;
+         ui8 val;
 
-      entry field[ VALUE_COUNT ];
-      std::string additional_info;
+         entry() : on(false) {}
+         void set(ui8 v) { val = v; on = true; }
+      };
+      std::vector<entry> fields;
+      std::vector<ui8> additional_info;
+
+   protected:
+      _AC3Desc(ui8 tag) : Descriptor(tag, 1), fields(8) {}
+
+      void set_value(flag_t key, ui8 value);
    };
 
+   struct AC3Desc : public _AC3Desc
+   {
+      enum { TAG = 0x6a };
 
+      AC3Desc() : _AC3Desc(TAG) {}
+   };
+
+   struct ExtendedAC3Desc : public _AC3Desc
+   {
+      enum { TAG = 0x7a };
+
+      ExtendedAC3Desc() : _AC3Desc(TAG) {}
+
+      void setMixinfoExists() { set_value(MIXINFO_EXISTS, 0); } // value is ignored
+      void setSubstream1(ui8 substream) { set_value(SUBSTREAM_1, substream); }
+      void setSubstream2(ui8 substream) { set_value(SUBSTREAM_2, substream); }
+      void setSubstream3(ui8 substream) { set_value(SUBSTREAM_3, substream); }
+   };
 
    // ---------------------------
    // Ancillary Data Descriptor- derived from PrimitiveDatatypeDesc

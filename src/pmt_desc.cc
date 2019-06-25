@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 #include <string>
 #include "descriptor.h"
 #include "pmt_desc.h"
@@ -34,60 +35,68 @@ namespace sigen
    // ---------------------------------------
 
 #ifdef ENABLE_DUMP
-   STRID AC3Desc::flag_strid[VALUE_COUNT] = {
-      AC3TYPE_FLAG_S,
+   static const STRID AC3Desc_flag_strid[] = {
+      COMPONENT_TYPE_FLAG_S,
       BSID_FLAG_S,
       MAINID_FLAG_S,
       ASVC_FLAG_S,
+      MIXINFO_EXISTS_FLAG_S,
+      SUBSTREAM_1_FLAG_S,
+      SUBSTREAM_2_FLAG_S,
+      SUBSTREAM_3_FLAG_S,
    };
 
-   STRID AC3Desc::value_strid[VALUE_COUNT] = {
-      AC3TYPE_S,
+   static const STRID AC3Desc_value_strid[] = {
+      COMPONENT_TYPE_S,
       BSID_S,
       MAINID_S,
       ASVC_S,
+      IGNORE_S,     // not used
+      SUBSTREAM_1_S,
+      SUBSTREAM_2_S,
+      SUBSTREAM_3_S,
    };
 #endif
 
    //
-   // sets the value for the given key
-   void AC3Desc::setValue(flag_t key, ui8 value)
+   void _AC3Desc::setAdditionalInfo(const std::vector<ui8>& addl_info_bytes)
    {
-      // if this is the first time the field is set, bump the
-      // descriptor's length by one..
-      if (!field[ key ].is_set)
+      additional_info = addl_info_bytes;
+      incLength(addl_info_bytes.size());
+   }
+
+   //
+   // sets the value for the given key
+   void _AC3Desc::set_value(flag_t key, ui8 value)
+   {
+      if ((key != MIXINFO_EXISTS) && !fields[key].on)
          incLength(1);
 
-      // now set the value and mark it as set
-      field[ key ].value = value;
-      field[ key ].is_set = true;
+      fields[key].set(value);
    }
 
    //
    // binary data formatter
-   void AC3Desc::buildSections(Section& s) const
+   void _AC3Desc::buildSections(Section& s) const
    {
+      static const ui8 bits[] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+
       Descriptor::buildSections(s);
 
-      ui8 flags = 0;
-      ui32 i;
+      ui32 max = (tag == AC3Desc::TAG ? MIXINFO_EXISTS : NUM_FLAGS);
+      ui8 flags = (tag == AC3Desc::TAG) ? 0x0f : 0;
 
-      // first, figure out the 4-bit flag field.. check if it's set and
-      // if so, set the appropriate bit to on
-      for (i = 0; i < VALUE_COUNT; i++)
-         flags |= field[ i ].is_set << (7 - i);
+      for (ui32 i = 0; i < max; i++)
+         if (fields[i].on)
+            flags |= bits[i];
 
-      // reserved bits follow, so set them
-      for (; i < 8; i++)
-         flags |= rbits(0x1) << (7 - i);
+      // set the flags
+      s.set08Bits(flags);
 
-      s.set08Bits( flags );
-
-      // now set the actual values if they exist
-      for (i = 0; i < VALUE_COUNT; i++) {
-         if ( field[ i ].is_set )
-            s.set08Bits( field[ i ].value );
-      }
+      // now write the set values
+      for (ui32 i = 0; i < max; i++)
+         if (fields[i].on && (i != MIXINFO_EXISTS))
+            s.set08Bits(fields[i].val);
 
       // and finally the reserved-future use bytes
       s.setBits( additional_info );
@@ -96,25 +105,23 @@ namespace sigen
 #ifdef ENABLE_DUMP
    //
    // output formatter
-   void AC3Desc::dump(std::ostream& o) const
+   void _AC3Desc::dump(std::ostream& o) const
    {
       dumpHeader(o, AC3_D_S);
 
-      int i;
-      for (i = 0; i < VALUE_COUNT; i++)
-         identStr( o, flag_strid[ i ], field[ i ].is_set);
+      for (ui32 i = 0; i < (tag == AC3Desc::TAG ? MIXINFO_EXISTS : NUM_FLAGS); i++)
+         identStr( o, AC3Desc_flag_strid[i], fields[i].on);
 
-      identStr(o, RESERVED_S, rbits(0xff));
+      if (tag == AC3Desc::TAG)
+         identStr(o, RESERVED_S, rbits(0x0f));
 
-      for (i = 0; i < VALUE_COUNT; i++) {
-         if (field[ i ].is_set)
-            identStr( o, value_strid[ i ], field[ i ].value );
-      }
+      for (ui32 i = 0; i < NUM_FLAGS; i++)
+         if (fields[i].on && i != MIXINFO_EXISTS)
+            identStr( o, AC3Desc_value_strid[i], fields[i].val );
 
       identStr(o, ADDITIONAL_INFO_S, additional_info);
    }
 #endif
-
 
 
    //

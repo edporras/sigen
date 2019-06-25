@@ -42,8 +42,6 @@ namespace sigen
          "",                  // IGNORE_S
 
          // identifier strings
-         "AC-3 type",                 // AC3TYPE_S
-         "AC-3 type flag",            // AC3TYPE_FLAG_S
          "Additional info",           // ADDITIONAL_INFO_S
          "Alignment type",            // ALIGNMENT_TYPE_S
          "Ancill. data idnt.",        // ANCILLARY_DATA_IDENT_S
@@ -77,6 +75,7 @@ namespace sigen
          "Coding type",               // CODING_TYPE_D
          "Component tag",             // COMPONENT_TAG_S
          "Component type",            // COMPONENT_TYPE_S
+         "Component type flag",       // COMPONENT_TYPE_FLAG_S
          "Compositn. pg. id",         // COMPOSITION_PAGE_ID_S
          "Connection type",           // CONNECTION_TYPE_S
          "Constellation",             // CONSTELLATION_S
@@ -156,6 +155,7 @@ namespace sigen
          "Max over. smth. buf",       // MAX_OS_BUFFER_S
          "Mdv valid flag",            // MDV_VALID_FLAG_S
          "Min over. smth. rate",      // MIN_OS_RATE_S
+         "Mix-info exists flag",      // MIXINFO_EXISTS_FLAG_S
          "Modulation",                // MOD_S
          "MPEG2 flag",                // MPEG_2_FLAG_S
          "Mplex delay var",           // MPLEX_DELAY_VAR_S
@@ -218,6 +218,12 @@ namespace sigen
          "Subcell lon.",              // SUBCELL_LON_S
          "Subcell ext. of lat.",      // SUBCELL_EXT_LAT_S
          "Subcell ext. of lon.",      // SUBCELL_EXT_LON_S
+         "Substream 1",               // SUBSTREAM_1_S
+         "Substream 1 flag",          // SUBSTREAM_1_FLAG_S
+         "Substream 2",               // SUBSTREAM_2_S
+         "Substream 2 flag",          // SUBSTREAM_2_FLAG_S
+         "Substream 3",               // SUBSTREAM_3_S
+         "Substream 3 flag",          // SUBSTREAM_3_FLAG_S
          "Symbol rate",               // SYM_RATE_S
          "Tag",                       // TAG_S
          "Table id",                  // TID_S

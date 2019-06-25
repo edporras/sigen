@@ -45,8 +45,8 @@ namespace tests
       pmt.addProgramDesc( *langd );
 
       AC3Desc *ac3d = new AC3Desc;
-      ac3d->setValue( AC3Desc::ASVC, 0x4 );
-      ac3d->setValue( AC3Desc::BSID, 0x2 );
+      ac3d->setASVC(0x4);
+      ac3d->setBSID(0x2);
 
       pmt.addProgramDesc( *ac3d );
 
