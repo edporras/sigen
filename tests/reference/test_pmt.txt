@@ -3,7 +3,7 @@ Table id            : 0x2
 Section syn. ind.   : 0x1
 rsvrd. future use   : 0
 reserved            : 0x3
-Table length        : 201 (0xc9)
+Table length        : 218 (0xda)
 Program number      : 100 (0x64)
 reserved            : 0x3
 Version number      : 0x1
@@ -11,7 +11,7 @@ Current next ind.   : 0x1
 reserved            : 0x7
 PCR Pid             : 0x65
 reserved            : 0xf
-Program info len    : 109 (0x6d)
+Program info len    : 123 (0x7b)
 
  - Subtitling Descriptor -
  Tag                 : 0x59
@@ -111,6 +111,18 @@ Program info len    : 109 (0x6d)
  Length              : 1 (0x1)
  Ancill. data idnt.  : 0x51
 
+ - Private Data Indicator Descriptor -
+ Tag                 : 0xf
+ Length              : 4 (0x4)
+ Private data ind    : 0x55553333
+
+ - Service Move Descriptor -
+ Tag                 : 0x60
+ Length              : 6 (0x6)
+ Orig. network id    : 0x1
+ Xport stream id     : 0x2
+ New service id      : 0x3
+
 
  - -* Stream List *- -
  Stream type         : 3 (0x3)
@@ -138,6 +150,11 @@ Program info len    : 109 (0x6d)
  Elementary PID      : 34 (0x22)
  reserved            : 0xf
  ES info len         : 0 (0)
+
+  - Data Stream Alignment Descriptor -
+  Tag                 : 0x6
+  Length              : 1 (0x1)
+  Alignment type      : 0xff
 
   - Linkage Descriptor -
   Tag                 : 0x4a
@@ -187,19 +204,21 @@ Program info len    : 109 (0x6d)
 
 -- Section dump - num_sections: 1 --
 
-- sec: 0, length: 207, size (max): 1024, data: 
-[0000] 02 b0 cd 00 64 c3 00 00 e0 65 f0 6d 59 28 65 6e   ....d....e.mY(en
+- sec: 0, length: 224, size (max): 1024, data: 
+[0000] 02 b0 de 00 64 c3 00 00 e0 65 f0 7b 59 28 65 6e   ....d....e.{Y(en
 [0016] 67 01 10 00 10 10 66 72 65 01 10 00 10 10 64 65   g.....fre.....de
 [0032] 75 01 10 00 10 10 73 70 61 01 10 00 10 10 72 75   u.....spa.....ru
 [0048] 73 01 10 00 10 10 56 23 65 6e 67 09 11 66 72 65   s.....V#eng..fre
 [0064] 09 11 64 65 75 09 11 73 70 61 09 11 69 74 61 09   ..deu..spa..ita.
 [0080] 11 63 68 69 09 11 72 75 73 09 11 0a 14 65 6e 67   .chi..rus....eng
 [0096] 02 66 72 65 03 64 65 75 04 69 74 61 05 73 70 61   .fre.deu.ita.spa
-[0112] 06 6a 03 5f 02 04 6b 01 51 03 e0 21 f0 10 4a 0e   .j._..k.Q..!..J.
-[0128] 20 00 10 00 00 64 08 3e 00 64 00 14 01 e0 22 f0    ....d.>.d....".
-[0144] 39 4a 07 00 01 00 02 00 03 0f 66 10 00 0a 0d 00   9J........f.....
-[0160] 20 01 f3 e2 07 01 02 03 04 05 06 07 4a 07 10 00    ...........J...
-[0176] 20 00 01 00 0a 02 4a 13 10 00 20 00 01 01 09 0b    .....J... .....
-[0192] 01 23 45 07 01 02 03 04 05 06 07 3d 6c e1 fb      .#E........=l..
+[0112] 06 6a 03 5f 02 04 6b 01 51 0f 04 55 55 33 33 60   .j._..k.Q..UU33`
+[0128] 06 00 01 00 02 00 03 03 e0 21 f0 10 4a 0e 20 00   .........!..J. .
+[0144] 10 00 00 64 08 3e 00 64 00 14 01 e0 22 f0 3c 06   ...d.>.d....".<.
+[0160] 01 ff 4a 07 00 01 00 02 00 03 0f 66 10 00 0a 0d   ..J........f....
+[0176] 00 20 01 f3 e2 07 01 02 03 04 05 06 07 4a 07 10   . ...........J..
+[0192] 00 20 00 01 00 0a 02 4a 13 10 00 20 00 01 01 09   . .....J... ....
+[0208] 0b 01 23 45 07 01 02 03 04 05 06 07 c0 d9 54 df   ..#E..........T.
+[0224]                                                   
 
-PASS test_pmt.sh (exit status: 0)
+FAIL test_pmt.sh (exit status: 17)

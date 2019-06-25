@@ -36,13 +36,6 @@ namespace tests
       TimeShiftedEventDesc *tsed = new TimeShiftedEventDesc( 0x9999, 0x8888 );
       sdt.addServiceDesc( *tsed );
 
-      LocalTimeOffsetDesc *ltod = new LocalTimeOffsetDesc;
-      UTC t2(1, 22, 1999, 10, 0, 0);
-      ltod->addTimeOffset( "eng", 0x22, true, 0x1234, t2, 0x4321 );
-      ltod->addTimeOffset( "fre", 0x23, true, 0x5678, t2, 0x8765 );
-
-      sdt.addServiceDesc( *ltod );
-
       TelephoneDesc *td = new TelephoneDesc(true, 0x5, "123-", "1234567-", "123-",
                                             "1234567-", "123456789012345-");
       sdt.addServiceDesc( *td );

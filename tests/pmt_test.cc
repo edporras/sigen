@@ -53,12 +53,21 @@ namespace tests
       AncillaryDataDesc *add = new AncillaryDataDesc(0x51);
       pmt.addProgramDesc( *add );
 
+      PrivateDataIndicatorDesc* pdid = new PrivateDataIndicatorDesc( 0x55553333 );
+      pmt.addProgramDesc( *pdid );
+
+      ServiceMoveDesc* smd = new ServiceMoveDesc(0x01, 0x02, 0x03);
+      pmt.addProgramDesc( *smd );
+
       // add streams
       pmt.addElemStream( sigen::PMT::ES_ISO_IEC_11172_AUDIO, 0x21 );
       pmt.addElemStream( sigen::PMT::ES_ISO_IEC_11172_VIDEO, 0x22 );
 
       // and descriptors to it. As above, the table will claim
       // ownership and handle freeing it
+      DataStreamAlignmentDesc* dsad = new DataStreamAlignmentDesc( 0xff );
+      pmt.addElemStreamDesc( *dsad );
+
       LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, 0xf );
       pmt.addElemStreamDesc( *ld );
 

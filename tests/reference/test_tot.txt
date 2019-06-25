@@ -3,109 +3,38 @@ Table id            : 0x73
 Section syn. ind.   : 0
 rsvrd. future use   : 0x1
 reserved            : 0x3
-Table length        : 178 (0xb2)
+Table length        : 35 (0x23)
 UTC                 : 0xc800 (1/22/1999), 10:00:00
 rsvrd. future use   : 0xf
-Desc. loop len      : 171 (0xab)
+Desc. loop len      : 28 (0x1c)
 
- - CA Identifier Descriptor -
- Tag                 : 0x53
- Length              : 60 (0x3c)
-  CA system id        : 0x3000
-  CA system id        : 0x3001
-  CA system id        : 0x3002
-  CA system id        : 0x3003
-  CA system id        : 0x3004
-  CA system id        : 0x3005
-  CA system id        : 0x3006
-  CA system id        : 0x3007
-  CA system id        : 0x3008
-  CA system id        : 0x3009
-  CA system id        : 0x300a
-  CA system id        : 0x300b
-  CA system id        : 0x300c
-  CA system id        : 0x300d
-  CA system id        : 0x300e
-  CA system id        : 0x300f
-  CA system id        : 0x3010
-  CA system id        : 0x3011
-  CA system id        : 0x3012
-  CA system id        : 0x3013
-  CA system id        : 0x3014
-  CA system id        : 0x3015
-  CA system id        : 0x3016
-  CA system id        : 0x3017
-  CA system id        : 0x3018
-  CA system id        : 0x3019
-  CA system id        : 0x301a
-  CA system id        : 0x301b
-  CA system id        : 0x301c
-  CA system id        : 0x301d
+ - Local Time Offset Descriptor -
+ Tag                 : 0x58
+ Length              : 26 (0x1a)
 
- - Private Data Specifier Descriptor -
- Tag                 : 0x5f
- Length              : 4 (0x4)
- Data                : 0x44446666
+  Country code        : "eng"
+  Country region id   : 0x22
+  reserved            : 0x1
+  Lcl time offset pol : 0x1
+  Local time offset   : 0x1234
+  UTC                 : 0xc800 (1/22/1999), 10:00:00
+  Next time offset    : 0x4321
 
- - Private Data Indicator Descriptor -
- Tag                 : 0xf
- Length              : 4 (0x4)
- Private data ind    : 0x55553333
-
- - Data Stream Alignment Descriptor -
- Tag                 : 0x6
- Length              : 1 (0x1)
- Alignment type      : 0xff
-
- - Bouquet name Descriptor -
- Tag                 : 0x47
- Length              : 10 (0xa)
- Data                : "MY BOUQUET"
-
- - Service Move Descriptor -
- Tag                 : 0x60
- Length              : 6 (0x6)
- Orig. network id    : 0x1
- Xport stream id     : 0x2
- New service id      : 0x3
-
- - Multilingual Bouquet Name Descriptor -
- Tag                 : 0x5c
- Length              : 34 (0x22)
-  ISO 639 Code        : "fre"
-  Name length         : 11 (0xb)
-  Bouquet name        : "Jus d'orang"
-  ISO 639 Code        : "spa"
-  Name length         : 15 (0xf)
-  Bouquet name        : "Jugo de naranja"
-
- - Multilingual Component Descriptor -
- Tag                 : 0x5e
- Length              : 36 (0x24)
- Component tag       : 0x22
-  ISO 639 Code        : "fre"
-  Name length         : 14 (0xe)
-  Text                : "Je sui fatigue"
-  ISO 639 Code        : "spa"
-  Name length         : 13 (0xd)
-  Text                : "Estoy cansado"
+  Country code        : "fre"
+  Country region id   : 0x23
+  reserved            : 0x1
+  Lcl time offset pol : 0x1
+  Local time offset   : 0x5678
+  UTC                 : 0xc800 (1/22/1999), 10:00:00
+  Next time offset    : 0x8765
 
 
 
 -- Section dump - num_sections: 1 --
 
-- sec: 0, length: 185, size (max): 1024, data: 
-[0000] 73 70 b2 c8 00 10 00 00 f0 ab 53 3c 30 00 30 01   sp........S<0.0.
-[0016] 30 02 30 03 30 04 30 05 30 06 30 07 30 08 30 09   0.0.0.0.0.0.0.0.
-[0032] 30 0a 30 0b 30 0c 30 0d 30 0e 30 0f 30 10 30 11   0.0.0.0.0.0.0.0.
-[0048] 30 12 30 13 30 14 30 15 30 16 30 17 30 18 30 19   0.0.0.0.0.0.0.0.
-[0064] 30 1a 30 1b 30 1c 30 1d 5f 04 44 44 66 66 0f 04   0.0.0.0._.DDff..
-[0080] 55 55 33 33 06 01 ff 47 0a 4d 59 20 42 4f 55 51   UU33...G.MY BOUQ
-[0096] 55 45 54 60 06 00 01 00 02 00 03 5c 22 66 72 65   UET`.......\"fre
-[0112] 0b 4a 75 73 20 64 27 6f 72 61 6e 67 73 70 61 0f   .Jus d'orangspa.
-[0128] 4a 75 67 6f 20 64 65 20 6e 61 72 61 6e 6a 61 5e   Jugo de naranja^
-[0144] 24 22 66 72 65 0e 4a 65 20 73 75 69 20 66 61 74   $"fre.Je sui fat
-[0160] 69 67 75 65 73 70 61 0d 45 73 74 6f 79 20 63 61   iguespa.Estoy ca
-[0176] 6e 73 61 64 6f 8c 87 3c 3c                        nsado..<<
+- sec: 0, length: 42, size (max): 1024, data: 
+[0000] 73 70 23 c8 00 10 00 00 f0 1c 58 1a 65 6e 67 8b   sp#.......X.eng.
+[0016] 12 34 c8 00 10 00 00 43 21 66 72 65 8f 56 78 c8   .4.....C!fre.Vx.
+[0032] 00 10 00 00 87 65 b4 77 3e 0b                     .....e.w>.
 
-PASS test_tot.sh (exit status: 0)
+FAIL test_tot.sh (exit status: 113)

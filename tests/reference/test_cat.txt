@@ -246,4 +246,4 @@ Current next ind.   : 0x1
 [0352] 20 62 6c 61 68 20 62 6c 61 68 66 02 45 45 14 82    blah blahf.EE..
 [0368] 89 9c                                             ..
 
-FAIL test_cat.sh (exit status: 4)
+PASS test_cat.sh (exit status: 0)

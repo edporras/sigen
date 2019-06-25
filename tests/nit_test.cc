@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "../src/sigen.h"
 #include "dvb_builder.h"
 
@@ -9,69 +11,66 @@ namespace tests
    {
       // NIT test
       NITActual nit(0x100, 0x01);
-      nit.setMaxSectionLen( 300 );
 
-      // add a network descriptor
-      NetworkNameDesc *nnd = new NetworkNameDesc("my network");
-      nit.addNetworkDesc( *nnd );
+      nit.setMaxSectionLen( 300 ); // to test sectionizing
 
-      // another one
-      NetworkNameDesc *nd2 = new NetworkNameDesc(std::string(259, 'c')); // should truncate
-      nit.addNetworkDesc( *nd2 );
+      // ----------------------------------------
+      // add network descriptors
 
+      // NetworkNameDesc
+      NetworkNameDesc *nnd1 = new NetworkNameDesc("my network"); // allocated with operator new
+      nit.addNetworkDesc( *nnd1 ); // always pass by ref
+      // don't modify the descriptor once added to the table
+
+      NetworkNameDesc *nnd2 = new NetworkNameDesc(std::string(259, 'c'));
+
+      // TEST: data was 259 - descriptor should truncate to 253
+      assert(nnd2->length() == 257);
+
+      nit.addNetworkDesc( *nnd2 );
+
+      // StuffingDesc
       StuffingDesc *stuff1 = new StuffingDesc( 'z', 13 );
+
       nit.addNetworkDesc( *stuff1 );
 
-      // multiling net name
+      // second constructor
+      std::string data("zzzzzzzzzzzzzzzzzzzzzzz");
+      StuffingDesc *stuff2 = new StuffingDesc(data);
+      assert(stuff2->length() == (data.length() + 2));
+
+      nit.addNetworkDesc(*stuff2);
+
+      // MultilingualNetworkNameDesc
       MultilingualNetworkNameDesc *mlnnd = new MultilingualNetworkNameDesc;
       mlnnd->addText("fre", "France");
       mlnnd->addText("spa", "Francia");
+      mlnnd->addText("eng", "France");
+      mlnnd->addText("deu", "Frankreich");
 
       nit.addNetworkDesc( *mlnnd );
 
-      // add a transport stream
+      // ----------------------------------------
+      // add some transport streams
+      nit.addXportStream(0x10, 0x20); // tsid, onid
+      nit.addXportStream(0x11, 0x21);
       nit.addXportStream(0x20, 0x30);
-
-      // add a descriptor to this transport stream
-      CableDeliverySystemDesc *ccd;
-      ccd = new CableDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
-
-      nit.addXportStreamDesc( *ccd );
-
-      TerrestrialDeliverySystemDesc *tdsd;
-      tdsd = new TerrestrialDeliverySystemDesc( 0x1111, 0x44, 0xff,
-                                                0x11, 0xff, 0x33,
-                                                0xff, 0x22, false);
-
-      nit.addXportStreamDesc( *tdsd );
-
-      ServiceListDesc *sld1 = new ServiceListDesc;
-
-      for (int i = 0; i < 50; i++)
-         sld1->addService( i + 100, 0x01 );
-
-      nit.addXportStreamDesc( *sld1 );
-
-      // add another transport stream
       nit.addXportStream(0x21, 0x31);
 
-      // and descritpors to it
-      SatelliteDeliverySystemDesc *sdsd;
-      sdsd = new SatelliteDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
+      // and descriptors to the last TS added (0x21, 0x31)
+
+      // SatelliteDeliverySystemDesc
+      SatelliteDeliverySystemDesc *sdsd = new SatelliteDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
 
       nit.addXportStreamDesc( *sdsd );
 
+      // StreamIdentifierDesc
       StreamIdentifierDesc *sid = new StreamIdentifierDesc(0x88);
-      nit.addXportStreamDesc( 0x21, 0x31, *sid ); // add by specifying ts id and onid
+      nit.addXportStreamDesc( *sid );
 
+      // TimeShiftedServiceDesc
       TimeShiftedServiceDesc *tssd = new TimeShiftedServiceDesc( 0x4000 );
       nit.addNetworkDesc( *tssd );
-
-      ServiceListDesc *sld2 = new ServiceListDesc;
-      for (int i = 0; i < 50; i++)
-         sld2->addService( i + 200, 0x02 );
-
-      nit.addXportStreamDesc( *sld2 );
 
       AnnouncementSupportDesc *asd;
       asd = new AnnouncementSupportDesc(AnnouncementSupportDesc::EMERGENCY_ALARM_AS |
@@ -102,6 +101,21 @@ namespace tests
       cld->addCell(2, 4000, 3000, 5555, 655);
       cld->addSubCell(22, 3002, 2002, 557, 668);
       nit.addXportStreamDesc(*cld);
+
+      // add descriptors to a TS by id
+      ui16 tsid = 0x20;
+      ui16 onid = 0x30;
+      CableDeliverySystemDesc *ccd;
+      ccd = new CableDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
+
+      nit.addXportStreamDesc( tsid, onid, *ccd );
+
+      TerrestrialDeliverySystemDesc *tdsd;
+      tdsd = new TerrestrialDeliverySystemDesc( 0x1111, 0x44, 0xff,
+                                                0x11, 0xff, 0x33,
+                                                0xff, 0x22, false);
+
+      nit.addXportStreamDesc( tsid, onid, *tdsd );
 
       DUMP(nit);
       nit.buildSections(t);

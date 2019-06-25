@@ -3,7 +3,7 @@ Table id            : 0x4e
 Section syn. ind.   : 0x1
 rsvrd. future use   : 0x1
 reserved            : 0x3
-Table length        : 66 (0x42)
+Table length        : 110 (0x6e)
 Service id          : 100 (0x64)
 reserved            : 0x3
 Version number      : 0
@@ -17,13 +17,29 @@ Orig. network id    : 0x444
   Duration            : 00:30:00
   Running status      : 0x1
   Free CA mode        : 0x1
-  Desc. loop len      : 0x5
+  Desc. loop len      : 0x31
 
    - PDC Descriptor -
    Tag                 : 0x69
    Length              : 3 (0x3)
    rsvrd. future use   : 0xf
    Programme idnt. lbl : 0x1000
+
+   - Private Data Specifier Descriptor -
+   Tag                 : 0x5f
+   Length              : 4 (0x4)
+   Data                : 0x44446666
+
+   - Multilingual Component Descriptor -
+   Tag                 : 0x5e
+   Length              : 36 (0x24)
+   Component tag       : 0x22
+    ISO 639 Code        : "fre"
+    Name length         : 14 (0xe)
+    Text                : "Je sui fatigue"
+    ISO 639 Code        : "spa"
+    Name length         : 13 (0xd)
+    Text                : "Estoy cansado"
 
 
 
@@ -83,12 +99,15 @@ Orig. network id    : 0x555
 
 -- Section dump - num_sections: 4 --
 
-- sec: 0, length: 36, size (max): 4096, data: 
-[0000] 4e f0 1c 00 64 c1 00 01 03 33 04 44 01 4e 10 00   N...d....3.D.N..
-[0016] c8 26 09 00 00 00 30 00 30 05 69 03 00 f0 10 00   .&....0.0.i.....
-[0032] ca 7e c9 74                                       .~.t
+- sec: 0, length: 80, size (max): 300, data: 
+[0000] 4e f0 48 00 64 c1 00 01 03 33 04 44 01 4e 10 00   N.H.d....3.D.N..
+[0016] c8 26 09 00 00 00 30 00 30 31 69 03 00 f0 10 00   .&....0.01i.....
+[0032] 5f 04 44 44 66 66 5e 24 22 66 72 65 0e 4a 65 20   _.DDff^$"fre.Je 
+[0048] 73 75 69 20 66 61 74 69 67 75 65 73 70 61 0d 45   sui fatiguespa.E
+[0064] 73 74 6f 79 20 63 61 6e 73 61 64 6f dc 00 33 be   stoy cansado..3.
+[0080]                                                   
 
-- sec: 1, length: 56, size (max): 4096, data: 
+- sec: 1, length: 56, size (max): 300, data: 
 [0000] 4e f0 31 00 64 c1 01 01 03 33 04 44 01 4e 10 01   N.1.d....3.D.N..
 [0016] c8 26 09 30 00 00 30 00 30 1a 68 09 64 73 6e 67   .&.0..0.0.h.dsng
 [0032] 20 64 61 74 61 63 08 c0 30 00 c0 00 50 d0 00 67    datac..0...P..g
@@ -102,4 +121,4 @@ Orig. network id    : 0x555
 [0000] 4f f0 0b 00 65 c1 01 01 04 44 05 55 01 4f a2 26   O...e....D.U.O.&
 [0016] 0a 0d                                             ..
 
-PASS test_eit.sh (exit status: 0)
+FAIL test_eit.sh (exit status: 44)
