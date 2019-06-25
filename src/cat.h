@@ -37,12 +37,12 @@ namespace sigen {
       enum { PID = 0x01 };
 
       // constructor
-      CAT(ui8 ver, bool cni = true) :
-         PSITable(TID, rbits(0xffff), 5, MAX_SEC_LEN, ver, cni, D_BIT)
+      CAT(ui8 version_number, bool current_next_indicator = true)
+         : PSITable(TID, rbits(0xffff), 5, MAX_SEC_LEN, version_number, current_next_indicator, D_BIT)
       { }
 
       // utility
-      bool addDesc(Descriptor &);
+      bool addDesc(Descriptor& desc);
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;

@@ -62,17 +62,16 @@ namespace sigen {
       };
 
       // constructor
-      PMT(ui16 prog_num, ui16 pcrpid, ui8 ver, bool cni = true) :
-         PSITable(TID, prog_num, 9, MAX_SEC_LEN, ver, cni, D_BIT),
+      PMT(ui16 program_number, ui16 PCR_PID, ui8 version_number, bool current_next_indicator = true)
+         : PSITable(TID, program_number, 9, MAX_SEC_LEN, version_number, current_next_indicator, D_BIT),
          program_info_length(0),
-         pcr_pid(pcrpid)
+         pcr_pid(PCR_PID)
       { }
 
-      bool addProgramDesc(Descriptor &);                   // add a program descriptor
-
-      bool addElemStream(ui8 type, ui16 elem_pid);         // add an elementary stream
-      bool addElemStreamDesc(ui16 elem_pid, Descriptor &); // add an elem stream desc to the stream with the given pid
-      bool addElemStreamDesc(Descriptor &);                // adds it to the last stream added
+      bool addProgramDesc(Descriptor& desc);
+      bool addElemStream(ui8 type, ui16 elem_pid);
+      bool addElemStreamDesc(Descriptor& desc);
+      bool addElemStreamDesc(ui16 elem_pid, Descriptor& desc);
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;

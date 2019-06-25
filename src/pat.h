@@ -36,12 +36,15 @@ namespace sigen {
       enum { PID = 0x00 };
 
       // constructor
-      PAT(ui16 xport_str_id, ui8 ver, bool cni = true) :
-         PSITable(TID, xport_str_id, 5, MAX_SEC_LEN, ver, cni, D_BIT)
+      PAT(ui16 xs_id, ui8 version_number, bool current_next_indicator = true)
+         : PSITable(TID, xs_id, 5, MAX_SEC_LEN, version_number, current_next_indicator, D_BIT)
       { }
 
-      bool addProgram(ui16 sid, ui16 pid);
-      bool addNetworkPid(ui16 pid) { return addProgram(0, pid); } // network pids are on sid 0
+      bool addProgram(ui16 program_number, ui16 program_map_pid);
+
+      bool addNetworkPid(ui16 network_pid) {
+         return addProgram(0, network_pid);
+      }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
