@@ -30,20 +30,26 @@ namespace sigen {
    {
       enum FecInner_t {
          UNDEF_FECI,
-         HALF_FECI,
-         TWO_THIRDS_FECI,
-         THREE_FOURTHS_FECI,
-         FIVE_SIXTHS_FECI,
-         SEVEN_EIGHTHS_FECI,
+         CR_1_2_FECI,
+         CR_2_3_FECI,
+         CR_3_4_FECI,
+         CR_5_6_FECI,
+         CR_7_8_FECI,
+         CR_8_9_FECI,
+         CR_3_5_FECI,
+         CR_4_5_FECI,
+         CR_9_10_FECI,
          NO_FECI = 0xffff,
       };
+
       // service / event
       enum RunningStatus_t {
-         UNDEF_RS       = 0x0,
-         NOT_RUNNING_RS = 0x01,
-         FEW_SEC_RS     = 0x02,
-         PAUSING_RS     = 0x03,
-         RUNNING_RS     = 0x04,
+         UNDEF_RS        = 0x0,
+         NOT_RUNNING_RS  = 0x01,
+         FEW_SEC_RS      = 0x02,
+         PAUSING_RS      = 0x03,
+         RUNNING_RS      = 0x04,
+         SERV_OFF_AIR_RS = 0x05,
       };
 
       // the service types
@@ -55,16 +61,24 @@ namespace sigen {
          NVOD_REFERENCE_ST      = 0x04,
          NVOD_TIME_SHIFTED_ST   = 0x05,
          MOSAIC_ST              = 0x06,
-         PAL_CODED_SIGNAL_ST    = 0x07,
-         SECAM_CODED_SIGNAL_ST  = 0x08,
-         DD2_MAC_ST             = 0x09,
-         FM_RADIO_ST            = 0x0A,
-         NTSC_CODED_SIGNAL_ST   = 0x0B,
+         FM_RADIO_ST            = 0x07,
+         DVB_SRM_ST             = 0x08,
+         // 0x09 - reserved
+         ADV_CODEC_DIGITAL_RADIO_ST = 0x0A,
+         H264AVC_MOSAIC_ST      = 0x0B,
          DATA_BROADCAST_SERVICE = 0x0C,
          COMMON_INTERFACE_USAGE = 0x0D,
          RCS_MAP                = 0x0E,
          RCS_FLS                = 0x0F,
          DVB_MHP_SERVICE        = 0x10,
+         MPG2_HD_DIGITALTV_ST   = 0x11,
+         // 0x12-0x15 - reserved
+         H264_AVC_SD_ST          = 0x16,
+         H264_AVC_SD_NVOD_TS_ST  = 0x17,
+         H264_AVC_SD_NVOD_REF_ST = 0x18,
+         H264_AVC_HD_ST          = 0x19,
+         H264_AVC_HD_NVOD_TS_ST  = 0x1A,
+         H264_AVC_HD_NVOD_REF_ST = 0x1B,
       };
 
       // satellite-specific
@@ -80,7 +94,7 @@ namespace sigen {
             AUTO_MOD,
             QPSK_MOD,
             EIGHT_PSK_MOD,
-            SIXTEEN_QAM,
+            SIXTEEN_QAM_MOD,
          };
       }
 
@@ -101,6 +115,11 @@ namespace sigen {
             QAM_256,
          };
       }
-   }
 
-} // namespace
+      // TODO: add
+      namespace Terrestrial
+      {
+
+      }
+   }
+}
