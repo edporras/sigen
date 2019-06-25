@@ -55,10 +55,8 @@ namespace sigen
       if ( !incLength(XportStream::BASE_LEN) )
          return false;
 
-      // add it to the link list
+      // add it to the list
       xport_streams.emplace_back(xport_stream_id, original_network_id);
-
-      // increment the lengths
       xport_stream_loop_length += XportStream::BASE_LEN;
       return true;
    }

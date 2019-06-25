@@ -39,9 +39,10 @@ namespace sigen {
       enum { PID = 0x11 };
       enum { ACTUAL_TID = 0x42, OTHER_TID = 0x46 };
 
-      bool addService(ui16 sid, bool esf, bool epff, ui8 rs, bool fca); // add a service
-      bool addServiceDesc(ui16 sid, Descriptor &d);                     // add a descriptor to the service matching the sid
-      bool addServiceDesc(Descriptor &d);                               // adds it to the last service added
+      bool addService(ui16 service_id, bool eit_schedule_flag, bool eit_present_following_flag,
+                      ui8  running_status, bool free_CA_mode);
+      bool addServiceDesc(Descriptor& desc);
+      bool addServiceDesc(ui16 service_id, Descriptor& desc);
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
@@ -104,13 +105,13 @@ namespace sigen {
 
    // public interface
    struct SDTActual : public SDT {
-      SDTActual(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true) :
-         SDT(SDT::ACTUAL_TID, xport_str_id, orig_network_id, ver, cni) { }
+      SDTActual(ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
+         : SDT(SDT::ACTUAL_TID, xs_id, on_id, version_number, current_next_indicator) { }
    };
 
    struct SDTOther : public SDT {
-      SDTOther(ui16 xport_str_id, ui16 orig_network_id, ui8 ver, bool cni = true) :
-         SDT(SDT::OTHER_TID, xport_str_id, orig_network_id, ver, cni) { }
+      SDTOther(ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
+         : SDT(SDT::OTHER_TID, xs_id, on_id, version_number, current_next_indicator) { }
    };
 
 } // sigen namespace

@@ -40,11 +40,11 @@ namespace sigen {
    public:
       enum { NIT_ACTUAL_TID = 0x40, NIT_OTHER_TID = 0x41, BAT_TID = 0x4a };
 
-      bool addDesc(Descriptor &);                                    // add a table descriptor
+      bool addDesc(Descriptor &);
 
-      bool addXportStream(ui16 xs_id, ui16 on_id);                   // add a transport stream
-      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor &); // add a descriptor to the indicate transport stream
-      bool addXportStreamDesc(Descriptor &);                         // adds it to the last stream added
+      bool addXportStream(ui16 xs_id, ui16 on_id);
+      bool addXportStreamDesc(Descriptor& desc);
+      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor& desc);
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
@@ -117,12 +117,12 @@ namespace sigen {
    public:
       enum { PID = 0x10 };
 
-      bool addNetworkDesc(Descriptor& d) { return addDesc(d); }
+      bool addNetworkDesc(Descriptor& desc) { return addDesc(desc); }
 
    protected:
       // protected constructor - type refers to ACTUAL or OTHER,
       // reserved is the state of reserved bits
-      NIT(ui8 type, ui16 network_id, ui8 ver, bool cni = true) :
+      NIT(ui8 type, ui16 network_id, ui8 ver, bool cni) :
          NIT_BAT(type, network_id, ver, cni)
       { }
    };
@@ -130,15 +130,15 @@ namespace sigen {
    // public interface to create NIT tables
    struct NITActual : public NIT
    {
-      NITActual(ui16 network_id, ui8 ver, bool cni = true) :
-         NIT(NIT_BAT::NIT_ACTUAL_TID, network_id, ver, cni)
+      NITActual(ui16 network_id, ui8 version_number, bool current_next_indicator = true)
+         : NIT(NIT_BAT::NIT_ACTUAL_TID, network_id, version_number, current_next_indicator)
       { }
    };
 
    struct NITOther : public NIT
    {
-      NITOther(ui16 network_id, ui8 ver, bool cni = true) :
-         NIT(NIT_BAT::NIT_OTHER_TID, network_id, ver, cni)
+      NITOther(ui16 network_id, ui8 version_number, bool current_next_indicator = true)
+         : NIT(NIT_BAT::NIT_OTHER_TID, network_id, version_number, current_next_indicator)
       { }
    };
 
@@ -148,10 +148,10 @@ namespace sigen {
       enum { PID = 0x11 };
 
       // constructor
-      BAT(ui16 bouquet_id, ui8 ver, bool cni = true) :
-         NIT_BAT(NIT_BAT::BAT_TID, bouquet_id, ver, cni)
+      BAT(ui16 bouquet_id, ui8  version_number, bool current_next_indicator = true)
+         : NIT_BAT(NIT_BAT::BAT_TID, bouquet_id, version_number, current_next_indicator)
       { }
 
-      bool addBouquetDesc(Descriptor& d) { return addDesc(d); }
+      bool addBouquetDesc(Descriptor& desc) { return addDesc(desc); }
    };
 } // sigen namespace
