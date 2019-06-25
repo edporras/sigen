@@ -32,7 +32,6 @@ namespace sigen {
 
    class LanguageCode;
 
-
    //
    // buffer object for storing the transport stream table
    // sections
@@ -97,15 +96,17 @@ namespace sigen {
 #endif
    };
 
-
-   //
-   // the output class
-   //
+   /*!
+    * \brief Stream output class.
+    */
    class TStream
    {
    public:
+      //! \brief Constructor.
       TStream() { }
+      //! \brief Destructor.
       ~TStream();
+
       // prohibit
       TStream(const TStream &) = delete;
       TStream(const TStream &&) = delete;
@@ -121,7 +122,11 @@ namespace sigen {
       // allocates a new section of 'section_size' bytes
       Section *getNewSection(ui16 section_size);
 
-      // create the stream and save it to a file
+      /*!
+       * \brief Write the section data to a file with the specified
+       * name.
+       * \param file_name File name to write data to.
+       */
       void write(const std::string &file_name) const;
 
 #ifdef ENABLE_DUMP
