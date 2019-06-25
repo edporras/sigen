@@ -39,11 +39,10 @@ namespace sigen
 
       // default constructor creates a TDT with current time
       TDT() : TDT(UTC()) { }
-
       // this one takes a UTC instance
-      TDT(const UTC &t) :
-         STable(TID, 5, MAX_SEC_LEN),
-         utc(t)
+      TDT(const UTC &time)
+         : STable(TID, 5, MAX_SEC_LEN),
+         utc(time)
       { }
 
       // accessors

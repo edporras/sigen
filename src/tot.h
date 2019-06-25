@@ -41,17 +41,16 @@ namespace sigen {
       // first constructor uses current time.. second uses the specific
       // time provided
       TOT() : TOT(UTC()) { }
-      TOT(const UTC &t) :
-         STable(TID, 7, MAX_SEC_LEN),
-         utc(t)
+      TOT(const UTC &time)
+         : STable(TID, 7, MAX_SEC_LEN),
+         utc(time)
       { }
 
       // accessors
       virtual ui16 getMaxDataLen() const;
       const UTC& getUTC() const { return utc; }
 
-      // utility
-      bool addDesc(Descriptor &);
+      bool addDesc(Descriptor& desc);
 
       // section data writer
       virtual void buildSections(TStream &) const;

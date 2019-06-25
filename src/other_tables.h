@@ -43,8 +43,9 @@ namespace sigen {
       RST() : STable(TID, 0, MAX_SEC_LEN) {}
 
       // utility
-      bool addXportStream(ui16 xsid, ui16 onid, ui16 sid,
-                          ui16 eid, ui8 rs);
+      bool addXportStream(ui16 xs_id, ui16 on_id, ui16 sid, ui16 ev_id,
+                          ui8  running_status);
+
       virtual void buildSections(TStream&) const;
 
 #ifdef ENABLE_DUMP
@@ -83,10 +84,10 @@ namespace sigen {
    {
    public:
       // constructor for NULL terminated data
-      Stuffing(const std::string& data, bool ssi = true);
       // constructor where we replicate the passed data
-      Stuffing(ui16 len, ui8 data, bool ssi = true) :
-         Stuffing(std::string(len, data), ssi) {}
+      Stuffing(const std::string& stuffing_data, bool section_syntax_indicator = true);
+      Stuffing(ui16 data_length, ui8  data_byte, bool section_syntax_indicator = true)
+         : Stuffing(std::string(data_length, data_byte), section_syntax_indicator) {}
 
       // utility
       virtual void buildSections(TStream&) const;
