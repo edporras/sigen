@@ -3,8 +3,9 @@ C++ Si Generation Library 2.7.1
 
 A C++ [MPG PSI](https://en.wikipedia.org/wiki/Program-specific_information) and
 [DVB SI](https://en.wikipedia.org/wiki/Digital_Video_Broadcasting)
-table generation library. The library has support most (if not all) tables: CAT,
-PAT, PMT, NIT, SDT, BAT, TDT, TOT and their descriptors.
+table generation library based on the ETSI EN 300 468 and ISO/IEC
+13818-1 standards. The library has support most tables: CAT, PAT, PMT,
+NIT, SDT, BAT, TDT, TOT, RST, and ST plus many MPG and DVB descriptors.
 
 I wrote the initial version of this library ca. 1999-2000 and updated
 it around 2003 with a few minor tweaks done since then. It was used in
@@ -12,8 +13,11 @@ production but nobody had since been maintaining it so I was given
 permission to open the source so I could make changes to it if
 needed.
 
+A Doxygen-generated reference [is available](http://edporras.github.io/sigen/docs/).
+
 This is very legacy so now it's mainly a C++ feature playground. Also,
-some of the logic could definitely be re-thought.
+some of the logic could definitely be re-thought as it was done based
+on customer requirements.
 
 
 Building
