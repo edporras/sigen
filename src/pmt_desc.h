@@ -114,16 +114,19 @@ namespace sigen {
       enum { TAG = 0x6b };
 
       // ancillary data identifier values
-      enum { DVD_VIDEO = 0x01,
-             EXTENDED = 0x02,
-             ANNOUNCEMENT_SWITCHING = 0x04,
-             DAB = 0x08,
-             SCALE_FACTOR_ERROR_CHECK = 0x10,
+      enum DataCoding {
+         DVD_VIDEO                 = 0x01,
+         EXTENDED                  = 0x02,
+         ANNOUNCEMENT_SWITCHING    = 0x04,
+         DAB                       = 0x08,
+         SCALE_FACTOR_ERROR_CHECK  = 0x10,
+         MPEG_4                    = 0x20,
+         RDS_UECP                  = 0x40,
       };
 
       // constructor
-      AncillaryDataDesc(ui8 ancillary_data_identifier) :
-         PrimitiveDatatypeDesc<ui8>(TAG, ancillary_data_identifier)
+      AncillaryDataDesc(ui8 ancillary_data_identifier)
+         : PrimitiveDatatypeDesc<ui8>(TAG, ancillary_data_identifier)
       {}
 
 #ifdef ENABLE_DUMP
@@ -143,22 +146,25 @@ namespace sigen {
       enum { TAG = 0x66 };
 
       enum {
-         DATA_PIPE = 0x0001,
-         ASYNC_DATA_STREAM = 0x0002,
-         SYNCRONOUS_DATA_STREAM = 0x0003,
-         SYNCHONISED_DATA_STREAM = 0x0004,
-         DATA_MULTI_PROTOCOL_ENCAP = 0x0005,
-         DATA_CAROUSEL = 0x0006,
-         OBJECT_CAROUSEL = 0x0007,
-         DVB_ATM_STREAMS = 0x0008,
+         DATA_PIPE                               = 0x0001,
+         ASYNC_DATA_STREAM                       = 0x0002,
+         SYNCRONOUS_DATA_STREAM                  = 0x0003,
+         SYNCHONISED_DATA_STREAM                 = 0x0004,
+         DATA_MULTI_PROTOCOL_ENCAP               = 0x0005,
+         DATA_CAROUSEL                           = 0x0006,
+         OBJECT_CAROUSEL                         = 0x0007,
+         DVB_ATM_STREAMS                         = 0x0008,
          HIGHER_PROT_BASED_ON_ASYNC_DATA_STREAMS = 0x0009,
+         SSU                                     = 0x000A,
+         IPMAC_NOTIFICATION                      = 0x000B,
+
+         MHP_OBJECT_CAROUSEL                     = 0x00F0,
+         MHP_MULTIPROTOCOL_ENCAPSULATION         = 0x00F1,
+         MHP_APPLICATION_PRESENCE                = 0x00F2,
       };
 
       // constructor
-      DataBroadcastIdDesc(ui16 db_id, const std::string& sel_bytes = "") :
-         Descriptor(TAG, 2),
-         data_broadcast_id(db_id)
-      {}
+      DataBroadcastIdDesc(ui16 db_id) : DataBroadcastIdDesc(db_id, 0) {}
       DataBroadcastIdDesc() = delete;
 
       // set private data bytes
@@ -173,6 +179,14 @@ namespace sigen {
    private:
       ui16 data_broadcast_id;
       std::vector<ui8> selector_bytes;
+
+   protected:
+      // Also used by derived classes to pass the broadcast id and
+      // base length of their data
+      DataBroadcastIdDesc(ui16 db_id, ui8 base_len)
+         : Descriptor(TAG, base_len + 2),
+           data_broadcast_id(db_id)
+      {}
    };
 
 
@@ -185,9 +199,9 @@ namespace sigen {
       enum { TAG = 0x60 };
 
       // constructor
-      ServiceMoveDesc(ui16 onid, ui16 xsid, ui16 sid) :
-         Descriptor(TAG, 6),
-         original_network_id(onid), xport_stream_id(xsid), new_service_id(sid)
+      ServiceMoveDesc(ui16 new_onid, ui16 new_xs_id, ui16 new_sid)
+         : Descriptor(TAG, 6),
+         original_network_id(new_onid), xport_stream_id(new_xs_id), new_service_id(new_sid)
       {}
       ServiceMoveDesc() = delete;
 
@@ -278,10 +292,11 @@ namespace sigen {
 
       // defined teletext types
       enum Type {
-         INITIAL = 0x01,
-         SUBTITLE = 0x02,
+         INITIAL     = 0x01,
+         SUBTITLE    = 0x02,
          ADDTNL_INFO = 0x03,
-         PROG_SCHED = 0x04
+         PROG_SCHED  = 0x04,
+         HEARING_IMP = 0x05,
       };
 
       // contructor

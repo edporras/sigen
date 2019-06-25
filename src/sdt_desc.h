@@ -88,7 +88,7 @@ namespace sigen {
       NVODReferenceDesc() : Descriptor(TAG) {}
 
       // utility
-      bool addIdentifiers(ui16 xsid, ui16 onid, ui16 sid);
+      bool addIdentifiers(ui16 xs_id, ui16 onid, ui16 sid);
 
       virtual void buildSections(Section&) const;
 
@@ -125,11 +125,11 @@ namespace sigen {
       enum { TAG = 0x48 };
 
       // constructor
-      ServiceDesc(ui8 t, const std::string& pn, const std::string& n) :
+      ServiceDesc(ui8 serv_type, const std::string& prov_name, const std::string& serv_name) :
          Descriptor(TAG, 3),
-         provider_name( incLength( pn ) ),
-         name( incLength(n) ),
-         type(t)
+         provider_name( incLength( prov_name ) ),
+         name( incLength(serv_name) ),
+         type(serv_type)
       { }
       ServiceDesc() = delete;
 
@@ -158,8 +158,8 @@ namespace sigen {
       enum { TAG = 0x4c };
 
       // constructor
-      TimeShiftedServiceDesc(ui16 sid) :
-         PrimitiveDatatypeDesc<ui16>(TAG, sid)
+      TimeShiftedServiceDesc(ui16 ref_sid) :
+         PrimitiveDatatypeDesc<ui16>(TAG, ref_sid)
       {}
 
 #ifdef ENABLE_DUMP

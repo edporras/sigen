@@ -39,10 +39,10 @@ namespace sigen {
       virtual ~Descriptor() { }
 
       // getter methods
-      ui16 length() const { return total_length; } // total bytes
+      ui16 length() const { return total_length; }
 
       // utility methods
-      virtual void buildSections(Section &) const;
+      virtual void buildSections(Section &s) const;
 
    private:
       ui16 total_length; // 8-bit field but stored wider for computations

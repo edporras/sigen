@@ -77,7 +77,7 @@ namespace tests
       std::vector<ui8> v = { 1, 2, 3, 4, 5, 6, 7 };
       ssudbid->addOUI(0x2001,
                       SSUDataBroadcastIdDesc::UPDATE_TYPE_SSU_USING_RETURN_CHANNEL,
-                      1, 2, v);
+                      2, v);
       pmt.addElemStreamDesc(*ssudbid);
 
       SSUScanLinkageDesc* ssusld = new SSUScanLinkageDesc(0x1000, 0x2000, 0x100, SSUScanLinkageDesc::TABLE_TYPE_BAT);

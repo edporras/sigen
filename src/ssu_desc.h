@@ -37,8 +37,8 @@ namespace sigen {
    {
    public:
       // constructor for linkage types 0x09
-      SSULinkageDesc(ui16 xsid, ui16 onid, ui16 sid) :
-         LinkageDesc(LinkageDesc::SSUS, xsid, onid, sid),
+      SSULinkageDesc(ui16 xs_id, ui16 onid, ui16 sid)
+         : LinkageDesc(LinkageDesc::SSUS, xs_id, onid, sid),
          OUI_data_length(0)
       { incLength( 1 ); }
       SSULinkageDesc() = delete;
@@ -81,15 +81,14 @@ namespace sigen {
    class SSUScanLinkageDesc : public LinkageDesc
    {
    public:
-      enum TableType{
-         TABLE_TYPE_UNDEF = 0x00,
+      enum TableType {
          TABLE_TYPE_NIT   = 0x01,
          TABLE_TYPE_BAT   = 0x02,
       };
 
       // constructor for linkage types 0x0A
-      SSUScanLinkageDesc(ui16 xsid, ui16 onid, ui16 sid, TableType t_type) :
-         LinkageDesc(LinkageDesc::TS_SSU_BAT_OR_NIT, xsid, onid, sid),
+      SSUScanLinkageDesc(ui16 xs_id, ui16 onid, ui16 sid, TableType t_type)
+         : LinkageDesc(LinkageDesc::TS_SSU_BAT_OR_NIT, xs_id, onid, sid),
          table_type(t_type)
       { }
       SSUScanLinkageDesc() = delete;
@@ -110,26 +109,29 @@ namespace sigen {
    class SSUDataBroadcastIdDesc : public DataBroadcastIdDesc
    {
    public:
-      enum { SSU_SERVICE_DATA_BROADCAST_ID = 0x000A };
-
-      enum {
-         UPDATE_TYPE_PROPIETARY               = 0x0,
-         UPDATE_TYPE_STANDARD_UPDATE_CAROUSEL = 0x1,
-         UPDATE_TYPE_SSU_WITH_UNT             = 0x2,
-         UPDATE_TYPE_SSU_USING_RETURN_CHANNEL = 0x3,
+      enum UpdateType {
+         UPDATE_TYPE_PROPIETARY               = 0x0, //!< Propietary update solution.
+         UPDATE_TYPE_STANDARD_UPDATE_CAROUSEL = 0x1, //!< Standard update carousel without notification table.
+         UPDATE_TYPE_SSU_WITH_UNT             = 0x2, //!< SSU carousel w/ notification table available via broadcast.
+         UPDATE_TYPE_SSU_USING_RETURN_CHANNEL = 0x3, //!< SSU signalled via broadcast UNT w/ update availabel from return channel
+         UPDATE_TYPE_SSU_FROM_INTERNET        = 0x4, //!< SSU signaled via UNT w/ update available from the internet.
       };
 
       // constructor
-      SSUDataBroadcastIdDesc() :
-         DataBroadcastIdDesc(SSU_SERVICE_DATA_BROADCAST_ID),
-         OUI_data_len(0)
+      SSUDataBroadcastIdDesc()
+         : DataBroadcastIdDesc(DataBroadcastIdDesc::SSU, 1),
+           OUI_data_len(0)
       {
-         incLength(sizeof(OUI_data_len));
       }
 
       // utility
-      bool addOUI(ui32 oui, ui8 upd_type, ui8 uvf, ui8 uv, const std::vector<ui8>& sel_bytes);
-      bool setPrivateData(const std::string& priv_data);
+      bool addOUI(ui32 OUI, ui8 upd_type, ui8 version, const std::vector<ui8>& bytes) {
+         return addOUI(OUI, upd_type, true, version, bytes);
+      }
+      bool addOUI(ui32 OUI, ui8 upd_type, const std::vector<ui8>& bytes) {
+         return addOUI(OUI, upd_type, false, 0, bytes);
+      }
+      bool setPrivateData(const std::vector<ui8>& priv_data);
 
       virtual void buildSections(Section&) const;
 
@@ -160,9 +162,13 @@ namespace sigen {
       };
 
       ui8 OUI_data_len;
-      std::string private_data;
+      std::vector<ui8> private_data;
 
       // descriptor OUI list
       std::list<OUIData> oui_list;
+
+      bool addOUI(ui32 oui, ui8 upd_type, bool uvf, ui8 uv, const std::vector<ui8>& sel_bytes);
+
+      bool setSelectorBytes(const std::vector<ui8>& bytes);
    };
 } // sigen namespace

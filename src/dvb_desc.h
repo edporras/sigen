@@ -41,7 +41,8 @@ namespace sigen {
       enum { TAG = 0x47 };
 
       // constructor
-      BouquetNameDesc(const std::string& data) : StringDataDesc(TAG, data) { }
+      BouquetNameDesc(const std::string& name)
+         : StringDataDesc(TAG, name) { }
       BouquetNameDesc() = delete;
 
 #ifdef ENABLE_DUMP
@@ -64,7 +65,8 @@ namespace sigen {
       CAIdentifierDesc() : Descriptor(TAG) {}
 
       // utility methods
-      bool addSystemId(ui16);
+      bool addSystemId(ui16 CA_system_id);
+
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -85,14 +87,14 @@ namespace sigen {
       enum { TAG = 0x49 };
 
       // constructor
-      CountryAvailabilityDesc(bool caf) :
-         Descriptor(TAG, 1),
-         country_availability_flag(caf)
+      CountryAvailabilityDesc(bool country_availability_f)
+         : Descriptor(TAG, 1),
+         country_availability_flag(country_availability_f)
       {}
       CountryAvailabilityDesc() = delete;
 
       // utility
-      bool addCountry(const std::string&);
+      bool addCountry(const std::string& country_code);
 
       virtual void buildSections(Section&) const;
 
@@ -171,10 +173,7 @@ namespace sigen {
       enum { TAG = 0x58 };
 
       // constructor
-      LocalTimeOffsetDesc() :
-         Descriptor(TAG) {}
-
-      // utility
+      LocalTimeOffsetDesc() : Descriptor(TAG) {}
       bool addTimeOffset(const LanguageCode& code, ui8 country_region_id,
                          bool offset_polarity, ui16 lt_offset,
                          const UTC& time_of_change, ui16 next_time_offset);
@@ -267,8 +266,8 @@ namespace sigen {
       enum { TAG = 0x63 };
 
       // constructor
-      PartialTransportStreamDesc(ui32 pk_rate, ui32 min_osr, ui16 max_osb) :
-         Descriptor(TAG, 8),
+      PartialTransportStreamDesc(ui32 pk_rate, ui32 min_osr, ui16 max_osb)
+         : Descriptor(TAG, 8),
          peak_rate( pk_rate ),
          min_overall_smoothing_rate( min_osr ),
          max_overall_smoothing_buffer( max_osb )
@@ -300,7 +299,8 @@ namespace sigen {
       enum { TAG = 0x5f };
 
       // constructor
-      PrivateDataSpecifierDesc(ui32 d) : PrimitiveDatatypeDesc<ui32>(TAG, d) {}
+      PrivateDataSpecifierDesc(ui32 private_data)
+         : PrimitiveDatatypeDesc<ui32>(TAG, private_data) {}
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -323,6 +323,7 @@ namespace sigen {
 
       // utility
       bool addService(ui16 service_id, ui8 service_type);
+
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -354,9 +355,10 @@ namespace sigen {
       enum { TAG = 0x42 };
 
       // constructor
-      StuffingDesc(char c, ui8 len = 1) :
-         StringDataDesc( TAG, std::string(len, c) ) { }
-      StuffingDesc(const std::string& data) : StringDataDesc( TAG, data ) {}
+      StuffingDesc(ui8 byte, ui8 len = 1)
+         : StuffingDesc(std::string(len, byte)) {}
+      StuffingDesc(const std::string& data)
+         : StringDataDesc( TAG, data ) {}
       StuffingDesc() = delete;
 
 #ifdef ENABLE_DUMP
@@ -375,11 +377,10 @@ namespace sigen {
       enum { TAG = 0x67 };
 
       // default constructor identifies DVB streams
-      TransportStreamDesc() :
-         StringDataDesc( TAG, "DVB" ) {}
       // constructor for other types
-      TransportStreamDesc(const std::string& data) :
-         StringDataDesc( TAG, data ) {}
+      TransportStreamDesc() : StringDataDesc( TAG, "DVB" ) {}
+      TransportStreamDesc(const std::string& data)
+         : StringDataDesc( TAG, data ) {}
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
@@ -398,13 +399,12 @@ namespace sigen {
       enum { TAG = 0x57 };
 
       // constructor
-      TelephoneDesc(bool fa,
-                    ui8 ct,
-                    const std::string& cp,
-                    const std::string& iac,
-                    const std::string& oc,
-                    const std::string& nac,
-                    const std::string& cn);
+      TelephoneDesc(bool foreign_avail, ui8  connection_type,
+                    const std::string& country_prefix,
+                    const std::string& intl_area_code,
+                    const std::string& operator_code,
+                    const std::string& natl_area_code,
+                    const std::string& number);
       TelephoneDesc() = delete;
 
       // utility functions

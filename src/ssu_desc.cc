@@ -127,7 +127,8 @@ namespace sigen
    // ---------------------------------------
    // SSU Data Broadcast Id Descriptor
    //
-   bool SSUDataBroadcastIdDesc::addOUI(ui32 oui, ui8 upd_type, ui8 uvf, ui8 uv, const std::vector<ui8>& sel_bytes)
+   bool SSUDataBroadcastIdDesc::addOUI(ui32 oui, ui8 upd_type, bool uvf, ui8 uv,
+                                       const std::vector<ui8>& sel_bytes)
    {
       // can we add it?
       ui8 d_len = OUIData::expected_length(sel_bytes);
@@ -140,9 +141,9 @@ namespace sigen
    }
 
 
-   bool SSUDataBroadcastIdDesc::setPrivateData(const std::string& priv_data)
+   bool SSUDataBroadcastIdDesc::setPrivateData(const std::vector<ui8>& priv_data)
    {
-      if ( !incLength( priv_data.length() ) )
+      if ( !incLength( priv_data.size() ) )
          return false;
 
       private_data = priv_data;

@@ -15,3 +15,4 @@ DVB Descriptors:
 * Extended Event Descriptor is defined but makes user responsible
   for splitting data across multiple descriptors.  Need to add
   a support class to handle this.
+* DataBroadcastidDesc should prevent subclasses from calling setSelectorBytes.
