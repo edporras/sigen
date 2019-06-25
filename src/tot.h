@@ -30,17 +30,28 @@ namespace sigen {
    class TStream;
    class Descriptor;
 
-   //
-   // Time Offset Table
-   //
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Time Offset %Table, as per ETSI EN 300 468.
+    */
    class TOT : public STable
    {
    public:
-      enum { PID = 0x14 };
+      enum {
+         PID = 0x14                 //!< Packet PID for transmission.
+      };
 
-      // first constructor uses current time.. second uses the specific
-      // time provided
+      /*!
+       * \brief Constructor to create table with the current system time.
+       */
       TOT() : TOT(UTC()) { }
+      /*!
+       * \brief Constructor to create table with the specified time.
+       * \param time UTC time value.
+       */
       TOT(const UTC &time)
          : STable(TID, 7, MAX_SEC_LEN),
          utc(time)
@@ -50,6 +61,10 @@ namespace sigen {
       virtual ui16 getMaxDataLen() const;
       const UTC& getUTC() const { return utc; }
 
+      /*!
+       * \brief Add a Descriptor to the descriptors loop.
+       * \param desc Descriptor to add.
+       */
       bool addDesc(Descriptor& desc);
 
       // section data writer
@@ -66,4 +81,5 @@ namespace sigen {
 
       DescList descriptors;
    };
+   //! @}
 } // namespace

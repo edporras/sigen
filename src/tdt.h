@@ -29,17 +29,28 @@ namespace sigen
 {
    class TStream;
 
-   //
-   // Time and Date Section
-   //
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Time and Date %Table, as per ETSI EN 300 468.
+    */
    class TDT : public STable
    {
    public:
-      enum { PID = 0x14 };
+      enum {
+         PID = 0x14                 //!< Packet PID for transmission.
+      };
 
-      // default constructor creates a TDT with current time
+      /*!
+       * \brief Constructor to create table with the current system time.
+       */
       TDT() : TDT(UTC()) { }
-      // this one takes a UTC instance
+      /*!
+       * \brief Constructor to create table with the specified time.
+       * \param time UTC time value.
+       */
       TDT(const UTC &time)
          : STable(TID, 5, MAX_SEC_LEN),
          utc(time)
@@ -60,4 +71,5 @@ namespace sigen
 
       enum { MAX_SEC_LEN = 8, TID = 0x70 };
    };
+   //! @}
 } // namespace

@@ -28,20 +28,33 @@ namespace sigen {
 
    class Descriptor;
 
-   //
-   // the cat class
-   //
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Conditional Access %Table, as per ISO 13818-1.
+    */
    class CAT : public PSITable
    {
    public:
-      enum { PID = 0x01 };
+      enum {
+         PID = 0x01                           //!< Packet PID for transmission.
+      };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       CAT(ui8 version_number, bool current_next_indicator = true)
          : PSITable(TID, rbits(0xffff), 5, MAX_SEC_LEN, version_number, current_next_indicator, D_BIT)
       { }
 
-      // utility
+      /*!
+       * \brief Add a Descriptor to the descriptors loop.
+       * \param desc Descriptor to add.
+       */
       bool addDesc(Descriptor& desc);
 
 #ifdef ENABLE_DUMP
@@ -69,5 +82,5 @@ namespace sigen {
    protected:
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };
-
+   //! @}
 } // sigen namespace

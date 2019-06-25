@@ -30,18 +30,41 @@ namespace sigen {
 
    class Descriptor;
 
-   //
-   // the sdt class
-   //
+   /*! \addtogroup abstract
+    *  @{
+    */
+
+   /*!
+    * \brief Abstract Service Description %Table base class.
+    */
    class SDT : public PSITable
    {
    public:
-      enum { PID = 0x11 };
+      enum {
+         PID = 0x11                                    //!< Packet PID for transmission.
+      };
       enum { ACTUAL_TID = 0x42, OTHER_TID = 0x46 };
 
+      /*!
+       * \brief Add a service to the table.
+       * \param service_id Unique id of service within the TS.
+       * \param eit_schedule_flag EIT-schedule information present in current TS.
+       * \param eit_present_following_flag EIT-PF present in current TS.
+       * \param running_status Running status of the service as per sigen::Dvb::RunningStatus_t.
+       * \param free_CA_mode `false`: no service components are scrambled; `true`: one ore more controlled by CA system.
+       */
       bool addService(ui16 service_id, bool eit_schedule_flag, bool eit_present_following_flag,
                       ui8  running_status, bool free_CA_mode);
+      /*!
+       * \brief Add a Descriptor to the most recently added service.
+       * \param desc Descriptor to add.
+       */
       bool addServiceDesc(Descriptor& desc);
+      /*!
+       * \brief Add a Descriptor to the transport stream specfied.
+       * \param service_id Id of service to add descriptor to.
+       * \param desc Descriptor to add.
+       */
       bool addServiceDesc(ui16 service_id, Descriptor& desc);
 
 #ifdef ENABLE_DUMP
@@ -102,16 +125,40 @@ namespace sigen {
       bool addServiceDesc(Service&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };
+   //! @}
 
-   // public interface
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Service Description %Table - Actual, as per ETSI EN 300 468.
+    */
    struct SDTActual : public SDT {
+      /*!
+       * \brief Constructor.
+       * \param xs_id Id identifying the transport stream.
+       * \param on_id Id identifying the originating network.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       SDTActual(ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
          : SDT(SDT::ACTUAL_TID, xs_id, on_id, version_number, current_next_indicator) { }
    };
 
+   /*!
+    * \brief Service Description %Table - Actual, as per ETSI EN 300 468.
+    */
    struct SDTOther : public SDT {
+      /*!
+       * \brief Constructor.
+       * \param xs_id Id identifying the transport stream.
+       * \param on_id Id identifying the originating network.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       SDTOther(ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
          : SDT(SDT::OTHER_TID, xs_id, on_id, version_number, current_next_indicator) { }
    };
-
+   //! @}
 } // sigen namespace

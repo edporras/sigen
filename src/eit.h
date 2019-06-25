@@ -31,13 +31,19 @@ namespace sigen {
 
    class Descriptor;
 
-   //
-   // the eit class
-   //
+   /*! \addtogroup abstract
+    *  @{
+    */
+
+   /*!
+    * \brief Abstract Event Information %Table base class.
+    */
    class EIT : public PSITable
    {
    public:
-      enum { PID = 0x12 };
+      enum {
+         PID = 0x12                                    //!< Packet PID for transmission.
+      };
 
       // utility
       virtual void buildSections(TStream &) const = 0;
@@ -124,10 +130,9 @@ namespace sigen {
       } run;
    };
 
-
-   // ========================================================================
-   //
-   // the derived present/following eit classes
+   /*!
+    * \brief Abstract base class for EIT-Present / -Following.
+    */
    class PF_EIT : public EIT
    {
    public:
@@ -138,27 +143,57 @@ namespace sigen {
       std::list<Event> event_list[2]; // present = 0, following = 1
 
    public:
-      // present event utility functions
+      /*!
+       * \brief Add a present event.
+       * \param ev_id Unique id of the event within the service.
+       * \param start_time Start time of the event.
+       * \param duration Duration of the event.
+       * \param running_status Running status of the event. See sigen::Dvb::RunningStatus_t.
+       * \param free_CA_mode `false`: no event components are scrambled; `true`: one ore more controlled by CA s
+       */
       bool addPresentEvent(ui16 ev_id, const UTC& start_time, const BCDTime& duration,
                            ui8 running_status, bool free_CA_mode) {
          return addEvent(event_list[PRESENT], ev_id, start_time, duration, running_status, free_CA_mode);
       }
+      /*!
+       * \brief Add a Descriptor to the last added present event.
+       * \param desc Descriptor to add.
+       */
       bool addPresentEventDesc(Descriptor& desc) {
          return addEventDesc(event_list[PRESENT], desc);
       }
-      // adds it to the last event added
+      /*!
+       * \brief Add a Descriptor to the specified present event.
+       * \param ev_id Id identifying the event.
+       * \param desc Descriptor to add.
+       */
       bool addPresentEventDesc(ui16 ev_id, Descriptor& desc) {
          return addEventDesc(event_list[PRESENT], ev_id, desc);
       }
-      // following event utility functions
+      /*!
+       * \brief Add a following event.
+       * \param ev_id Unique id of the event within the service.
+       * \param start_time Start time of the event.
+       * \param duration Duration of the event.
+       * \param running_status Running status of the event. See sigen::Dvb::RunningStatus_t.
+       * \param free_CA_mode `false`: no event components are scrambled; `true`: one ore more controlled by CA s
+       */
       bool addFollowingEvent(ui16 ev_id, const UTC& start_time, const BCDTime& duration,
                              ui8 running_status, bool free_CA_mode) {
          return addEvent(event_list[FOLLOWING], ev_id, start_time, duration, running_status, free_CA_mode);
       }
+      /*!
+       * \brief Add a Descriptor to the last added following event.
+       * \param desc Descriptor to add.
+       */
       bool addFollowingEventDesc(Descriptor& desc) {
          return addEventDesc(event_list[FOLLOWING], desc);
       }
-      // adds it to the last event added
+      /*!
+       * \brief Add a Descriptor to the specified following event.
+       * \param ev_id Id identifying the event.
+       * \param desc Descriptor to add.
+       */
       bool addFollowingEventDesc(ui16 ev_id, Descriptor& desc) {
          return addEventDesc(event_list[FOLLOWING], ev_id, desc);
       }
@@ -178,20 +213,46 @@ namespace sigen {
       void dumpEvents(std::ostream &) const;
 #endif
    };
+   //! @}
 
-   // public interface classes
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Event Information %Table, Present / Following - Actual, as per ETSI EN 300 468.
+    */
    struct PF_EITActual : public PF_EIT
    {
+      /*!
+       * \brief Constructor.
+       * \param sid Id to identify the service.
+       * \param xs_id Id to identify the transport stream.
+       * \param on_id Id to identify the bouquet.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       PF_EITActual(ui16 sid, ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
          : PF_EIT(sid, xs_id, on_id, PF_EIT::ACTUAL, version_number, current_next_indicator) { }
    };
 
+   /*!
+    * \brief Event Information %Table, Present / Following - Other, as per ETSI EN 300 468.
+    */
    struct PF_EITOther : public PF_EIT
    {
+      /*!
+       * \brief Constructor.
+       * \param sid Id to identify the service.
+       * \param xs_id Id to identify the transport stream.
+       * \param on_id Id to identify the bouquet.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       PF_EITOther(ui16 sid, ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
          : PF_EIT(sid, xs_id, on_id, PF_EIT::OTHER, version_number, current_next_indicator) { }
    };
-
+   //! @}
 
 #if 0
    // ========================================================================

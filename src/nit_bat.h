@@ -30,20 +30,44 @@ namespace sigen {
 
    class Descriptor;
 
-   //
-   // the NIT & BAT are basically exactly the same. THis base class
-   // handles all the logic but can't be instantiaited. Instead, use
-   // NITActual, NITOther, and BAT classes below
-   //
+   /*! \addtogroup abstract
+    *  @{
+    */
+
+   /*!
+    * \brief Abstract class for the NIT & BAT classes.
+    *
+    * The NIT & BAT are basically exactly the same. THis base class
+    * handles all the logic but can't be instantiaited. Instead, use
+    * NITActual, NITOther, and BAT classes below.
+    */
    class NIT_BAT : public PSITable
    {
    public:
       enum { NIT_ACTUAL_TID = 0x40, NIT_OTHER_TID = 0x41, BAT_TID = 0x4a };
 
+      // add a Descriptor to the class. Aliased in the NIT and BAT
+      // classes as addNetworkDesc() and addBouquetDesc()
+      // respectively.
       bool addDesc(Descriptor &);
 
+      /*!
+       * \brief Add a transport stream to table.
+       * \param xs_id Unique id of the transport stream.
+       * \param on_id Id of the originating network.
+       */
       bool addXportStream(ui16 xs_id, ui16 on_id);
+      /*!
+       * \brief Add a Descriptor to last added transport stream.
+       * \param desc Descriptor to add.
+       */
       bool addXportStreamDesc(Descriptor& desc);
+      /*!
+       * \brief Add a Descriptor to the transport stream specified.
+       * \param xs_id Id of the transport stream.
+       * \param on_id Id of the originating network.
+       * \param desc Descriptor to add.
+       */
       bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor& desc);
 
 #ifdef ENABLE_DUMP
@@ -111,12 +135,19 @@ namespace sigen {
       { }
    };
 
-   //
-   // base NIT class
+   /*!
+    * \brief Abstract Network Information %Table base class.
+    */
    class NIT : public NIT_BAT {
    public:
-      enum { PID = 0x10 };
+      enum {
+         PID = 0x10                           //!< Packet PID for transmission.
+      };
 
+      /*!
+       * \brief Add a Descriptor to the Network Descriptors loop.
+       * \param desc Descriptor to add.
+       */
       bool addNetworkDesc(Descriptor& desc) { return addDesc(desc); }
 
    protected:
@@ -126,32 +157,70 @@ namespace sigen {
          NIT_BAT(type, network_id, ver, cni)
       { }
    };
+   //! @}
 
-   // public interface to create NIT tables
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Network Information %Table - Actual, as per ETSI EN 300 468.
+    */
    struct NITActual : public NIT
    {
+      /*!
+       * \brief Constructor.
+       * \param network_id Id identifying the network.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       NITActual(ui16 network_id, ui8 version_number, bool current_next_indicator = true)
          : NIT(NIT_BAT::NIT_ACTUAL_TID, network_id, version_number, current_next_indicator)
       { }
    };
 
+   /*!
+    * \brief Network Information %Table - Other, as per ETSI EN 300 468
+    */
    struct NITOther : public NIT
    {
+      /*!
+       * \brief Constructor.
+       * \param network_id Id identifying the network.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       NITOther(ui16 network_id, ui8 version_number, bool current_next_indicator = true)
          : NIT(NIT_BAT::NIT_OTHER_TID, network_id, version_number, current_next_indicator)
       { }
    };
 
-   // public interface for the BAT
+   /*!
+    * \brief Bouquet Association %Table, as per ETSI EN 300 468.
+    */
    struct BAT : public NIT_BAT
    {
-      enum { PID = 0x11 };
+      enum {
+         PID = 0x11                          //!< Packet PID for transmission.
+      };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param bouquet_id Id identifying the bouquet.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       BAT(ui16 bouquet_id, ui8  version_number, bool current_next_indicator = true)
          : NIT_BAT(NIT_BAT::BAT_TID, bouquet_id, version_number, current_next_indicator)
       { }
 
+      /*!
+       * \brief Add a Descriptor to the Bouquet Descriptors loop.
+       * \param desc Descriptor to add.
+       */
       bool addBouquetDesc(Descriptor& desc) { return addDesc(desc); }
    };
+
+   //! @}
+
 } // sigen namespace

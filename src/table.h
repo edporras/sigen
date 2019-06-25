@@ -33,8 +33,19 @@ namespace sigen {
    class Section;
    class Descriptor;
 
-   //
-   // abstract superclass for both tables and descriptors
+   /*!
+    * \defgroup abstract Abstract base classes
+    * \defgroup table Tables
+    * \defgroup descriptor Descriptors
+    */
+
+   /*! \ingroup abstract
+    *  @{
+    */
+
+   /*!
+    * \brief Abstract base class for all tables and descriptors.
+    */
    struct Table {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const = 0;
@@ -67,9 +78,9 @@ namespace sigen {
       Table& operator=(const Table&&) = delete;
    };
 
-   //
-   // abstract stream table class
-   //
+   /*!
+    * \brief Abstract class for tables.
+    */
    class STable : public Table
    {
    public:
@@ -88,6 +99,10 @@ namespace sigen {
       // override max_section_length with this
       void setMaxSectionLen(ui16 l) { max_section_length = l; }
 
+      /*!
+       * \brief Write table data to the specified stream.
+       * \param stream Stream to write section data to.
+       */
       virtual void buildSections(TStream& stream) const = 0;
 
    protected:
@@ -158,10 +173,12 @@ namespace sigen {
    };
 
 
-   //
-   // base class for large tables (those that can be split into multiple
-   // sections (such as the PSI tables: pat, pmt, cat, nit)
-   //
+   /*!
+    * \brief Abstract class for the sectionale tables.
+    *
+    * Base class for large tables (those that can be split into multiple
+    * sections (such as the PSI tables: pat, pmt, cat, nit)
+    */
    class PSITable : public STable
    {
    public:
@@ -224,5 +241,7 @@ namespace sigen {
       ui8 version_number : 5;         // ver_num (5)
       bool current_next_indicator;    // cur_next (1)
    };
+
+   //! @}
 
 } // namespace

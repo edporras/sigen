@@ -32,17 +32,31 @@ namespace sigen {
    class TStream;
    class Section;
 
-   //
-   // Running Status Table
-   //
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Running Status %Table, as per ETSI EN 300 468.
+    */
    class RST : public STable
    {
    public:
-      enum { PID = 0x13 };
+      enum {
+         PID = 0x13                            //!< Packet PID for transmission.
+      };
 
+      //! \brief Constructor.
       RST() : STable(TID, 0, MAX_SEC_LEN) {}
 
-      // utility
+      /*!
+       * \brief Add a transport stream to table.
+       * \param xs_id Unique id of the transport stream.
+       * \param on_id Id of the originating network.
+       * \param sid Id of the service id.
+       * \param ev_id Id of the related event.
+       * \param running_status Running status of the event. See sigen::Dvb::RunningStatus_t.
+       */
       bool addXportStream(ui16 xs_id, ui16 on_id, ui16 sid, ui16 ev_id,
                           ui8  running_status);
 
@@ -77,15 +91,24 @@ namespace sigen {
    };
 
 
-   //
-   // Stuffing Table
-   //
+   /*!
+    * \brief Stuffing %Table, as per ETSI EN 300 468.
+    */
    class Stuffing : public STable
    {
    public:
-      // constructor for NULL terminated data
-      // constructor where we replicate the passed data
+      /*!
+       * \brief Constructor using a std::string.
+       * \param stuffing_data Stuffing data bytes.
+       * \param section_syntax_indicator `true`: for 1, `false` for 0.
+       */
       Stuffing(const std::string& stuffing_data, bool section_syntax_indicator = true);
+      /*!
+       * \brief Constructor specifying a `ui8` to replicate.
+       * \param data_length Length of stuffing data to generate.
+       * \param data_byte Data byte to repeat.
+       * \param section_syntax_indicator `true`: for 1, `false` for 0.
+       */
       Stuffing(ui16 data_length, ui8  data_byte, bool section_syntax_indicator = true)
          : Stuffing(std::string(data_length, data_byte), section_syntax_indicator) {}
 
@@ -101,4 +124,5 @@ namespace sigen {
 
       enum { TID = 0x72, MAX_SEC_LEN = 4096, CAPACITY = 4093 };
    };
+   //! @}
 } // namespace

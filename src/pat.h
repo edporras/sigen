@@ -27,21 +27,41 @@
 
 namespace sigen {
 
-   //
-   // the pat class
-   //
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Program Association %Table, as per ISO 13818-1.
+    */
    class PAT : public PSITable
    {
    public:
       enum { PID = 0x00 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param xs_id Unique id of the transport stream.
+       * \param version_number Version number to use the subtable.
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       PAT(ui16 xs_id, ui8 version_number, bool current_next_indicator = true)
          : PSITable(TID, xs_id, 5, MAX_SEC_LEN, version_number, current_next_indicator, D_BIT)
       { }
 
+      /*!
+       * \brief Add an entry to the program loop associating the
+       * specified pid.
+       * \param program_number Identifes the program.
+       * \param program_map_pid PID of the transport stream packets to contain the PMT for the specified program.
+       */
       bool addProgram(ui16 program_number, ui16 program_map_pid);
 
+      /*!
+       * \brief Convenience method to add a network pid (setting
+       *        program number as 0).
+       * \param network_pid Pid of the transport stream carrying the NIT.
+       */
       bool addNetworkPid(ui16 network_pid) {
          return addProgram(0, network_pid);
       }
@@ -82,4 +102,5 @@ namespace sigen {
    protected:
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };
+   //! @}
 } // sigen namespace

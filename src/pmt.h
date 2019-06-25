@@ -30,47 +30,79 @@ namespace sigen {
 
    class Descriptor;
 
-   //
-   // the pmt class
-   //
+   /*! \addtogroup table
+    *  @{
+    */
+
+   /*!
+    * \brief Program Map %Table, as per ISO 13818-1.
+    */
    class PMT : public PSITable
    {
    public:
-      // Elementary stream types
+      /*!
+       * \enum  esTypes
+       *
+       * \brief Elementary stream types, as per ISO/IEC 13818-1.
+       */
       enum esTypes {
-         ES_RESERVED                                          = 0x00,
-         ES_ISO_IEC_11172_VIDEO                               = 0x01,
-         ES_ISO_IEC_13818_2_VIDEO                             = 0x02,
-         ES_ISO_IEC_11172_AUDIO                               = 0x03,
-         ES_ISO_IEC_13818_3_AUDIO                             = 0x04,
-         ES_ISO_IEC_13818_1_PRIVATE_SECTIONS                  = 0x05,
-         ES_ISO_IEC_13818_1_PES_PRIVATE_DATA                  = 0x06,
-         ES_ISO_IEC_13522_MHEG                                = 0x07,
-         ES_ISO_IEC_13818_1_ANNEX_A_DSM_CC                    = 0x08,
-         ES_ITU_T_REC_H_222_1                                 = 0x09,
-         ES_ISO_IEC_13818_6_TYPE_A                            = 0x0A,
-         ES_ISO_IEC_13818_6_TYPE_B                            = 0x0B,
-         ES_ISO_IEC_13818_6_TYPE_C                            = 0x0C,
-         ES_ISO_IEC_13818_6_TYPE_D                            = 0x0D,
-         ES_ISO_IEC_13818_1_AUXILIARY                         = 0x0E,
-         ES_ISO_IEC_13818_7_AUDIO_ADTS_TS_SYNTAX              = 0x0F,
-         ES_ISO_IEC_14496_2_VISUAL                            = 0x10,
-         ES_ISO_IEC_14496_3_AUDIO_LATM                        = 0x11,
-         ES_ISO_IEC_14496_1_STREAM_IN_PES_PACKETS             = 0x12,
-         ES_ISO_IEC_14496_1_STREAM_IN_ISO_IEC_144496_SECTIONS = 0x13,
-         ES_ISO_IEC_13818_6_SYNCHRONIZED_DOWNLOAD_PROTOCOL    = 0x14,
+         ES_RESERVED                                          = 0x00, //!< ITU-T | ISO/IEC reserved.
+         ES_ISO_IEC_11172_VIDEO                               = 0x01, //!< ISO/IEC 11172 video.
+         ES_ISO_IEC_13818_2_VIDEO                             = 0x02, //!< ITU-T Rec. H.262 | ISO/IEC 13818-2 video or ISO/IEC 11172-2 constrained param. video stream.
+         ES_ISO_IEC_11172_AUDIO                               = 0x03, //!< ISO/IEC 11172 audio.
+         ES_ISO_IEC_13818_3_AUDIO                             = 0x04, //!< ISO/IEC 13818-3 audio.
+         ES_ISO_IEC_13818_1_PRIVATE_SECTIONS                  = 0x05, //!< ITU-T Rec. H.222.0 | ISO/IEC 13818-1 priv. sections.
+         ES_ISO_IEC_13818_1_PES_PRIVATE_DATA                  = 0x06, //!< ITU-T Rec. H.222.0 | ISO/IEC 13818-1 PES packets containing priv. data.
+         ES_ISO_IEC_13522_MHEG                                = 0x07, //!< ISO/IEC 13522 MHEG.
+         ES_ISO_IEC_13818_1_ANNEX_A_DSM_CC                    = 0x08, //!< ITU-T Rec. H.222.0 | ISO/IEC 13818-1 annex A DSM-CC.
+         ES_ITU_T_REC_H_222_1                                 = 0x09, //!< ITU-T Rec. H.222.1.
+         ES_ISO_IEC_13818_6_TYPE_A                            = 0x0A, //!< ISO/IEC 13818-6 type A.
+         ES_ISO_IEC_13818_6_TYPE_B                            = 0x0B, //!< ISO/IEC 13818-6 type B.
+         ES_ISO_IEC_13818_6_TYPE_C                            = 0x0C, //!< ISO/IEC 13818-6 type C.
+         ES_ISO_IEC_13818_6_TYPE_D                            = 0x0D, //!< ISO/IEC 13818-6 type D.
+         ES_ISO_IEC_13818_1_AUXILIARY                         = 0x0E, //!< ITU-T Rec. H.222.0 | ISO/IEC 13818-1 auxiliary.
+         ES_ISO_IEC_13818_7_AUDIO_ADTS_TS_SYNTAX              = 0x0F, //!< ISO/IEC 13818-7 audio w/ ADTS transport syntax.
+         ES_ISO_IEC_14496_2_VISUAL                            = 0x10, //!< ISO/IEC 14496-2 visual.
+         ES_ISO_IEC_14496_3_AUDIO_LATM                        = 0x11, //!< ISO/IEC 14496-3 audio w/ LATM transport syntax as defined in ISO/IEC 14496-3 / AMD 1.
+         ES_ISO_IEC_14496_1_STREAM_IN_PES_PACKETS             = 0x12, //!< ISO/IEC 14496-1 SL-packetized stream or FlexMux stream carried in PES packets.
+         ES_ISO_IEC_14496_1_STREAM_IN_ISO_IEC_144496_SECTIONS = 0x13, //!< ISO/IEC 14496-1 SL-packetized stream or FlexMux stream carried in ISO/IEC 14496 sections.
+         ES_ISO_IEC_13818_6_SYNCHRONIZED_DOWNLOAD_PROTOCOL    = 0x14, //!< ISO/IEC 13818-6 synchronized download protocol.
       };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param program_number Program to which the PID is applicable
+       * \param PCR_PID PID of the transport stream packets.
+       * \param version_number
+       * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
+       */
       PMT(ui16 program_number, ui16 PCR_PID, ui8 version_number, bool current_next_indicator = true)
          : PSITable(TID, program_number, 9, MAX_SEC_LEN, version_number, current_next_indicator, D_BIT),
          program_info_length(0),
          pcr_pid(PCR_PID)
       { }
 
+      /*!
+       * \brief Add a Descriptor to the Program Descriptors loop.
+       * \param desc Descriptor to add.
+       */
       bool addProgramDesc(Descriptor& desc);
+      /*!
+       * \brief Add an elementary stream to table.
+       * \param type Stream type. See PMT::esTypes.
+       * \param elem_pid PID to carry the stream packets.
+       */
       bool addElemStream(ui8 type, ui16 elem_pid);
+      /*!
+       * \brief Add a Descriptor to the last added elementary stream.
+       * \param desc Descriptor to add.
+       */
       bool addElemStreamDesc(Descriptor& desc);
+      /*!
+       * \brief Add a Descriptor to the elementary stream specified.
+       * \param elem_pid PID identifying the lementary stream.
+       * \param desc Descriptor to add.
+       */
       bool addElemStreamDesc(ui16 elem_pid, Descriptor& desc);
 
 #ifdef ENABLE_DUMP
@@ -124,5 +156,6 @@ namespace sigen {
       bool addElemStreamDesc(ElementaryStream&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };
+   //! @}
 } // sigen namespace
 
