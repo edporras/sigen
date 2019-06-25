@@ -185,7 +185,7 @@ namespace sigen
 
    //
    // add a language to the descriptor
-   bool ISO639LanguageDesc::addLanguage(const std::string &code, ui8 audio_type)
+   bool ISO639LanguageDesc::addLanguage(const LanguageCode& code, ui8 audio_type)
    {
       // check if we can fit it
       if ( !incLength( Language::BASE_LEN ) )

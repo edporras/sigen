@@ -243,7 +243,8 @@ namespace sigen {
       ISO639LanguageDesc() : Descriptor(TAG) {}
 
       // utility
-      bool addLanguage(const std::string& code, ui8 audio_type);
+      bool addLanguage(const LanguageCode& code, ui8 audio_type);
+
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -257,7 +258,7 @@ namespace sigen {
          LanguageCode code;
          ui8 audio_type;
 
-         Language( const std::string& lc, ui8 at ) : code(lc), audio_type(at) { }
+         Language( const LanguageCode& lc, ui8 at ) : code(lc), audio_type(at) { }
          Language() = delete;
       };
 
