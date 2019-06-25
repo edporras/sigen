@@ -30,18 +30,34 @@
 
 namespace sigen {
 
-   // ---------------------------
-   // abstract base descriptor class
-   //
+   /*!
+    * \addtogroup abstract
+    * @{
+    */
+
+   /*!
+    * \brief Abstract base class for all descriptor types.
+    *
+    * \attention Unlike tables, all Descriptor subclasses must be
+    * allocated by the caller using the `new` operator and fully
+    * populated before adding them to a table instance. Once added,
+    * the table claims ownership of the descriptor pointer and will
+    * handle deletion.
+    *
+    * \warning Note that once added, the descriptor must not
+    * be modified by the caller (in essence, the pointer is now
+    * invalid).
+    */
    class Descriptor : public Table
    {
    public:
       virtual ~Descriptor() { }
 
-      // getter methods
+      //! \brief Returns the total length of the descriptor data.
       ui16 length() const { return total_length; }
 
-      // utility methods
+      //! \internal
+      //! \brief  Write data bytes to the section. Used by the sectionizer.
       virtual void buildSections(Section &s) const;
 
    private:
@@ -138,12 +154,17 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // abstract Multilingual Text Descriptor base class
-   //
+   /*!
+    * \brief Abstract Multilingual Text Descriptor base class.
+    */
    class MultilingualTextDesc : public Descriptor
    {
    public:
+      /*!
+       * \brief Add a text entry with an associated language code to the descriptor.
+       * \param lang Language code as per ISO 639-2.
+       * \param text Text to add.
+       */
       bool addText(const LanguageCode& lang, const std::string& text);
 
       [[deprecated("replaced by addText()")]] bool addLanguage(const LanguageCode& lang,
@@ -192,5 +213,7 @@ namespace sigen {
 
       void buildLoopData(Section &) const;
    };
+
+   //! @}
 
 } // sigen namespace

@@ -27,10 +27,10 @@
 #include "descriptor.h"
 
 namespace sigen {
+   /*! \addtogroup descriptor
+    *  @{
+    */
 
-   // ---------------------------
-   // AC-3 Descriptor (EN 300 468 v1.4.1, Annex E)
-   //
    class _AC3Desc : public Descriptor
    {
    public:
@@ -38,11 +38,31 @@ namespace sigen {
       // ExtendedAC3Desc
       _AC3Desc() = delete;
 
+      /*!
+       * \brief set the component type field.
+       * \param c_type Type of audio carried in the AC-3 stream.
+       */
       void setComponentType(ui8 c_type) { set_value(COMPONENT_TYPE, c_type); }
+      /*!
+       * \brief set the bsid field.
+       * \param bsid AC-3 coding version as set in the elementary stream.
+       */
       void setBSID(ui8 bsid) { set_value(BSID, bsid); }
+      /*!
+       * \brief set the mainid field.
+       * \param mainid Id identifying the main audio service.
+       */
       void setMainid(ui8 mainid) { set_value(MAINID, mainid); }
+      /*!
+       * \brief set the asvc field.
+       * \param asvc Identifies main services this is associated with.
+       */
       void setASVC(ui8 asvc) { set_value(ASVC, asvc); }
 
+      /*!
+       * \brief set the additional info bytes.
+       * \param addl_info_bytes ui8 byte vector.
+       */
       void setAdditionalInfo(const std::vector<ui8>& addl_info_bytes);
 
       virtual void buildSections(Section&) const;
@@ -83,48 +103,73 @@ namespace sigen {
       void set_value(flag_t key, ui8 value);
    };
 
+   /*!
+    * \brief AC-3 Descriptor (EN 300 468 v1.15.1, Annex D)
+    */
    struct AC3Desc : public _AC3Desc
    {
       enum { TAG = 0x6a };
 
+      //! \brief Constructor.
       AC3Desc() : _AC3Desc(TAG) {}
    };
 
+   /*!
+    * \brief Extended AC-3 Descriptor (EN 300 468 v1.15.1, Annex D)
+    */
    struct ExtendedAC3Desc : public _AC3Desc
    {
       enum { TAG = 0x7a };
 
+      //! \brief Constructor.
       ExtendedAC3Desc() : _AC3Desc(TAG) {}
 
+      //! \brief set the mixinfo-exists flag.
       void setMixinfoExists() { set_value(MIXINFO_EXISTS, 0); } // value is ignored
+      /*!
+       * \brief set the substream1 field.
+       * \param substream Type of audio carried in the independent substream 1.
+       */
       void setSubstream1(ui8 substream) { set_value(SUBSTREAM_1, substream); }
+      /*!
+       * \brief set the substream2 field.
+       * \param substream Type of audio carried in the independent substream 2.
+       */
       void setSubstream2(ui8 substream) { set_value(SUBSTREAM_2, substream); }
+      /*!
+       * \brief set the substream3 field.
+       * \param substream Type of audio carried in the independent substream 3.
+       */
       void setSubstream3(ui8 substream) { set_value(SUBSTREAM_3, substream); }
    };
 
-   // ---------------------------
-   // Ancillary Data Descriptor- derived from PrimitiveDatatypeDesc
-   // which handles buildingSections
-   //
-   //  ui8 data represents ancillary_data_identifier
-   //
+   /*!
+    * \brief Ancillary Data Descriptor.
+    */
    class AncillaryDataDesc : public PrimitiveDatatypeDesc<ui8>
    {
    public:
       enum { TAG = 0x6b };
 
-      // ancillary data identifier values
+      /*!
+       * \enum  DataCoding
+       *
+       * \brief Ancillary data identifier coding, as per ETSI TS 101 154 [9].
+       */
       enum DataCoding {
-         DVD_VIDEO                 = 0x01,
-         EXTENDED                  = 0x02,
-         ANNOUNCEMENT_SWITCHING    = 0x04,
-         DAB                       = 0x08,
-         SCALE_FACTOR_ERROR_CHECK  = 0x10,
-         MPEG_4                    = 0x20,
-         RDS_UECP                  = 0x40,
+         DVD_VIDEO                 = 0x01,  //!< DVD-Video ancillary data.
+         EXTENDED                  = 0x02,  //!< Extended ancillary data.
+         ANNOUNCEMENT_SWITCHING    = 0x04,  //!< Announcement switching data.
+         DAB                       = 0x08,  //!< DAB ancillary data.
+         SCALE_FACTOR_ERROR_CHECK  = 0x10,  //!< Scale factor error check.
+         MPEG_4                    = 0x20,  //!< MPEG-4 ancillary data.
+         RDS_UECP                  = 0x40,  //!< RDS via UECP.
       };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param ancillary_data_identifier Ancillary data coded in the audio elementary stream using the AncillaryDataDesc::DataCoding bit values.
+       */
       AncillaryDataDesc(ui8 ancillary_data_identifier)
          : PrimitiveDatatypeDesc<ui8>(TAG, ancillary_data_identifier)
       {}
@@ -137,6 +182,9 @@ namespace sigen {
    };
 
 
+   /*!
+    * \brief Data Broadcast Id Descriptor.
+    */
    class _DataBroadcastIdDesc : public Descriptor
    {
    public:
@@ -179,12 +227,22 @@ namespace sigen {
       {}
    };
 
+   /*!
+    * \brief Data Broadcast Id Descriptor.
+    */
    class DataBroadcastIdDesc : public _DataBroadcastIdDesc
    {
    public:
+      /*!
+       * \brief Constructor.
+       * \param db_id Data broadcast specification as per ETSI TS 101 162.
+       */
       DataBroadcastIdDesc(ui16 db_id) : _DataBroadcastIdDesc(db_id) {}
 
-      // set private data bytes
+      /*!
+       * \brief Set the selector bytes field.
+       * \param bytes Vector with the byte sequence.
+       */
       bool setSelectorBytes(const std::vector<ui8>& bytes);
 
       virtual void buildSections(Section&) const;
@@ -198,22 +256,26 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Service Move Descriptor
-   //
+   /*!
+    * \brief Service Move Descriptor.
+    */
    class ServiceMoveDesc : public Descriptor
    {
    public:
       enum { TAG = 0x60 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param new_onid Id identifying the new originating network.
+       * \param new_xs_id Id uniquely identifying the new transport stream.
+       * \param new_sid Id uniquely identifying the service after the move.
+       */
       ServiceMoveDesc(ui16 new_onid, ui16 new_xs_id, ui16 new_sid)
          : Descriptor(TAG, 6),
          original_network_id(new_onid), xport_stream_id(new_xs_id), new_service_id(new_sid)
       {}
       ServiceMoveDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -227,17 +289,17 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Stream Identifier Descriptor- derived from PrimitiveDatatypeDesc
-   // which handles buildingSections
-   //
-   //  ui8 data represents component_tag
-   //
+   /*!
+    * \brief Stream Identifier Descriptor.
+    */
    struct StreamIdentifierDesc : public PrimitiveDatatypeDesc<ui8>
    {
       enum { TAG = 0x52 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param c_tag Component tag associated with a description given in a component descriptor.
+       */
       StreamIdentifierDesc(ui8 c_tag) : PrimitiveDatatypeDesc<ui8>(TAG, c_tag) {}
 
 #ifdef ENABLE_DUMP
@@ -248,20 +310,27 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Subtitling Descriptor
-   //
+   /*!
+    * \brief Subtitling Descriptor.
+    */
    class SubtitlingDesc : public Descriptor
    {
    public:
       enum { TAG = 0x59 };
 
-      // constructor
+      //! \brief Constructor.
       SubtitlingDesc() : Descriptor(TAG) {}
 
-      // utility
+      /*!
+       * \brief Adds a subtitling entry to the descriptor.
+       * \param lang_code ISO-639-2 code of the subtitle language.
+       * \param type Subtitling type.
+       * \param c_page_id Id of the composition page.
+       * \param a_page_id Id of the optional ancillary page.
+       */
       bool addSubtitling(const std::string& lang_code, ui8 type, ui16 c_page_id,
                          ui16 a_page_id);
+
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -288,31 +357,40 @@ namespace sigen {
       std::list<Subtitling> subtitling_list;
    };
 
-
-
-   // ---------------------------
-   // Teletext Descriptor
-   //
+   /*!
+    * \brief Teletext Descriptor.
+    */
    class TeletextDesc : public Descriptor
    {
    public:
       enum { TAG = 0x56 };
 
-      // defined teletext types
+      /*!
+       * \enum  Type
+       *
+       * \brief Teletext type coding.
+       */
       enum Type {
-         INITIAL     = 0x01,
-         SUBTITLE    = 0x02,
-         ADDTNL_INFO = 0x03,
-         PROG_SCHED  = 0x04,
-         HEARING_IMP = 0x05,
+         INITIAL     = 0x01, //!< Initial Teletext page.
+         SUBTITLE    = 0x02, //!< Teletext subtitle page.
+         ADDTNL_INFO = 0x03, //!< Additional information page.
+         PROG_SCHED  = 0x04, //!< Program schedule page.
+         HEARING_IMP = 0x05, //!< Teletext subtitle page for hearing impaired.
       };
 
-      // contructor
+      //! \brief Constructor.
       TeletextDesc() : Descriptor(TAG) {}
 
-      // utility
+      /*!
+       * \brief Adds a teletext entry to the descriptor.
+       * \param lang_code ISO-639-2 code of the teletext language.
+       * \param type Teletext type, as per TeletextDesc::Type.
+       * \param mag_num Teletext magazine number, as per ETSI EN 300 706.
+       * \param page_num Teletext page number, as per ETSI EN 300 706.
+       */
       bool addTeletext(const std::string& lang_code, ui8 type, ui8 mag_num,
                        ui8 page_num);
+
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -338,5 +416,5 @@ namespace sigen {
 
       std::list<Teletext> teletext_list;
    };
-
+   //! @}
 } // sigen namespace

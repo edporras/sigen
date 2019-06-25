@@ -30,21 +30,43 @@
 
 namespace sigen {
 
-   // ---------------------------
-   // SSU Linkage Descriptor (0x09)
-   //
+   /*! \addtogroup descriptor
+    *  @{
+    */
+
+   /*! \defgroup ssu_d SSU Descriptors
+    *  \addtogroup ssu_d
+    *  @{
+    */
+
+   /*!
+    * \brief SSU Linkage Descriptor.
+    */
    class SSULinkageDesc : public LinkageDesc
    {
    public:
-      // constructor for linkage types 0x09
+      /*!
+       * \brief Constructor
+       * \param xs_id Id uniquely identifying the transport stream.
+       * \param onid Id of the originating network.
+       * \param sid Id uniquely udentifying the service.
+       */
       SSULinkageDesc(ui16 xs_id, ui16 onid, ui16 sid)
          : LinkageDesc(LinkageDesc::SSUS, xs_id, onid, sid),
          OUI_data_length(0)
       { incLength( 1 ); }
       SSULinkageDesc() = delete;
 
-      // utility
+      /*!
+       * \brief Add a OUI, as per IEEE 802.
+       * \param OUI Id of the SSU organization providing the service.
+       * \param bytes Selector bytes.
+       */
       bool addOUI(ui32 OUI, const std::vector<ui8>& bytes = {});
+      /*!
+       * \brief Set the private data byte sequence.
+       * \param bytes Private data bytes.
+       */
       bool setPrivateData(const std::vector<ui8>& bytes);
 
       virtual void buildSections(Section&) const;
@@ -75,18 +97,29 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // SSU Scan Linkage Descriptor (0x0A)
-   //
+   /*!
+    * \brief SSU Scan Linkage Descriptor.
+    */
    class SSUScanLinkageDesc : public LinkageDesc
    {
    public:
+      /*!
+       * \enum TableType
+       *
+       * \brief Table carrying the SSU.
+       */
       enum TableType {
-         TABLE_TYPE_NIT   = 0x01,
-         TABLE_TYPE_BAT   = 0x02,
+         TABLE_TYPE_NIT   = 0x01, //!< NIT
+         TABLE_TYPE_BAT   = 0x02, //!< BAT
       };
 
-      // constructor for linkage types 0x0A
+      /*!
+       * \brief Constructor
+       * \param xs_id Id uniquely identifying the transport stream.
+       * \param onid Id of the originating network.
+       * \param sid Id uniquely udentifying the service.
+       * \param t_type Table type, as per SSUScanLinkageDesc::TableType.
+       */
       SSUScanLinkageDesc(ui16 xs_id, ui16 onid, ui16 sid, TableType t_type)
          : LinkageDesc(LinkageDesc::TS_SSU_BAT_OR_NIT, xs_id, onid, sid),
          table_type(t_type)
@@ -103,12 +136,16 @@ namespace sigen {
       ui8 table_type;
    };
 
-   // ---------------------------
-   // SSU Data Broadcast Id Descriptor
-   //
+
+   /*!
+    * \brief SSU Data Broadcast Id Descriptor.
+    */
    class SSUDataBroadcastIdDesc : public _DataBroadcastIdDesc
    {
    public:
+      /*! \enum UpdateType
+       *  \brief Update type coding.
+       */
       enum UpdateType {
          UPDATE_TYPE_PROPIETARY               = 0x0, //!< Propietary update solution.
          UPDATE_TYPE_STANDARD_UPDATE_CAROUSEL = 0x1, //!< Standard update carousel without notification table.
@@ -117,20 +154,36 @@ namespace sigen {
          UPDATE_TYPE_SSU_FROM_INTERNET        = 0x4, //!< SSU signaled via UNT w/ update available from the internet.
       };
 
-      // constructor
+      //! \brief Constructor
       SSUDataBroadcastIdDesc()
          : _DataBroadcastIdDesc(DataBroadcastIdDesc::SSU, 1),
            OUI_data_len(0)
       {
       }
 
-      // utility
+      /*!
+       * \brief Add an OUI entry with versioning.
+       * \param OUI Id of the SSU organization providing the service, as per IEEE 802.
+       * \param upd_type Type of the SSU service, as per SSUDataBroadcastIdDesc::UpdateType.
+       * \param version Updated to indicate changes in the SSU service component.
+       * \param bytes Selector bytes.
+       */
       bool addOUI(ui32 OUI, ui8 upd_type, ui8 version, const std::vector<ui8>& bytes) {
          return addOUI(OUI, upd_type, true, version, bytes);
       }
+      /*!
+       * \brief Add an OUI entry without versioning.
+       * \param OUI Id of the SSU organization providing the service, as per IEEE 802.
+       * \param upd_type Type of the SSU service, as per SSUDataBroadcastIdDesc::UpdateType.
+       * \param bytes Selector bytes.
+       */
       bool addOUI(ui32 OUI, ui8 upd_type, const std::vector<ui8>& bytes) {
          return addOUI(OUI, upd_type, false, 0, bytes);
       }
+      /*!
+       * \brief Set the private data byte sequence.
+       * \param priv_data Private data bytes.
+       */
       bool setPrivateData(const std::vector<ui8>& priv_data);
 
       virtual void buildSections(Section&) const;
@@ -171,4 +224,6 @@ namespace sigen {
 
       bool setSelectorBytes(const std::vector<ui8>& bytes);
    };
+   //! @}
+   //! @}
 } // sigen namespace

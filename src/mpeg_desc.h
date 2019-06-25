@@ -30,23 +30,36 @@ namespace sigen {
    class Section;
    class LanguageCode;
 
+   /*! \addtogroup descriptor
+    *  @{
+    */
 
-   // ---------------------------
-   // Audio Stream Descriptor
-   //
+   /*!
+    * \defgroup mpeg_d MPEG Descriptors
+    *  @{
+    */
+
+   /*!
+    * \brief Audio Stream Descriptor.
+    */
    class AudioStreamDesc : public Descriptor
    {
    public:
       enum { TAG = 3 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param free_fmt_f Free format flag.
+       * \param ID `true`: ID field is `1` in each audio frame in the stream; `false`: otherwise.
+       * \param lyr Layer field as per ISO/IEC 13818-3).
+       * \param var_rate_indic `false`: Bit rate shall not change in consecutive audio frames.
+       */
       AudioStreamDesc(bool free_fmt_f, bool ID, ui8 lyr, bool var_rate_indic = true)
          : Descriptor(TAG, 1),
            free_format_flag(free_fmt_f), id(ID), layer(lyr), variable_rate_indicator(var_rate_indic)
       { }
       AudioStreamDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -60,16 +73,20 @@ namespace sigen {
       ui8 layer : 2;
    };
 
-
-   // ---------------------------
-   // CA Descriptor
-   //
+   /*!
+    * \brief CA Descriptor.
+    */
    class CADesc : public Descriptor
    {
    public:
       enum { TAG = 9 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param casid CA System ID.
+       * \param ca_pid PID of the transport stream packets carrying ECM and/or EMM streams.
+       * \param data Private bytes.
+       */
       CADesc(ui16 casid, ui16 ca_pid, const std::string& data)
          : Descriptor(TAG, 4),
          CA_system_id(casid), CA_pid(ca_pid),
@@ -77,7 +94,6 @@ namespace sigen {
       { }
       CADesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -91,24 +107,25 @@ namespace sigen {
       std::string private_data;
    };
 
-
-
-   // ---------------------------
-   // Copyright Descriptor
-   //
+   /*!
+    * \brief Copyright Descriptor.
+    */
    class CopyrightDesc : public Descriptor
    {
    public:
       enum { TAG = 13 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param cr_identifier Identifier from the Registration Authority.
+       * \param data Additional copyright information.
+       */
       CopyrightDesc(ui32 cr_identifier, const std::string& data = "")
          : Descriptor(TAG, 4),
          identifier(cr_identifier), info( incLength(data) )
       { }
       CopyrightDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -121,12 +138,9 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Data Stream Alignment Descriptor - derived from
-   // PrimitiveDatatypeDesc which handles building sections
-   //
-   //  ui8 data represents alignment_type
-   //
+   /*!
+    * \brief Data Stream Alignment Descriptor.
+    */
    struct DataStreamAlignmentDesc : public PrimitiveDatatypeDesc<ui8>
    {
       enum { TAG = 6 };
@@ -142,7 +156,10 @@ namespace sigen {
          SYNC_WORD = 0x01,
       };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param type Alignment type.
+       */
       DataStreamAlignmentDesc(ui8 type) : PrimitiveDatatypeDesc<ui8>(TAG, type) { }
 
 #ifdef ENABLE_DUMP
@@ -152,10 +169,9 @@ namespace sigen {
 #endif
    };
 
-
-   // ---------------------------
-   // Hierarchy Descriptor
-   //
+   /*!
+    * \brief Hierarchy Descriptor.
+    */
    class HierarchyDesc : public Descriptor
    {
    public:
@@ -171,7 +187,13 @@ namespace sigen {
          MULTI_VIEW_PROFILE,
       };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param h_type Hierarchy type.
+       * \param h_layer_index Index uniquely identifying the associated program element.
+       * \param h_embedded_layer Hierarchy embedded layer index.
+       * \param h_channel Intended channel number.
+       */
       HierarchyDesc(ui8 h_type, ui8 h_layer_index, ui8 h_embedded_layer,
                     ui8 h_channel)
          : Descriptor(TAG, 4),
@@ -180,7 +202,6 @@ namespace sigen {
       { }
       HierarchyDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -195,23 +216,26 @@ namespace sigen {
    };
 
 
-
-   // ---------------------------
-   // IBP Descriptor
-   //
+   /*!
+    * \brief IBP Descriptor.
+    */
    class IBPDesc : public Descriptor
    {
    public:
       enum { TAG = 18 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param closed_gop_f Closed gop flag.
+       * \param ident_gop_f Idential gop flag.
+       * \param max_gop_len Maximum gop len.
+       */
       IBPDesc(bool closed_gop_f, bool ident_gop_f, ui16 max_gop_len)
          : Descriptor(TAG, 2),
          closed_gop_flag(closed_gop_f), identical_gop_flag(ident_gop_f), max_gop_len(max_gop_len)
       { }
       IBPDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -225,25 +249,32 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // ISO 639 Language Descriptor - ISO/IEC 13818-1 (1996)
-   //
+   /*!
+    * \brief ISO 639 Language Descriptor - ISO/IEC 13818-1 (1996).
+    */
    class ISO639LanguageDesc : public Descriptor
    {
    public:
       enum { TAG = 10 };
 
-      // audio types
+      /*! \enum AudioType_t
+       *
+       * \brief Audio Type values.
+       */
       enum AudioType_t {
-         CLEAN_EFFECTS = 0x01,
-         HEARING_IMPAIRED = 0x02,
-         VISUAL_IMPAIRED_COMM = 0x03
+         CLEAN_EFFECTS        = 0x01, //!< Clean effects.
+         HEARING_IMPAIRED     = 0x02, //!< Hearing impaired.
+         VISUAL_IMPAIRED_COMM = 0x03, //!< Visual impaired commentary.
       };
 
-      // constructor
+      //! \brief Constructor.
       ISO639LanguageDesc() : Descriptor(TAG) {}
 
-      // utility
+      /*!
+       * \brief Add a language to the descriptor loop.
+       * \param code ISO-639 language code of the program element.
+       * \param audio_type Type of stream as per ISO639LanguageDesc::AudioType_t.
+       */
       bool addLanguage(const LanguageCode& code, ui8 audio_type);
 
       virtual void buildSections(Section&) const;
@@ -266,24 +297,24 @@ namespace sigen {
       std::list<Language> language_list;
    };
 
-
-
-   // ---------------------------
-   // Maximum Bitrate Descriptor
-   //
+   /*!
+    * \brief Maximum Bitrate Descriptor.
+    */
    class MaximumBitrateDesc : public Descriptor
    {
    public:
       enum { TAG = 14 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param max_br Maximum bitrate that will be encountered on thir program or service.
+       */
       MaximumBitrateDesc(ui32 max_br)
          : Descriptor(TAG, 3),
          maximum_bitrate(max_br)
       { }
       MaximumBitrateDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -295,16 +326,21 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Multiplex Buffer Utilization Descriptor (ISO/IEC 13818-1 1996)
-   //
+   /*!
+    * \brief Multiplex Buffer Utilization Descriptor (ISO/IEC 13818-1 1996).
+    */
    class MultiplexBufferUtilizationDesc : public Descriptor
    {
    public:
       enum { TAG = 12 };
       enum Strategy_t { EARLY = 1, LATE, MIDDLE };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param bound_valid_f `true`: both bound values are valid; `false`: otherwise.
+       * \param ltw_offset_lb LTW-offset lower-bound.
+       * \param ltw_offset_ub LTW-offset upper-bound.
+       */
       MultiplexBufferUtilizationDesc(bool bound_valid_f, ui16 ltw_offset_lb, ui16 ltw_offset_ub)
          : Descriptor(TAG, 4),
            bound_valid_flag(bound_valid_f),
@@ -312,7 +348,6 @@ namespace sigen {
       { }
       MultiplexBufferUtilizationDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -325,18 +360,17 @@ namespace sigen {
       ui16 LTW_offset_ub : 14;
    };
 
-
-   // ---------------------------
-   // Private Data Indicator Descriptor - derived from
-   // PrimitiveDatatypeDesc which handles buildingSections
-   //
-   //  ui32 data represents private_data_indicator
-   //
+   /*!
+    * \brief Private Data Indicator Descriptor.
+    */
    struct PrivateDataIndicatorDesc : public PrimitiveDatatypeDesc<ui32>
    {
       enum { TAG = 15 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param pdi Private data indicator.
+       */
       PrivateDataIndicatorDesc(ui32 pdi) : PrimitiveDatatypeDesc<ui32>(TAG, pdi) { }
 
 #ifdef ENABLE_DUMP
@@ -346,23 +380,25 @@ namespace sigen {
 #endif
    };
 
-
-   // ---------------------------
-   // Registration Descriptor
-   //
+   /*!
+    * \brief Registration Descriptor.
+    */
    class RegistrationDesc : public Descriptor
    {
    public:
       enum { TAG = 5 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param format_ident Format identifier as per ISO/IEC JTC 1/SC 29.
+       * \param data Additional identification information.
+       */
       RegistrationDesc(ui32 format_ident, const std::string& data)
          : Descriptor(TAG, 4),
          identifier(format_ident), info( incLength(data) )
       { }
       RegistrationDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -374,24 +410,25 @@ namespace sigen {
       std::string info;
    };
 
-
-
-   // ---------------------------
-   // Smoothing Buffer Descriptor
-   //
+   /*!
+    * \brief Smoothing Buffer Descriptor.
+    */
    class SmoothingBufferDesc : public Descriptor
    {
    public:
       enum { TAG = 16 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param sb_lk_rate Smoothing buffer leak rate.
+       * \param size Smoothing buffer size
+       */
       SmoothingBufferDesc(ui32 sb_lk_rate, ui32 size)
          : Descriptor(TAG, 6),
          sb_leak_rate(sb_lk_rate), sb_size(size)
       { }
       SmoothingBufferDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -403,17 +440,18 @@ namespace sigen {
       ui32 sb_size : 22;
    };
 
-
-
-   // ---------------------------
-   // STD Descriptor
-   //
+   /*!
+    * \brief STD Descriptor.
+    */
    class STDDesc : public Descriptor
    {
    public:
       enum { TAG = 17 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param lvf Leak-valid flag.
+       */
       STDDesc(bool lvf)
          : Descriptor(TAG, 1),
          leak_valid_flag(lvf)
@@ -431,16 +469,20 @@ namespace sigen {
       bool leak_valid_flag;
    };
 
-
-   // ---------------------------
-   // System Clock Descriptor
-   //
+   /*!
+    * \brief System Clock Descriptor.
+    */
    class SystemClockDesc : public Descriptor
    {
    public:
       enum { TAG = 11 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param ext_clk_ref_indic `true`: System clock is derived from external frequency reference.
+       * \param clk_accuracy_int 6-bit clock accuracy integer.
+       * \param clk_accuracy_exp 3-bit clock accuracy exponent.
+       */
       SystemClockDesc(bool ext_clk_ref_indic, ui8 clk_accuracy_int, ui8 clk_accuracy_exp)
          : Descriptor(TAG, 2),
            external_clock_reference_indicator(ext_clk_ref_indic),
@@ -449,7 +491,6 @@ namespace sigen {
       { }
       SystemClockDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -462,23 +503,26 @@ namespace sigen {
            clock_accuracy_exponent : 3;
    };
 
-
-   // ---------------------------
-   // Target Background Grid Descriptor
-   //
+   /*!
+    * \brief Target Background Grid Descriptor.
+    */
    class TargetBackgroundGridDesc : public Descriptor
    {
    public:
       enum { TAG = 7 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param horiz_size Horizontal size of background grid in pixels.
+       * \param vert_size Vertical size of background grid in pixels.
+       * \param a_r_info Aspect ratio information as per ITU-T Rec. H.262 | ISO/IEC 13818-2.
+       */
       TargetBackgroundGridDesc(ui16 horiz_size, ui16 vert_size, ui8 a_r_info)
          : Descriptor(TAG, 4),
          horizontal_size(horiz_size), vertical_size(vert_size), pel_aspect_ratio(a_r_info)
       { }
       TargetBackgroundGridDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -491,19 +535,34 @@ namespace sigen {
            pel_aspect_ratio : 4;
    };
 
-
-
-   // ---------------------------
-   // Video Stream Descriptor
-   //
+   /*!
+    * \brief Video Stream Descriptor.
+    */
    class VideoStreamDesc : public Descriptor
    {
    public:
       enum { TAG = 2 };
 
+      /*!
+       * \brief Constructor for descriptors where MPEG_1_only_flag must be set to `1`.
+       * \param mult_frame_rate_f Multiple frame rate flag.
+       * \param frame_rate_code Frame rate code as per ITU-T Rec. H.262 | ISO/IEC 13818-2.
+       * \param constr_param_f `false`: stream may contain constrained and unconstrained video streams; `true`: does not contain unconstrained streams.
+       * \param still_pic_f `false`: stream may contain still and moving picture data; `true`: stream contains only still pictures.
+       */
       VideoStreamDesc(bool mult_frame_rate_f, ui8 frame_rate_code, bool constr_param_f, bool still_pic_f)
          : VideoStreamDesc(mult_frame_rate_f, frame_rate_code, constr_param_f, still_pic_f, true)
       { }
+      /*!
+       * \brief Constructor for descriptors where MPEG_1_only_flag must be set to `0`.
+       * \param mult_frame_rate_f Multiple frame rate flag.
+       * \param frame_rate_code Frame rate code as per ITU-T Rec. H.262 | ISO/IEC 13818-2.
+       * \param constr_param_f `false`: stream may contain constrained and unconstrained video streams; `true`: does not contain unconstrained streams.
+       * \param still_pic_f `false`: stream may contain still and moving picture data; `true`: stream contains only still pictures.
+       * \param profile_and_level_indic Profile and level indication fields as per ITU-T Rec. H.262 | ISO/IEC 13818-2.
+       * \param chroma_fmt Chroma format as per ITU-T Rec. H.262 | ISO/IEC 13818-2.
+       * \param frame_rate_ext_f `true`: indicates frame extension flags are non-zero.
+       */
       VideoStreamDesc(bool mult_frame_rate_f, ui8 frame_rate_code, bool constr_param_f, bool still_pic_f,
                       ui8 profile_and_level_indic, ui8 chroma_fmt, bool frame_rate_ext_f)
          : VideoStreamDesc(mult_frame_rate_f, frame_rate_code, constr_param_f, still_pic_f, false,
@@ -511,7 +570,6 @@ namespace sigen {
       { }
       VideoStreamDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -543,25 +601,26 @@ namespace sigen {
 
    };
 
-
-
-
-   // ---------------------------
-   // Video Window Descriptor
-   //
+   /*!
+    * \brief Video Window Descriptor.
+    */
    class VideoWindowDesc : public Descriptor
    {
    public:
       enum { TAG = 8 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param horiz_offset Horizontal position of the display top-left.
+       * \param vert_offset Vertical position of the display top-left.
+       * \param win_priority Window overlap priority.
+       */
       VideoWindowDesc(ui16 horiz_offset, ui16 vert_offset, ui8 win_priority)
          : Descriptor(TAG, 4),
          horizontal_offset(horiz_offset), vertical_offset(vert_offset), window_priority(win_priority)
       { }
       VideoWindowDesc() = delete;
 
-      // utility
       virtual void buildSections(Section&) const;
 
 #ifdef ENABLE_DUMP
@@ -573,5 +632,6 @@ namespace sigen {
            vertical_offset : 14,
            window_priority : 4;
    };
-
+   //! @}
+   //! @}
 } // namespace

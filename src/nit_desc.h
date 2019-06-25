@@ -28,7 +28,6 @@
 #include "dvb_defs.h"
 
 namespace sigen {
-
    // ---------------------------
    // Base delivery class for the three delivery descriptors
    class DeliveryDesc : public Descriptor
@@ -38,16 +37,31 @@ namespace sigen {
       DeliveryDesc() = delete;
    };
 
+   /*! \addtogroup descriptor
+    *  @{
+    */
 
-   // ---------------------------
-   // Cable Delivery System Descriptor
-   //
+   /*!
+    * \defgroup delivery_d Delivery Descriptors
+    *  @{
+    */
+
+   /*!
+    * \brief Cable Delivery System Descriptor.
+    */
    class CableDeliverySystemDesc : public DeliveryDesc
    {
    public:
       enum { TAG = 0x44 };
 
-      // constructor
+      /*!
+       * \brief Constructor
+       * \param freq BCD frequency.
+       * \param sym_rate Symbol rate in Msymbol/s.
+       * \param fec_o Outer Forward Error Correction scheme, as per sigen::Dvb::Cable::FecOuter_t.
+       * \param mod Modulation scheme, as per sigen::Dvb::Cable::Mod_t.
+       * \param fec_i Inner Foward Error Correction scheme, as per sigen::Dvb::FecInner_t.
+       */
       CableDeliverySystemDesc(ui32 freq, ui32 sym_rate,
                               ui8 fec_o = Dvb::Cable::UNDEF_FECO,
                               ui8 mod = Dvb::Cable::UNDEF_MOD,
@@ -75,15 +89,24 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Satellite Delivery System Descriptor
-   //
+   /*!
+    * \brief Satellite Delivery System Descriptor.
+    */
    class SatelliteDeliverySystemDesc : public DeliveryDesc
    {
    public:
       enum { TAG = 0x43 };
 
-      // constructor
+      /*!
+       * \brief Constructor
+       * \param freq BCD frequency.
+       * \param orb_pos BCD orbital position.
+       * \param sym_rate Symbol rate in Msymbol/s.
+       * \param wef West-East flag. `false`: western position, `true`: eastern position.
+       * \param pol Polarization of the transmitted signal, as per sigen::Dvb::Sat::Pol_t.
+       * \param mod Modulation scheme, as per sigen::Dvb::Sat::Mod_t.
+       * \param fec_i Inner Foward Error Correction scheme, as per sigen::Dvb::FecInner_t.
+       */
       SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef = false,
                                   ui8 pol = Dvb::Sat::LINEAR_HOR_POL,
                                   ui8 mod = Dvb::Sat::AUTO_MOD,
@@ -115,15 +138,26 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Terrestrial Delivery System Descriptor
-   //
+   /*!
+    * \brief Terrestrial Delivery System Descriptor.
+    */
    class TerrestrialDeliverySystemDesc : public Descriptor
    {
    public:
       enum { TAG = 0x5a };
 
-      // constructor
+      /*!
+       * \brief Constructor
+       * \param cfreq Center frequency.
+       * \param bandw Bandwidth.
+       * \param constel Constellation pattern.
+       * \param hier_i Hierarchy information specifying the α value.
+       * \param cr_HP Code Rate HP stream.
+       * \param cr_LP Code Rate LP stream.
+       * \param guard_i Guard interval.
+       * \param trans_m Transmission mode.
+       * \param other_f_f `false`: no other freq. in use. `true`: One or more other freqs. in use.
+       */
       TerrestrialDeliverySystemDesc(ui32 cfreq, ui8 bandw, ui8 constel,
                                     ui8 hier_i, ui8 cr_HP, ui8 cr_LP,
                                     ui8 guard_i, ui8 trans_m, bool other_f_f)
@@ -156,14 +190,14 @@ namespace sigen {
            transmission_mode : 2;
       bool other_freq_flag;
    };
-
+   //! @}
 
 
    // other NIT descriptors
 
-   // ---------------------------
-   // Announcement Support Descriptor
-   //
+   /*!
+    * \brief Announcement Support Descriptor.
+    */
    class AnnouncementSupportDesc : public Descriptor
    {
    public:
@@ -204,14 +238,32 @@ namespace sigen {
          NUM_DEFINED_REF_TYPES
       };
 
+      /*!
+       * \brief Constructor.
+       * \param announcement_support_ind     Announcement support indicator.
+       */
       AnnouncementSupportDesc(ui16 announcement_support_ind)
          : Descriptor( TAG, 2 ),
          announcement_support_indicator(announcement_support_ind)
       { }
       AnnouncementSupportDesc() = delete;
+
+      /*!
+       * \brief Add an announcement to the data loop for ref types 0x01, 0x02, 0x03.
+       * \param type Announcement type.
+       * \param reference_type Transport method.
+       * \param onid Id of the originating network.
+       * \param ts_id Unique id of the transport stream.
+       * \param sid Unique id of the service containing the announcements indicated.
+       * \param c_tag Component tag.
+       */
       bool addAnnouncement(ui8 type, ui8 reference_type,
                            ui16 onid, ui16 ts_id, ui16 sid,
                            ui8 c_tag);
+      /*!
+       * \brief Add an announcement to the data loop for ref types 0x04.
+       * \param type Announcement type.
+       */
       bool addAnnouncement(ui8 type) {
          return addAnnouncement(type, DIFFERENT_SERVICE_AND_TRANSPORT_STREAM, 0, 0, 0, 0);
       }
@@ -262,18 +314,35 @@ namespace sigen {
    };
 
 
-
-   // ---------------------------
-   // Cell Frequency Link Descriptor
-   //
+   /*!
+    * \brief Cell Frequency Link Descriptor.
+    */
    class CellFrequencyLinkDesc : public Descriptor
    {
    public:
       enum { TAG = 0x6d };
 
+      //! \brief Constructor
       CellFrequencyLinkDesc() : Descriptor(TAG) { }
+
+      /*!
+       * \brief Add a cell to the descriptor data loop.
+       * \param cell_id Unique id of the cell.
+       * \param frequency Main frequency used in the indicated cell.
+       */
       bool addCell(ui16 cell_id, ui32 frequency);
+      /*!
+       * \brief Add a cell id extension to the last added cell.
+       * \param cid_ext If of the subcell within the cell.
+       * \param xposer_freq Transposer frequency in the subcell.
+       */
       bool addSubCell(ui8 cid_ext, ui32 xposer_freq);
+      /*!
+       * \brief Add a cell id extension to the specified cell.
+       * \param cell_id Id of the cell entry already in the descriptor.
+       * \param cid_ext If of the subcell within the cell.
+       * \param xposer_freq Transposer frequency in the subcell.
+       */
       bool addSubCell(ui16 cell_id, ui8 cid_ext, ui32 xposer_freq);
 
       [[deprecated("replaced by addCell()")]] bool addLink(ui16 cid, ui32 f) { return addCell(cid, f); }
@@ -331,18 +400,45 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Cell List Descriptor
-   //
+   /*!
+    * \brief Cell List Descriptor.
+    */
    class CellListDesc : public Descriptor
    {
    public:
       enum { TAG = 0x6c };
 
+      //! \brief Constructor
       CellListDesc() : Descriptor(TAG) { }
+
+      /*!
+       * \brief Add a cell to the descriptor data loop.
+       * \param id Unique id of the cell.
+       * \param lat Cell latitude.
+       * \param lon Cell longitude.
+       * \param ext_lat Cell extent of latitude.
+       * \param ext_lon Cell extent of longitude.
+       */
       bool addCell(ui16 id, ui16 lat, ui16 lon, ui16 ext_lat, ui16 ext_lon);
+      /*!
+       * \brief Add a sub cell to the last added cell.
+       * \param cid_ext Id of subcell within the cell.
+       * \param sc_lat Subcell latitude.
+       * \param sc_lon Subcell longitude.
+       * \param sc_ext_lat Subcell extent of latitude.
+       * \param sc_ext_lon Subcell extent of longitude.
+       */
       bool addSubCell(ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
                       ui16 sc_ext_lat, ui16 sc_ext_lon);
+      /*!
+       * \brief Add a sub cell to the specified cell.
+       * \param id Id of cell already added to the descriptor.
+       * \param cid_ext Id of subcell within the cell.
+       * \param sc_lat Subcell latitude.
+       * \param sc_lon Subcell longitude.
+       * \param sc_ext_lat Subcell extent of latitude.
+       * \param sc_ext_lon Subcell extent of longitude.
+       */
       bool addSubCell(ui16 id, ui8 cid_ext, ui16 sc_lat, ui16 sc_lon,
                       ui16 sc_ext_lat, ui16 sc_ext_lon);
 
@@ -418,16 +514,19 @@ namespace sigen {
    };
 
 
-
-   // ---------------------------
-   // Frequency List Descriptor
-   //
+   /*!
+    * \brief Frequency List Descriptor.
+    */
    class FrequencyListDesc : public Descriptor
    {
    public:
       enum { TAG = 0x62 };
 
-      // coding type values
+      /*!
+       * \enum  Coding
+       *
+       * \brief Coding type values
+       */
       enum Coding {
          UNDEFINED   = 0x0,
          SATELLITE   = 0x1,
@@ -435,13 +534,19 @@ namespace sigen {
          TERRESTRIAL = 0x3,
       };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param ct Coding type, as per FrequencyListDesc::Coding.
+       */
       FrequencyListDesc(ui8 ct)
          : Descriptor(TAG, 1),
          coding_type(ct) { }
       FrequencyListDesc() = delete;
 
-      // utility functions
+      /*!
+       * \brief Add a frequency to the data loop.
+       * \param centre_freq Frequency as defined in the delivery system descriptor indicated.
+       */
       bool addFrequency(ui32 centre_freq);
 
       virtual void buildSections(Section&) const;
@@ -456,15 +561,14 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Multilingual Network Name Descriptor
-   // - derived from MultilingualTextDesc (descriptor.h)
-   //
+   /*!
+    * \brief Multilingual Network Name Descriptor.
+    */
    struct MultilingualNetworkNameDesc : public MultilingualTextDesc
    {
       enum { TAG = 0x5b };
 
-      // constructor
+      //! \brief Constructor.
       MultilingualNetworkNameDesc() : MultilingualTextDesc(TAG) {}
 
 #ifdef ENABLE_DUMP
@@ -475,14 +579,17 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Network Name Descriptor
-   //
+   /*!
+    * \brief Network Name Descriptor.
+    */
    struct NetworkNameDesc : public StringDataDesc
    {
       enum { TAG = 0x40 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param name Name of the delivery system informed by the NIT.
+       */
       NetworkNameDesc(const std::string& name) : StringDataDesc(TAG, name) { }
       NetworkNameDesc() = delete;
 
@@ -492,6 +599,5 @@ namespace sigen {
       }
 #endif
    };
-
+   //! @}
 } // sigen namespace
-

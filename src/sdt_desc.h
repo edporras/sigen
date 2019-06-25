@@ -28,18 +28,27 @@
 
 namespace sigen {
 
-   // ---------------------------
-   // Multilingual Service Name Descriptor
-   //
+   /*! \addtogroup descriptor
+    *  @{
+    */
+
+   /*!
+    * \brief Multilingual Service Name Descriptor.
+    */
    class MultilingualServiceNameDesc : public Descriptor
    {
    public:
       enum { TAG = 0x5d };
 
-      // constructor
+      //! \brief Constructor.
       MultilingualServiceNameDesc() : Descriptor(TAG) {}
 
-      // utility
+      /*!
+       * \brief Add a language entry to the descriptor loop.
+       * \param code ISO 639-2 language code of the fields.
+       * \param prov_name Name of the service provider.
+       * \param serv_name Name of the service.
+       */
       bool addLanguage(const std::string& code, const std::string& prov_name,
                        const std::string& serv_name);
 
@@ -74,20 +83,23 @@ namespace sigen {
       std::list<Language> language_list;
    };
 
-
-
-   // ---------------------------
-   // NVOD Reference Descriptor
-   //
+   /*!
+    * \brief NVOD Reference Descriptor.
+    */
    class NVODReferenceDesc : public Descriptor
    {
    public:
       enum { TAG = 0x4b };
 
-      // constructor
+      //! \brief Constructor.
       NVODReferenceDesc() : Descriptor(TAG) {}
 
-      // utility
+      /*!
+       * \brief Add a language entry to the descriptor loop.
+       * \param xs_id Id uniquely identifying the transport stream.
+       * \param onid Id of the originating network.
+       * \param sid Id uniquely udentifying the service.
+       */
       bool addIdentifiers(ui16 xs_id, ui16 onid, ui16 sid);
 
       virtual void buildSections(Section&) const;
@@ -115,16 +127,20 @@ namespace sigen {
    };
 
 
-
-   // ---------------------------
-   // Service Descriptor
-   //
+   /*!
+    * \brief Service Descriptor.
+    */
    class ServiceDesc : public Descriptor
    {
    public:
       enum { TAG = 0x48 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param serv_type Type of the service, as per Dvb::ServiceType_t.
+       * \param prov_name Name of the service provider.
+       * \param serv_name Name of the service.
+       */
       ServiceDesc(ui8 serv_type, const std::string& prov_name, const std::string& serv_name) :
          Descriptor(TAG, 3),
          provider_name( incLength( prov_name ) ),
@@ -147,17 +163,17 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Time Shifted Service Descriptor - derived from
-   // PrimitiveDatatypeDesc which handles buildingSections
-   //
-   //  ui16 data represents reference_service_id
-   //
+   /*!
+    * \brief Time Shifted Service Descriptor.
+    */
    struct TimeShiftedServiceDesc : public PrimitiveDatatypeDesc<ui16>
    {
       enum { TAG = 0x4c };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param ref_sid Id uniquely identifying the reference NVOD service.
+       */
       TimeShiftedServiceDesc(ui16 ref_sid) :
          PrimitiveDatatypeDesc<ui16>(TAG, ref_sid)
       {}
@@ -168,5 +184,5 @@ namespace sigen {
       }
 #endif
    };
-
+   //! @}
 } // sigen namespace

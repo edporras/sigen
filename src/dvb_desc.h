@@ -32,15 +32,21 @@ namespace sigen {
    class Section;
    class LanguageCode;
 
+   /*! \addtogroup descriptor
+    *  @{
+    */
 
-   // ---------------------------
-   // Bouquet Name Descriptor
-   //
+   /*!
+    * \brief Bouquet Name Descriptor.
+    */
    struct BouquetNameDesc : public StringDataDesc
    {
       enum { TAG = 0x47 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param name Name of the bouquet.
+       */
       BouquetNameDesc(const std::string& name)
          : StringDataDesc(TAG, name) { }
       BouquetNameDesc() = delete;
@@ -53,18 +59,21 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // CA Identifier Descriptor
-   //
+   /*!
+    * \brief CA Identifier Descriptor.
+    */
    class CAIdentifierDesc : public Descriptor
    {
    public:
       enum { TAG = 0x53 };
 
-      // constructor
+      //! \brief Constructor.
       CAIdentifierDesc() : Descriptor(TAG) {}
 
-      // utility methods
+      /*!
+       * \brief Add a CA System ID.
+       * \param CA_system_id Allocated CA system ID as per ETSI TS 101 162.
+       */
       bool addSystemId(ui16 CA_system_id);
 
       virtual void buildSections(Section&) const;
@@ -78,22 +87,28 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Country Availability Descriptor
-   //
+   /*!
+    * \brief Country Availability Descriptor.
+    */
    class CountryAvailabilityDesc : public Descriptor
    {
    public:
       enum { TAG = 0x49 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param country_availability_f `true`: Service reception intended for include country codes; `false`: otherwise.
+       */
       CountryAvailabilityDesc(bool country_availability_f)
          : Descriptor(TAG, 1),
          country_availability_flag(country_availability_f)
       {}
       CountryAvailabilityDesc() = delete;
 
-      // utility
+      /*!
+       * \brief Add a country country code to the list.
+       * \param country_code Country code as per ISO/IEC 8859-1 or ETSI TS 101 162.
+       */
       bool addCountry(const std::string& country_code);
 
       virtual void buildSections(Section&) const;
@@ -109,22 +124,35 @@ namespace sigen {
    };
 
 
-
-   // ---------------------------
-   // Data Broadcast Descriptor
-   //
+   /*!
+    * \brief Data Broadcast Descriptor.
+    */
    class DataBroadcastDesc : public Descriptor
    {
    public:
       enum { TAG = 0x64 };
 
-      // constructor - takes selector data as string instance
+      /*!
+       * \brief Constructor using a component tag.
+       * \param db_id Data broadcast id as per ETSI TS 101 162.
+       * \param ctag Component tag.
+       * \param sel_byte Selector field.
+       * \param lang_code ISO 639-2 language code of the text fields.
+       * \param txt Text description of the data component.
+       */
       DataBroadcastDesc(ui16 db_id, ui8 ctag, const std::string& sel_byte,
                         const std::string& lang_code, const std::string& txt)
          : Descriptor(TAG, 8),
          selector_byte( incLength(sel_byte) ), text( incLength(txt) ),
          code(lang_code), data_broadcast_id(db_id), component_tag(ctag)
       { }
+      /*!
+       * \brief Constructor without a component tag.
+       * \param db_id Data broadcast id as per ETSI TS 101 162.
+       * \param sel_byte Selector field.
+       * \param lang_code ISO 639-2 language code of the text fields.
+       * \param txt Text description of the data component.
+       */
       DataBroadcastDesc(ui16 db_id, const std::string& sel_byte,
                         const std::string& lang_code, const std::string& txt)
          : DataBroadcastDesc(db_id, 0, sel_byte, lang_code, txt) {}
@@ -146,15 +174,17 @@ namespace sigen {
    };
 
 
-
-   // ---------------------------
-   // DSNG Descriptor (300 468 1.4.1)
-   //
+   /*!
+    * \brief DSNG Descriptor, as per 300 468 1.4.1.
+    */
    struct DSNGDesc : public StringDataDesc
    {
       enum { TAG = 0x68 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param data ASCII codes for "CONA" as per ETSI EN 301 210.
+       */
       DSNGDesc(const std::string& data) : StringDataDesc(TAG, data) { }
       DSNGDesc() = delete;
 
@@ -164,16 +194,26 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Local Time Offset Descriptor
-   //
+   /*!
+    * \brief Local Time Offset Descriptor.
+    */
    class LocalTimeOffsetDesc : public Descriptor
    {
    public:
       enum { TAG = 0x58 };
 
-      // constructor
+      //! \brief Constructor.
       LocalTimeOffsetDesc() : Descriptor(TAG) {}
+
+      /*!
+       * \brief Add a time offset entry to the data loop.
+       * \param code Country code, as per ISO 3166.
+       * \param country_region_id Id identifying a zone.
+       * \param offset_polarity Local time offset polarity. `false`: positive, `true`: negative.
+       * \param lt_offset Offset time from UTC.
+       * \param time_of_change MJD date and time when the change takes place.
+       * \param next_time_offset Offset from UTC when current time is => `time_of_change`
+       */
       bool addTimeOffset(const LanguageCode& code, ui8 country_region_id,
                          bool offset_polarity, ui16 lt_offset,
                          const UTC& time_of_change, ui16 next_time_offset);
@@ -238,15 +278,14 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Multilingual Bouquet Name Descriptor
-   // - derived from MultilingualTextDesc (descriptor.h)
-   //
+   /*!
+    * \brief Multilingual Bouquet Name Descriptor.
+    */
    struct MultilingualBouquetNameDesc : public MultilingualTextDesc
    {
       enum { TAG = 0x5c };
 
-      // constructor
+      //! \brief Constructor.
       MultilingualBouquetNameDesc() : MultilingualTextDesc(TAG) {}
 
 #ifdef ENABLE_DUMP
@@ -257,15 +296,20 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Partial Transport Stream Descriptor
-   //
+   /*!
+    * \brief Partial Transport Stream Descriptor.
+    */
    class PartialTransportStreamDesc : public Descriptor
    {
    public:
       enum { TAG = 0x63 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param pk_rate Max. momentary tansport packet rate.
+       * \param min_osr  Min. smoothing buffer leak rate for the overall transport stream.
+       * \param max_osb Max. smoothing buffer size for the overall transport stream.
+       */
       PartialTransportStreamDesc(ui32 pk_rate, ui32 min_osr, ui16 max_osb)
          : Descriptor(TAG, 8),
          peak_rate( pk_rate ),
@@ -288,17 +332,17 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Private Data Specifier Descriptor - derived from
-   // PrimitiveDatatypeDesc which handles building sections
-   //
-   //  ui32 data represents private_data
-   //
+   /*!
+    * \brief Private Data Specifier Descriptor.
+    */
    struct PrivateDataSpecifierDesc : public PrimitiveDatatypeDesc<ui32>
    {
       enum { TAG = 0x5f };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param private_data Private data specifier.
+       */
       PrivateDataSpecifierDesc(ui32 private_data)
          : PrimitiveDatatypeDesc<ui32>(TAG, private_data) {}
 
@@ -310,18 +354,22 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Service List Descriptor
-   //
+   /*!
+    * \brief Service List Descriptor.
+    */
    class ServiceListDesc : public Descriptor
    {
    public:
       enum { TAG = 0x41 };
 
-      // constructor
+      //! \brief Constructor.
       ServiceListDesc() : Descriptor(TAG) { }
 
-      // utility
+      /*!
+       * \brief Add s service to the data loop.
+       * \param service_id Unique id of the service within the TS.
+       * \param service_type DVB service type code as per ::sigen::Dvb::ServiceType_t.
+       */
       bool addService(ui16 service_id, ui8 service_type);
 
       virtual void buildSections(Section&) const;
@@ -347,16 +395,24 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Stuffing Descriptor
-   //
+   /*!
+    * \brief Stuffing Descriptor.
+    */
    struct StuffingDesc : public StringDataDesc
    {
       enum { TAG = 0x42 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param byte Byte to build data from.
+       * \param len Length of stuffing data.
+       */
       StuffingDesc(ui8 byte, ui8 len = 1)
          : StuffingDesc(std::string(len, byte)) {}
+      /*!
+       * \brief Constructor.
+       * \param data Stuffing data byte sequence as a `std::string`.
+       */
       StuffingDesc(const std::string& data)
          : StringDataDesc( TAG, data ) {}
       StuffingDesc() = delete;
@@ -369,16 +425,21 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Transport Stream Descriptor
-   //
+   /*!
+    * \brief Transport Stream Descriptor.
+    */
    struct TransportStreamDesc : public StringDataDesc
    {
       enum { TAG = 0x67 };
 
-      // default constructor identifies DVB streams
-      // constructor for other types
+      /*!
+       * \brief Constructor to identify DVB streams.
+       */
       TransportStreamDesc() : StringDataDesc( TAG, "DVB" ) {}
+      /*!
+       * \brief Constructor to identifies others.
+       * \param data bytes identifying the stream.
+       */
       TransportStreamDesc(const std::string& data)
          : StringDataDesc( TAG, data ) {}
 
@@ -390,15 +451,24 @@ namespace sigen {
    };
 
 
-   // ---------------------------
-   // Telephone Descriptor
-   //
+   /*!
+    * \brief Telephone Descriptor.
+    */
    class TelephoneDesc : public Descriptor
    {
    public:
       enum { TAG = 0x57 };
 
-      // constructor
+      /*!
+       * \brief Constructor.
+       * \param foreign_avail `true`: can be called from outside the country specified by `country_prefix`
+       * \param connection_type Connection type.
+       * \param country_prefix Country prefix code, as per ISO/IEC 8859-1.
+       * \param intl_area_code International area code, as per ISO/IEC 8859-1.
+       * \param operator_code Operator code, as per ISO/IEC 8859-1.
+       * \param natl_area_code National area code, as per ISO/IEC 8859-1.
+       * \param number Core number, as per ISO/IEC 8859-1.
+       */
       TelephoneDesc(bool foreign_avail, ui8  connection_type,
                     const std::string& country_prefix,
                     const std::string& intl_area_code,
@@ -435,5 +505,7 @@ namespace sigen {
    protected:
       std::string set_code(const std::string& src_c, ui8 max);
    };
+
+   //! @}
 
 } // sigen namespace
