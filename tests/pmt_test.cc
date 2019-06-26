@@ -1,3 +1,4 @@
+#include <cassert>
 #include "../src/sigen.h"
 #include "dvb_builder.h"
 
@@ -10,31 +11,34 @@ namespace tests
       // build the pmt
       PMT pmt( 100, 101, 0x01 );
 
-      // create some descriptors
+      pmt.setMaxSectionLen( 200 ); // to test sectionizing
+
+      // Subtitling Desc
       SubtitlingDesc *subtd = new SubtitlingDesc;
       subtd->addSubtitling( "eng", 0x01, 0x1000, 0x1010 );
-      subtd->addSubtitling( "fre", 0x01, 0x1000, 0x1010 );
-      subtd->addSubtitling( "deu", 0x01, 0x1000, 0x1010 );
-      subtd->addSubtitling( "spa", 0x01, 0x1000, 0x1010 );
-      subtd->addSubtitling( "rus", 0x01, 0x1000, 0x1010 );
+      subtd->addSubtitling( "fre", 0x01, 0x1001, 0x1010 );
+      subtd->addSubtitling( "deu", 0x01, 0x1002, 0x1010 );
+      subtd->addSubtitling( "spa", 0x01, 0x1003, 0x1010 );
+      subtd->addSubtitling( "rus", 0x01, 0x1004, 0x1010 );
 
       // once added, the table claims ownership of the pointer - so do
       // not free it. Also, no further modifications to the descriptor
       // should be done after this.
       pmt.addProgramDesc( *subtd );
 
-
+      // Teletext Descriptor
       TeletextDesc *ttd = new TeletextDesc;
       ttd->addTeletext( "eng", 0x01, 0x01, 0x11 );
-      ttd->addTeletext( "fre", 0x01, 0x01, 0x11 );
-      ttd->addTeletext( "deu", 0x01, 0x01, 0x11 );
-      ttd->addTeletext( "spa", 0x01, 0x01, 0x11 );
-      ttd->addTeletext( "ita", 0x01, 0x01, 0x11 );
-      ttd->addTeletext( "chi", 0x01, 0x01, 0x11 );
-      ttd->addTeletext( "rus", 0x01, 0x01, 0x11 );
+      ttd->addTeletext( "fre", 0x01, 0x02, 0x11 );
+      ttd->addTeletext( "deu", 0x01, 0x03, 0x11 );
+      ttd->addTeletext( "spa", 0x01, 0x04, 0x11 );
+      ttd->addTeletext( "ita", 0x01, 0x05, 0x11 );
+      ttd->addTeletext( "chi", 0x01, 0x06, 0x11 );
+      ttd->addTeletext( "rus", 0x01, 0x07, 0x11 );
 
       pmt.addProgramDesc( *ttd );
 
+      // ISO639 Language Descriptor
       ISO639LanguageDesc *langd = new ISO639LanguageDesc;
       langd->addLanguage( "eng", 0x02 );
       langd->addLanguage( "fre", 0x03 );
@@ -59,12 +63,15 @@ namespace tests
 
       pmt.addProgramDesc(*eac3d);
 
+      // Ancillary Data Descriptor
       AncillaryDataDesc *add = new AncillaryDataDesc(0x51);
       pmt.addProgramDesc( *add );
 
+      // Private Data Indicator
       PrivateDataIndicatorDesc* pdid = new PrivateDataIndicatorDesc( 0x55553333 );
       pmt.addProgramDesc( *pdid );
 
+      // Service Move
       ServiceMoveDesc* smd = new ServiceMoveDesc(0x01, 0x02, 0x03);
       pmt.addProgramDesc( *smd );
 
@@ -77,20 +84,13 @@ namespace tests
       DataStreamAlignmentDesc* dsad = new DataStreamAlignmentDesc( 0xff );
       pmt.addElemStreamDesc( *dsad );
 
-      LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, 0xf );
-      pmt.addElemStreamDesc( *ld );
-
+      // MobileHandoverLinkageDesc
       MobileHandoverLinkageDesc *mhld = new MobileHandoverLinkageDesc(0x2000, 0x1000, 100,
                                                                       MobileHandoverLinkageDesc::HO_ASSOCIATED_SERVICE,
                                                                       100, 20);
       pmt.addElemStreamDesc( 0x21, *mhld ); // add by matching es pid
 
-      try
-      {
-         // should throw
-         LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, LinkageDesc::SSUS );
-      } catch (std::domain_error& e) {}
-
+      // SSUDataBroadcastIdDesc
       SSUDataBroadcastIdDesc* ssudbid = new SSUDataBroadcastIdDesc;
       std::vector<ui8> v = { 1, 2, 3, 4, 5, 6, 7 };
       ssudbid->addOUI(0x2001,
@@ -98,12 +98,33 @@ namespace tests
                       2, v);
       pmt.addElemStreamDesc(*ssudbid);
 
-      SSUScanLinkageDesc* ssusld = new SSUScanLinkageDesc(0x1000, 0x2000, 0x100, SSUScanLinkageDesc::TABLE_TYPE_BAT);
-      pmt.addElemStreamDesc(*ssusld);
+      // LinkageDesc
+      LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, 0xf );
+      pmt.addElemStreamDesc( *ld );
+
+      try
+      {
+         // throws because SSULinkageDesc should be used instead
+         LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, LinkageDesc::SSUS );
+         // so this should not happen
+         assert(true);
+      } catch (std::domain_error& e) {}
 
       SSULinkageDesc* ssuld = new SSULinkageDesc(0x1000, 0x2000, 0x101);
       ssuld->addOUI(0x12345, v);
       pmt.addElemStreamDesc(*ssuld);
+
+      try
+      {
+         // throws because SSUScanLinkageDesc should be used instead
+         LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, LinkageDesc::TS_SSU_BAT_OR_NIT);
+         // so this should not happen
+         assert(true);
+      } catch (std::domain_error& e) {}
+
+      // SSUScanLinkageDesc
+      SSUScanLinkageDesc* ssusld = new SSUScanLinkageDesc(0x1000, 0x2000, 0x100, SSUScanLinkageDesc::TABLE_TYPE_BAT);
+      pmt.addElemStreamDesc(*ssusld);
 
       DUMP(pmt);
       pmt.buildSections(t);
