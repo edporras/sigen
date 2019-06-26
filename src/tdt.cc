@@ -48,7 +48,7 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void TDT::dump(std::ostream &o) const
    {
-      dumpHeader( o, TDT_DUMP_S );
+      dumpHeader(o, TDT_DUMP_S);
       identStr(o, UTC_S, utc);
    }
 #endif

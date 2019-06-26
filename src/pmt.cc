@@ -243,7 +243,7 @@ namespace sigen
    void PMT::dump(std::ostream &o) const
    {
       // table header
-      dumpHeader( o, PMT_DUMP_S, PROGRAM_NUM_S, true );
+      dumpHeader(o, PMT_DUMP_S, PROGRAM_NUM_S, true);
 
       // pmt-specific
       rsrvdStr(o, RESERVED_S, 0x07);

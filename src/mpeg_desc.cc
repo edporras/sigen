@@ -173,9 +173,9 @@ namespace sigen
    {
       dumpHeader( o, IBP_D_S );
 
-      identStr( o, CLOSED_GOP_F_S, closed_gop_flag );
-      identStr( o, IDENTICAL_GOP_F_S, identical_gop_flag );
-      identStr( o, MAX_GOP_LEN_S, max_gop_len, true );
+      identStr(o, CLOSED_GOP_F_S, closed_gop_flag);
+      identStr(o, IDENTICAL_GOP_F_S, identical_gop_flag);
+      identStr(o, MAX_GOP_LEN_S, max_gop_len, true);
    }
 #endif
 
@@ -223,8 +223,8 @@ namespace sigen
 
       incOutLevel();
       for (const auto& lang : language_list) {
-         identStr( o, LANGUAGE_CODE_S, lang.code );
-         identStr( o, AUDIO_TYPE_S, lang.audio_type );
+         identStr(o, LANGUAGE_CODE_S, lang.code);
+         identStr(o, AUDIO_TYPE_S, lang.audio_type);
       }
       decOutLevel();
    }

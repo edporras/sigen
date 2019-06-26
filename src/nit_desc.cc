@@ -78,7 +78,7 @@ namespace sigen
       dumpHeader(o, ANNOUNCEMENT_SUPPORT_D_S);
 
       // dump the descriptor's data
-      identStr( o, ANNOUNCEMENT_SUPPORT_IND_S, announcement_support_indicator );
+      identStr(o, ANNOUNCEMENT_SUPPORT_IND_S, announcement_support_indicator);
 
       incOutLevel();
       for (const auto& ann : announcement_list) {
@@ -87,8 +87,8 @@ namespace sigen
          identStr(o, REF_TYPE_S, ann.reference_type);
 
          if (ann.actual_serv_info) {
-            identStr(o, ORIG_NETWORK_ID_S, ann.actual_serv_info->original_network_id);
-            identStr(o, XPORT_STREAM_ID_S, ann.actual_serv_info->xport_stream_id);
+            identStr(o, ORIG_NETWORK_ID_S, ann.actual_serv_info->original_network_id, true);
+            identStr(o, XPORT_STREAM_ID_S, ann.actual_serv_info->xport_stream_id, true);
             identStr(o, SERVICE_ID_S, ann.actual_serv_info->service_id, true);
             identStr(o, COMPONENT_TAG_S, ann.actual_serv_info->component_tag);
          }
@@ -201,16 +201,16 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void CellFrequencyLinkDesc::dump(std::ostream& o) const
    {
-      dumpHeader( o, CELL_FREQ_LINK_D_S );
+      dumpHeader(o, CELL_FREQ_LINK_D_S);
 
       for (const auto& link : cflink_list) {
-         identStr(o, CELL_ID_S, link.cell_id );
-         identStr(o, FREQ_S, link.frequency );
-         identStr(o, SUBCELL_INFO_LOOP_LEN_S, link.subcell_list.size() * Link::SubCell::BASE_LEN );
+         identStr(o, CELL_ID_S, link.cell_id);
+         identStr(o, FREQ_S, link.frequency);
+         identStr(o, SUBCELL_INFO_LOOP_LEN_S, link.subcell_list.size() * Link::SubCell::BASE_LEN, true);
 
          for (const auto& subcell : link.subcell_list) {
-            identStr(o, CELL_ID_EXT_S, subcell.cell_id_extension );
-            identStr(o, XPOSER_FREQ_S, subcell.transposer_frequency );
+            identStr(o, CELL_ID_EXT_S, subcell.cell_id_extension);
+            identStr(o, XPOSER_FREQ_S, subcell.transposer_frequency);
          }
       }
    }
@@ -355,9 +355,8 @@ namespace sigen
       identStr(o, CODING_TYPE_S, coding_type);
 
       incOutLevel();
-      for (ui32 f : frequency_list) {
+      for (ui32 f : frequency_list)
          identStr(o, FREQ_S, f);
-      }
       decOutLevel();
    }
 #endif

@@ -73,7 +73,7 @@ namespace sigen
    void RST::dump(std::ostream& o) const
    {
       // table header
-      dumpHeader( o, RST_DUMP_S );
+      dumpHeader(o, RST_DUMP_S);
       o << std::endl;
 
       // dump the transport streams
@@ -81,10 +81,10 @@ namespace sigen
       for (const XportStream& xs : xport_stream_list) {
          headerStr(o, XPORT_STREAM_S, false);
 
-         identStr(o, XPORT_STREAM_ID_S, xs.id);
-         identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id);
+         identStr(o, XPORT_STREAM_ID_S, xs.id, true);
+         identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id, true);
          identStr(o, SERVICE_ID_S, xs.service_id, true);
-         identStr(o, EVENT_ID_S, xs.event_id);
+         identStr(o, EVENT_ID_S, xs.event_id, true);
          identStr(o, RUNNING_STATUS_S, static_cast<ui16>(xs.running_status), true);
 
          o << std::endl;
@@ -125,7 +125,7 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void Stuffing::dump(std::ostream& o) const
    {
-      dumpHeader( o, ST_DUMP_S );
+      dumpHeader(o, ST_DUMP_S);
       o << std::endl;
 
       dumpData(o, reinterpret_cast<const ui8 *>(data.c_str()), getDataLength());

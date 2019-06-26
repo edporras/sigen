@@ -44,7 +44,7 @@ namespace sigen
    void TOT::dump(std::ostream &o) const
    {
       // the general table info
-      STable::dumpHeader( o, TOT_DUMP_S );
+      STable::dumpHeader(o, TOT_DUMP_S);
 
       // the UTC data
       identStr(o, UTC_S, utc);

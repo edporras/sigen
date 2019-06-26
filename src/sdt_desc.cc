@@ -127,8 +127,8 @@ namespace sigen
       // dump the descriptor's data
       incOutLevel();
       for (const auto &ident : ident_list) {
-         identStr(o, XPORT_STREAM_ID_S, ident.xport_stream_id);
-         identStr(o, ORIG_NETWORK_ID_S, ident.original_network_id);
+         identStr(o, XPORT_STREAM_ID_S, ident.xport_stream_id, true);
+         identStr(o, ORIG_NETWORK_ID_S, ident.original_network_id, true);
          identStr(o, SERVICE_ID_S, ident.service_id, true);
          o << std::endl;
       }

@@ -291,12 +291,13 @@ namespace sigen
    {
       // dump the table's header
       if (getId() == NIT_BAT::NIT_ACTUAL_TID || getId() == NIT_BAT::NIT_OTHER_TID) {
-         dumpHeader( o,
-                     ((getId() == NIT_BAT::NIT_ACTUAL_TID) ? NIT_DUMP_ACTUAL_S : NIT_DUMP_OTHER_S),
-                     NETWORK_ID_S, true );
+         dumpHeader(o,
+                    ((getId() == NIT_BAT::NIT_ACTUAL_TID) ? NIT_DUMP_ACTUAL_S : NIT_DUMP_OTHER_S),
+                    NETWORK_ID_S,
+                    true);
       } else {
          // BAT
-         dumpHeader( o, BAT_DUMP_S, BOUQUET_ID_S, true );
+         dumpHeader(o, BAT_DUMP_S, BOUQUET_ID_S, true);
       }
 
       // reserved bits
@@ -305,7 +306,8 @@ namespace sigen
       // descriptors
       identStr(o,
                ((getId() == NIT_BAT::BAT_TID) ? BOUQUET_DESC_LEN_S : NETWORK_DESC_LEN_S),
-               descriptors.loop_length(), true);
+               descriptors.loop_length(),
+               true);
       o << std::endl;
 
       descriptors.dump(o);
@@ -333,7 +335,7 @@ namespace sigen
       {
          headerStr(o, XPORT_STREAM_S, false);
 
-         identStr(o, XPORT_STREAM_ID_S, xs.id);
+         identStr(o, XPORT_STREAM_ID_S, xs.id, true);
          identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id, true);
          rsrvdStr(o, RESERVED_FU_S, 0xf);
          identStr(o, DESC_LEN_S, xs.descriptors.loop_length(), true);

@@ -108,8 +108,8 @@ namespace sigen
    {
       dumpHeader(o);
 
-      identStr(o, XPORT_STREAM_ID_S, xport_stream_id);
-      identStr(o, ORIG_NETWORK_ID_S, original_network_id);
+      identStr(o, XPORT_STREAM_ID_S, xport_stream_id, true);
+      identStr(o, ORIG_NETWORK_ID_S, original_network_id, true);
       o << std::endl;
 
       // calls virtual function for event dumps
@@ -133,7 +133,7 @@ namespace sigen
          identStr(o, RUNNING_STATUS_S, event.running_status);
          identStr(o, FREE_CA_MODE_S, event.free_CA_mode);
 
-         identStr(o, DESC_LOOP_LEN_S, event.descriptors.loop_length());
+         identStr(o, DESC_LOOP_LEN_S, event.descriptors.loop_length(), true);
          o << std::endl;
 
          // display the descriptors
@@ -332,10 +332,10 @@ namespace sigen
    // debug
    void PF_EIT::dumpHeader(std::ostream &o) const
    {
-      PSITable::dumpHeader( o, ((getId() == ACTUAL) ?
-                                EIT_PF_ACTUAL_S : EIT_PF_OTHER_S),
-                            SERVICE_ID_S,
-                            true );
+      PSITable::dumpHeader(o,
+                           ((getId() == ACTUAL) ? EIT_PF_ACTUAL_S : EIT_PF_OTHER_S),
+                           SERVICE_ID_S,
+                           true);
    }
 #endif
 

@@ -83,7 +83,7 @@ namespace sigen
    {
       LinkageDesc::dump(o);
 
-      identStr( o, OUI_DATA_LEN_S, OUI_data_length );
+      identStr(o, OUI_DATA_LEN_S, OUI_data_length, true);
 
       incOutLevel();
       for (const OUIData &oui : oui_list) {
@@ -118,7 +118,7 @@ namespace sigen
    void SSUScanLinkageDesc::dump(std::ostream &o) const
    {
       LinkageDesc::dump(o);
-      identStr( o, TABLE_TYPE_S, table_type );
+      identStr(o, TABLE_TYPE_S, table_type);
    }
 #endif
 
@@ -174,7 +174,7 @@ namespace sigen
    {
       _DataBroadcastIdDesc::dump(o);
 
-      identStr(o, OUI_DATA_LEN_S, OUI_data_len);
+      identStr(o, OUI_DATA_LEN_S, OUI_data_len, true);
 
       incOutLevel();
       for (const auto &oui : oui_list) {

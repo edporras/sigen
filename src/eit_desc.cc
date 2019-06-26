@@ -246,9 +246,9 @@ namespace sigen
    // to stdout
    void MultilingualComponentDesc::dump(std::ostream &o) const
    {
-      dumpHeader( o, MULTILING_COMPONENT_D_S );
-      identStr( o, COMPONENT_TAG_S, static_cast<ui16>(component_tag) );
-      dumpTextLoop( o, TEXT_S );
+      dumpHeader(o, MULTILING_COMPONENT_D_S);
+      identStr(o, COMPONENT_TAG_S, static_cast<ui16>(component_tag));
+      dumpTextLoop(o, TEXT_S );
    }
 #endif
 

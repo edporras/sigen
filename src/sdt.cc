@@ -143,7 +143,6 @@ namespace sigen
                  else {
                     // no descriptors.. can we add the empty service?
                     if ( (sec_bytes + Service::BASE_LEN) > getMaxDataLen() ) {
-                       // no soup for you
                        run.op_state = WRITE_HEAD;
                        exit = true;
                        break;
@@ -209,7 +208,7 @@ namespace sigen
                   XPORT_STREAM_ID_S );
 
       // sdt-specific
-      identStr(o, ORIG_NETWORK_ID_S, original_network_id);
+      identStr(o, ORIG_NETWORK_ID_S, original_network_id, true);
       rsrvdStr(o, RESERVED_FU_S, 0xff);
       o << std::endl;
 

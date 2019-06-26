@@ -188,9 +188,9 @@ namespace sigen
    {
       dumpHeader(o, SERV_MOVE_D_S);
 
-      identStr(o, ORIG_NETWORK_ID_S, original_network_id);
-      identStr(o, XPORT_STREAM_ID_S, xport_stream_id);
-      identStr(o, NEW_SERV_ID_S, new_service_id);
+      identStr(o, ORIG_NETWORK_ID_S, original_network_id, true);
+      identStr(o, XPORT_STREAM_ID_S, xport_stream_id, true);
+      identStr(o, NEW_SERV_ID_S, new_service_id, true);
    }
 #endif
 

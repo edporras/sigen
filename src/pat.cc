@@ -116,7 +116,7 @@ namespace sigen
    void PAT::dump(std::ostream &o) const
    {
       // table header
-      dumpHeader( o, PAT_DUMP_S, XPORT_STREAM_ID_S, true );
+      dumpHeader(o, PAT_DUMP_S, XPORT_STREAM_ID_S, true);
       o << std::endl;
 
       // program list
