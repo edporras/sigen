@@ -344,26 +344,16 @@ namespace sigen {
    // output utility functions
    void incOutLevel();
    void decOutLevel();
-   void headerStr(std::ostream &o, STRID, bool desc_str = true);
-   void headerStr(std::ostream &o, const std::string &, bool desc_str = true);
+   void headerStr(std::ostream& o, STRID s, bool desc_str = true);
 
-   void identStr(std::ostream &o, STRID);
-   void identStr(std::ostream &o, STRID, ui32, bool dechex = false);
-   void identStr(std::ostream &o, STRID, const std::string &,
-                 bool cr = true);
-   void identStr(std::ostream &o, STRID s, const LanguageCode& lc,
-                 bool cr = true);
-   void identStr(std::ostream &o, STRID s, const std::vector<ui8> &data,
-                 bool cr = true);
+   void identStr(std::ostream& o, STRID s);
+   void identStr(std::ostream& o, STRID s, ui32 val, bool dechex = false);
+   void identStr(std::ostream& o, STRID s, const std::string& data, bool cr = true);
+   void identStr(std::ostream& o, STRID s, const LanguageCode& lc, bool cr = true);
+   void identStr(std::ostream& o, STRID s, const std::vector<ui8>& data, bool cr = true);
 
-   void identStr(std::ostream &o, const std::string &);
-   void identStr(std::ostream &o, const std::string &, ui32 data,
-                 bool dechex = false);
-   void identStr(std::ostream &o, const std::string &,
-                 const std::string &data, bool cr = true, bool quotes = true);
-
-   void dumpData(std::ostream &, const ui8 *data, ui16 len);
-   void dumpBytes(std::ostream &o, const std::vector<ui8>& v);
+   void dumpData(std::ostream& o, const ui8* data, ui16 len);
+   void dumpBytes(std::ostream& o, const std::vector<ui8>& data);
 } // sigen namespace
 
   // enable dumps to cerr

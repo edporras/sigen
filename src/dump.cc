@@ -338,20 +338,11 @@ namespace sigen
          "Transport Stream",          // XPORT_STREAM_D_S
       };
 
-      void decHexDisplay(std::ostream &o, ui16 v);
       void dumpDataLine(std::ostream &o, const ui8 *data, ui8 length);
       void indent(std::ostream &o);
    }
 
    using namespace dump_priv;
-
-   //
-   // displays a value in dec and hex
-   //
-   void dump_priv::decHexDisplay(std::ostream &o, ui16 v)
-   {
-      o << std::dec << v << " (" << std::hex << v << ")";
-   }
 
    //
    // dumps a single data line
@@ -412,8 +403,7 @@ namespace sigen
       o.setf(std::ios::right);
       o << std::setfill('0');
 
-      for (int i = 0, rem = length; i < num_lines; i++, rem -= LINE_WIDTH)
-      {
+      for (int i = 0, rem = length; i < num_lines; i++, rem -= LINE_WIDTH) {
          // calculate the length of the line
          int len = (rem < LINE_WIDTH) ? rem : LINE_WIDTH;
 
@@ -454,7 +444,7 @@ namespace sigen
 
    //
    // functions for displaying a header string
-   void headerStr(std::ostream &o, const std::string &s, bool desc_str)
+   static void headerStr(std::ostream &o, const std::string &s, bool desc_str)
    {
       indent(o);
       o << "- "
@@ -471,33 +461,30 @@ namespace sigen
 
    //
    // functions for displaying identifier strings
-   void identStr(std::ostream &o, const std::string &s)
+   static void identStr(std::ostream &o, const std::string &s)
    {
       indent(o);
       o << std::setw(T_STR_W) << s.c_str() << ": ";
    }
 
-   void identStr(std::ostream &o, const std::string &s, const std::string &data, bool cr, bool quotes)
+   static void identStr(std::ostream &o, const std::string &s, const std::string &data, bool cr, bool quotes)
    {
       identStr(o, s);
 
       if (quotes)
          o << "\"";
-
       o << data;
-
       if (quotes)
          o << "\"";
-
       if (cr)
          o << std::endl;
    }
 
-   void identStr(std::ostream &o, const std::string &s, ui32 data, bool dechex)
+   static void identStr(std::ostream &o, const std::string &s, ui32 data, bool dechex)
    {
       identStr(o, s);
       if (dechex)
-         decHexDisplay(o, data);
+         o << std::dec << data << " (" << std::hex << data << ")";
       else
          o << data;
       o << std::endl;
@@ -515,14 +502,13 @@ namespace sigen
 
    void identStr(std::ostream &o, STRID s, const std::string &data, bool cr)
    {
-      if (data.length()) {
-         identStr(o, outstr[s], data, cr);
-      }
+      if (data.length())
+         identStr(o, outstr[s], data, cr, true);
    }
 
    void identStr(std::ostream &o, STRID s, const LanguageCode& lc, bool cr)
    {
-      identStr(o, outstr[s], lc.str(), cr);
+      identStr(o, outstr[s], lc.str(), cr, true);
    }
 
    void identStr(std::ostream &o, STRID s, const std::vector<ui8> &data, bool cr)
@@ -535,12 +521,10 @@ namespace sigen
          data_str.setf(std::ios::right);
 
          data_str << std::setfill('0');
-         for (ui16 byte : data) {
+         for (ui16 byte : data)
             data_str << std::setw(2) << std::hex << byte;
-         }
 
          identStr(o, outstr[s], data_str.str(), cr, false);
       }
    }
-
-} // namespace
+}
