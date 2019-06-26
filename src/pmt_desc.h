@@ -31,6 +31,40 @@ namespace sigen {
     *  @{
     */
 
+   /*!
+    * \brief Adaptation Field Data Descriptor.
+    */
+   class AdaptationFieldDataDesc : public PrimitiveDatatypeDesc<ui8>
+   {
+   public:
+      enum { TAG = 0x70 };
+
+      /*!
+       * \enum  AdaptationField
+       *
+       * \brief Adaptation field data identifier coding.
+       */
+      enum AdaptationField {
+         ANNOUNCEMENT_SWITCHING        = 0x01,  //!< Announcement switching data field, as per ETSI TS 101 154 [9].
+         AU_INFO                       = 0x02,  //!< AU information data field, as per ETSI TS 101 154 [9].
+         PVR_ASSIST                    = 0x04,  //!< PVR assist information data field, as per ETSI TS 101 154 [9].
+         TSAP_TIMELINE                 = 0x08,  //!< TSPA timeline, as per DVB Blue Book A167-2 [i.10].
+      };
+
+      /*!
+       * \brief Constructor.
+       * \param identifier Adaptation field data identifier, as per AdaptationFieldDataDec::AdaptationField.
+       */
+      AdaptationFieldDataDesc(ui8 identifier) : PrimitiveDatatypeDesc<ui8>(TAG, identifier) {}
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream& o) const {
+         dumpData(o, ADAPTATION_FIELD_DATA_S, ADAP_FLD_DATA_IDENT_S);
+      }
+#endif
+   };
+
+
    class _AC3Desc : public Descriptor
    {
    public:

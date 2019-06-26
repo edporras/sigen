@@ -81,6 +81,7 @@ namespace tests
 
       // and descriptors to it. As above, the table will claim
       // ownership and handle freeing it
+      // DataSTreamAlignmentDesc
       DataStreamAlignmentDesc* dsad = new DataStreamAlignmentDesc( 0xff );
       pmt.addElemStreamDesc( *dsad );
 
@@ -125,6 +126,10 @@ namespace tests
       // SSUScanLinkageDesc
       SSUScanLinkageDesc* ssusld = new SSUScanLinkageDesc(0x1000, 0x2000, 0x100, SSUScanLinkageDesc::TABLE_TYPE_BAT);
       pmt.addElemStreamDesc(*ssusld);
+
+      // AdaptationFieldDataDesc
+      AdaptationFieldDataDesc* afdd = new AdaptationFieldDataDesc( AdaptationFieldDataDesc::PVR_ASSIST );
+      pmt.addElemStreamDesc( *afdd );
 
       DUMP(pmt);
       pmt.buildSections(t);

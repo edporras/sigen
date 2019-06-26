@@ -3,7 +3,7 @@ Table id            : 0x2
 Section syn. ind.   : 0x1
 rsvrd. future use   : 0
 reserved            : 0x3
-Table length        : 223 (0xdf)
+Table length        : 226 (0xe2)
 Program number      : 100 (0x64)
 reserved            : 0x3
 Version number      : 0x1
@@ -213,6 +213,11 @@ Program info len    : 128 (0x80)
   Linkage type        : 0xa
   Table type          : 0x2
 
+  - Adaptation Field Data Descriptor -
+  Tag                 : 0x70
+  Length              : 1 (0x1)
+  Adapt. field data ident.: 0x4
+
 
 
 
@@ -233,10 +238,10 @@ Program info len    : 128 (0x80)
 [0176] e2 07 01 02 03 04 05 06 07 4a 07 00 01 00 02 00   .........J......
 [0192] 03 0f 72 df 87 98                                 ..r...
 
-- sec: 1, length: 52, size (max): 200, data: 
-[0000] 02 b0 30 00 64 c3 01 01 e0 65 f0 00 01 e0 22 f0   ..0.d....e....".
-[0016] 1e 4a 13 10 00 20 00 01 01 09 0b 01 23 45 07 01   .J... ......#E..
+- sec: 1, length: 55, size (max): 200, data: 
+[0000] 02 b0 33 00 64 c3 01 01 e0 65 f0 00 01 e0 22 f0   ..3.d....e....".
+[0016] 21 4a 13 10 00 20 00 01 01 09 0b 01 23 45 07 01   !J... ......#E..
 [0032] 02 03 04 05 06 07 4a 07 10 00 20 00 01 00 0a 02   ......J... .....
-[0048] 66 99 8e 4e                                       f..N
+[0048] 70 01 04 a2 7b 28 2d                              p...{(-
 
 PASS test_pmt.sh (exit status: 0)

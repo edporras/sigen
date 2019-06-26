@@ -44,6 +44,7 @@ namespace sigen {
       IGNORE_S,           // NULL
 
       // identifier strings
+      ADAP_FLD_DATA_IDENT_S, // Adaptation field data identifier
       ADDITIONAL_INFO_S,  // Additional info
       ALIGNMENT_TYPE_S,   // Alignment type
       ANCILLARY_DATA_IDENT_S, // Ancillary data ident.
@@ -278,6 +279,7 @@ namespace sigen {
 
       // descriptor strings
       AC3_D_S,            // - AC-3 Descriptor -
+      ADAPTATION_FIELD_DATA_S, // - Adaptation Field Data Descriptor -
       ANCILLARY_DATA_D_S, // - Ancillary Data Descriptor -
       ANNOUNCEMENT_SUPPORT_D_S, // - Announcement Support Descriptor -
       AUDIO_STREAM_D_S,   // - Audio Stream Descriptor -
