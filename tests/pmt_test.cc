@@ -44,11 +44,20 @@ namespace tests
 
       pmt.addProgramDesc( *langd );
 
+      // AC3 Descriptor
       AC3Desc *ac3d = new AC3Desc;
       ac3d->setASVC(0x4);
       ac3d->setBSID(0x2);
 
       pmt.addProgramDesc( *ac3d );
+
+      // Extended AC3 Descriptor
+      ExtendedAC3Desc *eac3d = new ExtendedAC3Desc;
+      eac3d->setComponentType(0x01);
+      eac3d->setMixinfoExists();
+      eac3d->setSubstream1(0x22);
+
+      pmt.addProgramDesc(*eac3d);
 
       AncillaryDataDesc *add = new AncillaryDataDesc(0x51);
       pmt.addProgramDesc( *add );

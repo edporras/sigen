@@ -293,6 +293,7 @@ namespace sigen {
       DATA_BCAST_ID_D_S,  // - Data Broadcast Id Descriptor -
       DATA_STREAM_ALIGNMENT_D_S, // - Data Stream Alignment Descriptor -
       DSNG_D_S,           // - DSNG Descriptor -
+      EXTENDED_AC3_D_S,   // - Extended AC-3 Descriptor -
       EXTENDED_EVENT_D_S, // - Extended Event Descriptor -
       FREQ_LIST_D_S,      // - Frequency List Descriptor -
       HIERARCHY_D_S,      // - Hierarchy Descriptor -

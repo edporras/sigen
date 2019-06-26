@@ -83,10 +83,8 @@ namespace sigen
 
       Descriptor::buildSections(s);
 
-      ui32 max = (tag == AC3Desc::TAG ? MIXINFO_EXISTS : NUM_FLAGS);
       ui8 flags = (tag == AC3Desc::TAG) ? 0x0f : 0;
-
-      for (ui32 i = 0; i < max; i++)
+      for (ui32 i = 0; i < fields.size(); i++)
          if (fields[i].on)
             flags |= bits[i];
 
@@ -94,7 +92,7 @@ namespace sigen
       s.set08Bits(flags);
 
       // now write the set values
-      for (ui32 i = 0; i < max; i++)
+      for (ui32 i = 0; i < fields.size(); i++)
          if (fields[i].on && (i != MIXINFO_EXISTS))
             s.set08Bits(fields[i].val);
 
@@ -107,15 +105,15 @@ namespace sigen
    // output formatter
    void _AC3Desc::dump(std::ostream& o) const
    {
-      dumpHeader(o, AC3_D_S);
+      dumpHeader(o, (tag == AC3Desc::TAG) ? AC3_D_S : EXTENDED_AC3_D_S);
 
-      for (ui32 i = 0; i < (tag == AC3Desc::TAG ? MIXINFO_EXISTS : NUM_FLAGS); i++)
+      for (ui32 i = 0; i < fields.size(); i++)
          identStr( o, AC3Desc_flag_strid[i], fields[i].on);
 
       if (tag == AC3Desc::TAG)
          identStr(o, RESERVED_S, rbits(0x0f));
 
-      for (ui32 i = 0; i < NUM_FLAGS; i++)
+      for (ui32 i = 0; i < fields.size(); i++)
          if (fields[i].on && i != MIXINFO_EXISTS)
             identStr( o, AC3Desc_value_strid[i], fields[i].val );
 

@@ -293,6 +293,7 @@ namespace sigen
          "Data Broadcast Id",         // DATA_BCAST_ID_D_S
          "Data Stream Alignment",     // DATA_STREAM_ALIGNMENT_D_S
          "DSNG",                      // DSNG_D_S
+         "Extended AC-3",             // EXTENDED_AC3_D_S
          "Extended Event",            // EXTENDED_EVENT_D_S
          "Frequency List",            // FREQ_LIST_D_S
          "Hierarchy",                 // HIERARCHY_D_S

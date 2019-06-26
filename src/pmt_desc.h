@@ -82,8 +82,6 @@ namespace sigen {
          SUBSTREAM_1,
          SUBSTREAM_2,
          SUBSTREAM_3,
-
-         NUM_FLAGS
       };
 
    private:
@@ -98,7 +96,7 @@ namespace sigen {
       std::vector<ui8> additional_info;
 
    protected:
-      _AC3Desc(ui8 tag) : Descriptor(tag, 1), fields(8) {}
+      _AC3Desc(ui8 tag, ui8 num_fields) : Descriptor(tag, 1), fields(num_fields) {}
 
       void set_value(flag_t key, ui8 value);
    };
@@ -111,7 +109,7 @@ namespace sigen {
       enum { TAG = 0x6a };
 
       //! \brief Constructor.
-      AC3Desc() : _AC3Desc(TAG) {}
+      AC3Desc() : _AC3Desc(TAG, 4) {}
    };
 
    /*!
@@ -122,7 +120,7 @@ namespace sigen {
       enum { TAG = 0x7a };
 
       //! \brief Constructor.
-      ExtendedAC3Desc() : _AC3Desc(TAG) {}
+      ExtendedAC3Desc() : _AC3Desc(TAG, 8) {}
 
       //! \brief set the mixinfo-exists flag.
       void setMixinfoExists() { set_value(MIXINFO_EXISTS, 0); } // value is ignored
