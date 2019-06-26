@@ -97,7 +97,6 @@ namespace sigen {
       };
 
       // NIT members
-      ui16 xport_stream_loop_length;
       DescList descriptors;
       std::list<XportStream> xport_streams;
 
@@ -130,8 +129,7 @@ namespace sigen {
       // protected constructor - type refers to ACTUAL or OTHER,
       // reserved is the state of reserved bits
       NIT_BAT(ui8 type, ui16 id, ui8 ver, bool cni = true) :
-         PSITable(type, id, 9, MAX_SEC_LEN, ver, cni),
-         xport_stream_loop_length(0)
+         PSITable(type, id, 9, MAX_SEC_LEN, ver, cni)
       { }
    };
 

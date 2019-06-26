@@ -24,6 +24,7 @@
 #include <utility>
 #include <list>
 #include <algorithm>
+#include <numeric>
 #include "table.h"
 #include "descriptor.h"
 #include "tstream.h"
@@ -57,7 +58,6 @@ namespace sigen
 
       // add it to the list
       xport_streams.emplace_back(xport_stream_id, original_network_id);
-      xport_stream_loop_length += XportStream::BASE_LEN;
       return true;
    }
 
@@ -97,7 +97,6 @@ namespace sigen
          return false;
 
       xs.descriptors.add(d, d_len);
-      xport_stream_loop_length += d_len;
       return true;
    }
 
@@ -231,8 +230,7 @@ namespace sigen
                  }
                  else {
                     // check if this XS with no descs will fit here
-                    if ( (sec_bytes + XportStream::BASE_LEN) > getMaxDataLen() )
-                    {
+                    if ( (sec_bytes + XportStream::BASE_LEN) > getMaxDataLen() ) {
                        // nope.. wait also
                        run.op_state = WRITE_HEAD;
                        exit = true;
@@ -326,13 +324,16 @@ namespace sigen
       // loop length
       o << std::hex;
       rsrvdStr(o, RESERVED_FU_S, 0xf);
-      identStr(o, XS_LOOP_LEN_S, xport_stream_loop_length, true);
+
+      ui16 xsl_len = std::accumulate(xport_streams.begin(), xport_streams.end(),
+                                     XportStream::BASE_LEN * xport_streams.size(),
+                                     [](int len, const auto& xs) { return len + xs.descriptors.loop_length(); });
+      identStr(o, XS_LOOP_LEN_S, xsl_len, true);
       o << std::endl;
 
       // display each transport stream's data & descriptors
       incOutLevel();
-      for (const XportStream& xs : xport_streams)
-      {
+      for (const XportStream& xs : xport_streams) {
          headerStr(o, XPORT_STREAM_S, false);
 
          identStr(o, XPORT_STREAM_ID_S, xs.id, true);
