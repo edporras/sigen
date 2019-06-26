@@ -300,7 +300,7 @@ namespace sigen
       }
 
       // reserved bits
-      identStr(o, RESERVED_FU_S, rbits(0xf));
+      rsrvdStr(o, RESERVED_FU_S, 0xf);
 
       // descriptors
       identStr(o,
@@ -323,7 +323,7 @@ namespace sigen
    {
       // loop length
       o << std::hex;
-      identStr(o, RESERVED_FU_S, rbits(0xf));
+      rsrvdStr(o, RESERVED_FU_S, 0xf);
       identStr(o, XS_LOOP_LEN_S, xport_stream_loop_length, true);
       o << std::endl;
 
@@ -335,7 +335,7 @@ namespace sigen
 
          identStr(o, XPORT_STREAM_ID_S, xs.id);
          identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id, true);
-         identStr(o, RESERVED_FU_S, rbits(0xf));
+         rsrvdStr(o, RESERVED_FU_S, 0xf);
          identStr(o, DESC_LEN_S, xs.descriptors.loop_length(), true);
          o << std::endl;
 

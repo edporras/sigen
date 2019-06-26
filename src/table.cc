@@ -102,8 +102,8 @@ namespace sigen
       o << std::hex;
       identStr(o, TID_S, id);
       identStr(o, SECT_SYNTAX_IND_S, section_syntax_indicator);
-      identStr(o, RESERVED_FU_S, private_bit);
-      identStr(o, RESERVED_S, rbits(0x03));
+      rsrvdStr(o, RESERVED_FU_S, private_bit);
+      rsrvdStr(o, RESERVED_S, 0x03);
       identStr(o, TABLE_LEN_S, length, true);
    }
 #endif
@@ -316,7 +316,7 @@ namespace sigen
       o << std::hex;
       identStr(o, ext_label, table_id_extension, hexdec);
 
-      identStr(o, RESERVED_S, rbits(0x03));
+      rsrvdStr(o, RESERVED_S, 0x03);
       identStr(o, VER_NUM_S, version_number);
       identStr(o, CURR_NEXT_IND_S, current_next_indicator);
    }

@@ -210,7 +210,7 @@ namespace sigen
 
       // sdt-specific
       identStr(o, ORIG_NETWORK_ID_S, original_network_id);
-      identStr(o, RESERVED_FU_S, rbits(0xff));
+      rsrvdStr(o, RESERVED_FU_S, 0xff);
       o << std::endl;
 
       // display the service list
@@ -220,7 +220,7 @@ namespace sigen
       for (const Service& service : service_list) {
          o << std::hex;
          identStr(o, SERVICE_ID_S, service.id, true);
-         identStr(o, RESERVED_FU_S, rbits(0x3f)); // reserved future use
+         rsrvdStr(o, RESERVED_FU_S, 0x3f); // reserved future use
          identStr(o, EIT_SCHED_FLAG_S, service.eit_schedule);
          identStr(o, EIT_PF_F_S, service.eit_present_following);
          identStr(o, RUNNING_STATUS_S, service.running_status);

@@ -351,6 +351,7 @@ namespace sigen {
    void identStr(std::ostream& o, STRID s, const std::string& data, bool cr = true);
    void identStr(std::ostream& o, STRID s, const LanguageCode& lc, bool cr = true);
    void identStr(std::ostream& o, STRID s, const std::vector<ui8>& data, bool cr = true);
+   void rsrvdStr(std::ostream& o, STRID s, ui32 reserved_bits);
 
    void dumpData(std::ostream& o, const ui8* data, ui16 len);
    void dumpBytes(std::ostream& o, const std::vector<ui8>& data);

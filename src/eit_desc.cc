@@ -63,7 +63,7 @@ namespace sigen
    {
       dumpHeader(o, COMPONENT_D_S);
 
-      identStr(o, RESERVED_FU_S, rbits(0x0f) );
+      rsrvdStr(o, RESERVED_FU_S, 0x0f);
       identStr(o, STREAM_CONTENT_S, static_cast<ui16>(stream_content));
       identStr(o, COMPONENT_TYPE_S, static_cast<ui16>(component_type));
       identStr(o, COMPONENT_TAG_S, static_cast<ui16>(component_tag));
@@ -319,7 +319,7 @@ namespace sigen
    {
       dumpHeader(o, PDC_D_S);
 
-      identStr(o, RESERVED_FU_S, rbits(0xf));
+      rsrvdStr(o, RESERVED_FU_S, 0xf);
       identStr(o, PROG_IDENT_LABEL_S, programme_identification_label);
    }
 #endif

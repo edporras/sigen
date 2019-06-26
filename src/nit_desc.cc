@@ -82,15 +82,15 @@ namespace sigen
 
       incOutLevel();
       for (const auto& ann : announcement_list) {
-         identStr( o, ANNOUNCEMENT_TYPE_S, ann.type );
-         identStr( o, RESERVED_FU_S, true );
-         identStr( o, REF_TYPE_S, ann.reference_type );
+         identStr(o, ANNOUNCEMENT_TYPE_S, ann.type);
+         rsrvdStr(o, RESERVED_FU_S, 0x1);
+         identStr(o, REF_TYPE_S, ann.reference_type);
 
          if (ann.actual_serv_info) {
-            identStr( o, ORIG_NETWORK_ID_S, ann.actual_serv_info->original_network_id );
-            identStr( o, XPORT_STREAM_ID_S, ann.actual_serv_info->xport_stream_id );
-            identStr( o, SERVICE_ID_S, ann.actual_serv_info->service_id, true );
-            identStr( o, COMPONENT_TAG_S, ann.actual_serv_info->component_tag );
+            identStr(o, ORIG_NETWORK_ID_S, ann.actual_serv_info->original_network_id);
+            identStr(o, XPORT_STREAM_ID_S, ann.actual_serv_info->xport_stream_id);
+            identStr(o, SERVICE_ID_S, ann.actual_serv_info->service_id, true);
+            identStr(o, COMPONENT_TAG_S, ann.actual_serv_info->component_tag);
          }
          o << std::endl;
       }
@@ -111,7 +111,7 @@ namespace sigen
       Descriptor::buildSections(s);
 
       s.set32Bits( frequency );
-      s.set16Bits( rbits(0xfff0) | fec_outer );
+      s.set16Bits( 0xfff0 | fec_outer );
       s.set08Bits( modulation );
       s.set32Bits( (symbol_rate << 4) | fec_inner );
    }
@@ -125,7 +125,7 @@ namespace sigen
       dumpHeader( o, CABLE_DEL_SYS_D_S );
 
       identStr(o, FREQ_S, frequency);
-      identStr(o, RESERVED_FU_S, rbits(0xfff));
+      rsrvdStr(o, RESERVED_FU_S, 0xfff);
       identStr(o, FEC_O_S, fec_outer);
       identStr(o, MOD_S, modulation);
       identStr(o, SYM_RATE_S, symbol_rate);
@@ -295,18 +295,18 @@ namespace sigen
       dumpHeader(o, CELL_LIST_D_S);
 
       for (const auto& cell : cell_list) {
-         identStr( o, CELL_ID_S, cell.id );
-         identStr( o, CELL_LATITUDE_S, cell.latitude );
-         identStr( o, CELL_LONGITUDE_S, cell.longitude );
-         identStr( o, CELL_EXT_LAT_S, cell.extend_of_latitude );
-         identStr( o, CELL_EXT_LON_S, cell.extend_of_longitude );
+         identStr(o, CELL_ID_S, cell.id);
+         identStr(o, CELL_LATITUDE_S, cell.latitude);
+         identStr(o, CELL_LONGITUDE_S, cell.longitude);
+         identStr(o, CELL_EXT_LAT_S, cell.extend_of_latitude);
+         identStr(o, CELL_EXT_LON_S, cell.extend_of_longitude);
 
          for (const auto& subcell : cell.subcell_list) {
-            identStr( o, CELL_ID_EXT_S, subcell.cell_id_extension );
-            identStr( o, SUBCELL_LAT_S, subcell.latitude );
-            identStr( o, SUBCELL_LON_S, subcell.longitude );
-            identStr( o, SUBCELL_EXT_LAT_S, subcell.extend_of_latitude );
-            identStr( o, SUBCELL_EXT_LON_S, subcell.extend_of_longitude );
+            identStr(o, CELL_ID_EXT_S, subcell.cell_id_extension);
+            identStr(o, SUBCELL_LAT_S, subcell.latitude);
+            identStr(o, SUBCELL_LON_S, subcell.longitude);
+            identStr(o, SUBCELL_EXT_LAT_S, subcell.extend_of_latitude);
+            identStr(o, SUBCELL_EXT_LON_S, subcell.extend_of_longitude);
          }
       }
    }
@@ -349,14 +349,14 @@ namespace sigen
    // dump to stdout
    void FrequencyListDesc::dump(std::ostream &o) const
    {
-      dumpHeader( o, FREQ_LIST_D_S );
+      dumpHeader(o, FREQ_LIST_D_S);
 
-      identStr( o, RESERVED_FU_S, rbits(0x3f) );
-      identStr( o, CODING_TYPE_S, coding_type);
+      rsrvdStr(o, RESERVED_FU_S, 0x3f);
+      identStr(o, CODING_TYPE_S, coding_type);
 
       incOutLevel();
       for (ui32 f : frequency_list) {
-         identStr( o, FREQ_S, f );
+         identStr(o, FREQ_S, f);
       }
       decOutLevel();
    }
@@ -425,21 +425,21 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void TerrestrialDeliverySystemDesc::dump(std::ostream &o) const
    {
-      dumpHeader( o, TER_DEL_SYS_D_S );
+      dumpHeader(o, TER_DEL_SYS_D_S);
 
-      identStr( o, FREQ_S, ctr_frequency);
+      identStr(o, FREQ_S, ctr_frequency);
 
-      identStr( o, BANDWIDTH_S, bandwidth );
-      identStr( o, RESERVED_FU_S, rbits(0x1f) );
-      identStr( o, CONSTELLATION_S, constellation );
-      identStr( o, H_INFO_S, hierarchy_info );
-      identStr( o, CR_HP_STREAM_S, cr_HP_stream );
-      identStr( o, CR_LP_STREAM_S, cr_LP_stream );
-      identStr( o, GUARD_INTERV_S, guard_interval );
-      identStr( o, TRANS_MODE_S, transmission_mode );
-      identStr( o, OTHER_FREQ_FLAG_S, other_freq_flag );
+      identStr(o, BANDWIDTH_S, bandwidth);
+      rsrvdStr(o, RESERVED_FU_S, 0x1f);
+      identStr(o, CONSTELLATION_S, constellation);
+      identStr(o, H_INFO_S, hierarchy_info);
+      identStr(o, CR_HP_STREAM_S, cr_HP_stream);
+      identStr(o, CR_LP_STREAM_S, cr_LP_stream);
+      identStr(o, GUARD_INTERV_S, guard_interval);
+      identStr(o, TRANS_MODE_S, transmission_mode);
+      identStr(o, OTHER_FREQ_FLAG_S, other_freq_flag);
 
-      identStr( o, RESERVED_S, rbits(0xffffffff) );
+      rsrvdStr(o, RESERVED_S, 0xffffffff);
    }
 #endif
 

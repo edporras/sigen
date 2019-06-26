@@ -527,4 +527,12 @@ namespace sigen
          identStr(o, outstr[s], data_str.str(), cr, false);
       }
    }
+
+   void rsrvdStr(std::ostream& o, STRID s, ui32 flags)
+   {
+      std::ios::fmtflags f = o.flags();
+      o << std::hex;
+      identStr(o, outstr[s], flags, false);
+      o.flags(f);
+   }
 }

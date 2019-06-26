@@ -179,9 +179,9 @@ namespace sigen
       incOutLevel();
       for (const auto &oui : oui_list) {
          identStr(o, OUI_S, oui.OUI);
-         identStr(o, RESERVED_S, rbits(0x0f));
+         rsrvdStr(o, RESERVED_S, 0x0f);
          identStr(o, UPDATE_TYPE_S, oui.update_type);
-         identStr(o, RESERVED_S, rbits(0x03));
+         rsrvdStr(o, RESERVED_S, 0x03);
          identStr(o, UPDATE_VER_FLAG_S, oui.update_versioning_flag);
          identStr(o, UPDATE_VER_S, oui.update_version);
          identStr(o, SELECTOR_LEN_S, oui.selector_bytes.size(), true);

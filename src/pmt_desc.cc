@@ -111,7 +111,7 @@ namespace sigen
          identStr( o, AC3Desc_flag_strid[i], fields[i].on);
 
       if (tag == AC3Desc::TAG)
-         identStr(o, RESERVED_S, rbits(0x0f));
+         rsrvdStr(o, RESERVED_S, 0x0f);
 
       for (ui32 i = 0; i < fields.size(); i++)
          if (fields[i].on && i != MIXINFO_EXISTS)

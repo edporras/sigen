@@ -108,7 +108,7 @@ namespace sigen
       dumpHeader(o, COUNTRY_AVAIL_D_S);
 
       identStr(o, COUNTRY_AVAIL_FLAG_S, country_availability_flag);
-      identStr(o, RESERVED_FU_S, rbits(0x7f));
+      rsrvdStr(o, RESERVED_FU_S, 0x7f);
 
       incOutLevel();
       for (const auto& lc : country_list)
@@ -223,7 +223,7 @@ namespace sigen
 
          identStr(o, COUNTRY_CODE_S, offset.country_code);
          identStr(o, COUNTRY_REGION_ID_S, offset.country_region_id);
-         identStr(o, RESERVED_S, rbits(0x01));
+         rsrvdStr(o, RESERVED_S, 0x01);
          identStr(o, LTO_POLARITY_S, offset.local_time_offset_polarity);
 
          identStr(o, LOCAL_TIME_OFFSET_S, offset.local_time_offset);
@@ -278,14 +278,14 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void PartialTransportStreamDesc::dump(std::ostream& o) const
    {
-      dumpHeader( o, PARTIAL_TS_D_S );
+      dumpHeader(o, PARTIAL_TS_D_S);
 
-      identStr( o, RESERVED_FU_S, rbits(0x3 ) );
-      identStr( o, PEAK_RATE_S, peak_rate );
-      identStr( o, RESERVED_FU_S, rbits(0x3) );
-      identStr( o, MIN_OS_RATE_S, min_overall_smoothing_rate );
-      identStr( o, RESERVED_FU_S, rbits(0x3 ) );
-      identStr( o, MAX_OS_BUFFER_S, max_overall_smoothing_buffer );
+      rsrvdStr(o, RESERVED_FU_S, 0x3);
+      identStr(o, PEAK_RATE_S, peak_rate);
+      rsrvdStr(o, RESERVED_FU_S, 0x3);
+      identStr(o, MIN_OS_RATE_S, min_overall_smoothing_rate);
+      rsrvdStr(o, RESERVED_FU_S, 0x3);
+      identStr(o, MAX_OS_BUFFER_S, max_overall_smoothing_buffer);
    }
 #endif
 
@@ -407,14 +407,14 @@ namespace sigen
    {
       dumpHeader(o, TELEPHONE_D_S);
 
-      identStr(o, RESERVED_FU_S, rbits(0x03));
+      rsrvdStr(o, RESERVED_FU_S, 0x03);
       identStr(o, FOREIGN_AVAIL_S, foreign_availability);
       identStr(o, CONNECTION_TYPE_S, connection_type);
-      identStr(o, RESERVED_FU_S, rbits(0x01));
+      rsrvdStr(o, RESERVED_FU_S, 0x01);
       identStr(o, COUNTRY_PREFIX_LEN_S, country_prefix.length(), true);
       identStr(o, INTNL_AC_LEN_S, international_area_code.length(), true);
       identStr(o, OPERATOR_CODE_LEN_S, operator_code.length(), true);
-      identStr(o, RESERVED_FU_S, rbits(0x01));
+      rsrvdStr(o, RESERVED_FU_S, 0x01);
       identStr(o, NTNL_AC_LEN_S, national_area_code.length(), true);
       identStr(o, CORE_NUM_LEN_S, core_number.length(), true);
       identStr(o, COUNTRY_PREFIX_S, country_prefix);

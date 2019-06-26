@@ -57,7 +57,7 @@ namespace sigen
       identStr(o, ID_S, id);
       identStr(o, LAYER_S, layer);
       identStr(o, VAR_RATE_AUD_IND_S, variable_rate_indicator);
-      identStr(o, RESERVED_S, rbits(0xf) );
+      rsrvdStr(o, RESERVED_S, 0xf);
    }
 #endif
 
@@ -88,7 +88,7 @@ namespace sigen
       dumpHeader(o, CA_D_S);
 
       identStr(o, CA_SYSTEM_ID_S, CA_system_id);
-      identStr(o, RESERVED_S, rbits(0x7) );
+      rsrvdStr(o, RESERVED_S, 0x7);
       identStr(o, CA_PID_S, CA_pid);
       identStr(o, PVT_DATA_S, private_data);
    }
@@ -143,13 +143,13 @@ namespace sigen
    {
       dumpHeader(o, HIERARCHY_D_S);
 
-      identStr(o, RESERVED_S, rbits(0x0f) );
+      rsrvdStr(o, RESERVED_S, 0x0f);
       identStr(o, H_TYPE_S, type);
-      identStr(o, RESERVED_S, rbits(0x03) );
+      rsrvdStr(o, RESERVED_S, 0x03);
       identStr(o, H_LAYER_IDX_S, layer_index);
-      identStr(o, RESERVED_S, rbits(0x03) );
+      rsrvdStr(o, RESERVED_S, 0x03);
       identStr(o, H_EMBEDDED_LAYER_S, embedded_layer);
-      identStr(o, RESERVED_S, rbits(0x03) );
+      rsrvdStr(o, RESERVED_S, 0x03);
       identStr(o, H_PRIORITY_S, priority);
    }
 #endif
@@ -251,7 +251,7 @@ namespace sigen
    {
       dumpHeader(o, MAXIMUM_BITRATE_D_S);
 
-      identStr(o, RESERVED_S, rbits(0x03) );
+      rsrvdStr(o, RESERVED_S, 0x03);
       identStr(o, MAX_BITRATE_S, maximum_bitrate);
    }
 #endif
@@ -284,7 +284,7 @@ namespace sigen
 
       identStr(o, BOUND_VALID_F_S, bound_valid_flag);
       identStr(o, LTW_OFFSET_LB_S, LTW_offset_lb);
-      identStr(o, RESERVED_S, rbits(0x1) );
+      rsrvdStr(o, RESERVED_S, 0x1);
       identStr(o, LTW_OFFSET_UB_S, LTW_offset_ub);
    }
 #endif
@@ -330,12 +330,12 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void SmoothingBufferDesc::dump(std::ostream &o) const
    {
-      dumpHeader( o, SMOOTHING_BUF_D_S );
+      dumpHeader(o, SMOOTHING_BUF_D_S);
 
-      identStr( o, RESERVED_S, rbits(0x3 ) );
-      identStr( o, SB_LEAK_RATE_S, sb_leak_rate );
-      identStr( o, RESERVED_S, rbits(0x3 ) );
-      identStr( o, SB_SIZE_S, sb_size );
+      rsrvdStr(o, RESERVED_S, 0x3);
+      identStr(o, SB_LEAK_RATE_S, sb_leak_rate);
+      rsrvdStr(o, RESERVED_S, 0x3);
+      identStr(o, SB_SIZE_S, sb_size);
    }
 #endif
 
@@ -360,7 +360,7 @@ namespace sigen
    {
       dumpHeader(o, STD_D_S);
 
-      identStr(o, RESERVED_S, rbits(0x7f) );
+      rsrvdStr(o, RESERVED_S, 0x7f);
       identStr(o, LEAK_VALID_FLAG_S, leak_valid_flag);
    }
 #endif
@@ -394,10 +394,10 @@ namespace sigen
       dumpHeader(o, SYSTEM_CLOCK_D_S);
 
       identStr(o, EXT_CLOCK_REF_IND_S, external_clock_reference_indicator);
-      identStr(o, RESERVED_S, rbits(0x01) );
+      rsrvdStr(o, RESERVED_S, 0x01);
       identStr(o, CLOCK_ACCURACY_INT_S, clock_accuracy_integer);
       identStr(o, CLOCK_ACCURACY_EXP_S, clock_accuracy_exponent);
-      identStr(o, RESERVED_S, rbits(0x1f) );
+      rsrvdStr(o, RESERVED_S, 0x1f);
    }
 #endif
 
@@ -476,7 +476,7 @@ namespace sigen
          identStr(o, PROF_LVL_IND_S, profile_and_level_indication);
          identStr(o, CHROMA_FORMAT_S, chroma_format);
          identStr(o, FRM_RATE_EXT_FLAG_S, frame_rate_extension_flag);
-         identStr(o, RESERVED_S, rbits(0x1f) );
+         rsrvdStr(o, RESERVED_S, 0x1f);
       }
    }
 #endif

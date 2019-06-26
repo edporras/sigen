@@ -52,7 +52,7 @@ namespace sigen
 
       // reserved + loop length
       o << std::hex;
-      identStr(o, RESERVED_FU_S, rbits(0xf));
+      rsrvdStr(o, RESERVED_FU_S, 0xf);
       identStr(o, DESC_LOOP_LEN_S, descriptors.loop_length() & LEN_MASK, true);
       o << std::endl;
 

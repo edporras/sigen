@@ -123,7 +123,7 @@ namespace sigen
       incOutLevel(); // indent output
       for (const Program& program : program_list) {
          identStr(o, PROGRAM_NUM_S, program.number, true);
-         identStr(o, RESERVED_S, rbits(0x07) );
+         rsrvdStr(o, RESERVED_S, 0x07);
          identStr(o, PID_S, program.pid, true);
          o << std::endl;
       }
