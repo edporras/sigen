@@ -8,7 +8,7 @@ Xport stream id     : 0x20
 reserved            : 0x3
 Version number      : 0x5
 Current next ind.   : 0x1
-Orig. network id    : 0x30
+Orig. network id    : 48 (0x30)
 rsvrd. future use   : 0xff
 
  - -* Service List *- -
@@ -127,8 +127,8 @@ rsvrd. future use   : 0xff
   - NVOD Reference Descriptor -
   Tag                 : 0x4b
   Length              : 6 (0x6)
-   Xport stream id     : 0x1
-   Orig. network id    : 0x2
+   Xport stream id     : 1 (0x1)
+   Orig. network id    : 2 (0x2)
    Service id          : 3 (0x3)
 
 
@@ -223,4 +223,4 @@ rsvrd. future use   : 0xff
 [0272] 68 69 73 20 69 73 20 74 68 65 20 74 65 78 74 ff   his is the text.
 [0288] ca ed 9e                                          ...
 
-FAIL test_sdt.sh (exit status: 228)
+PASS test_sdt.sh (exit status: 0)

@@ -57,19 +57,19 @@ rsvrd. future use   : 0xf
 Xprt str loop len   : 175 (0xaf)
 
  - *-- Transport Stream --* -
- Xport stream id     : 0x10
+ Xport stream id     : 16 (0x10)
  Orig. network id    : 32 (0x20)
  rsvrd. future use   : 0xf
  Desc. len           : 0 (0)
 
  - *-- Transport Stream --* -
- Xport stream id     : 0x11
+ Xport stream id     : 17 (0x11)
  Orig. network id    : 33 (0x21)
  rsvrd. future use   : 0xf
  Desc. len           : 0 (0)
 
  - *-- Transport Stream --* -
- Xport stream id     : 0x20
+ Xport stream id     : 32 (0x20)
  Orig. network id    : 48 (0x30)
  rsvrd. future use   : 0xf
  Desc. len           : 26 (0x1a)
@@ -101,7 +101,7 @@ Xprt str loop len   : 175 (0xaf)
 
 
  - *-- Transport Stream --* -
- Xport stream id     : 0x21
+ Xport stream id     : 33 (0x21)
  Orig. network id    : 49 (0x31)
  rsvrd. future use   : 0xf
  Desc. len           : 125 (0x7d)
@@ -129,16 +129,16 @@ Xprt str loop len   : 175 (0xaf)
    Announcement type   : 0
    rsvrd. future use   : 0x1
    Ref. type           : 0
-   Orig. network id    : 0x1000
-   Xport stream id     : 0x1200
+   Orig. network id    : 4096 (0x1000)
+   Xport stream id     : 4608 (0x1200)
    Service id          : 1024 (0x400)
    Component tag       : 0x3
 
    Announcement type   : 0x5
    rsvrd. future use   : 0x1
    Ref. type           : 0x2
-   Orig. network id    : 0x1100
-   Xport stream id     : 0x1300
+   Orig. network id    : 4352 (0x1100)
+   Xport stream id     : 4864 (0x1300)
    Service id          : 1026 (0x402)
    Component tag       : 0x3
 
@@ -148,19 +148,19 @@ Xprt str loop len   : 175 (0xaf)
   Length              : 41 (0x29)
   Cell id             : 0xa
   Frequency           : 0x2710
-  Subcell loop len    : 0xa
+  Subcell loop len    : 10 (0xa)
   Cell id ext.        : 0xb
   Xposer frequency    : 0x3e8
   Cell id ext.        : 0xc
   Xposer frequency    : 0xce4
   Cell id             : 0xa
   Frequency           : 0x2af8
-  Subcell loop len    : 0x5
+  Subcell loop len    : 5 (0x5)
   Cell id ext.        : 0xc
   Xposer frequency    : 0xbb8
   Cell id             : 0xb
   Frequency           : 0x9c40
-  Subcell loop len    : 0x5
+  Subcell loop len    : 5 (0x5)
   Cell id ext.        : 0x15
   Xposer frequency    : 0x7d0
 
@@ -238,4 +238,4 @@ Xprt str loop len   : 175 (0xaf)
 [0240] 07 d1 22 c0 42 00 02 0f a0 0b b8 05 b3 02 8f 16   ..".B...........
 [0256] 0b ba 07 d2 22 d2 9c b3 f3 cf 9e                  ...."......
 
-FAIL test_nit.sh (exit status: 255)
+PASS test_nit.sh (exit status: 0)

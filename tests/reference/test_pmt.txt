@@ -133,9 +133,9 @@ Program info len    : 128 (0x80)
  - Service Move Descriptor -
  Tag                 : 0x60
  Length              : 6 (0x6)
- Orig. network id    : 0x1
- Xport stream id     : 0x2
- New service id      : 0x3
+ Orig. network id    : 1 (0x1)
+ Xport stream id     : 2 (0x2)
+ New service id      : 3 (0x3)
 
 
  - -* Stream List *- -
@@ -174,7 +174,7 @@ Program info len    : 128 (0x80)
   Tag                 : 0x66
   Length              : 16 (0x10)
   Data broadcast id   : 10 (0xa)
-  OUI data len        : 0xd
+  OUI data len        : 13 (0xd)
    OUI                 : 0x2001
    reserved            : 0xf
    Update type         : 0x3
@@ -199,7 +199,7 @@ Program info len    : 128 (0x80)
   Orig. network id    : 8192 (0x2000)
   Service id          : 257 (0x101)
   Linkage type        : 0x9
-  OUI data len        : 0xb
+  OUI data len        : 11 (0xb)
    OUI                 : 0x12345
    Selector len        : 7 (0x7)
    Selector            : 01020304050607

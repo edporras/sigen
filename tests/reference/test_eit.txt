@@ -8,8 +8,8 @@ Service id          : 100 (0x64)
 reserved            : 0x3
 Version number      : 0
 Current next ind.   : 0x1
-Xport stream id     : 0x333
-Orig. network id    : 0x444
+Xport stream id     : 819 (0x333)
+Orig. network id    : 1092 (0x444)
 
  - -* Present Event List *- -
   Event id            : 0x1000
@@ -17,7 +17,7 @@ Orig. network id    : 0x444
   Duration            : 00:30:00
   Running status      : 0x1
   Free CA mode        : 0x1
-  Desc. loop len      : 0x31
+  Desc. loop len      : 49 (0x31)
 
    - PDC Descriptor -
    Tag                 : 0x69
@@ -49,7 +49,7 @@ Orig. network id    : 0x444
   Duration            : 00:30:00
   Running status      : 0x1
   Free CA mode        : 0x1
-  Desc. loop len      : 0x1a
+  Desc. loop len      : 26 (0x1a)
 
    - DSNG Descriptor -
    Tag                 : 0x68
@@ -83,8 +83,8 @@ Service id          : 101 (0x65)
 reserved            : 0x3
 Version number      : 0
 Current next ind.   : 0x1
-Xport stream id     : 0x444
-Orig. network id    : 0x555
+Xport stream id     : 1092 (0x444)
+Orig. network id    : 1365 (0x555)
 
  - -* Present Event List *- -
   Event id            : 0x2000
@@ -92,7 +92,7 @@ Orig. network id    : 0x555
   Duration            : 00:30:00
   Running status      : 0x1
   Free CA mode        : 0x1
-  Desc. loop len      : 0
+  Desc. loop len      : 0 (0)
 
 
  - -* Following Event List *- -
@@ -121,4 +121,4 @@ Orig. network id    : 0x555
 [0000] 4f f0 0b 00 65 c1 01 01 04 44 05 55 01 4f a2 26   O...e....D.U.O.&
 [0016] 0a 0d                                             ..
 
-FAIL test_eit.sh (exit status: 44)
+PASS test_eit.sh (exit status: 0)

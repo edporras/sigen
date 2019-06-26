@@ -65,7 +65,7 @@ rsvrd. future use   : 0xf
 Xprt str loop len   : 331 (0x14b)
 
  - *-- Transport Stream --* -
- Xport stream id     : 0x63
+ Xport stream id     : 99 (0x63)
  Orig. network id    : 199 (0xc7)
  rsvrd. future use   : 0xf
  Desc. len           : 152 (0x98)
@@ -176,19 +176,19 @@ Xprt str loop len   : 331 (0x14b)
 
 
  - *-- Transport Stream --* -
- Xport stream id     : 0x62
+ Xport stream id     : 98 (0x62)
  Orig. network id    : 198 (0xc6)
  rsvrd. future use   : 0xf
  Desc. len           : 0 (0)
 
  - *-- Transport Stream --* -
- Xport stream id     : 0x64
+ Xport stream id     : 100 (0x64)
  Orig. network id    : 200 (0xc8)
  rsvrd. future use   : 0xf
  Desc. len           : 0 (0)
 
  - *-- Transport Stream --* -
- Xport stream id     : 0x64
+ Xport stream id     : 100 (0x64)
  Orig. network id    : 201 (0xc9)
  rsvrd. future use   : 0xf
  Desc. len           : 155 (0x9b)
@@ -342,4 +342,4 @@ Xprt str loop len   : 331 (0x14b)
 [0160] 01 00 92 01 00 93 01 00 94 01 00 95 01 54 f5 2a   .............T.*
 [0176] a9                                                .
 
-FAIL test_bat.sh (exit status: 1)
+PASS test_bat.sh (exit status: 0)

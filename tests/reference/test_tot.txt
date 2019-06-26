@@ -37,4 +37,4 @@ Desc. loop len      : 28 (0x1c)
 [0016] 12 34 c8 00 10 00 00 43 21 66 72 65 8f 56 78 c8   .4.....C!fre.Vx.
 [0032] 00 10 00 00 87 65 b4 77 3e 0b                     .....e.w>.
 
-FAIL test_tot.sh (exit status: 113)
+PASS test_tot.sh (exit status: 0)
