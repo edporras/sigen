@@ -34,22 +34,6 @@ namespace sigen {
    //
    class MpgPacketizer
    {
-   private:
-      enum { SYNC_BYTE = 0x47,
-             HEADER_SIZE = 4,
-             PKT_DATA_SIZE = 184,
-             PACKET_SIZE = PKT_DATA_SIZE + 4,
-      };
-
-      // data
-      std::string filename;
-
-      bool transport_error_indicator,
-         transport_priority;
-      ui8 continuity_count,
-         transport_scrambling_control : 2,
-         adaptation_field_control : 2;
-
    public:
       enum ScramblingControl_t { NOT_SCRAMBLED = 0x00 }; // 0x01-0x11 user def'd
       enum AdaptationField_t {
@@ -78,6 +62,23 @@ namespace sigen {
    protected:
       void getHeader(ui8 *packet, const ui8 *section_data,
                      bool payload_unit_start_indicator, ui16 pid);
+
+   private:
+      enum {
+         SYNC_BYTE     = 0x47,
+         HEADER_SIZE   = 4,
+         PKT_DATA_SIZE = 184,
+         PACKET_SIZE   = PKT_DATA_SIZE + 4,
+      };
+
+      // data
+      std::string filename;
+
+      bool transport_error_indicator,
+           transport_priority;
+      ui8 continuity_count,
+          transport_scrambling_control : 2,
+          adaptation_field_control : 2;
    };
 
 } // sigen namespace

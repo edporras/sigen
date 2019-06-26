@@ -66,15 +66,13 @@ namespace sigen
       packet_size = PACKET_SIZE - header_size;
 
       // start
-      while (cur_section_size > 0)
-      {
+      while (cur_section_size > 0) {
          // fill packet with pad val for short packets
          for (int i = 0; i < PACKET_SIZE; i++)
             packet[i] = 0xff;
 
          // set the packet ptr to point to this packet
-         if (header_size != 0)
-         {
+         if (header_size != 0) {
             getHeader(&packet[0], nullptr, // section_data,
                       payload_unit_start_indicator, pid);
             tptr = &packet[header_size];
@@ -83,16 +81,11 @@ namespace sigen
             tptr = &packet[0];
 
          // move packet data in
-         for (int i = 0; i < PKT_DATA_SIZE; i++)
-         {
+         for (int i = 0; i < PKT_DATA_SIZE; i++) {
             if (payload_unit_start_indicator && (i == 0))
-            {
                *(tptr++) = static_cast<char>(0);
-            }
-            else
-            {
-               if (cur_section_size > 0)
-               {
+            else {
+               if (cur_section_size > 0) {
                   *(tptr++) = section_data[ this_section_size - cur_section_size ];
                   cur_section_size--;
                }
@@ -118,8 +111,7 @@ namespace sigen
    {
       *(packet++) = SYNC_BYTE;
 
-      if (!section_data)
-      {
+      if (!section_data) {
          std::cout << "byte: " << std::hex
                    << static_cast<ui16>( (transport_error_indicator << 7) |
                                          (payload_unit_start_indicator << 6) |
@@ -144,12 +136,9 @@ namespace sigen
          // only increment CC based on value of AFC
          if ( (adaptation_field_control != MpgPacketizer::RESERVED) &&
               (adaptation_field_control != MpgPacketizer::ADAPTATION_FIELD_ONLY) )
-         {
             continuity_count++;
-         }
       }
-      else
-      {
+      else {
          *(packet++) = static_cast<ui8>( (0 << 7) |
                                          (0 << 6) |
                                          (0 << 5) |
