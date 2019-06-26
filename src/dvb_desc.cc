@@ -225,11 +225,8 @@ namespace sigen
          identStr(o, COUNTRY_REGION_ID_S, offset.country_region_id);
          rsrvdStr(o, RESERVED_S, 0x01);
          identStr(o, LTO_POLARITY_S, offset.local_time_offset_polarity);
-
          identStr(o, LOCAL_TIME_OFFSET_S, offset.local_time_offset);
-
-         identStr(o, UTC_S);
-         o << offset.time_of_change << std::endl;
+         identStr(o, UTC_S, offset.time_of_change);
 
          o << std::hex;
          identStr(o, NEXT_TIME_OFFSET_S, offset.next_time_offset);

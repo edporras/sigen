@@ -48,12 +48,8 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void TDT::dump(std::ostream &o) const
    {
-      // table header
       dumpHeader( o, TDT_DUMP_S );
-
-      // the UTC data
-      identStr(o, UTC_S);
-      o << utc << std::endl;
+      identStr(o, UTC_S, utc);
    }
 #endif
 

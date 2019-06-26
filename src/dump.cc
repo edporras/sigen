@@ -27,6 +27,7 @@
 #include <sstream>
 #include "dump.h"
 #include "language_code.h"
+#include "utc.h"
 
 namespace sigen
 {
@@ -444,7 +445,7 @@ namespace sigen
 
    //
    // functions for displaying a header string
-   static void headerStr(std::ostream &o, const std::string &s, bool desc_str)
+   static inline void headerStr(std::ostream &o, const std::string &s, bool desc_str)
    {
       indent(o);
       o << "- "
@@ -461,13 +462,14 @@ namespace sigen
 
    //
    // functions for displaying identifier strings
-   static void identStr(std::ostream &o, const std::string &s)
+   static inline void identStr(std::ostream &o, const std::string &s)
    {
       indent(o);
       o << std::setw(T_STR_W) << s.c_str() << ": ";
    }
 
-   static void identStr(std::ostream &o, const std::string &s, const std::string &data, bool cr, bool quotes)
+   static inline void identStr(std::ostream &o, const std::string &s, const std::string &data,
+                               bool cr, bool quotes)
    {
       identStr(o, s);
 
@@ -480,7 +482,7 @@ namespace sigen
          o << std::endl;
    }
 
-   static void identStr(std::ostream &o, const std::string &s, ui32 data, bool dechex)
+   static inline void identStr(std::ostream &o, const std::string &s, ui32 data, bool dechex)
    {
       identStr(o, s);
       if (dechex)
@@ -490,7 +492,7 @@ namespace sigen
       o << std::endl;
    }
 
-   void identStr(std::ostream &o, STRID s)
+   static void identStr(std::ostream &o, STRID s)
    {
       identStr(o, outstr[s]);
    }
@@ -511,10 +513,21 @@ namespace sigen
       identStr(o, outstr[s], lc.str(), cr, true);
    }
 
+   void identStr(std::ostream& o, STRID s, const UTC& time)
+   {
+      identStr(o, s);
+      o << time << std::endl;
+   }
+
+   void identStr(std::ostream& o, STRID s, const BCDTime& dur)
+   {
+      identStr(o, s);
+      o << dur << std::endl;
+   }
+
    void identStr(std::ostream &o, STRID s, const std::vector<ui8> &data, bool cr)
    {
-      if (!data.empty())
-      {
+      if (!data.empty()) {
          std::stringstream data_str;
 
          data_str.unsetf(std::ios::showbase);

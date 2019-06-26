@@ -128,11 +128,8 @@ namespace sigen
       for (const Event& event : e_list) {
          o << std::hex;
          identStr(o, EVENT_ID_S, event.id);
-         identStr(o, START_TIME_S);
-         o << event.utc << std::endl;
-
-         identStr(o, DURATION_S);
-         o << event.duration << std::endl;
+         identStr(o, START_TIME_S, event.utc);
+         identStr(o, DURATION_S, event.duration);
          identStr(o, RUNNING_STATUS_S, event.running_status);
          identStr(o, FREE_CA_MODE_S, event.free_CA_mode);
 

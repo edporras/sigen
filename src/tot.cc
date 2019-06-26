@@ -47,11 +47,9 @@ namespace sigen
       STable::dumpHeader( o, TOT_DUMP_S );
 
       // the UTC data
-      identStr(o, UTC_S);
-      o << utc << std::endl;
+      identStr(o, UTC_S, utc);
 
       // reserved + loop length
-      o << std::hex;
       rsrvdStr(o, RESERVED_FU_S, 0xf);
       identStr(o, DESC_LOOP_LEN_S, descriptors.loop_length() & LEN_MASK, true);
       o << std::endl;

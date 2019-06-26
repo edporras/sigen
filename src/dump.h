@@ -23,18 +23,20 @@
 
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include "types.h"
 #include "config.h"
 
 #ifdef ENABLE_DUMP
 
+#include <iostream>
+#include <string>
+#include <vector>
+#include "types.h"
+
 namespace sigen {
 
    class LanguageCode;
-
+   class UTC;
+   class BCDTime;
 
    // output vars
    //
@@ -346,10 +348,11 @@ namespace sigen {
    void decOutLevel();
    void headerStr(std::ostream& o, STRID s, bool desc_str = true);
 
-   void identStr(std::ostream& o, STRID s);
    void identStr(std::ostream& o, STRID s, ui32 val, bool dechex = false);
    void identStr(std::ostream& o, STRID s, const std::string& data, bool cr = true);
    void identStr(std::ostream& o, STRID s, const LanguageCode& lc, bool cr = true);
+   void identStr(std::ostream& o, STRID s, const UTC& time);
+   void identStr(std::ostream& o, STRID s, const BCDTime& dur);
    void identStr(std::ostream& o, STRID s, const std::vector<ui8>& data, bool cr = true);
    void rsrvdStr(std::ostream& o, STRID s, ui32 reserved_bits);
 
