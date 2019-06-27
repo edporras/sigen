@@ -72,18 +72,22 @@ namespace tests
       TimeShiftedServiceDesc *tssd = new TimeShiftedServiceDesc( 0x4000 );
       nit.addNetworkDesc( *tssd );
 
+      // AnnouncementSupportDesc
       AnnouncementSupportDesc *asd;
       asd = new AnnouncementSupportDesc(AnnouncementSupportDesc::EMERGENCY_ALARM_AS |
                                         AnnouncementSupportDesc::WEATHER_FLASH_AS);
-      asd->addAnnouncement( AnnouncementSupportDesc::EMERGENCY_ALARM,
-                            AnnouncementSupportDesc::SERVICE_AUDIO_STREAM,
-                            0x1000, 0x1200, 0x400, 0x3 );
-      asd->addAnnouncement( AnnouncementSupportDesc::WEATHER_FLASH,
-                            AnnouncementSupportDesc::DIFFERENT_SERVICE,
-                            0x1100, 0x1300, 0x402, 0x3 );
+
+      // test adding a ref_type 0x0
+      asd->addAnnouncement(AnnouncementSupportDesc::SERVICE_AUDIO_STREAM_RT);
+
+      // test adding a ref_type with service info
+      asd->addAnnouncement(AnnouncementSupportDesc::WEATHER_FLASH_AT,
+                           AnnouncementSupportDesc::DIFFERENT_SERVICE_RT,
+                           0x1100, 0x1300, 0x402, 0x3);
 
       nit.addXportStreamDesc( *asd );
 
+      // CellFrequencyLinkDesc
       CellFrequencyLinkDesc* cfld = new CellFrequencyLinkDesc;
       cfld->addCell(10, 10000);
       cfld->addCell(10, 11000);
@@ -94,6 +98,7 @@ namespace tests
       cfld->addSubCell(11, 21, 2000);
       nit.addXportStreamDesc(*cfld);
 
+      // CellListDesc
       CellListDesc* cld = new CellListDesc;
       cld->addCell(1, 3000, 2000, 555, 65);
       cld->addSubCell(1, 20, 3000, 2000, 555, 65);

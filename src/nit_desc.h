@@ -204,7 +204,7 @@ namespace sigen {
       enum { TAG = 0x6e };
 
       // announcement support values
-      enum {
+      enum AnnouncementSupportIndicator {
          EMERGENCY_ALARM_AS        = 0x0001,
          ROAD_TRAFFIC_FLASH_AS     = 0x0002,
          PUBLIC_TRANSPORT_FLASH_AS = 0x0004,
@@ -216,31 +216,28 @@ namespace sigen {
       };
 
       // announcement types
-      enum {
-         EMERGENCY_ALARM,
-         ROAD_TRAFFIC_FLASH,
-         PUBLIC_TRANSPORT_FLASH,
-         WARNING_MESSAGE,
-         NEWS_FLASH,
-         WEATHER_FLASH,
-         EVENT_ANNOUNCEMENT,
-         PERSONAL_CALL,
+      enum AnnouncementType {
+         EMERGENCY_ALARM_AT,
+         ROAD_TRAFFIC_FLASH_AT,
+         PUBLIC_TRANSPORT_FLASH_AT,
+         WARNING_MESSAGE_AT,
+         NEWS_FLASH_AT,
+         WEATHER_FLASH_AT,
+         EVENT_ANNOUNCEMENT_AT,
+         PERSONAL_CALL_AT,
       };
 
       // reference types
-      enum {
-         SERVICE_AUDIO_STREAM,
-         SERVICE_SEPARATE_AUDIO_STREAM,
-         DIFFERENT_SERVICE,
-         DIFFERENT_SERVICE_AND_TRANSPORT_STREAM,
-
-         // internal use
-         NUM_DEFINED_REF_TYPES
+      enum ReferenceType {
+         SERVICE_AUDIO_STREAM_RT                    = 0,
+         SERVICE_SEPARATE_AUDIO_STREAM_RT           = 0x01,
+         DIFFERENT_SERVICE_RT                       = 0x02,
+         DIFFERENT_SERVICE_AND_TRANSPORT_STREAM_RT  = 0x03
       };
 
       /*!
        * \brief Constructor.
-       * \param announcement_support_ind     Announcement support indicator.
+       * \param announcement_support_ind Announcement support indicator.
        */
       AnnouncementSupportDesc(ui16 announcement_support_ind)
          : Descriptor( TAG, 2 ),
@@ -261,11 +258,11 @@ namespace sigen {
                            ui16 onid, ui16 ts_id, ui16 sid,
                            ui8 c_tag);
       /*!
-       * \brief Add an announcement to the data loop for ref types 0x04.
+       * \brief Add an announcement to the data loop for ref types 0 (SERVICE_AUDIO_STREAM).
        * \param type Announcement type.
        */
       bool addAnnouncement(ui8 type) {
-         return addAnnouncement(type, DIFFERENT_SERVICE_AND_TRANSPORT_STREAM, 0, 0, 0, 0);
+         return addAnnouncement(type, SERVICE_AUDIO_STREAM_RT, 0, 0, 0, 0);
       }
 
       virtual void buildSections(Section&) const;
@@ -297,7 +294,7 @@ namespace sigen {
                       ui16 onid, ui16 tsid, ui16 sid, ui8 c_tag) :
             type( announcement_type ),
             reference_type( ref_type ),
-            actual_serv_info((ref_type < DIFFERENT_SERVICE_AND_TRANSPORT_STREAM) ?
+            actual_serv_info(carries_service_info(ref_type) ?
                              new ActualServInfo(onid, tsid, sid, c_tag) :
                              nullptr)
          {}
@@ -305,7 +302,12 @@ namespace sigen {
          ~Announcement() { delete actual_serv_info; }
 
          ui8 length() const { return expected_length(reference_type); }
-         static ui8 expected_length(ui8 ref_type) { return (ref_type < NUM_DEFINED_REF_TYPES ? 8 : 1); }
+         static bool carries_service_info(ui8 ref_type) {
+            return (ref_type == SERVICE_SEPARATE_AUDIO_STREAM_RT ||
+                    ref_type == DIFFERENT_SERVICE_RT ||
+                    ref_type == DIFFERENT_SERVICE_AND_TRANSPORT_STREAM_RT);
+         }
+         static ui8 expected_length(ui8 ref_type) { return (carries_service_info(ref_type) ? 8 : 1); }
       };
 
       // descriptor data members

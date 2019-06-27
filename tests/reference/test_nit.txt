@@ -3,7 +3,7 @@ Table id            : 0x40
 Section syn. ind.   : 0x1
 rsvrd. future use   : 0x1
 reserved            : 0x3
-Table length        : 544 (0x220)
+Table length        : 537 (0x219)
 Network id          : 256 (0x100)
 reserved            : 0x3
 Version number      : 0x1
@@ -54,7 +54,7 @@ Network desc. len   : 360 (0x168)
 
 
 rsvrd. future use   : 0xf
-Xprt str loop len   : 175 (0xaf)
+Xprt str loop len   : 168 (0xa8)
 
  - *-- Transport Stream --* -
  Xport stream id     : 16 (0x10)
@@ -104,7 +104,7 @@ Xprt str loop len   : 175 (0xaf)
  Xport stream id     : 33 (0x21)
  Orig. network id    : 49 (0x31)
  rsvrd. future use   : 0xf
- Desc. len           : 125 (0x7d)
+ Desc. len           : 118 (0x76)
 
   - Satellite Delivery System Descriptor -
   Tag                 : 0x43
@@ -124,15 +124,11 @@ Xprt str loop len   : 175 (0xaf)
 
   - Announcement Support Descriptor -
   Tag                 : 0x6e
-  Length              : 18 (0x12)
+  Length              : 11 (0xb)
   Announc. sup. ind.  : 0x21
    Announcement type   : 0
    rsvrd. future use   : 0x1
    Ref. type           : 0
-   Orig. network id    : 4096 (0x1000)
-   Xport stream id     : 4608 (0x1200)
-   Service id          : 1024 (0x400)
-   Component tag       : 0x3
 
    Announcement type   : 0x5
    rsvrd. future use   : 0x1
@@ -219,23 +215,23 @@ Xprt str loop len   : 175 (0xaf)
 [0272] 63 63 63 63 63 63 63 42 0d 7a 7a 7a 7a 7a 7a 7a   cccccccB.zzzzzzz
 [0288] 7a 7a 7a 7a 7a 7a f0 00 b0 73 1f f4               zzzzzz...s..
 
-- sec: 1, length: 267, size (max): 300, data: 
-[0000] 40 f1 08 01 00 c3 01 01 f0 4c 42 17 7a 7a 7a 7a   @........LB.zzzz
+- sec: 1, length: 260, size (max): 300, data: 
+[0000] 40 f1 01 01 00 c3 01 01 f0 4c 42 17 7a 7a 7a 7a   @........LB.zzzz
 [0016] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
 [0032] 7a 7a 7a 5b 2d 66 72 65 06 46 72 61 6e 63 65 73   zzz[-fre.Frances
 [0048] 70 61 07 46 72 61 6e 63 69 61 65 6e 67 06 46 72   pa.Franciaeng.Fr
 [0064] 61 6e 63 65 64 65 75 0a 46 72 61 6e 6b 72 65 69   ancedeu.Frankrei
-[0080] 63 68 4c 02 40 00 f0 af 00 10 00 20 f0 00 00 11   chL.@...... ....
+[0080] 63 68 4c 02 40 00 f0 a8 00 10 00 20 f0 00 00 11   chL.@...... ....
 [0096] 00 21 f0 00 00 20 00 30 f0 1a 44 0b 00 00 03 e8   .!... .0..D.....
 [0112] ff f1 08 00 00 7d 02 5a 0b 00 00 11 11 9f cf 7c   .....}.Z.......|
-[0128] ff ff ff ff 00 21 00 31 f0 7d 43 0b 00 00 03 e8   .....!.1.}C.....
-[0144] 07 d0 c0 00 00 00 10 52 01 88 6e 12 00 21 08 10   .......R..n..!..
-[0160] 00 12 00 04 00 03 5a 11 00 13 00 04 02 03 6d 29   ......Z.......m)
-[0176] 00 0a 00 00 27 10 0a 0b 00 00 03 e8 0c 00 00 0c   ....'...........
-[0192] e4 00 0a 00 00 2a f8 05 0c 00 00 0b b8 00 0b 00   .....*..........
-[0208] 00 9c 40 05 15 00 00 07 d0 6c 2c 00 01 0b b8 07   ..@......l,.....
-[0224] d0 02 2b 00 41 14 0b b8 07 d0 22 b0 41 15 0b b9   ..+.A.....".A...
-[0240] 07 d1 22 c0 42 00 02 0f a0 0b b8 05 b3 02 8f 16   ..".B...........
-[0256] 0b ba 07 d2 22 d2 9c b3 f3 cf 9e                  ...."......
+[0128] ff ff ff ff 00 21 00 31 f0 76 43 0b 00 00 03 e8   .....!.1.vC.....
+[0144] 07 d0 c0 00 00 00 10 52 01 88 6e 0b 00 21 08 5a   .......R..n..!.Z
+[0160] 11 00 13 00 04 02 03 6d 29 00 0a 00 00 27 10 0a   .......m)....'..
+[0176] 0b 00 00 03 e8 0c 00 00 0c e4 00 0a 00 00 2a f8   ..............*.
+[0192] 05 0c 00 00 0b b8 00 0b 00 00 9c 40 05 15 00 00   ...........@....
+[0208] 07 d0 6c 2c 00 01 0b b8 07 d0 02 2b 00 41 14 0b   ..l,.......+.A..
+[0224] b8 07 d0 22 b0 41 15 0b b9 07 d1 22 c0 42 00 02   ...".A.....".B..
+[0240] 0f a0 0b b8 05 b3 02 8f 16 0b ba 07 d2 22 d2 9c   ............."..
+[0256] 9a b8 b6 09                                       ....
 
 PASS test_nit.sh (exit status: 0)
