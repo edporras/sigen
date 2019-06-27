@@ -1,5 +1,24 @@
 # Change Log
 
+## 2.7.2 - 2019-06-27
+### Changed
+* Improvements to some tests.
+* Privatized some trace functions that didn't need to be declared
+  public.
+* new rsrvdStr method for reserved bit traces.
+* Be more consistent with trace output of certain values.
+* NIT_BAT doesn't need to track XportStram loop length as it's only
+  used for trace output (real value is computed when building
+  sections).
+
+### Added
+* AdaptationFieldDataDesc support.
+
+### Fixed
+* AnnouncementSupportDesc now correctly adds extra values in loop
+  depending on ref_type.
+
+
 ## 2.7.1 - 2019-06-24
 ### Fixed
 * Stuffing table now correctly sets data length.
