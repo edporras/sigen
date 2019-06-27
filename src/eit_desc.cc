@@ -23,6 +23,7 @@
 #include <utility>
 #include <list>
 #include <string>
+#include <numeric>
 #include "descriptor.h"
 #include "eit_desc.h"
 #include "tstream.h"
@@ -154,12 +155,8 @@ namespace sigen
    // computes the total size of the items in the list
    ui8 ExtendedEventDesc::itemListSize() const
    {
-      ui8 size = 0;
-
-      for (const auto& i : item_list) 
-         size += i->length();
-
-      return size;
+      return std::accumulate(item_list.begin(), item_list.end(), 0,
+                             [](int sum, const auto& i) { return sum += i->length(); });
    }
 
 
