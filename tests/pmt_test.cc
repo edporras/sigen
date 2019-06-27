@@ -1,4 +1,3 @@
-#include <cassert>
 #include "../src/sigen.h"
 #include "dvb_builder.h"
 
@@ -108,7 +107,7 @@ namespace tests
          // throws because SSULinkageDesc should be used instead
          LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, LinkageDesc::SSUS );
          // so this should not happen
-         assert(true);
+         return 1;
       } catch (std::domain_error& e) {}
 
       SSULinkageDesc* ssuld = new SSULinkageDesc(0x1000, 0x2000, 0x101);
@@ -120,7 +119,7 @@ namespace tests
          // throws because SSUScanLinkageDesc should be used instead
          LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, LinkageDesc::TS_SSU_BAT_OR_NIT);
          // so this should not happen
-         assert(true);
+         return 1;
       } catch (std::domain_error& e) {}
 
       // SSUScanLinkageDesc

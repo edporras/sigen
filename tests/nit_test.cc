@@ -1,5 +1,3 @@
-#include <cassert>
-
 #include "../src/sigen.h"
 #include "dvb_builder.h"
 
@@ -25,7 +23,8 @@ namespace tests
       NetworkNameDesc *nnd2 = new NetworkNameDesc(std::string(259, 'c'));
 
       // TEST: data was 259 - descriptor should truncate to 253
-      assert(nnd2->length() == 257);
+      if (nnd2->length() != 257)
+         return 1;
 
       nit.addNetworkDesc( *nnd2 );
 
@@ -37,7 +36,9 @@ namespace tests
       // second constructor
       std::string data("zzzzzzzzzzzzzzzzzzzzzzz");
       StuffingDesc *stuff2 = new StuffingDesc(data);
-      assert(stuff2->length() == (data.length() + 2));
+
+      if (stuff2->length() != (data.length() + 2))
+         return 1;
 
       nit.addNetworkDesc(*stuff2);
 
