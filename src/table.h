@@ -106,9 +106,11 @@ namespace sigen {
       virtual void buildSections(TStream& stream) const = 0;
 
    protected:
-      enum { LEN_MASK = 0x0fff,
-             MAX_TABLE_LEN = 65536 }; // max size for storage of total table data
-                                      // (pre section split)
+      enum {
+         LEN_MASK = 0x0fff,
+         // TODO: technically should be 256 * max_section_length
+         MAX_TABLE_LEN = 65536 // max size for storage of total table data (pre section split)
+      };
 
       // protected constructors for derived classes
       STable(ui8 tid, ui8 min_len, ui16 max_len, bool ssi = false, bool data_bit = true) :
@@ -125,9 +127,6 @@ namespace sigen {
       // auto-delete when table goes out of scope.
       class DescList
       {
-         ui16 d_length = 0;
-         std::list<std::unique_ptr<Descriptor> > d_list;
-
       public:
          void add(Descriptor& d, ui16 data_len);
          const std::list<std::unique_ptr<Descriptor> >& list() const { return d_list; }
@@ -144,6 +143,10 @@ namespace sigen {
          // as buildSections, only dumps data loop
          void dump(std::ostream &) const;
 #endif
+
+      private:
+         ui16 d_length = 0;
+         std::list<std::unique_ptr<Descriptor> > d_list;
       };
 
       // used by the derived tables to check for available space for data
