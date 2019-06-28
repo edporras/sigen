@@ -414,7 +414,10 @@ namespace sigen
 
       s.set32Bits( ctr_frequency );
       s.set08Bits( (bandwidth << 5) |
-                   rbits(0x1f) );
+                   (priority << 4) |
+                   (time_slicing_indicator << 3) |
+                   (MPE_FEC_indicator << 2) |
+                   rbits(0x3) );
       s.set08Bits( (constellation << 6) |
                    (hierarchy_info << 3) |
                    cr_HP_stream );
@@ -435,7 +438,10 @@ namespace sigen
       identStr(o, FREQ_S, ctr_frequency);
 
       identStr(o, BANDWIDTH_S, bandwidth);
-      rsrvdStr(o, RESERVED_FU_S, 0x1f);
+      identStr(o, PRIORITY_S, priority);
+      identStr(o, TIME_SLICE_IND_S, time_slicing_indicator);
+      identStr(o, MPE_FEC_IND_S, MPE_FEC_indicator);
+      rsrvdStr(o, RESERVED_FU_S, 0x3);
       identStr(o, CONSTELLATION_S, constellation);
       identStr(o, H_INFO_S, hierarchy_info);
       identStr(o, CR_HP_STREAM_S, cr_HP_stream);

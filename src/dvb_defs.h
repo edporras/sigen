@@ -169,10 +169,86 @@ namespace sigen {
          };
       }
 
-      // TODO: add
-      namespace Terrestrial
+      namespace Terr
       {
-
+         /*!
+          *  \enum  Bandwidth_t
+          *
+          *  \brief Terrestrial signalling format for bandwidth.
+          */
+         enum Bandwidth_t {
+            BW_8_MHZ,                         //!< 8 MHz
+            BW_7_MHZ,                         //!< 7 MHz
+            BW_6_MHZ,                         //!< 6 MHz
+            BW_5_MHZ,                         //!< 5 MHz
+         };
+         /*!
+          *  \enum  Priority_t
+          *
+          *  \brief Terrestrial signalling format for priority.
+          */
+         enum Priority_t {
+            PRI_HIGH,                         //!< High priority.
+            PRI_LOW,                          //!< Low priority.
+         };
+         /*!
+          *  \enum  Constellation_t
+          *
+          *  \brief Terrestrial signalling format for constellation patterns.
+          */
+         enum Constellation_t {
+            CONS_QPSK,                        //!< QPSK.
+            CONS_QAM_16,                      //!< 16-QAM.
+            CONS_QAM_64,                      //!< 64-QAM.
+         };
+         /*!
+          *  \enum  HierarchyInfo_t
+          *
+          *  \brief Terrestrial signalling format for α and interleaver.
+          */
+         enum HierarchyInfo_t {
+            HI_NATIVE,                        //!< Non-hierarchical, native interleaver.
+            HI_1_NATIVE,                      //!< α = 1, native interleaver.
+            HI_2_NATIVE,                      //!< α = 2, native interleaver.
+            HI_4_NATIVE,                      //!< α = 4, native interleaver.
+            HI_IN_DEPTH,                      //!< Non-hierarchical, in-depth interleaver.
+            HI_1_IN_DEPTH,                    //!< α = 1, in-depth interleaver.
+            HI_2_IN_DEPTH,                    //!< α = 2, in-depth interleaver.
+            HI_4_IN_DEPTH,                    //!< α = 4, in-depth interleaver.
+         };
+         /*!
+          *  \enum  CodeRate_t
+          *
+          *  \brief Terrestrial signalling format for code rates.
+          */
+         enum CodeRate_t {
+            CR_1_2,                           //!< 1/2.
+            CR_2_3,                           //!< 2/3.
+            CR_3_4,                           //!< 3/4.
+            CR_5_6,                           //!< 5/6.
+            CR_7_8,                           //!< 7/8.
+         };
+         /*!
+          *  \enum  GuardInterval_t
+          *
+          *  \brief Terrestrial signalling format for guard interval.
+          */
+         enum GuardInterval_t {
+            GI_1_32,                          //!< 1/32.
+            GI_1_16,                          //!< 1/16.
+            GI_1_8,                           //!< 1/8.
+            GI_1_4,                           //!< 1/4.
+         };
+         /*!
+          *  \enum TransmissionMode_t
+          *
+          *  \brief Terrestrial signalling format for transmission mode.
+          */
+         enum TransmissionMode_t {
+            TM_2K,                            //!< 2k mode.
+            TM_8K,                            //!< 8k mode.
+            TM_4K,                            //!< 4k mode.
+         };
       }
    }
 }

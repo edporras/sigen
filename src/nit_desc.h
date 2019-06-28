@@ -169,30 +169,55 @@ namespace sigen {
       enum { TAG = 0x5a };
 
       /*!
-       * \brief Constructor
+       * \brief Constructor for legacy descriptor without new fields.
        * \param cfreq Center frequency.
-       * \param bandw Bandwidth.
-       * \param constel Constellation pattern.
-       * \param hier_i Hierarchy information specifying the α value.
-       * \param cr_HP Code Rate HP stream.
-       * \param cr_LP Code Rate LP stream.
-       * \param guard_i Guard interval.
-       * \param trans_m Transmission mode.
+       * \param bandw Bandwidth, as per Dvb::Terr::Bandwidth_t.
+       * \param constel Constellation pattern, as per Dvb::Terr::Constellation_t.
+       * \param hier_i Hierarchy information specifying the α value, as per Dvb::Terr::HierarchyInfo_t.
+       * \param cr_HP Code Rate HP stream, as per Dvb::Terr::CodeRate_t.
+       * \param cr_LP Code Rate LP stream, as per Dvb::Terr::CodeRate_t.
+       * \param guard_i Guard interval, as per Dvb::Terr::GuardInterval_t.
+       * \param trans_m Transmission mode, as per Dvb::Terr::TransmissionMode_t.
        * \param other_f_f `false`: no other freq. in use. `true`: One or more other freqs. in use.
        */
       TerrestrialDeliverySystemDesc(ui32 cfreq, ui8 bandw, ui8 constel,
                                     ui8 hier_i, ui8 cr_HP, ui8 cr_LP,
                                     ui8 guard_i, ui8 trans_m, bool other_f_f)
+         : TerrestrialDeliverySystemDesc(cfreq, bandw, constel, hier_i, cr_HP, cr_LP, guard_i, trans_m, other_f_f,
+                                         1, true, true)
+      { }
+      /*!
+       * \brief Constructor for descrtipro with Priority, Time Slicing + MPE-FEC Indicator fields.
+       * \param cfreq Center frequency.
+       * \param bandw Bandwidth, as per Dvb::Terr::Bandwidth_t.
+       * \param constel Constellation pattern, as per Dvb::Terr::Constellation_t.
+       * \param hier_i Hierarchy information specifying the α value, as per Dvb::Terr::HierarchyInfo_t.
+       * \param cr_HP Code Rate HP stream, as per Dvb::Terr::CodeRate_t.
+       * \param cr_LP Code Rate LP stream, as per Dvb::Terr::CodeRate_t.
+       * \param guard_i Guard interval, as per Dvb::Terr::GuardInterval_t.
+       * \param trans_m Transmission mode, as per Dvb::Terr::TransmissionMode_t.
+       * \param other_f_f `false`: no other freq. in use. `true`: One or more other freqs. in use.
+       * \param pri Hierarchical prioriy of the stream, as per Dvb::Terr::Priority_t.
+       * \param t_s_i Time Slicing Indicator. `true`: time slicing not used; `false`: otherwise. (really? Seems opposite).
+       * \param mpe_fec_i MPE-FEC Indicator. `true`: MPE-FEC not used; `false`: otherwise.
+       */
+      TerrestrialDeliverySystemDesc(ui32 cfreq, ui8 bandw, ui8 constel,
+                                    ui8 hier_i, ui8 cr_HP, ui8 cr_LP,
+                                    ui8 guard_i, ui8 trans_m, bool other_f_f,
+                                    ui8 pri, bool t_s_i, bool mpe_fec_i)
          : Descriptor(TAG, 11),
-         ctr_frequency(cfreq),
-         bandwidth(bandw),
-         constellation(constel),
-         hierarchy_info(hier_i),
-         cr_HP_stream(cr_HP),
-         cr_LP_stream(cr_LP),
-         guard_interval(guard_i),
-         transmission_mode(trans_m),
-         other_freq_flag(other_f_f)
+           ctr_frequency(cfreq),
+           bandwidth(bandw),
+           constellation(constel),
+           hierarchy_info(hier_i),
+           cr_HP_stream(cr_HP),
+           cr_LP_stream(cr_LP),
+           guard_interval(guard_i),
+           transmission_mode(trans_m),
+           priority(pri),
+           other_freq_flag(other_f_f),
+           time_slicing_indicator(t_s_i),
+           MPE_FEC_indicator(mpe_fec_i)
       { }
 
       virtual void buildSections(Section&) const;
@@ -209,8 +234,12 @@ namespace sigen {
            cr_HP_stream : 3,
            cr_LP_stream : 3,
            guard_interval : 2,
-           transmission_mode : 2;
-      bool other_freq_flag;
+           transmission_mode : 2,
+           priority : 1; // new field
+      bool other_freq_flag,
+           // new fields
+           time_slicing_indicator,
+           MPE_FEC_indicator;
    };
    //! @}
 

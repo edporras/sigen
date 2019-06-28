@@ -121,10 +121,30 @@ namespace tests
       auto ccd = new CableDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
       nit.addXportStreamDesc( tsid, onid, *ccd );
 
-      auto tdsd = new TerrestrialDeliverySystemDesc(0x1111, 0x44, 0xff,
-                                                    0x11, 0xff, 0x33,
-                                                    0xff, 0x22, false);
+      // TerrestrialDeliverySystemDesc - legacy constructor
+      auto tdsd = new TerrestrialDeliverySystemDesc(0x88888888,
+                                                    Dvb::Terr::BW_5_MHZ,
+                                                    Dvb::Terr::CONS_QAM_64,
+                                                    Dvb::Terr::HI_1_NATIVE,
+                                                    Dvb::Terr::CR_2_3, Dvb::Terr::CR_5_6,
+                                                    Dvb::Terr::GI_1_4,
+                                                    Dvb::Terr::TM_4K,
+                                                    false);
       nit.addXportStreamDesc( tsid, onid, *tdsd );
+
+      // TerrestrialDeliverySystemDesc - new constructor
+      auto tdsd2 = new TerrestrialDeliverySystemDesc(0x55555555,
+                                                     Dvb::Terr::BW_6_MHZ,
+                                                     Dvb::Terr::CONS_QAM_16,
+                                                     Dvb::Terr::HI_4_IN_DEPTH,
+                                                     Dvb::Terr::CR_2_3, Dvb::Terr::CR_7_8,
+                                                     Dvb::Terr::GI_1_16,
+                                                     Dvb::Terr::TM_8K,
+                                                     true,
+                                                     Dvb::Terr::PRI_HIGH,
+                                                     false,
+                                                     false);
+      nit.addXportStreamDesc( tsid, onid, *tdsd2 );
 
       DUMP(nit);
       nit.buildSections(t);

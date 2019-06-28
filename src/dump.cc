@@ -160,6 +160,7 @@ namespace sigen
          "Mix-info exists flag",      // MIXINFO_EXISTS_FLAG_S
          "Modulation",                // MOD_S
          "Modulation system",         // MOD_SYS_S
+         "MPE-FEC ind.",              // MPE_FEC_IND_S
          "MPEG1 only flag",           // MPEG_1_ONLY_FLAG_S
          "Mplex delay var",           // MPLEX_DELAY_VAR_S
          "Mplex strategy",            // MPLEX_STRATEGY_S
@@ -186,6 +187,7 @@ namespace sigen
          "Pel aspect ratio",          // PEL_ASPECT_R_S
          "Pid",                       // PID_S
          "Polarisation",              // POL_S
+         "Priority",                  // PRIORITY_S
          "Prof/level ind.",           // PROF_LVL_IND_S
          "Programme idnt. lbl",       // PROG_IDENT_LABEL_S
          "Program info len",          // PROGRAM_INFO_LEN_S
@@ -235,6 +237,7 @@ namespace sigen
          "Table type",                // TABLE_TYPE_S
          "Text",                      // TEXT_S
          "Text len",                  // TEXT_LEN_S
+         "Time slicing ind.",         // TIME_SLICE_INDIC_S
          "Transmission mode",         // TRANS_MODE_S
          "Type",                      // TYPE_S
          "Update type",               // UPDATE_TYPE_S

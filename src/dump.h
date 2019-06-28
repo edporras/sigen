@@ -161,6 +161,7 @@ namespace sigen {
       MIXINFO_EXISTS_FLAG_S, // Mixinfo exists flag
       MOD_S,              // Modulation
       MOD_SYS_S,          // Modulation system
+      MPE_FEC_IND_S,      // MPE-FEC ind.
       MPEG_1_ONLY_FLAG_S, // MPEG 1 only flag
       MPLEX_DELAY_VAR_S,  // Mplex delay var
       MPLEX_STRATEGY_S,   // Mplex strategy
@@ -187,6 +188,7 @@ namespace sigen {
       PEL_ASPECT_R_S,     // Pel aspect ratio
       PID_S,              // Pid
       POL_S,              // Polarisation
+      PRIORITY_S,         // Priority
       PROF_LVL_IND_S,     // Prof/level ind.
       PROG_IDENT_LABEL_S, // Programme idnt. lbl
       PROGRAM_INFO_LEN_S, // Program info len
@@ -236,6 +238,7 @@ namespace sigen {
       TABLE_TYPE_S,       // Table type
       TEXT_S,             // Text
       TEXT_LEN_S,         // Text len
+      TIME_SLICE_IND_S,   // Time slicing ind.
       TRANS_MODE_S,       // Transmission mode
       TYPE_S,             // Type
       UPDATE_TYPE_S,      // Update type
