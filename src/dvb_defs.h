@@ -36,8 +36,7 @@ namespace sigen {
        *  \brief Inner FEC Scheme.
        */
       enum FecInner_t {
-         UNDEF_FECI,                         //!< Undefined.
-         CR_1_2_FECI,                        //!< 1/2 conv. CR
+         CR_1_2_FECI = 1,                    //!< 1/2 conv. CR
          CR_2_3_FECI,                        //!< 2/3 conv. CR
          CR_3_4_FECI,                        //!< 3/4 conv. CR
          CR_5_6_FECI,                        //!< 5/6 conv. CR
@@ -55,7 +54,6 @@ namespace sigen {
        *  \brief Running Status of a service or event.
        */
       enum RunningStatus_t {
-         UNDEF_RS        = 0x0,  //!< undefined.
          NOT_RUNNING_RS  = 0x01, //!< not running.
          FEW_SEC_RS      = 0x02, //!< starts in a few seconds (e.g., for video recording)
          PAUSING_RS      = 0x03, //!< pausing.
@@ -69,7 +67,6 @@ namespace sigen {
        *  \brief Code describing a DVB service type.
        */
       enum ServiceType_t {
-         RESERVED_ST            = 0x00, //!< Reserved, future use.
          DIGITAL_TV_ST          = 0x01, //!< Digital television.
          DIGITAL_RADIO_ST       = 0x02, //!< Digital radio sound.
          TELETEXT_ST            = 0x03, //!< Teletext.
@@ -118,9 +115,9 @@ namespace sigen {
           *  \brief Satellite rolloff factor.
           */
          enum RolloffFactor_t {
-            A_035_ROF,                       //!< α = 0.35
-            A_025_ROF,                       //!< α = 0.25
-            A_020_ROF,                       //!< α = 0.20
+            ROF_035,                         //!< α = 0.35
+            ROF_025,                         //!< α = 0.25
+            ROF_020,                         //!< α = 0.20
          };
          /*!
           *  \enum  ModSys_t
@@ -128,8 +125,8 @@ namespace sigen {
           *  \brief Satellite modulation system.
           */
          enum ModSys_t {
-            DVB_S_MS,                        //!< DVB-S.
-            DVB_S2_MS,                       //!< DVB-S2.
+            MODSYS_DVB_S,                    //!< DVB-S.
+            MODSYS_DVB_S2,                   //!< DVB-S2.
          };
          /*!
           *  \enum  Mod_t
@@ -137,10 +134,10 @@ namespace sigen {
           *  \brief Satellite modulation scheme values.
           */
          enum Mod_t {
-            AUTO_MOD,                        //!< Auto.
-            QPSK_MOD,                        //!< QPSK.
-            EIGHT_PSK_MOD,                   //!< 8PSK.
-            SIXTEEN_QAM_MOD,                 //!< 16-QAM.
+            MOD_AUTO,                        //!< Auto.
+            MOD_QPSK,                        //!< QPSK.
+            MOD_8PSK,                        //!< 8PSK.
+            MOD_QAM_16,                      //!< 16-QAM.
          };
       }
 
@@ -155,8 +152,7 @@ namespace sigen {
           *  \brief Cable Forward Error Correction scheme.
           */
          enum FecOuter_t {
-            UNDEF_FECO,                      //!< Undefined.
-            NO_FECO,                         //!< No coding.
+            NO_FECO  = 1,                    //!< No coding.
             RS_FECO,                         //!< RS(204/188).
          };
          /*!
@@ -165,12 +161,11 @@ namespace sigen {
           *  \brief Cable modulation scheme values.
           */
          enum Mod_t {
-            UNDEF_MOD,                        //!< Undefined.
-            QAM_16,                           //!< 16-QAM.
-            QAM_32,                           //!< 32-QAM.
-            QAM_64,                           //!< 64-QAM.
-            QAM_128,                          //!< 128-QAM.
-            QAM_256,                          //!< 256-QAM.
+            MOD_QAM_16   = 1,                 //!< 16-QAM.
+            MOD_QAM_32,                       //!< 32-QAM.
+            MOD_QAM_64,                       //!< 64-QAM.
+            MOD_QAM_128,                      //!< 128-QAM.
+            MOD_QAM_256,                      //!< 256-QAM.
          };
       }
 

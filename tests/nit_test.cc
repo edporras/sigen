@@ -62,14 +62,14 @@ namespace tests
 
       // SatelliteDeliverySystemDesc for DVB-S systems
       auto sdsd = new SatelliteDeliverySystemDesc(0x44444444, 0x3333, 0x1111111, false,
-                                                  Dvb::Sat::LINEAR_VER_POL, Dvb::Sat::EIGHT_PSK_MOD,
+                                                  Dvb::Sat::LINEAR_VER_POL, Dvb::Sat::MOD_8PSK,
                                                   Dvb::CR_5_6_FECI);
       nit.addXportStreamDesc( *sdsd );
 
       // SatelliteDeliverySystemDesc for DVB-S2 systems.
       auto sdsd2 = new SatelliteDeliverySystemDesc(0x44444444, 0x3333, 0x1111111, true,
-                                                   Dvb::Sat::CIRCULAR_RIGHT_POL, Dvb::Sat::QPSK_MOD,
-                                                   Dvb::CR_9_10_FECI, Dvb::Sat::A_020_ROF);
+                                                   Dvb::Sat::CIRCULAR_RIGHT_POL, Dvb::Sat::MOD_QPSK,
+                                                   Dvb::CR_9_10_FECI, Dvb::Sat::ROF_020);
       nit.addXportStreamDesc( *sdsd2 );
 
       // StreamIdentifierDesc

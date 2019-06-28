@@ -62,10 +62,7 @@ namespace sigen {
        * \param mod Modulation scheme, as per sigen::Dvb::Cable::Mod_t.
        * \param fec_i Inner Foward Error Correction scheme, as per sigen::Dvb::FecInner_t.
        */
-      CableDeliverySystemDesc(ui32 freq, ui32 sym_rate,
-                              ui8 fec_o = Dvb::Cable::UNDEF_FECO,
-                              ui8 mod = Dvb::Cable::UNDEF_MOD,
-                              ui8 fec_i = Dvb::UNDEF_FECI)
+      CableDeliverySystemDesc(ui32 freq, ui32 sym_rate, ui8 fec_o, ui8 mod, ui8 fec_i)
          : DeliveryDesc(TAG, 11),
          frequency(freq),
          symbol_rate(sym_rate),
@@ -109,7 +106,7 @@ namespace sigen {
        */
       SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef,
                                   ui8 pol, ui8 mod_type, ui8 fec_i)
-         : SatelliteDeliverySystemDesc(freq, orb_pos, sym_rate, wef, pol, Dvb::Sat::DVB_S_MS,
+         : SatelliteDeliverySystemDesc(freq, orb_pos, sym_rate, wef, pol, Dvb::Sat::MODSYS_DVB_S,
                                        mod_type, 0, fec_i)
       { }
       /*!
@@ -125,7 +122,7 @@ namespace sigen {
        */
       SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef,
                                   ui8 pol, ui8 mod_type, ui8 fec_i, ui8 rof)
-         : SatelliteDeliverySystemDesc(freq, orb_pos, sym_rate, wef, pol, Dvb::Sat::DVB_S2_MS,
+         : SatelliteDeliverySystemDesc(freq, orb_pos, sym_rate, wef, pol, Dvb::Sat::MODSYS_DVB_S2,
                                        mod_type, rof, fec_i)
       { }
 
