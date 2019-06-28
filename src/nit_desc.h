@@ -90,7 +90,7 @@ namespace sigen {
 
 
    /*!
-    * \brief Satellite Delivery System Descriptor.
+    * \brief Satellite Delivery System Descriptor, as per ETSI EN 300 468 1.15.1 (2016-03).
     */
    class SatelliteDeliverySystemDesc : public DeliveryDesc
    {
@@ -98,27 +98,35 @@ namespace sigen {
       enum { TAG = 0x43 };
 
       /*!
-       * \brief Constructor
+       * \brief Constructor for DVB-S modulation systems.
        * \param freq BCD frequency.
        * \param orb_pos BCD orbital position.
        * \param sym_rate Symbol rate in Msymbol/s.
        * \param wef West-East flag. `false`: western position, `true`: eastern position.
        * \param pol Polarization of the transmitted signal, as per sigen::Dvb::Sat::Pol_t.
-       * \param mod Modulation scheme, as per sigen::Dvb::Sat::Mod_t.
+       * \param mod_type Modulation type, as per sigen::Dvb::Sat::Mod_t.
        * \param fec_i Inner Foward Error Correction scheme, as per sigen::Dvb::FecInner_t.
        */
-      SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef = false,
-                                  ui8 pol = Dvb::Sat::LINEAR_HOR_POL,
-                                  ui8 mod = Dvb::Sat::AUTO_MOD,
-                                  ui8 fec_i = Dvb::UNDEF_FECI)
-         : DeliveryDesc(TAG, 11),
-         frequency(freq),
-         symbol_rate(sym_rate),
-         orbital_position(orb_pos),
-         modulation(mod),
-         polarisation(pol),
-         fec_inner(fec_i),
-         west_east(wef)
+      SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef,
+                                  ui8 pol, ui8 mod_type, ui8 fec_i)
+         : SatelliteDeliverySystemDesc(freq, orb_pos, sym_rate, wef, pol, Dvb::Sat::DVB_S_MS,
+                                       mod_type, 0, fec_i)
+      { }
+      /*!
+       * \brief Constructor for DVB-S2 modulation systems.
+       * \param freq BCD frequency.
+       * \param orb_pos BCD orbital position.
+       * \param sym_rate Symbol rate in Msymbol/s.
+       * \param wef West-East flag. `false`: western position, `true`: eastern position.
+       * \param pol Polarization of the transmitted signal, as per sigen::Dvb::Sat::Pol_t.
+       * \param mod_type Modulation type, as per sigen::Dvb::Sat::Mod_t.
+       * \param fec_i Inner Foward Error Correction scheme, as per sigen::Dvb::FecInner_t.
+       * \param rof Roll-off factor, as per sigen::Dvb::Sat::RolloffFactor_t.
+       */
+      SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef,
+                                  ui8 pol, ui8 mod_type, ui8 fec_i, ui8 rof)
+         : SatelliteDeliverySystemDesc(freq, orb_pos, sym_rate, wef, pol, Dvb::Sat::DVB_S2_MS,
+                                       mod_type, rof, fec_i)
       { }
 
       virtual void buildSections(Section&) const;
@@ -131,10 +139,27 @@ namespace sigen {
       ui32 frequency;
       ui32 symbol_rate : 28;
       ui16 orbital_position;
-      ui8  modulation : 5,
-           polarisation : 2,
+      ui8  modulation_system : 1,
+           modulation_type : 2,
+           roll_off : 2;
+      ui8  polarisation : 2,
            fec_inner : 4;
       bool west_east;
+
+      SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef,
+                                  ui8 pol, ui8 mod_sys, ui8 mod_type, ui8 ro, ui8 fec_i)
+         : DeliveryDesc(TAG, 11),
+           frequency(freq),
+           symbol_rate(sym_rate),
+           orbital_position(orb_pos),
+           modulation_system(mod_sys),
+           modulation_type(mod_type),
+           roll_off(ro),
+           polarisation(pol),
+           fec_inner(fec_i),
+           west_east(wef)
+      { }
+
    };
 
 

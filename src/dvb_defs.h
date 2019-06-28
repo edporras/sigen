@@ -113,6 +113,25 @@ namespace sigen {
             CIRCULAR_RIGHT_POL,              //!< Circular-right.
          };
          /*!
+          *  \enum  RolloffFactor_t
+          *
+          *  \brief Satellite rolloff factor.
+          */
+         enum RolloffFactor_t {
+            A_035_ROF,                       //!< α = 0.35
+            A_025_ROF,                       //!< α = 0.25
+            A_020_ROF,                       //!< α = 0.20
+         };
+         /*!
+          *  \enum  ModSys_t
+          *
+          *  \brief Satellite modulation system.
+          */
+         enum ModSys_t {
+            DVB_S_MS,                        //!< DVB-S.
+            DVB_S2_MS,                       //!< DVB-S2.
+         };
+         /*!
           *  \enum  Mod_t
           *
           *  \brief Satellite modulation scheme values.

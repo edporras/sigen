@@ -160,6 +160,7 @@ namespace sigen {
       MIN_OS_RATE_S,      // Min over. smth. rate
       MIXINFO_EXISTS_FLAG_S, // Mixinfo exists flag
       MOD_S,              // Modulation
+      MOD_SYS_S,          // Modulation system
       MPEG_1_ONLY_FLAG_S, // MPEG 1 only flag
       MPLEX_DELAY_VAR_S,  // Mplex delay var
       MPLEX_STRATEGY_S,   // Mplex strategy
@@ -200,6 +201,7 @@ namespace sigen {
       REF_TYPE_S,         // Ref. type
       RESERVED_S,         // reserved
       RESERVED_FU_S,      // rsvrd. future use
+      ROLLOFF_S,          // Rolloff
       RUNNING_STATUS_S,   // Running status
       SB_LEAK_RATE_S,     // SB leak rate
       SB_SIZE_S,          // SB size

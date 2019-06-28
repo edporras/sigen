@@ -374,7 +374,11 @@ namespace sigen
 
       s.set32Bits( frequency );
       s.set16Bits( orbital_position );
-      s.set08Bits( (west_east << 7) | (polarisation << 5) | modulation );
+      s.set08Bits( (west_east << 7) |
+                   (polarisation << 5) |
+                   (roll_off << 3) |
+                   (modulation_system << 2) |
+                   (modulation_type) );
       s.set32Bits( (symbol_rate << 4) | fec_inner );
    }
 
@@ -388,7 +392,9 @@ namespace sigen
       identStr(o, ORB_POS_S, orbital_position);
       identStr(o, WEST_EAST_S, west_east);
       identStr(o, POL_S, polarisation);
-      identStr(o, MOD_S, modulation);
+      identStr(o, ROLLOFF_S, roll_off);
+      identStr(o, MOD_SYS_S, modulation_system);
+      identStr(o, MOD_S, modulation_type);
       identStr(o, SYM_RATE_S, symbol_rate);
       identStr(o, FEC_I_S, fec_inner);
    }

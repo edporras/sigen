@@ -60,10 +60,17 @@ namespace tests
 
       // and descriptors to the last TS added (0x21, 0x31)
 
-      // SatelliteDeliverySystemDesc
-      SatelliteDeliverySystemDesc *sdsd = new SatelliteDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
-
+      // SatelliteDeliverySystemDesc for DVB-S systems
+      auto sdsd = new SatelliteDeliverySystemDesc(0x44444444, 0x3333, 0x1111111, false,
+                                                  Dvb::Sat::LINEAR_VER_POL, Dvb::Sat::EIGHT_PSK_MOD,
+                                                  Dvb::CR_5_6_FECI);
       nit.addXportStreamDesc( *sdsd );
+
+      // SatelliteDeliverySystemDesc for DVB-S2 systems.
+      auto sdsd2 = new SatelliteDeliverySystemDesc(0x44444444, 0x3333, 0x1111111, true,
+                                                   Dvb::Sat::CIRCULAR_RIGHT_POL, Dvb::Sat::QPSK_MOD,
+                                                   Dvb::CR_9_10_FECI, Dvb::Sat::A_020_ROF);
+      nit.addXportStreamDesc( *sdsd2 );
 
       // StreamIdentifierDesc
       StreamIdentifierDesc *sid = new StreamIdentifierDesc(0x88);
@@ -74,9 +81,8 @@ namespace tests
       nit.addNetworkDesc( *tssd );
 
       // AnnouncementSupportDesc
-      AnnouncementSupportDesc *asd;
-      asd = new AnnouncementSupportDesc(AnnouncementSupportDesc::EMERGENCY_ALARM_AS |
-                                        AnnouncementSupportDesc::WEATHER_FLASH_AS);
+      auto asd = new AnnouncementSupportDesc(AnnouncementSupportDesc::EMERGENCY_ALARM_AS |
+                                             AnnouncementSupportDesc::WEATHER_FLASH_AS);
 
       // test adding a ref_type 0x0
       asd->addAnnouncement(AnnouncementSupportDesc::SERVICE_AUDIO_STREAM_RT);
@@ -111,16 +117,13 @@ namespace tests
       // add descriptors to a TS by id
       ui16 tsid = 0x20;
       ui16 onid = 0x30;
-      CableDeliverySystemDesc *ccd;
-      ccd = new CableDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
 
+      auto ccd = new CableDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
       nit.addXportStreamDesc( tsid, onid, *ccd );
 
-      TerrestrialDeliverySystemDesc *tdsd;
-      tdsd = new TerrestrialDeliverySystemDesc( 0x1111, 0x44, 0xff,
-                                                0x11, 0xff, 0x33,
-                                                0xff, 0x22, false);
-
+      auto tdsd = new TerrestrialDeliverySystemDesc(0x1111, 0x44, 0xff,
+                                                    0x11, 0xff, 0x33,
+                                                    0xff, 0x22, false);
       nit.addXportStreamDesc( tsid, onid, *tdsd );
 
       DUMP(nit);
