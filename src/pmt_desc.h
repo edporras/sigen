@@ -53,7 +53,7 @@ namespace sigen {
 
       /*!
        * \brief Constructor.
-       * \param identifier Adaptation field data identifier, as per AdaptationFieldDataDec::AdaptationField.
+       * \param identifier Adaptation field data identifier, as per AdaptationField.
        */
       AdaptationFieldDataDesc(ui8 identifier) : PrimitiveDatatypeDesc<ui8>(TAG, identifier) {}
 
@@ -213,10 +213,6 @@ namespace sigen {
 #endif
    };
 
-
-   /*!
-    * \brief Data Broadcast Id Descriptor.
-    */
    class _DataBroadcastIdDesc : public Descriptor
    {
    public:
