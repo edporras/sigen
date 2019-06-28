@@ -111,7 +111,7 @@ namespace sigen
          identStr( o, AC3Desc_flag_strid[i], fields[i].on);
 
       if (tag == AC3Desc::TAG)
-         rsrvdStr(o, RESERVED_S, 0x0f);
+         identStr(o, RESERVED_S, 0x0f);
 
       for (ui32 i = 0; i < fields.size(); i++)
          if (fields[i].on && i != MIXINFO_EXISTS)
@@ -135,7 +135,7 @@ namespace sigen
    void _DataBroadcastIdDesc::dump(std::ostream& o) const
    {
       dumpHeader(o, DATA_BCAST_ID_D_S);
-      identStr(o, DATA_BCAST_ID_S, data_broadcast_id, true);
+      identStr(o, DATA_BCAST_ID_S, data_broadcast_id);
    }
 #endif
 
@@ -188,9 +188,9 @@ namespace sigen
    {
       dumpHeader(o, SERV_MOVE_D_S);
 
-      identStr(o, ORIG_NETWORK_ID_S, original_network_id, true);
-      identStr(o, XPORT_STREAM_ID_S, xport_stream_id, true);
-      identStr(o, NEW_SERV_ID_S, new_service_id, true);
+      identStr(o, ORIG_NETWORK_ID_S, original_network_id);
+      identStr(o, XPORT_STREAM_ID_S, xport_stream_id);
+      identStr(o, NEW_SERV_ID_S, new_service_id);
    }
 #endif
 
@@ -257,7 +257,7 @@ namespace sigen
 
    //
    // add a teletext element
-   bool TeletextDesc::addTeletext(const std::string &lang_code, ui8 type, ui8 mag_num,
+   bool TeletextDesc::addTeletext(const std::string& lang_code, ui8 type, ui8 mag_num,
                                   ui8 page_num)
    {
       // see if we can fit it

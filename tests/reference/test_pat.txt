@@ -1,13 +1,13 @@
 - - PAT Dump - -
 Table id            : 0
-Section syn. ind.   : 0x1
+Section syn. ind.   : 1
 rsvrd. future use   : 0
 reserved            : 0x3
 Table length        : 49 (0x31)
 Xport stream id     : 16 (0x10)
 reserved            : 0x3
-Version number      : 0x1
-Current next ind.   : 0x1
+Version number      : 1
+Current next ind.   : 1
 
  Program number      : 0 (0)
  reserved            : 0x7

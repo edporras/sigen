@@ -1,22 +1,22 @@
 - - SDT Dump (Actual) - -
 Table id            : 0x42
-Section syn. ind.   : 0x1
+Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
 Table length        : 1069 (0x42d)
-Xport stream id     : 0x20
+Xport stream id     : 32 (0x20)
 reserved            : 0x3
-Version number      : 0x5
-Current next ind.   : 0x1
+Version number      : 5
+Current next ind.   : 1
 Orig. network id    : 48 (0x30)
 rsvrd. future use   : 0xff
 
  - -* Service List *- -
  Service id          : 200 (0xc8)
  rsvrd. future use   : 0x3f
- EIT sched. flag     : 0x1
- EIT p/f             : 0x1
- Running status      : 0x1
+ EIT sched. flag     : 1
+ EIT p/f             : 1
+ Running status      : 1
  Free CA mode        : 0
  Desc. loop len      : 780 (0x30c)
 
@@ -32,7 +32,7 @@ rsvrd. future use   : 0xff
   - Country Availability Descriptor -
   Tag                 : 0x49
   Length              : 16 (0x10)
-  Cntry avail. flag   : 0x1
+  Cntry avail. flag   : 1
   rsvrd. future use   : 0x7f
    Country code        : "eng"
    Country code        : "fra"
@@ -60,12 +60,12 @@ rsvrd. future use   : 0xff
   Tag                 : 0x57
   Length              : 38 (0x26)
   rsvrd. future use   : 0x3
-  Foreign avail.      : 0x1
-  Connection type     : 0x5
+  Foreign avail.      : 1
+  Connection type     : 5
   rsvrd. future use   : 0x1
   Country prefix len  : 3 (0x3)
   Intnl a/c len       : 7 (0x7)
-  Operator code len   : 3 (0x3)
+  Operator code len   : 3
   rsvrd. future use   : 0x1
   Ntnl a/c len        : 7 (0x7)
   Core number len     : 15 (0xf)
@@ -80,8 +80,8 @@ rsvrd. future use   : 0xff
  Service id          : 201 (0xc9)
  rsvrd. future use   : 0x3f
  EIT sched. flag     : 0
- EIT p/f             : 0x1
- Running status      : 0x1
+ EIT p/f             : 1
+ Running status      : 1
  Free CA mode        : 0
  Desc. loop len      : 271 (0x10f)
 
@@ -135,8 +135,8 @@ rsvrd. future use   : 0xff
   - Data Broadcast Descriptor -
   Tag                 : 0x64
   Length              : 28 (0x1c)
-  Data broadcast id   : 0x3333
-  Component tag       : 0x2
+  Data broadcast id   : 13107 (0x3333)
+  Component tag       : 2
   Selector len        : 4 (0x4)
   Selector            : "test"
   Language code       : "eng"

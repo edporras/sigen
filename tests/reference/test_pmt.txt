@@ -1,15 +1,15 @@
 - - PMT Dump - -
-Table id            : 0x2
-Section syn. ind.   : 0x1
+Table id            : 2
+Section syn. ind.   : 1
 rsvrd. future use   : 0
 reserved            : 0x3
 Table length        : 226 (0xe2)
 Program number      : 100 (0x64)
 reserved            : 0x3
-Version number      : 0x1
-Current next ind.   : 0x1
+Version number      : 1
+Current next ind.   : 1
 reserved            : 0x7
-PCR Pid             : 0x65
+PCR Pid             : 101 (0x65)
 reserved            : 0xf
 Program info len    : 128 (0x80)
 
@@ -17,27 +17,27 @@ Program info len    : 128 (0x80)
  Tag                 : 0x59
  Length              : 40 (0x28)
   Language code       : "eng"
-  Type                : 0x1
+  Type                : 1
   Compositn. pg. id   : 0x1000
   Ancillary pg. id    : 0x1010
 
   Language code       : "fre"
-  Type                : 0x1
+  Type                : 1
   Compositn. pg. id   : 0x1001
   Ancillary pg. id    : 0x1010
 
   Language code       : "deu"
-  Type                : 0x1
+  Type                : 1
   Compositn. pg. id   : 0x1002
   Ancillary pg. id    : 0x1010
 
   Language code       : "spa"
-  Type                : 0x1
+  Type                : 1
   Compositn. pg. id   : 0x1003
   Ancillary pg. id    : 0x1010
 
   Language code       : "rus"
-  Type                : 0x1
+  Type                : 1
   Compositn. pg. id   : 0x1004
   Ancillary pg. id    : 0x1010
 
@@ -46,38 +46,38 @@ Program info len    : 128 (0x80)
  Tag                 : 0x56
  Length              : 35 (0x23)
   Language code       : "eng"
-  Type                : 0x1
-  Magazine number     : 0x1
+  Type                : 1
+  Magazine number     : 1
   Page number         : 0x11
 
   Language code       : "fre"
-  Type                : 0x1
-  Magazine number     : 0x2
+  Type                : 1
+  Magazine number     : 2
   Page number         : 0x11
 
   Language code       : "deu"
-  Type                : 0x1
-  Magazine number     : 0x3
+  Type                : 1
+  Magazine number     : 3
   Page number         : 0x11
 
   Language code       : "spa"
-  Type                : 0x1
-  Magazine number     : 0x4
+  Type                : 1
+  Magazine number     : 4
   Page number         : 0x11
 
   Language code       : "ita"
-  Type                : 0x1
-  Magazine number     : 0x5
+  Type                : 1
+  Magazine number     : 5
   Page number         : 0x11
 
   Language code       : "chi"
-  Type                : 0x1
-  Magazine number     : 0x6
+  Type                : 1
+  Magazine number     : 6
   Page number         : 0x11
 
   Language code       : "rus"
-  Type                : 0x1
-  Magazine number     : 0x7
+  Type                : 1
+  Magazine number     : 7
   Page number         : 0x11
 
 
@@ -85,39 +85,39 @@ Program info len    : 128 (0x80)
  Tag                 : 0xa
  Length              : 20 (0x14)
   Language code       : "eng"
-  Audio type          : 0x2
+  Audio type          : 2
   Language code       : "fre"
-  Audio type          : 0x3
+  Audio type          : 3
   Language code       : "deu"
-  Audio type          : 0x4
+  Audio type          : 4
   Language code       : "ita"
-  Audio type          : 0x5
+  Audio type          : 5
   Language code       : "spa"
-  Audio type          : 0x6
+  Audio type          : 6
 
  - AC-3 Descriptor -
  Tag                 : 0x6a
  Length              : 3 (0x3)
  Component type flag : 0
- bsid_flag           : 0x1
+ bsid_flag           : 1
  mainid flag         : 0
- asvc flag           : 0x1
+ asvc flag           : 1
  reserved            : 0xf
- bsid                : 0x2
- asvc                : 0x4
+ bsid                : 2
+ asvc                : 4
 
  - Extended AC-3 Descriptor -
  Tag                 : 0x7a
  Length              : 3 (0x3)
- Component type flag : 0x1
+ Component type flag : 1
  bsid_flag           : 0
  mainid flag         : 0
  asvc flag           : 0
- Mix-info exists flag: 0x1
- Substream 1 flag    : 0x1
+ Mix-info exists flag: 1
+ Substream 1 flag    : 1
  Substream 2 flag    : 0
  Substream 3 flag    : 0
- Component type      : 0x1
+ Component type      : 1
  Substream 1         : 0x22
 
  - Ancillary Data Descriptor -
@@ -128,7 +128,7 @@ Program info len    : 128 (0x80)
  - Private Data Indicator Descriptor -
  Tag                 : 0xf
  Length              : 4 (0x4)
- Private data ind    : 0x55553333
+ Private data ind    : 1431647027 (0x55553333)
 
  - Service Move Descriptor -
  Tag                 : 0x60
@@ -139,7 +139,7 @@ Program info len    : 128 (0x80)
 
 
  - -* Stream List *- -
- Stream type         : 3 (0x3)
+ Stream type         : 3
  reserved            : 0x7
  Elementary PID      : 33 (0x21)
  reserved            : 0xf
@@ -151,15 +151,15 @@ Program info len    : 128 (0x80)
   Xport stream id     : 8192 (0x2000)
   Orig. network id    : 4096 (0x1000)
   Service id          : 100 (0x64)
-  Linkage type        : 0x8
-  Hand-over type      : 0x3
+  Linkage type        : 8
+  Hand-over type      : 3
   rsvrd. future use   : 0x7
   Origin type         : 0
   Network id          : 100 (0x64)
   Initial service id  : 20 (0x14)
 
 
- Stream type         : 1 (0x1)
+ Stream type         : 1
  reserved            : 0x7
  Elementary PID      : 34 (0x22)
  reserved            : 0xf
@@ -175,12 +175,12 @@ Program info len    : 128 (0x80)
   Length              : 16 (0x10)
   Data broadcast id   : 10 (0xa)
   OUI data len        : 13 (0xd)
-   OUI                 : 0x2001
+   OUI                 : 8193 (0x2001)
    reserved            : 0xf
-   Update type         : 0x3
+   Update type         : 3
    reserved            : 0x3
-   Update vers. flg    : 0x1
-   Update version      : 0x2
+   Update vers. flg    : 1
+   Update version      : 2
    Selector len        : 7 (0x7)
    Selector            : 01020304050607
 
@@ -198,9 +198,9 @@ Program info len    : 128 (0x80)
   Xport stream id     : 4096 (0x1000)
   Orig. network id    : 8192 (0x2000)
   Service id          : 257 (0x101)
-  Linkage type        : 0x9
+  Linkage type        : 9
   OUI data len        : 11 (0xb)
-   OUI                 : 0x12345
+   OUI                 : 74565 (0x12345)
    Selector len        : 7 (0x7)
    Selector            : 01020304050607
 
@@ -211,12 +211,12 @@ Program info len    : 128 (0x80)
   Orig. network id    : 8192 (0x2000)
   Service id          : 256 (0x100)
   Linkage type        : 0xa
-  Table type          : 0x2
+  Table type          : 2
 
   - Adaptation Field Data Descriptor -
   Tag                 : 0x70
   Length              : 1 (0x1)
-  Adapt. field data ident.: 0x4
+  Adapt. field data ident.: 4 (0x4)
 
 
 

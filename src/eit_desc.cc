@@ -64,7 +64,7 @@ namespace sigen
    {
       dumpHeader(o, COMPONENT_D_S);
 
-      rsrvdStr(o, RESERVED_FU_S, 0x0f);
+      identStr(o, RESERVED_FU_S, 0x0f);
       identStr(o, STREAM_CONTENT_S, static_cast<ui16>(stream_content));
       identStr(o, COMPONENT_TYPE_S, static_cast<ui16>(component_type));
       identStr(o, COMPONENT_TAG_S, static_cast<ui16>(component_tag));
@@ -197,21 +197,21 @@ namespace sigen
       identStr(o, DESC_NUM_S, descriptor_number);
       identStr(o, LAST_DESC_NUM_S, last_descriptor_number);
       identStr(o, CODE_S, language_code);
-      identStr(o, LENGTH_OF_ITEMS_S, itemListSize(), true);
+      identStr(o, LENGTH_OF_ITEMS_S, itemListSize());
 
       // the loop of items
       incOutLevel();
 
       for (const auto& item : item_list) {
-         identStr(o, DESCRPTN_LEN_S, item->description.length(), true);
+         identStr(o, DESCRPTN_LEN_S, item->description.length());
          identStr(o, DESCRPTN_S, item->description);
-         identStr(o, ITEM_LEN_S, item->name.length(), true);
+         identStr(o, ITEM_LEN_S, item->name.length());
          identStr(o, ITEM_S, item->name);
       }
       decOutLevel();
 
       // finally the text
-      identStr(o, TEXT_LEN_S, text.length(), true);
+      identStr(o, TEXT_LEN_S, text.length());
       identStr(o, TEXT_S, text);
    }
 #endif
@@ -316,7 +316,7 @@ namespace sigen
    {
       dumpHeader(o, PDC_D_S);
 
-      rsrvdStr(o, RESERVED_FU_S, 0xf);
+      identStr(o, RESERVED_FU_S, 0xf);
       identStr(o, PROG_IDENT_LABEL_S, programme_identification_label);
    }
 #endif
@@ -359,9 +359,9 @@ namespace sigen
       dumpHeader(o, SHORT_EVENT_D_S);
 
       identStr(o, CODE_S, language_code);
-      identStr(o, EVENT_NAME_LEN_S, name.length(), true);
+      identStr(o, EVENT_NAME_LEN_S, name.length());
       identStr(o, EVENT_NAME_S, name);
-      identStr(o, TEXT_LEN_S, text.length(), true);
+      identStr(o, TEXT_LEN_S, text.length());
       identStr(o, TEXT_S, text);
    }
 #endif
@@ -424,8 +424,8 @@ namespace sigen
    {
       dumpHeader(o, TIME_SHIFTED_EVENT_D_S);
 
-      identStr(o, REF_SID_S, ref_service_id, true);
-      identStr(o, REF_EVENT_ID_S, ref_event_id, true);
+      identStr(o, REF_SID_S, ref_service_id);
+      identStr(o, REF_EVENT_ID_S, ref_event_id);
    }
 #endif
 

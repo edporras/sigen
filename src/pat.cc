@@ -116,15 +116,15 @@ namespace sigen
    void PAT::dump(std::ostream &o) const
    {
       // table header
-      dumpHeader(o, PAT_DUMP_S, XPORT_STREAM_ID_S, true);
+      dumpHeader(o, PAT_DUMP_S, XPORT_STREAM_ID_S);
       o << std::endl;
 
       // program list
       incOutLevel(); // indent output
       for (const Program& program : program_list) {
-         identStr(o, PROGRAM_NUM_S, program.number, true);
-         rsrvdStr(o, RESERVED_S, 0x07);
-         identStr(o, PID_S, program.pid, true);
+         identStr(o, PROGRAM_NUM_S, program.number);
+         identStr(o, RESERVED_S, 0x07);
+         identStr(o, PID_S, program.pid);
          o << std::endl;
       }
       o << std::endl;

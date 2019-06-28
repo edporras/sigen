@@ -291,21 +291,19 @@ namespace sigen
       if (getId() == NIT_BAT::NIT_ACTUAL_TID || getId() == NIT_BAT::NIT_OTHER_TID) {
          dumpHeader(o,
                     ((getId() == NIT_BAT::NIT_ACTUAL_TID) ? NIT_DUMP_ACTUAL_S : NIT_DUMP_OTHER_S),
-                    NETWORK_ID_S,
-                    true);
+                    NETWORK_ID_S);
       } else {
          // BAT
-         dumpHeader(o, BAT_DUMP_S, BOUQUET_ID_S, true);
+         dumpHeader(o, BAT_DUMP_S, BOUQUET_ID_S);
       }
 
       // reserved bits
-      rsrvdStr(o, RESERVED_FU_S, 0xf);
+      identStr(o, RESERVED_FU_S, 0xf);
 
       // descriptors
       identStr(o,
                ((getId() == NIT_BAT::BAT_TID) ? BOUQUET_DESC_LEN_S : NETWORK_DESC_LEN_S),
-               descriptors.loop_length(),
-               true);
+               descriptors.loop_length());
       o << std::endl;
 
       descriptors.dump(o);
@@ -323,23 +321,23 @@ namespace sigen
    {
       // loop length
       o << std::hex;
-      rsrvdStr(o, RESERVED_FU_S, 0xf);
+      identStr(o, RESERVED_FU_S, 0xf);
 
       ui16 xsl_len = std::accumulate(xport_streams.begin(), xport_streams.end(),
                                      XportStream::BASE_LEN * xport_streams.size(),
                                      [](int len, const auto& xs) { return len + xs.descriptors.loop_length(); });
-      identStr(o, XS_LOOP_LEN_S, xsl_len, true);
+      identStr(o, XS_LOOP_LEN_S, xsl_len);
       o << std::endl;
 
       // display each transport stream's data & descriptors
       incOutLevel();
       for (const XportStream& xs : xport_streams) {
-         headerStr(o, XPORT_STREAM_S, false);
+         headerStr(o, XPORT_STREAM_S);
 
-         identStr(o, XPORT_STREAM_ID_S, xs.id, true);
-         identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id, true);
-         rsrvdStr(o, RESERVED_FU_S, 0xf);
-         identStr(o, DESC_LEN_S, xs.descriptors.loop_length(), true);
+         identStr(o, XPORT_STREAM_ID_S, xs.id);
+         identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id);
+         identStr(o, RESERVED_FU_S, 0xf);
+         identStr(o, DESC_LEN_S, xs.descriptors.loop_length());
          o << std::endl;
 
          // dump the descriptors (inherited method)

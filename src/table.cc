@@ -97,14 +97,14 @@ namespace sigen
 #ifdef ENABLE_DUMP
    void STable::dumpHeader(std::ostream &o, STRID table_label) const
    {
-      headerStr(o, table_label, false);
+      headerStr(o, table_label);
 
       o << std::hex;
       identStr(o, TID_S, id);
       identStr(o, SECT_SYNTAX_IND_S, section_syntax_indicator);
-      rsrvdStr(o, RESERVED_FU_S, private_bit);
-      rsrvdStr(o, RESERVED_S, 0x03);
-      identStr(o, TABLE_LEN_S, length, true);
+      identStr(o, RESERVED_FU_S, private_bit);
+      identStr(o, RESERVED_S, 0x03);
+      identStr(o, TABLE_LEN_S, length);
    }
 #endif
 
@@ -307,16 +307,15 @@ namespace sigen
 #ifdef ENABLE_DUMP
    //
    // displays the reserved | version | current_next byte
-   void PSITable::dumpHeader(std::ostream &o, STRID table_label, STRID ext_label,
-                             bool hexdec) const
+   void PSITable::dumpHeader(std::ostream &o, STRID table_label, STRID ext_label) const
    {
       // table header
       STable::dumpHeader(o, table_label);
 
       o << std::hex;
-      identStr(o, ext_label, table_id_extension, hexdec);
+      identStr(o, ext_label, table_id_extension);
 
-      rsrvdStr(o, RESERVED_S, 0x03);
+      identStr(o, RESERVED_S, 0x03);
       identStr(o, VER_NUM_S, version_number);
       identStr(o, CURR_NEXT_IND_S, current_next_indicator);
    }

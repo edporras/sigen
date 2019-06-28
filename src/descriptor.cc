@@ -46,7 +46,7 @@ namespace sigen
 
       o << std::hex;
       identStr(o, TAG_S, tag);
-      identStr(o, LEN_S, total_length - 2, true);
+      identStr(o, LEN_S, total_length - 2);
    }
 #endif
 
@@ -130,7 +130,7 @@ namespace sigen
 
       for (const auto& text : ml_text_list) {
          identStr(o, CODE_S, text.code);
-         identStr(o, NAME_LEN_S, text.data.length(), true);
+         identStr(o, NAME_LEN_S, text.data.length());
          identStr(o, data_type, text.data);
       }
 

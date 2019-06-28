@@ -208,23 +208,23 @@ namespace sigen
                   XPORT_STREAM_ID_S );
 
       // sdt-specific
-      identStr(o, ORIG_NETWORK_ID_S, original_network_id, true);
-      rsrvdStr(o, RESERVED_FU_S, 0xff);
+      identStr(o, ORIG_NETWORK_ID_S, original_network_id);
+      identStr(o, RESERVED_FU_S, 0xff);
       o << std::endl;
 
       // display the service list
       incOutLevel();
-      headerStr(o, SERVICE_LIST_S, false);
+      headerStr(o, SERVICE_LIST_S);
 
       for (const Service& service : service_list) {
          o << std::hex;
-         identStr(o, SERVICE_ID_S, service.id, true);
-         rsrvdStr(o, RESERVED_FU_S, 0x3f); // reserved future use
+         identStr(o, SERVICE_ID_S, service.id);
+         identStr(o, RESERVED_FU_S, 0x3f); // reserved future use
          identStr(o, EIT_SCHED_FLAG_S, service.eit_schedule);
          identStr(o, EIT_PF_F_S, service.eit_present_following);
          identStr(o, RUNNING_STATUS_S, service.running_status);
          identStr(o, FREE_CA_MODE_S, service.free_ca_mode);
-         identStr(o, DESC_LOOP_LEN_S, service.descriptors.loop_length(), true);
+         identStr(o, DESC_LOOP_LEN_S, service.descriptors.loop_length());
          o << std::endl;
 
          // display the descriptors

@@ -83,12 +83,12 @@ namespace sigen
    {
       LinkageDesc::dump(o);
 
-      identStr(o, OUI_DATA_LEN_S, OUI_data_length, true);
+      identStr(o, OUI_DATA_LEN_S, OUI_data_length);
 
       incOutLevel();
       for (const OUIData &oui : oui_list) {
          identStr(o, OUI_S, oui.OUI);
-         identStr(o, SELECTOR_LEN_S, oui.selector_bytes.size(), true);
+         identStr(o, SELECTOR_LEN_S, oui.selector_bytes.size());
          identStr(o, SELECTOR_S, oui.selector_bytes);
       }
 
@@ -174,17 +174,17 @@ namespace sigen
    {
       _DataBroadcastIdDesc::dump(o);
 
-      identStr(o, OUI_DATA_LEN_S, OUI_data_len, true);
+      identStr(o, OUI_DATA_LEN_S, OUI_data_len);
 
       incOutLevel();
       for (const auto &oui : oui_list) {
          identStr(o, OUI_S, oui.OUI);
-         rsrvdStr(o, RESERVED_S, 0x0f);
+         identStr(o, RESERVED_S, 0x0f);
          identStr(o, UPDATE_TYPE_S, oui.update_type);
-         rsrvdStr(o, RESERVED_S, 0x03);
+         identStr(o, RESERVED_S, 0x03);
          identStr(o, UPDATE_VER_FLAG_S, oui.update_versioning_flag);
          identStr(o, UPDATE_VER_S, oui.update_version);
-         identStr(o, SELECTOR_LEN_S, oui.selector_bytes.size(), true);
+         identStr(o, SELECTOR_LEN_S, oui.selector_bytes.size());
          identStr(o, SELECTOR_S, oui.selector_bytes);
       }
       decOutLevel();

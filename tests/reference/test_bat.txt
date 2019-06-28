@@ -1,13 +1,13 @@
 - - BAT Dump - -
 Table id            : 0x4a
-Section syn. ind.   : 0x1
+Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
 Table length        : 452 (0x1c4)
 Bouquet id          : 4096 (0x1000)
 reserved            : 0x3
 Version number      : 0x10
-Current next ind.   : 0x1
+Current next ind.   : 1
 rsvrd. future use   : 0xf
 Bouquet desc len    : 112 (0x70)
 
@@ -29,36 +29,36 @@ Bouquet desc len    : 112 (0x70)
  - CA Identifier Descriptor -
  Tag                 : 0x53
  Length              : 60 (0x3c)
-  CA system id        : 0x3000
-  CA system id        : 0x3001
-  CA system id        : 0x3002
-  CA system id        : 0x3003
-  CA system id        : 0x3004
-  CA system id        : 0x3005
-  CA system id        : 0x3006
-  CA system id        : 0x3007
-  CA system id        : 0x3008
-  CA system id        : 0x3009
-  CA system id        : 0x300a
-  CA system id        : 0x300b
-  CA system id        : 0x300c
-  CA system id        : 0x300d
-  CA system id        : 0x300e
-  CA system id        : 0x300f
-  CA system id        : 0x3010
-  CA system id        : 0x3011
-  CA system id        : 0x3012
-  CA system id        : 0x3013
-  CA system id        : 0x3014
-  CA system id        : 0x3015
-  CA system id        : 0x3016
-  CA system id        : 0x3017
-  CA system id        : 0x3018
-  CA system id        : 0x3019
-  CA system id        : 0x301a
-  CA system id        : 0x301b
-  CA system id        : 0x301c
-  CA system id        : 0x301d
+  CA system id        : 12288 (0x3000)
+  CA system id        : 12289 (0x3001)
+  CA system id        : 12290 (0x3002)
+  CA system id        : 12291 (0x3003)
+  CA system id        : 12292 (0x3004)
+  CA system id        : 12293 (0x3005)
+  CA system id        : 12294 (0x3006)
+  CA system id        : 12295 (0x3007)
+  CA system id        : 12296 (0x3008)
+  CA system id        : 12297 (0x3009)
+  CA system id        : 12298 (0x300a)
+  CA system id        : 12299 (0x300b)
+  CA system id        : 12300 (0x300c)
+  CA system id        : 12301 (0x300d)
+  CA system id        : 12302 (0x300e)
+  CA system id        : 12303 (0x300f)
+  CA system id        : 12304 (0x3010)
+  CA system id        : 12305 (0x3011)
+  CA system id        : 12306 (0x3012)
+  CA system id        : 12307 (0x3013)
+  CA system id        : 12308 (0x3014)
+  CA system id        : 12309 (0x3015)
+  CA system id        : 12310 (0x3016)
+  CA system id        : 12311 (0x3017)
+  CA system id        : 12312 (0x3018)
+  CA system id        : 12313 (0x3019)
+  CA system id        : 12314 (0x301a)
+  CA system id        : 12315 (0x301b)
+  CA system id        : 12316 (0x301c)
+  CA system id        : 12317 (0x301d)
 
 
 rsvrd. future use   : 0xf
@@ -74,105 +74,105 @@ Xprt str loop len   : 331 (0x14b)
   Tag                 : 0x41
   Length              : 150 (0x96)
    Service id          : 200 (0xc8)
-   Type                : 0x2
+   Type                : 2
    Service id          : 201 (0xc9)
-   Type                : 0x2
+   Type                : 2
    Service id          : 202 (0xca)
-   Type                : 0x2
+   Type                : 2
    Service id          : 203 (0xcb)
-   Type                : 0x2
+   Type                : 2
    Service id          : 204 (0xcc)
-   Type                : 0x2
+   Type                : 2
    Service id          : 205 (0xcd)
-   Type                : 0x2
+   Type                : 2
    Service id          : 206 (0xce)
-   Type                : 0x2
+   Type                : 2
    Service id          : 207 (0xcf)
-   Type                : 0x2
+   Type                : 2
    Service id          : 208 (0xd0)
-   Type                : 0x2
+   Type                : 2
    Service id          : 209 (0xd1)
-   Type                : 0x2
+   Type                : 2
    Service id          : 210 (0xd2)
-   Type                : 0x2
+   Type                : 2
    Service id          : 211 (0xd3)
-   Type                : 0x2
+   Type                : 2
    Service id          : 212 (0xd4)
-   Type                : 0x2
+   Type                : 2
    Service id          : 213 (0xd5)
-   Type                : 0x2
+   Type                : 2
    Service id          : 214 (0xd6)
-   Type                : 0x2
+   Type                : 2
    Service id          : 215 (0xd7)
-   Type                : 0x2
+   Type                : 2
    Service id          : 216 (0xd8)
-   Type                : 0x2
+   Type                : 2
    Service id          : 217 (0xd9)
-   Type                : 0x2
+   Type                : 2
    Service id          : 218 (0xda)
-   Type                : 0x2
+   Type                : 2
    Service id          : 219 (0xdb)
-   Type                : 0x2
+   Type                : 2
    Service id          : 220 (0xdc)
-   Type                : 0x2
+   Type                : 2
    Service id          : 221 (0xdd)
-   Type                : 0x2
+   Type                : 2
    Service id          : 222 (0xde)
-   Type                : 0x2
+   Type                : 2
    Service id          : 223 (0xdf)
-   Type                : 0x2
+   Type                : 2
    Service id          : 224 (0xe0)
-   Type                : 0x2
+   Type                : 2
    Service id          : 225 (0xe1)
-   Type                : 0x2
+   Type                : 2
    Service id          : 226 (0xe2)
-   Type                : 0x2
+   Type                : 2
    Service id          : 227 (0xe3)
-   Type                : 0x2
+   Type                : 2
    Service id          : 228 (0xe4)
-   Type                : 0x2
+   Type                : 2
    Service id          : 229 (0xe5)
-   Type                : 0x2
+   Type                : 2
    Service id          : 230 (0xe6)
-   Type                : 0x2
+   Type                : 2
    Service id          : 231 (0xe7)
-   Type                : 0x2
+   Type                : 2
    Service id          : 232 (0xe8)
-   Type                : 0x2
+   Type                : 2
    Service id          : 233 (0xe9)
-   Type                : 0x2
+   Type                : 2
    Service id          : 234 (0xea)
-   Type                : 0x2
+   Type                : 2
    Service id          : 235 (0xeb)
-   Type                : 0x2
+   Type                : 2
    Service id          : 236 (0xec)
-   Type                : 0x2
+   Type                : 2
    Service id          : 237 (0xed)
-   Type                : 0x2
+   Type                : 2
    Service id          : 238 (0xee)
-   Type                : 0x2
+   Type                : 2
    Service id          : 239 (0xef)
-   Type                : 0x2
+   Type                : 2
    Service id          : 240 (0xf0)
-   Type                : 0x2
+   Type                : 2
    Service id          : 241 (0xf1)
-   Type                : 0x2
+   Type                : 2
    Service id          : 242 (0xf2)
-   Type                : 0x2
+   Type                : 2
    Service id          : 243 (0xf3)
-   Type                : 0x2
+   Type                : 2
    Service id          : 244 (0xf4)
-   Type                : 0x2
+   Type                : 2
    Service id          : 245 (0xf5)
-   Type                : 0x2
+   Type                : 2
    Service id          : 246 (0xf6)
-   Type                : 0x2
+   Type                : 2
    Service id          : 247 (0xf7)
-   Type                : 0x2
+   Type                : 2
    Service id          : 248 (0xf8)
-   Type                : 0x2
+   Type                : 2
    Service id          : 249 (0xf9)
-   Type                : 0x2
+   Type                : 2
 
 
  - *-- Transport Stream --* -
@@ -196,111 +196,111 @@ Xprt str loop len   : 331 (0x14b)
   - Stream Identifier Descriptor -
   Tag                 : 0x52
   Length              : 1 (0x1)
-  Component tag       : 0x2
+  Component tag       : 2
 
   - Service List Descriptor -
   Tag                 : 0x41
   Length              : 150 (0x96)
    Service id          : 100 (0x64)
-   Type                : 0x1
+   Type                : 1
    Service id          : 101 (0x65)
-   Type                : 0x1
+   Type                : 1
    Service id          : 102 (0x66)
-   Type                : 0x1
+   Type                : 1
    Service id          : 103 (0x67)
-   Type                : 0x1
+   Type                : 1
    Service id          : 104 (0x68)
-   Type                : 0x1
+   Type                : 1
    Service id          : 105 (0x69)
-   Type                : 0x1
+   Type                : 1
    Service id          : 106 (0x6a)
-   Type                : 0x1
+   Type                : 1
    Service id          : 107 (0x6b)
-   Type                : 0x1
+   Type                : 1
    Service id          : 108 (0x6c)
-   Type                : 0x1
+   Type                : 1
    Service id          : 109 (0x6d)
-   Type                : 0x1
+   Type                : 1
    Service id          : 110 (0x6e)
-   Type                : 0x1
+   Type                : 1
    Service id          : 111 (0x6f)
-   Type                : 0x1
+   Type                : 1
    Service id          : 112 (0x70)
-   Type                : 0x1
+   Type                : 1
    Service id          : 113 (0x71)
-   Type                : 0x1
+   Type                : 1
    Service id          : 114 (0x72)
-   Type                : 0x1
+   Type                : 1
    Service id          : 115 (0x73)
-   Type                : 0x1
+   Type                : 1
    Service id          : 116 (0x74)
-   Type                : 0x1
+   Type                : 1
    Service id          : 117 (0x75)
-   Type                : 0x1
+   Type                : 1
    Service id          : 118 (0x76)
-   Type                : 0x1
+   Type                : 1
    Service id          : 119 (0x77)
-   Type                : 0x1
+   Type                : 1
    Service id          : 120 (0x78)
-   Type                : 0x1
+   Type                : 1
    Service id          : 121 (0x79)
-   Type                : 0x1
+   Type                : 1
    Service id          : 122 (0x7a)
-   Type                : 0x1
+   Type                : 1
    Service id          : 123 (0x7b)
-   Type                : 0x1
+   Type                : 1
    Service id          : 124 (0x7c)
-   Type                : 0x1
+   Type                : 1
    Service id          : 125 (0x7d)
-   Type                : 0x1
+   Type                : 1
    Service id          : 126 (0x7e)
-   Type                : 0x1
+   Type                : 1
    Service id          : 127 (0x7f)
-   Type                : 0x1
+   Type                : 1
    Service id          : 128 (0x80)
-   Type                : 0x1
+   Type                : 1
    Service id          : 129 (0x81)
-   Type                : 0x1
+   Type                : 1
    Service id          : 130 (0x82)
-   Type                : 0x1
+   Type                : 1
    Service id          : 131 (0x83)
-   Type                : 0x1
+   Type                : 1
    Service id          : 132 (0x84)
-   Type                : 0x1
+   Type                : 1
    Service id          : 133 (0x85)
-   Type                : 0x1
+   Type                : 1
    Service id          : 134 (0x86)
-   Type                : 0x1
+   Type                : 1
    Service id          : 135 (0x87)
-   Type                : 0x1
+   Type                : 1
    Service id          : 136 (0x88)
-   Type                : 0x1
+   Type                : 1
    Service id          : 137 (0x89)
-   Type                : 0x1
+   Type                : 1
    Service id          : 138 (0x8a)
-   Type                : 0x1
+   Type                : 1
    Service id          : 139 (0x8b)
-   Type                : 0x1
+   Type                : 1
    Service id          : 140 (0x8c)
-   Type                : 0x1
+   Type                : 1
    Service id          : 141 (0x8d)
-   Type                : 0x1
+   Type                : 1
    Service id          : 142 (0x8e)
-   Type                : 0x1
+   Type                : 1
    Service id          : 143 (0x8f)
-   Type                : 0x1
+   Type                : 1
    Service id          : 144 (0x90)
-   Type                : 0x1
+   Type                : 1
    Service id          : 145 (0x91)
-   Type                : 0x1
+   Type                : 1
    Service id          : 146 (0x92)
-   Type                : 0x1
+   Type                : 1
    Service id          : 147 (0x93)
-   Type                : 0x1
+   Type                : 1
    Service id          : 148 (0x94)
-   Type                : 0x1
+   Type                : 1
    Service id          : 149 (0x95)
-   Type                : 0x1
+   Type                : 1
 
 
 

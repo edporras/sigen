@@ -79,13 +79,13 @@ namespace sigen
       // dump the transport streams
       incOutLevel();
       for (const XportStream& xs : xport_stream_list) {
-         headerStr(o, XPORT_STREAM_S, false);
+         headerStr(o, XPORT_STREAM_S);
 
-         identStr(o, XPORT_STREAM_ID_S, xs.id, true);
-         identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id, true);
-         identStr(o, SERVICE_ID_S, xs.service_id, true);
-         identStr(o, EVENT_ID_S, xs.event_id, true);
-         identStr(o, RUNNING_STATUS_S, static_cast<ui16>(xs.running_status), true);
+         identStr(o, XPORT_STREAM_ID_S, xs.id);
+         identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id);
+         identStr(o, SERVICE_ID_S, xs.service_id);
+         identStr(o, EVENT_ID_S, xs.event_id);
+         identStr(o, RUNNING_STATUS_S, static_cast<ui16>(xs.running_status));
 
          o << std::endl;
       }

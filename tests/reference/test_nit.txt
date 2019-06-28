@@ -1,13 +1,13 @@
 - - NIT Dump (Actual) - -
 Table id            : 0x40
-Section syn. ind.   : 0x1
+Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
 Table length        : 563 (0x233)
 Network id          : 256 (0x100)
 reserved            : 0x3
-Version number      : 0x1
-Current next ind.   : 0x1
+Version number      : 1
+Current next ind.   : 1
 rsvrd. future use   : 0xf
 Network desc. len   : 360 (0x168)
 
@@ -77,47 +77,47 @@ Xprt str loop len   : 194 (0xc2)
   - Cable Delivery System Descriptor -
   Tag                 : 0x44
   Length              : 11 (0xb)
-  Frequency           : 0x3e8
+  Frequency           : 1000 (0x3e8)
   rsvrd. future use   : 0xfff
-  FEC outer           : 0x1
-  Modulation          : 0x8
-  Symbol rate         : 0x7d0
-  FEC inner           : 0x2
+  FEC outer           : 1
+  Modulation          : 8
+  Symbol rate         : 2000 (0x7d0)
+  FEC inner           : 2
 
   - Terrestrial Delivery System Descriptor -
   Tag                 : 0x5a
   Length              : 11 (0xb)
-  Frequency           : 0x88888888
-  Bandwidth           : 0x3
-  Priority            : 0x1
-  Time slicing ind.   : 0x1
-  MPE-FEC ind.        : 0x1
+  Frequency           : 2290649224 (0x88888888)
+  Bandwidth           : 3
+  Priority            : 1
+  Time slicing ind.   : 1
+  MPE-FEC ind.        : 1
   rsvrd. future use   : 0x3
-  Constellation       : 0x2
-  Hierarchy info      : 0x1
-  Code rate HP stream : 0x1
-  Code rate LP stream : 0x3
-  Guard interval      : 0x3
-  Transmission mode   : 0x2
+  Constellation       : 2
+  Hierarchy info      : 1
+  Code rate HP stream : 1
+  Code rate LP stream : 3
+  Guard interval      : 3
+  Transmission mode   : 2
   Other freq flag     : 0
   reserved            : 0xffffffff
 
   - Terrestrial Delivery System Descriptor -
   Tag                 : 0x5a
   Length              : 11 (0xb)
-  Frequency           : 0x55555555
-  Bandwidth           : 0x2
+  Frequency           : 1431655765 (0x55555555)
+  Bandwidth           : 2
   Priority            : 0
   Time slicing ind.   : 0
   MPE-FEC ind.        : 0
   rsvrd. future use   : 0x3
-  Constellation       : 0x1
-  Hierarchy info      : 0x7
-  Code rate HP stream : 0x1
-  Code rate LP stream : 0x4
-  Guard interval      : 0x1
-  Transmission mode   : 0x1
-  Other freq flag     : 0x1
+  Constellation       : 1
+  Hierarchy info      : 7
+  Code rate HP stream : 1
+  Code rate LP stream : 4
+  Guard interval      : 1
+  Transmission mode   : 1
+  Other freq flag     : 1
   reserved            : 0xffffffff
 
 
@@ -130,28 +130,28 @@ Xprt str loop len   : 194 (0xc2)
   - Satellite Delivery System Descriptor -
   Tag                 : 0x43
   Length              : 11 (0xb)
-  Frequency           : 0x44444444
-  Orbital position    : 0x3333
+  Frequency           : 1145324612 (0x44444444)
+  Orbital position    : 13107 (0x3333)
   West/east flag      : 0
-  Polarisation        : 0x1
+  Polarisation        : 1
   Rolloff             : 0
   Modulation system   : 0
-  Modulation          : 0x2
-  Symbol rate         : 0x1111111
-  FEC inner           : 0x4
+  Modulation          : 2
+  Symbol rate         : 17895697 (0x1111111)
+  FEC inner           : 4
 
   - Satellite Delivery System Descriptor -
   Tag                 : 0x43
   Length              : 11 (0xb)
-  Frequency           : 0x44444444
-  Orbital position    : 0x3333
-  West/east flag      : 0x1
-  Polarisation        : 0x3
-  Rolloff             : 0x2
-  Modulation system   : 0x1
-  Modulation          : 0x1
-  Symbol rate         : 0x1111111
-  FEC inner           : 0x9
+  Frequency           : 1145324612 (0x44444444)
+  Orbital position    : 13107 (0x3333)
+  West/east flag      : 1
+  Polarisation        : 3
+  Rolloff             : 2
+  Modulation system   : 1
+  Modulation          : 1
+  Symbol rate         : 17895697 (0x1111111)
+  FEC inner           : 9
 
   - Stream Identifier Descriptor -
   Tag                 : 0x52
@@ -166,64 +166,64 @@ Xprt str loop len   : 194 (0xc2)
    rsvrd. future use   : 0x1
    Ref. type           : 0
 
-   Announcement type   : 0x5
+   Announcement type   : 5
    rsvrd. future use   : 0x1
-   Ref. type           : 0x2
+   Ref. type           : 2
    Orig. network id    : 4352 (0x1100)
    Xport stream id     : 4864 (0x1300)
    Service id          : 1026 (0x402)
-   Component tag       : 0x3
+   Component tag       : 3
 
 
   - Cell Frequency Link Descriptor -
   Tag                 : 0x6d
   Length              : 41 (0x29)
   Cell id             : 0xa
-  Frequency           : 0x2710
+  Frequency           : 10000 (0x2710)
   Subcell loop len    : 10 (0xa)
   Cell id ext.        : 0xb
-  Xposer frequency    : 0x3e8
+  Xposer frequency    : 1000 (0x3e8)
   Cell id ext.        : 0xc
-  Xposer frequency    : 0xce4
+  Xposer frequency    : 3300 (0xce4)
   Cell id             : 0xa
-  Frequency           : 0x2af8
+  Frequency           : 11000 (0x2af8)
   Subcell loop len    : 5 (0x5)
   Cell id ext.        : 0xc
-  Xposer frequency    : 0xbb8
+  Xposer frequency    : 3000 (0xbb8)
   Cell id             : 0xb
-  Frequency           : 0x9c40
+  Frequency           : 40000 (0x9c40)
   Subcell loop len    : 5 (0x5)
   Cell id ext.        : 0x15
-  Xposer frequency    : 0x7d0
+  Xposer frequency    : 2000 (0x7d0)
 
   - Cell List Descriptor -
   Tag                 : 0x6c
   Length              : 44 (0x2c)
-  Cell id             : 0x1
-  Cell latitude       : 0xbb8
-  Cell longitude      : 0x7d0
-  Cell ext. of lat.   : 0x22b
-  Cell ext. of lon.   : 0x41
+  Cell id             : 1
+  Cell latitude       : 3000 (0xbb8)
+  Cell longitude      : 2000 (0x7d0)
+  Cell ext. of lat.   : 555 (0x22b)
+  Cell ext. of lon.   : 65 (0x41)
   Cell id ext.        : 0x14
-  Subcell lat.        : 0xbb8
-  Subcell lon.        : 0x7d0
-  Subcell ext. of lat.: 0x22b
+  Subcell lat.        : 3000 (0xbb8)
+  Subcell lon.        : 2000 (0x7d0)
+  Subcell ext. of lat.: 555 (0x22b)
   Subcell ext. of lon.: 0x41
   Cell id ext.        : 0x15
-  Subcell lat.        : 0xbb9
-  Subcell lon.        : 0x7d1
-  Subcell ext. of lat.: 0x22c
+  Subcell lat.        : 3001 (0xbb9)
+  Subcell lon.        : 2001 (0x7d1)
+  Subcell ext. of lat.: 556 (0x22c)
   Subcell ext. of lon.: 0x42
-  Cell id             : 0x2
-  Cell latitude       : 0xfa0
-  Cell longitude      : 0xbb8
-  Cell ext. of lat.   : 0x5b3
-  Cell ext. of lon.   : 0x28f
+  Cell id             : 2
+  Cell latitude       : 4000 (0xfa0)
+  Cell longitude      : 3000 (0xbb8)
+  Cell ext. of lat.   : 1459 (0x5b3)
+  Cell ext. of lon.   : 655 (0x28f)
   Cell id ext.        : 0x16
-  Subcell lat.        : 0xbba
-  Subcell lon.        : 0x7d2
-  Subcell ext. of lat.: 0x22d
-  Subcell ext. of lon.: 0x29c
+  Subcell lat.        : 3002 (0xbba)
+  Subcell lon.        : 2002 (0x7d2)
+  Subcell ext. of lat.: 557 (0x22d)
+  Subcell ext. of lon.: 668 (0x29c)
 
 
 

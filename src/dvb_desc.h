@@ -348,7 +348,7 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
-         dumpData( o, PVT_DATA_SPEC_D_S, DATA_S );
+         dumpData(o, PVT_DATA_SPEC_D_S, DATA_S);
       }
 #endif
    };

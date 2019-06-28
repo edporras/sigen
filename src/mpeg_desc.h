@@ -164,7 +164,7 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
-         dumpData( o, DATA_STREAM_ALIGNMENT_D_S, ALIGNMENT_TYPE_S );
+         dumpData(o, DATA_STREAM_ALIGNMENT_D_S, ALIGNMENT_TYPE_S);
       }
 #endif
    };
@@ -375,7 +375,7 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
-         dumpData( o, PVT_DATA_IND_D_S, PVT_DATA_IND_S );
+         dumpData(o, PVT_DATA_IND_D_S, PVT_DATA_IND_S);
       }
 #endif
    };

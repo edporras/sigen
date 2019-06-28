@@ -1,34 +1,34 @@
 - - EIT PF Dump (Actual) - -
 Table id            : 0x4e
-Section syn. ind.   : 0x1
+Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
 Table length        : 110 (0x6e)
 Service id          : 100 (0x64)
 reserved            : 0x3
 Version number      : 0
-Current next ind.   : 0x1
+Current next ind.   : 1
 Xport stream id     : 819 (0x333)
 Orig. network id    : 1092 (0x444)
 
  - -* Present Event List *- -
-  Event id            : 0x1000
+  Event id            : 4096 (0x1000)
   Start time          : 0xc826 (3/1/1999), 09:00:00
   Duration            : 00:30:00
-  Running status      : 0x1
-  Free CA mode        : 0x1
+  Running status      : 1
+  Free CA mode        : 1
   Desc. loop len      : 49 (0x31)
 
    - PDC Descriptor -
    Tag                 : 0x69
    Length              : 3 (0x3)
    rsvrd. future use   : 0xf
-   Programme idnt. lbl : 0x1000
+   Programme idnt. lbl : 4096 (0x1000)
 
    - Private Data Specifier Descriptor -
    Tag                 : 0x5f
    Length              : 4 (0x4)
-   Data                : 0x44446666
+   Data                : 1145333350 (0x44446666)
 
    - Multilingual Component Descriptor -
    Tag                 : 0x5e
@@ -44,11 +44,11 @@ Orig. network id    : 1092 (0x444)
 
 
  - -* Following Event List *- -
-  Event id            : 0x1001
+  Event id            : 4097 (0x1001)
   Start time          : 0xc826 (3/1/1999), 09:30:00
   Duration            : 00:30:00
-  Running status      : 0x1
-  Free CA mode        : 0x1
+  Running status      : 1
+  Free CA mode        : 1
   Desc. loop len      : 26 (0x1a)
 
    - DSNG Descriptor -
@@ -60,11 +60,11 @@ Orig. network id    : 1092 (0x444)
    Tag                 : 0x63
    Length              : 8 (0x8)
    rsvrd. future use   : 0x3
-   Peak rate           : 0x3000
+   Peak rate           : 12288 (0x3000)
    rsvrd. future use   : 0x3
    Min over. smth. rate: 0x50
    rsvrd. future use   : 0x3
-   Max over. smth. buf : 0x1000
+   Max over. smth. buf : 4096 (0x1000)
 
    - Transport Stream Descriptor -
    Tag                 : 0x67
@@ -75,23 +75,23 @@ Orig. network id    : 1092 (0x444)
 
 - - EIT PF Dump (Other) - -
 Table id            : 0x4f
-Section syn. ind.   : 0x1
+Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
 Table length        : 23 (0x17)
 Service id          : 101 (0x65)
 reserved            : 0x3
 Version number      : 0
-Current next ind.   : 0x1
+Current next ind.   : 1
 Xport stream id     : 1092 (0x444)
 Orig. network id    : 1365 (0x555)
 
  - -* Present Event List *- -
-  Event id            : 0x2000
+  Event id            : 8192 (0x2000)
   Start time          : 0xc826 (3/1/1999), 09:00:00
   Duration            : 00:30:00
-  Running status      : 0x1
-  Free CA mode        : 0x1
+  Running status      : 1
+  Free CA mode        : 1
   Desc. loop len      : 0 (0)
 
 

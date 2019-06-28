@@ -50,8 +50,8 @@ namespace sigen
       identStr(o, UTC_S, utc);
 
       // reserved + loop length
-      rsrvdStr(o, RESERVED_FU_S, 0xf);
-      identStr(o, DESC_LOOP_LEN_S, descriptors.loop_length() & LEN_MASK, true);
+      identStr(o, RESERVED_FU_S, 0xf);
+      identStr(o, DESC_LOOP_LEN_S, descriptors.loop_length() & LEN_MASK);
       o << std::endl;
 
       // descriptors

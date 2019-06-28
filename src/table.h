@@ -211,8 +211,7 @@ namespace sigen {
       virtual bool writeSection(Section& , ui8, ui16 &) const = 0;
 
 #ifdef ENABLE_DUMP
-      virtual void dumpHeader(std::ostream &o, STRID table_label,
-                              STRID ext_label, bool hexdec = false) const;
+      virtual void dumpHeader(std::ostream &o, STRID table_label, STRID ext_label) const;
 #endif
 
       // for inner class with descriptor lists

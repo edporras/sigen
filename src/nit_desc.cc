@@ -83,13 +83,13 @@ namespace sigen
       incOutLevel();
       for (const auto& ann : announcement_list) {
          identStr(o, ANNOUNCEMENT_TYPE_S, ann.type);
-         rsrvdStr(o, RESERVED_FU_S, 0x1);
+         identStr(o, RESERVED_FU_S, 0x1);
          identStr(o, REF_TYPE_S, ann.reference_type);
 
          if (ann.actual_serv_info) {
-            identStr(o, ORIG_NETWORK_ID_S, ann.actual_serv_info->original_network_id, true);
-            identStr(o, XPORT_STREAM_ID_S, ann.actual_serv_info->xport_stream_id, true);
-            identStr(o, SERVICE_ID_S, ann.actual_serv_info->service_id, true);
+            identStr(o, ORIG_NETWORK_ID_S, ann.actual_serv_info->original_network_id);
+            identStr(o, XPORT_STREAM_ID_S, ann.actual_serv_info->xport_stream_id);
+            identStr(o, SERVICE_ID_S, ann.actual_serv_info->service_id);
             identStr(o, COMPONENT_TAG_S, ann.actual_serv_info->component_tag);
          }
          o << std::endl;
@@ -125,7 +125,7 @@ namespace sigen
       dumpHeader( o, CABLE_DEL_SYS_D_S );
 
       identStr(o, FREQ_S, frequency);
-      rsrvdStr(o, RESERVED_FU_S, 0xfff);
+      identStr(o, RESERVED_FU_S, 0xfff);
       identStr(o, FEC_O_S, fec_outer);
       identStr(o, MOD_S, modulation);
       identStr(o, SYM_RATE_S, symbol_rate);
@@ -206,7 +206,7 @@ namespace sigen
       for (const auto& link : cflink_list) {
          identStr(o, CELL_ID_S, link.cell_id);
          identStr(o, FREQ_S, link.frequency);
-         identStr(o, SUBCELL_INFO_LOOP_LEN_S, link.subcell_list.size() * Link::SubCell::BASE_LEN, true);
+         identStr(o, SUBCELL_INFO_LOOP_LEN_S, link.subcell_list.size() * Link::SubCell::BASE_LEN);
 
          for (const auto& subcell : link.subcell_list) {
             identStr(o, CELL_ID_EXT_S, subcell.cell_id_extension);
@@ -351,7 +351,7 @@ namespace sigen
    {
       dumpHeader(o, FREQ_LIST_D_S);
 
-      rsrvdStr(o, RESERVED_FU_S, 0x3f);
+      identStr(o, RESERVED_FU_S, 0x3f);
       identStr(o, CODING_TYPE_S, coding_type);
 
       incOutLevel();
@@ -441,7 +441,7 @@ namespace sigen
       identStr(o, PRIORITY_S, priority);
       identStr(o, TIME_SLICE_IND_S, time_slicing_indicator);
       identStr(o, MPE_FEC_IND_S, MPE_FEC_indicator);
-      rsrvdStr(o, RESERVED_FU_S, 0x3);
+      identStr(o, RESERVED_FU_S, 0x3);
       identStr(o, CONSTELLATION_S, constellation);
       identStr(o, H_INFO_S, hierarchy_info);
       identStr(o, CR_HP_STREAM_S, cr_HP_stream);
@@ -450,7 +450,7 @@ namespace sigen
       identStr(o, TRANS_MODE_S, transmission_mode);
       identStr(o, OTHER_FREQ_FLAG_S, other_freq_flag);
 
-      rsrvdStr(o, RESERVED_S, 0xffffffff);
+      identStr(o, RESERVED_S, 0xffffffff);
    }
 #endif
 

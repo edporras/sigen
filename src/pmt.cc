@@ -243,13 +243,13 @@ namespace sigen
    void PMT::dump(std::ostream &o) const
    {
       // table header
-      dumpHeader(o, PMT_DUMP_S, PROGRAM_NUM_S, true);
+      dumpHeader(o, PMT_DUMP_S, PROGRAM_NUM_S);
 
       // pmt-specific
-      rsrvdStr(o, RESERVED_S, 0x07);
+      identStr(o, RESERVED_S, 0x07);
       identStr(o, PCR_PID_S, pcr_pid);
-      rsrvdStr(o, RESERVED_S, 0x0f);
-      identStr(o, PROGRAM_INFO_LEN_S, program_info_length, true);
+      identStr(o, RESERVED_S, 0x0f);
+      identStr(o, PROGRAM_INFO_LEN_S, program_info_length);
       o << std::endl;
 
       // program desc list
@@ -257,14 +257,14 @@ namespace sigen
 
       // stream list
       incOutLevel(); // indent output
-      headerStr(o, STREAM_LIST_S, false);
+      headerStr(o, STREAM_LIST_S);
 
       for (const ElementaryStream& stream : es_list) {
-         identStr(o, STREAM_TYPE_S, stream.type, true);
-         rsrvdStr(o, RESERVED_S, 0x07);
-         identStr(o, ELEM_PID_S, stream.elementary_pid, true);
-         rsrvdStr(o, RESERVED_S, 0x0f);
-         identStr(o, ES_INFO_LEN_S, stream.descriptors.loop_length(), true);
+         identStr(o, STREAM_TYPE_S, stream.type);
+         identStr(o, RESERVED_S, 0x07);
+         identStr(o, ELEM_PID_S, stream.elementary_pid);
+         identStr(o, RESERVED_S, 0x0f);
+         identStr(o, ES_INFO_LEN_S, stream.descriptors.loop_length());
 
          o << std::endl;
 

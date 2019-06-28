@@ -109,10 +109,9 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       // handles dumping data with correct tags
-      void dumpData(std::ostream &o, STRID desc_type, STRID data_type,
-                    bool dechex = false) const {
+      void dumpData(std::ostream &o, STRID desc_type, STRID data_type) const {
          dumpHeader(o, desc_type);
-         identStr( o, data_type, data, dechex );
+         identStr(o, data_type, data);
       }
 #endif
 

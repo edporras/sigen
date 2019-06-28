@@ -180,7 +180,7 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
-         dumpData( o, TIME_SHIFTED_SERV_D_S, REF_SID_S, true);
+         dumpData(o, TIME_SHIFTED_SERV_D_S, REF_SID_S);
       }
 #endif
    };

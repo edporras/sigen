@@ -77,9 +77,9 @@ namespace sigen
       incOutLevel();
       for (const auto &lang : language_list) {
          identStr(o, CODE_S, lang.language_code);
-         identStr(o, PROV_NAME_LEN_S, lang.provider_name.length(), true);
+         identStr(o, PROV_NAME_LEN_S, lang.provider_name.length());
          identStr(o, PROV_NAME_S, lang.provider_name);
-         identStr(o, SERVICE_NAME_LEN_S, lang.service_name.length(), true);
+         identStr(o, SERVICE_NAME_LEN_S, lang.service_name.length());
          identStr(o, SERVICE_NAME_S, lang.service_name);
       }
       decOutLevel();
@@ -127,9 +127,9 @@ namespace sigen
       // dump the descriptor's data
       incOutLevel();
       for (const auto &ident : ident_list) {
-         identStr(o, XPORT_STREAM_ID_S, ident.xport_stream_id, true);
-         identStr(o, ORIG_NETWORK_ID_S, ident.original_network_id, true);
-         identStr(o, SERVICE_ID_S, ident.service_id, true);
+         identStr(o, XPORT_STREAM_ID_S, ident.xport_stream_id);
+         identStr(o, ORIG_NETWORK_ID_S, ident.original_network_id);
+         identStr(o, SERVICE_ID_S, ident.service_id);
          o << std::endl;
       }
       decOutLevel();
@@ -169,9 +169,9 @@ namespace sigen
 
       // dump the descriptor's data
       identStr(o, TYPE_S, type);
-      identStr(o, PROV_NAME_LEN_S, provider_name.length(), true);
+      identStr(o, PROV_NAME_LEN_S, provider_name.length());
       identStr(o, PROV_NAME_S, provider_name);
-      identStr(o, SERVICE_NAME_LEN_S, name.length(), true);
+      identStr(o, SERVICE_NAME_LEN_S, name.length());
       identStr(o, SERVICE_NAME_S, name);
    }
 #endif

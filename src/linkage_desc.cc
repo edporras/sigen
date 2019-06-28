@@ -91,9 +91,9 @@ namespace sigen {
    {
       dumpHeader(o, LINKAGE_D_S);
 
-      identStr(o, XPORT_STREAM_ID_S, xport_stream_id, true);
-      identStr(o, ORIG_NETWORK_ID_S, original_network_id, true);
-      identStr(o, SERVICE_ID_S, service_id, true);
+      identStr(o, XPORT_STREAM_ID_S, xport_stream_id);
+      identStr(o, ORIG_NETWORK_ID_S, original_network_id);
+      identStr(o, SERVICE_ID_S, service_id);
       identStr(o, LINKAGE_TYPE_S, linkage_type);
       identStr(o, PVT_DATA_S, private_data);
    }
@@ -148,14 +148,14 @@ namespace sigen {
       LinkageDesc::dump(o);
 
       identStr(o, HAND_OVER_TYPE_S, hand_over_type);
-      rsrvdStr(o, RESERVED_FU_S, 0x7);
+      identStr(o, RESERVED_FU_S, 0x7);
       identStr(o, ORIGIN_TYPE_S, origin_type);
 
       if (hand_over_type != MobileHandoverLinkageDesc::HO_RESERVED)
-         identStr(o, NETWORK_ID_S, network_id, true);
+         identStr(o, NETWORK_ID_S, network_id);
 
       if (origin_type == MobileHandoverLinkageDesc::NIT)
-         identStr(o, INITIAL_SERV_ID_S, initial_service_id, true);
+         identStr(o, INITIAL_SERV_ID_S, initial_service_id);
 
       identStr(o, PVT_DATA_S, private_data);
    }

@@ -108,7 +108,7 @@ namespace sigen
       dumpHeader(o, COUNTRY_AVAIL_D_S);
 
       identStr(o, COUNTRY_AVAIL_FLAG_S, country_availability_flag);
-      rsrvdStr(o, RESERVED_FU_S, 0x7f);
+      identStr(o, RESERVED_FU_S, 0x7f);
 
       incOutLevel();
       for (const auto& lc : country_list)
@@ -146,12 +146,12 @@ namespace sigen
       identStr(o, DATA_BCAST_ID_S, data_broadcast_id);
       identStr(o, COMPONENT_TAG_S, component_tag);
 
-      identStr(o, SELECTOR_LEN_S, selector_byte.length(), true);
+      identStr(o, SELECTOR_LEN_S, selector_byte.length());
       identStr(o, SELECTOR_S, selector_byte);
 
       identStr(o, LANGUAGE_CODE_S, code);
 
-      identStr(o, TEXT_LEN_S, text.length(), true);
+      identStr(o, TEXT_LEN_S, text.length());
       identStr(o, TEXT_S, text );
    }
 #endif
@@ -223,7 +223,7 @@ namespace sigen
 
          identStr(o, COUNTRY_CODE_S, offset.country_code);
          identStr(o, COUNTRY_REGION_ID_S, offset.country_region_id);
-         rsrvdStr(o, RESERVED_S, 0x01);
+         identStr(o, RESERVED_S, 0x01);
          identStr(o, LTO_POLARITY_S, offset.local_time_offset_polarity);
          identStr(o, LOCAL_TIME_OFFSET_S, offset.local_time_offset);
          identStr(o, UTC_S, offset.time_of_change);
@@ -277,11 +277,11 @@ namespace sigen
    {
       dumpHeader(o, PARTIAL_TS_D_S);
 
-      rsrvdStr(o, RESERVED_FU_S, 0x3);
+      identStr(o, RESERVED_FU_S, 0x3);
       identStr(o, PEAK_RATE_S, peak_rate);
-      rsrvdStr(o, RESERVED_FU_S, 0x3);
+      identStr(o, RESERVED_FU_S, 0x3);
       identStr(o, MIN_OS_RATE_S, min_overall_smoothing_rate);
-      rsrvdStr(o, RESERVED_FU_S, 0x3);
+      identStr(o, RESERVED_FU_S, 0x3);
       identStr(o, MAX_OS_BUFFER_S, max_overall_smoothing_buffer);
    }
 #endif
@@ -327,7 +327,7 @@ namespace sigen
       incOutLevel();
 
       for (const auto &service : service_list) {
-         identStr(o, SERVICE_ID_S, service.id, true);
+         identStr(o, SERVICE_ID_S, service.id);
          identStr(o, TYPE_S, service.type);
       }
       decOutLevel();
@@ -404,16 +404,16 @@ namespace sigen
    {
       dumpHeader(o, TELEPHONE_D_S);
 
-      rsrvdStr(o, RESERVED_FU_S, 0x03);
+      identStr(o, RESERVED_FU_S, 0x03);
       identStr(o, FOREIGN_AVAIL_S, foreign_availability);
       identStr(o, CONNECTION_TYPE_S, connection_type);
-      rsrvdStr(o, RESERVED_FU_S, 0x01);
-      identStr(o, COUNTRY_PREFIX_LEN_S, country_prefix.length(), true);
-      identStr(o, INTNL_AC_LEN_S, international_area_code.length(), true);
-      identStr(o, OPERATOR_CODE_LEN_S, operator_code.length(), true);
-      rsrvdStr(o, RESERVED_FU_S, 0x01);
-      identStr(o, NTNL_AC_LEN_S, national_area_code.length(), true);
-      identStr(o, CORE_NUM_LEN_S, core_number.length(), true);
+      identStr(o, RESERVED_FU_S, 0x01);
+      identStr(o, COUNTRY_PREFIX_LEN_S, country_prefix.length());
+      identStr(o, INTNL_AC_LEN_S, international_area_code.length());
+      identStr(o, OPERATOR_CODE_LEN_S, operator_code.length());
+      identStr(o, RESERVED_FU_S, 0x01);
+      identStr(o, NTNL_AC_LEN_S, national_area_code.length());
+      identStr(o, CORE_NUM_LEN_S, core_number.length());
       identStr(o, COUNTRY_PREFIX_S, country_prefix);
       identStr(o, INTNL_AC_S, international_area_code);
       identStr(o, OPERATOR_CODE_S, operator_code);

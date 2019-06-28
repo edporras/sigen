@@ -1,6 +1,6 @@
 - - ST Dump - -
 Table id            : 0x72
-Section syn. ind.   : 0x1
+Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
 Table length        : 600 (0x258)
@@ -47,7 +47,7 @@ Table length        : 600 (0x258)
 
 - - ST Dump - -
 Table id            : 0x72
-Section syn. ind.   : 0x1
+Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
 Table length        : 4093 (0xffd)

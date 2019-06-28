@@ -15,18 +15,18 @@ Desc. loop len      : 28 (0x1c)
   Country code        : "eng"
   Country region id   : 0x22
   reserved            : 0x1
-  Lcl time offset pol : 0x1
-  Local time offset   : 0x1234
+  Lcl time offset pol : 1
+  Local time offset   : 4660 (0x1234)
   UTC                 : 0xc800 (1/22/1999), 10:00:00
-  Next time offset    : 0x4321
+  Next time offset    : 17185 (0x4321)
 
   Country code        : "fre"
   Country region id   : 0x23
   reserved            : 0x1
-  Lcl time offset pol : 0x1
-  Local time offset   : 0x5678
+  Lcl time offset pol : 1
+  Local time offset   : 22136 (0x5678)
   UTC                 : 0xc800 (1/22/1999), 10:00:00
-  Next time offset    : 0x8765
+  Next time offset    : 34661 (0x8765)
 
 
 

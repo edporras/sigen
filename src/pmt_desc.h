@@ -208,7 +208,7 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
-         dumpData( o, ANCILLARY_DATA_D_S, ANCILLARY_DATA_IDENT_S );
+         dumpData(o, ANCILLARY_DATA_D_S, ANCILLARY_DATA_IDENT_S);
       }
 #endif
    };
@@ -332,7 +332,7 @@ namespace sigen {
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream& o) const {
-         dumpData( o, STREAM_IDENT_D_S, COMPONENT_TAG_S );
+         dumpData(o, STREAM_IDENT_D_S, COMPONENT_TAG_S);
       }
 #endif
    };
