@@ -17,7 +17,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// debug.h: data dump routines.  This file is included in the
+// dump.h: data dump routines.  This file is included in the
 // library if ENABLE_DUMP is defined in the Makefile
 // -----------------------------------
 
@@ -345,9 +345,6 @@ namespace sigen {
       VIDEO_STREAM_D_S,   // - Video Stream Descriptor -
       VIDEO_WINDOW_D_S,   // - Video Window Descriptor -
       XPORT_STREAM_D_S,   // - Transport Stream Descriptor -
-
-      // num_strings
-      NUM_STRING_IDS
    };
 
    // output utility functions
