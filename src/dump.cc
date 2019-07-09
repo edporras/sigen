@@ -26,7 +26,6 @@
 #include <string>
 #include <map>
 #include <sstream>
-#include <stdexcept>
 #include "dump.h"
 #include "language_code.h"
 #include "utc.h"
@@ -34,9 +33,9 @@
 namespace sigen
 {
    // used for display
-   static ui8 level = 0;
-   static const int LINE_WIDTH = 16;
-   static const int T_STR_W = 20;
+   static uint_fast8_t level = 0;
+   static const uint_fast8_t LINE_WIDTH = 16;
+   static const uint_fast8_t T_STR_W = 20;
 
    enum DumpFormat { AUTO, DEC, HEX, DECHEX, TABLE, FIELDS, DESC };
    struct Label {
@@ -354,18 +353,11 @@ namespace sigen
    };
 
    //
-   // looks up the STRID in the map - throws if not found.
-   static const Label& outstr(STRID id) {
-      return out_str.at(id);
-      //return out_str.at(ADAP_FLD_DATA_IDENT_S);
-   }
-
-   //
    // dumps a single data line
    //
-   static void dumpDataLine(std::ostream& o, const ui8 *data, ui8 length)
+   static void dumpDataLine(std::ostream& o, const ui8* data, ui8 length)
    {
-      ui8 i;
+      uint_fast8_t i;
 
       o << std::hex;
 
@@ -396,7 +388,7 @@ namespace sigen
    // outputs spaces before a line based on the current indent level
    static void indent(std::ostream& o)
    {
-      for (ui8 i = 0; i < level; i++)
+      for (uint_fast8_t i = 0; i < level; i++)
          o << " ";
       o.setf(std::ios::left | std::ios::showbase);
       o << std::setfill(' ');
@@ -405,10 +397,8 @@ namespace sigen
    //
    // dumps data in binary / char mode
    //
-   void dumpData(std::ostream& o, const ui8 *data, ui16 length)
+   void dumpData(std::ostream& o, const ui8* data, ui16 length)
    {
-      int num_lines = (length / LINE_WIDTH) + 1;
-
       // set stdout to not show base and pad right with 0's
       std::ios::fmtflags f = o.flags();
 
@@ -416,7 +406,8 @@ namespace sigen
       o.setf(std::ios::right);
       o << std::setfill('0');
 
-      for (int i = 0, rem = length; i < num_lines; i++, rem -= LINE_WIDTH) {
+      uint_fast16_t num_lines = (length / LINE_WIDTH) + 1;
+      for (uint_fast16_t i = 0, rem = length; i < num_lines; i++, rem -= LINE_WIDTH) {
          // calculate the length of the line
          int len = (rem < LINE_WIDTH) ? rem : LINE_WIDTH;
 
@@ -457,7 +448,7 @@ namespace sigen
    // functions for displaying a header string
    void headerStr(std::ostream& o, STRID s)
    {
-      const Label& l = outstr(s);
+      const Label& l = out_str.at(s);
       indent(o);
       o << "- "
         << l.str;
@@ -510,29 +501,29 @@ namespace sigen
 
    void identStr(std::ostream& o, STRID s, ui32 data)
    {
-      identStr(o, outstr(s), data);
+      identStr(o, out_str.at(s), data);
    }
 
    void identStr(std::ostream& o, STRID s, const std::string& data, bool cr)
    {
       if (data.length())
-         identStr(o, outstr(s), data, cr, true);
+         identStr(o, out_str.at(s), data, cr, true);
    }
 
    void identStr(std::ostream& o, STRID s, const LanguageCode& lc)
    {
-      identStr(o, outstr(s), lc.str(), true, true);
+      identStr(o, out_str.at(s), lc.str(), true, true);
    }
 
    void identStr(std::ostream& o, STRID s, const UTC& time)
    {
-      identStr(o, outstr(s));
+      identStr(o, out_str.at(s));
       o << time << std::endl;
    }
 
    void identStr(std::ostream& o, STRID s, const BCDTime& dur)
    {
-      identStr(o, outstr(s));
+      identStr(o, out_str.at(s));
       o << dur << std::endl;
    }
 
@@ -548,7 +539,7 @@ namespace sigen
          for (ui16 byte : data)
             data_str << std::setw(2) << std::hex << byte;
 
-         identStr(o, outstr(s), data_str.str(), true, false);
+         identStr(o, out_str.at(s), data_str.str(), true, false);
       }
    }
 }
