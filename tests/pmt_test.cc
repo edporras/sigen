@@ -98,6 +98,54 @@ namespace tests
                       2, v);
       pmt.addElemStreamDesc(*ssudbid);
 
+      // Audio & VideoStreamDesc
+      AudioStreamDesc *asd = new AudioStreamDesc(true, false, 0x22);
+      pmt.addElemStreamDesc( *asd );
+
+      VideoStreamDesc *vsd1 = new VideoStreamDesc( false, 0x09, false, true );
+      pmt.addElemStreamDesc( *vsd1 );
+
+      VideoStreamDesc *vsd2 = new VideoStreamDesc( false, 0x09, false, true,
+                                                   0x88, 0x2, true );
+      pmt.addElemStreamDesc( *vsd2 );
+
+      DataBroadcastIdDesc *dbid = new DataBroadcastIdDesc(0x4545);
+      pmt.addElemStreamDesc( *dbid );
+
+      // HierarchyDesc
+      HierarchyDesc *hd = new HierarchyDesc( 0x02, 0x15, 0x16, 0x17 );
+      pmt.addElemStreamDesc( *hd );
+
+      MaximumBitrateDesc *mbd = new MaximumBitrateDesc( 0x234243 );
+      pmt.addElemStreamDesc( *mbd );
+
+      CopyrightDesc *crd = new CopyrightDesc( 0x88990011, "(c) 2001 ep");
+      pmt.addElemStreamDesc( *crd );
+
+      MultiplexBufferUtilizationDesc *mbud = new MultiplexBufferUtilizationDesc( false, 0xefff, 0x27 );
+      pmt.addElemStreamDesc( *mbud );
+
+      SystemClockDesc *scd = new SystemClockDesc( true, 0x7, 0x3);
+      pmt.addElemStreamDesc( *scd );
+
+      TargetBackgroundGridDesc *tbgd = new TargetBackgroundGridDesc( 0x0001, 0x0002, 0x1);
+      pmt.addElemStreamDesc( *tbgd );
+
+      VideoWindowDesc *vwd = new VideoWindowDesc( 0x0002, 0x0001, 0x03 );
+      pmt.addElemStreamDesc( *vwd );
+
+      RegistrationDesc *rd = new RegistrationDesc( 0x43523412, "" );
+      pmt.addElemStreamDesc( *rd );
+
+      STDDesc *stdd = new STDDesc( false );
+      pmt.addElemStreamDesc( *stdd );
+
+      SmoothingBufferDesc *sbd = new SmoothingBufferDesc( 0x334455, 0x445566 );
+      pmt.addElemStreamDesc( *sbd );
+
+      IBPDesc *id = new IBPDesc( true, false, 0x1111);
+      pmt.addElemStreamDesc( *id );
+
       // LinkageDesc
       LinkageDesc *ld = new LinkageDesc( 0x001, 0x002, 0x003, 0xf );
       pmt.addElemStreamDesc( *ld );

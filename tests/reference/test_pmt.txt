@@ -3,7 +3,7 @@ Table id            : 2
 Section syn. ind.   : 1
 rsvrd. future use   : 0
 reserved            : 0x3
-Table length        : 226 (0xe2)
+Table length        : 312 (0x138)
 Program number      : 100 (0x64)
 reserved            : 0x3
 Version number      : 1
@@ -184,6 +184,123 @@ Program info len    : 128 (0x80)
    Selector len        : 7 (0x7)
    Selector            : 01020304050607
 
+  - Audio Stream Descriptor -
+  Tag                 : 0x3
+  Length              : 1 (0x1)
+  Free format flag    : 1
+  Id                  : 0
+  Layer               : 2
+  Variable rate audio ind.: 1
+  reserved            : 0xf
+
+  - Video Stream Descriptor -
+  Tag                 : 0x2
+  Length              : 1 (0x1)
+  Mult. frm. rt flag  : 0
+  Frame rate code     : 9
+  MPEG1 only flag     : 1
+  Cnstr. param. flag  : 0
+  Still pic flag      : 1
+
+  - Video Stream Descriptor -
+  Tag                 : 0x2
+  Length              : 3 (0x3)
+  Mult. frm. rt flag  : 0
+  Frame rate code     : 9
+  MPEG1 only flag     : 0
+  Cnstr. param. flag  : 0
+  Still pic flag      : 1
+  Prof/level ind.     : 0x88
+  Chroma format       : 2
+  Frame rate ext flag : 1
+  reserved            : 0x1f
+
+  - Data Broadcast Id Descriptor -
+  Tag                 : 0x66
+  Length              : 2 (0x2)
+  Data broadcast id   : 17733 (0x4545)
+
+  - Hierarchy Descriptor -
+  Tag                 : 0x4
+  Length              : 4 (0x4)
+  reserved            : 0xf
+  Hierarchy type      : 2
+  reserved            : 0x3
+  Hierarchy layer idx : 0x15
+  reserved            : 0x3
+  Hierarchy emb layer : 0x16
+  reserved            : 0x3
+  Hierarchy priority  : 0x17
+
+  - Maximum Bitrate Descriptor -
+  Tag                 : 0xe
+  Length              : 3 (0x3)
+  reserved            : 0x3
+  Maximum bitrate     : 2310723 (0x234243)
+
+  - Copyright Descriptor -
+  Tag                 : 0xd
+  Length              : 15 (0xf)
+  Copyright ident     : 2291728401 (0x88990011)
+  Copyright info      : "(c) 2001 ep"
+
+  - Multiplex Buff Utilization Descriptor -
+  Tag                 : 0xc
+  Length              : 4 (0x4)
+  Bound valid flag    : 0
+  LTW offset low bnd  : 28671 (0x6fff)
+  reserved            : 0x1
+  LTW offset upp bnd  : 0x27
+
+  - System Clock Descriptor -
+  Tag                 : 0xb
+  Length              : 2 (0x2)
+  Ext clock ref ind   : 1
+  reserved            : 0x1
+  Clock accuracy int  : 7
+  Clock accuracy exp  : 3
+  reserved            : 0x1f
+
+  - Target Background Grid Descriptor -
+  Tag                 : 0x7
+  Length              : 4 (0x4)
+  Horizontal size     : 1
+  Vertical size       : 2
+  Pel aspect ratio    : 1
+
+  - Video Window Descriptor -
+  Tag                 : 0x8
+  Length              : 4 (0x4)
+  Horizontal offset   : 2
+  Vertical offset     : 1
+  Window priority     : 3
+
+  - Registration Descriptor -
+  Tag                 : 0x5
+  Length              : 4 (0x4)
+  Format identifier   : 1129460754 (0x43523412)
+
+  - STD Descriptor -
+  Tag                 : 0x11
+  Length              : 1 (0x1)
+  reserved            : 0x7f
+  Leak valid flag     : 0
+
+  - Smoothing Buffer Descriptor -
+  Tag                 : 0x10
+  Length              : 6 (0x6)
+  reserved            : 0x3
+  SB leak rate        : 3359829 (0x334455)
+  reserved            : 0x3
+  SB size             : 284006 (0x45566)
+
+  - IBP Descriptor -
+  Tag                 : 0x12
+  Length              : 2 (0x2)
+  Closed gop flag     : 1
+  Identical gop flag  : 0
+  Max gop len         : 4369 (0x1111)
+
   - Linkage Descriptor -
   Tag                 : 0x4a
   Length              : 7 (0x7)
@@ -223,8 +340,8 @@ Program info len    : 128 (0x80)
 
 -- Section dump - num_sections: 2 --
 
-- sec: 0, length: 198, size (max): 200, data: 
-[0000] 02 b0 c5 00 64 c3 00 01 e0 65 f0 80 59 28 65 6e   ....d....e..Y(en
+- sec: 0, length: 195, size (max): 200, data: 
+[0000] 02 b0 c2 00 64 c3 00 01 e0 65 f0 80 59 28 65 6e   ....d....e..Y(en
 [0016] 67 01 10 00 10 10 66 72 65 01 10 01 10 10 64 65   g.....fre.....de
 [0032] 75 01 10 02 10 10 73 70 61 01 10 03 10 10 72 75   u.....spa.....ru
 [0048] 73 01 10 04 10 10 56 23 65 6e 67 09 11 66 72 65   s.....V#eng..fre
@@ -234,14 +351,20 @@ Program info len    : 128 (0x80)
 [0112] 06 6a 03 5f 02 04 7a 03 8c 01 22 6b 01 51 0f 04   .j._..z..."k.Q..
 [0128] 55 55 33 33 60 06 00 01 00 02 00 03 03 e0 21 f0   UU33`.........!.
 [0144] 10 4a 0e 20 00 10 00 00 64 08 3e 00 64 00 14 01   .J. ....d.>.d...
-[0160] e0 22 f0 1e 06 01 ff 66 10 00 0a 0d 00 20 01 f3   .".....f..... ..
-[0176] e2 07 01 02 03 04 05 06 07 4a 07 00 01 00 02 00   .........J......
-[0192] 03 0f 72 df 87 98                                 ..r...
+[0160] e0 22 f0 1b 06 01 ff 66 10 00 0a 0d 00 20 01 f3   .".....f..... ..
+[0176] e2 07 01 02 03 04 05 06 07 03 01 af 02 01 4d fa   ..............M.
+[0192] d5 73 1b                                          .s.
 
-- sec: 1, length: 55, size (max): 200, data: 
-[0000] 02 b0 33 00 64 c3 01 01 e0 65 f0 00 01 e0 22 f0   ..3.d....e....".
-[0016] 21 4a 13 10 00 20 00 01 01 09 0b 01 23 45 07 01   !J... ......#E..
-[0032] 02 03 04 05 06 07 4a 07 10 00 20 00 01 00 0a 02   ......J... .....
-[0048] 70 01 04 a2 7b 28 2d                              p...{(-
+- sec: 1, length: 144, size (max): 200, data: 
+[0000] 02 b0 8c 00 64 c3 01 01 e0 65 f0 00 01 e0 22 f0   ....d....e....".
+[0016] 7a 02 03 49 88 bf 66 02 45 45 04 04 f2 d5 d6 d7   z..I..f.EE......
+[0032] 0e 03 e3 42 43 0d 0f 88 99 00 11 28 63 29 20 32   ...BC......(c) 2
+[0048] 30 30 31 20 65 70 0c 04 6f ff 80 27 0b 02 f7 7f   001 ep..o..'....
+[0064] 07 04 00 04 00 21 08 04 00 08 00 13 05 04 43 52   .....!........CR
+[0080] 34 12 11 01 0e 10 06 f3 44 55 c4 55 66 12 02 91   4.......DU.Uf...
+[0096] 11 4a 07 00 01 00 02 00 03 0f 4a 13 10 00 20 00   .J........J... .
+[0112] 01 01 09 0b 01 23 45 07 01 02 03 04 05 06 07 4a   .....#E........J
+[0128] 07 10 00 20 00 01 00 0a 02 70 01 04 14 ec ae 61   ... .....p.....a
+[0144]                                                   
 
 PASS test_pmt.sh (exit status: 0)

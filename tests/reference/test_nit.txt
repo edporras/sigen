@@ -3,7 +3,7 @@ Table id            : 0x40
 Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
-Table length        : 563 (0x233)
+Table length        : 590 (0x24e)
 Network id          : 256 (0x100)
 reserved            : 0x3
 Version number      : 1
@@ -54,7 +54,7 @@ Network desc. len   : 360 (0x168)
 
 
 rsvrd. future use   : 0xf
-Xprt str loop len   : 194 (0xc2)
+Xprt str loop len   : 221 (0xdd)
 
  - *-- Transport Stream --* -
  Xport stream id     : 16 (0x10)
@@ -125,7 +125,7 @@ Xprt str loop len   : 194 (0xc2)
  Xport stream id     : 33 (0x21)
  Orig. network id    : 49 (0x31)
  rsvrd. future use   : 0xf
- Desc. len           : 131 (0x83)
+ Desc. len           : 158 (0x9e)
 
   - Satellite Delivery System Descriptor -
   Tag                 : 0x43
@@ -225,13 +225,25 @@ Xprt str loop len   : 194 (0xc2)
   Subcell ext. of lat.: 557 (0x22d)
   Subcell ext. of lon.: 668 (0x29c)
 
+  - Frequency List Descriptor -
+  Tag                 : 0x62
+  Length              : 25 (0x19)
+  rsvrd. future use   : 0x3f
+  Coding type         : 2
+   Frequency           : 4096 (0x1000)
+   Frequency           : 8192 (0x2000)
+   Frequency           : 12288 (0x3000)
+   Frequency           : 16384 (0x4000)
+   Frequency           : 20480 (0x5000)
+   Frequency           : 24576 (0x6000)
 
 
 
--- Section dump - num_sections: 2 --
+
+-- Section dump - num_sections: 3 --
 
 - sec: 0, length: 300, size (max): 300, data: 
-[0000] 40 f1 29 01 00 c3 00 01 f1 1c 40 0a 6d 79 20 6e   @.).......@.my n
+[0000] 40 f1 29 01 00 c3 00 02 f1 1c 40 0a 6d 79 20 6e   @.).......@.my n
 [0016] 65 74 77 6f 72 6b 40 ff 63 63 63 63 63 63 63 63   etwork@.cccccccc
 [0032] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
 [0048] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
@@ -249,10 +261,10 @@ Xprt str loop len   : 194 (0xc2)
 [0240] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
 [0256] 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63 63   cccccccccccccccc
 [0272] 63 63 63 63 63 63 63 42 0d 7a 7a 7a 7a 7a 7a 7a   cccccccB.zzzzzzz
-[0288] 7a 7a 7a 7a 7a 7a f0 00 b0 73 1f f4               zzzzzz...s..
+[0288] 7a 7a 7a 7a 7a 7a f0 00 f4 74 85 95               zzzzzz...t..
 
 - sec: 1, length: 286, size (max): 300, data: 
-[0000] 40 f1 1b 01 00 c3 01 01 f0 4c 42 17 7a 7a 7a 7a   @........LB.zzzz
+[0000] 40 f1 1b 01 00 c3 01 02 f0 4c 42 17 7a 7a 7a 7a   @........LB.zzzz
 [0016] 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a 7a   zzzzzzzzzzzzzzzz
 [0032] 7a 7a 7a 5b 2d 66 72 65 06 46 72 61 6e 63 65 73   zzz[-fre.Frances
 [0048] 70 61 07 46 72 61 6e 63 69 61 65 6e 67 06 46 72   pa.Franciaeng.Fr
@@ -269,6 +281,12 @@ Xprt str loop len   : 194 (0xc2)
 [0224] 00 0b 00 00 9c 40 05 15 00 00 07 d0 6c 2c 00 01   .....@......l,..
 [0240] 0b b8 07 d0 02 2b 00 41 14 0b b8 07 d0 22 b0 41   .....+.A.....".A
 [0256] 15 0b b9 07 d1 22 c0 42 00 02 0f a0 0b b8 05 b3   .....".B........
-[0272] 02 8f 16 0b ba 07 d2 22 d2 9c 73 13 37 d7         ......."..s.7.
+[0272] 02 8f 16 0b ba 07 d2 22 d2 9c ef d6 91 c0         ......."......
+
+- sec: 2, length: 49, size (max): 300, data: 
+[0000] 40 f0 2e 01 00 c3 02 02 f0 00 f0 21 00 21 00 31   @..........!.!.1
+[0016] f0 1b 62 19 fe 00 00 10 00 00 00 20 00 00 00 30   ..b........ ...0
+[0032] 00 00 00 40 00 00 00 50 00 00 00 60 00 48 94 5b   ...@...P...`.H.[
+[0048] a0                                                .
 
 PASS test_nit.sh (exit status: 0)

@@ -3,7 +3,7 @@ Table id            : 0x42
 Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
-Table length        : 1069 (0x42d)
+Table length        : 1102 (0x44e)
 Xport stream id     : 32 (0x20)
 reserved            : 0x3
 Version number      : 5
@@ -83,7 +83,7 @@ rsvrd. future use   : 0xff
  EIT p/f             : 1
  Running status      : 1
  Free CA mode        : 0
- Desc. loop len      : 271 (0x10f)
+ Desc. loop len      : 304 (0x130)
 
   - Multilingual Service Name Descriptor -
   Tag                 : 0x5d
@@ -123,6 +123,16 @@ rsvrd. future use   : 0xff
    Provider name       : "Radio France 7"
    Service name len    : 14 (0xe)
    Service name        : "Some Service 7"
+
+  - Component Descriptor -
+  Tag                 : 0x50
+  Length              : 31 (0x1f)
+  rsvrd. future use   : 0xf
+  Stream content      : 2
+  Component type      : 4
+  Component tag       : 5
+  ISO 639 Code        : "eng"
+  Text                : "Deescription of component"
 
   - NVOD Reference Descriptor -
   Tag                 : 0x4b
@@ -202,8 +212,8 @@ rsvrd. future use   : 0xff
 [0784] 34 35 36 37 38 39 30 31 32 33 34 35 9b f4 7c 45   456789012345..|E
 [0800]                                                   
 
-- sec: 1, length: 291, size (max): 1024, data: 
-[0000] 42 f1 20 00 20 cb 01 01 00 30 ff 00 c9 fd 21 0f   B. . ....0....!.
+- sec: 1, length: 324, size (max): 1024, data: 
+[0000] 42 f1 41 00 20 cb 01 01 00 30 ff 00 c9 fd 21 30   B.A. ....0....!0
 [0016] 5d e7 66 72 65 0e 52 61 64 69 6f 20 46 72 61 6e   ].fre.Radio Fran
 [0032] 63 65 20 31 0e 53 6f 6d 65 20 53 65 72 76 69 63   ce 1.Some Servic
 [0048] 65 20 31 73 70 61 0e 52 61 64 69 6f 20 46 72 61   e 1spa.Radio Fra
@@ -218,9 +228,11 @@ rsvrd. future use   : 0xff
 [0192] 20 46 72 61 6e 63 65 20 36 0e 53 6f 6d 65 20 53    France 6.Some S
 [0208] 65 72 76 69 63 65 20 36 63 68 69 0e 52 61 64 69   ervice 6chi.Radi
 [0224] 6f 20 46 72 61 6e 63 65 20 37 0e 53 6f 6d 65 20   o France 7.Some 
-[0240] 53 65 72 76 69 63 65 20 37 4b 06 00 01 00 02 00   Service 7K......
-[0256] 03 64 1c 33 33 02 04 74 65 73 74 65 6e 67 10 74   .d.33..testeng.t
-[0272] 68 69 73 20 69 73 20 74 68 65 20 74 65 78 74 ff   his is the text.
-[0288] ca ed 9e                                          ...
+[0240] 53 65 72 76 69 63 65 20 37 50 1f f2 04 05 65 6e   Service 7P....en
+[0256] 67 44 65 65 73 63 72 69 70 74 69 6f 6e 20 6f 66   gDeescription of
+[0272] 20 63 6f 6d 70 6f 6e 65 6e 74 4b 06 00 01 00 02    componentK.....
+[0288] 00 03 64 1c 33 33 02 04 74 65 73 74 65 6e 67 10   ..d.33..testeng.
+[0304] 74 68 69 73 20 69 73 20 74 68 65 20 74 65 78 74   this is the text
+[0320] b5 d1 b4 79                                       ...y
 
 PASS test_sdt.sh (exit status: 0)

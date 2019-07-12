@@ -44,15 +44,18 @@ namespace tests
       sdt.addService(201, false, true, 1, false);
 
       MultilingualServiceNameDesc *mlsnd = new MultilingualServiceNameDesc;
-      mlsnd->addLanguage("fre", "Radio France 1", "Some Service 1");
-      mlsnd->addLanguage("spa", "Radio France 2", "Some Service 2");
-      mlsnd->addLanguage("eng", "Radio France 3", "Some Service 3");
-      mlsnd->addLanguage("deu", "Radio France 4", "Some Service 4");
-      mlsnd->addLanguage("ita", "Radio France 5", "Some Service 5");
-      mlsnd->addLanguage("rus", "Radio France 6", "Some Service 6");
-      mlsnd->addLanguage("chi", "Radio France 7", "Some Service 7");
+      mlsnd->addInfo("fre", "Radio France 1", "Some Service 1");
+      mlsnd->addInfo("spa", "Radio France 2", "Some Service 2");
+      mlsnd->addInfo("eng", "Radio France 3", "Some Service 3");
+      mlsnd->addInfo("deu", "Radio France 4", "Some Service 4");
+      mlsnd->addInfo("ita", "Radio France 5", "Some Service 5");
+      mlsnd->addInfo("rus", "Radio France 6", "Some Service 6");
+      mlsnd->addInfo("chi", "Radio France 7", "Some Service 7");
 
       sdt.addServiceDesc( 201, *mlsnd ); // add by using sid
+
+      ComponentDesc *compd = new ComponentDesc( 0x2, 0x4, 0x5, "eng", "Deescription of component" );
+      sdt.addServiceDesc( *compd );
 
       NVODReferenceDesc *nrd = new NVODReferenceDesc;
       nrd->addIdentifiers( 0x01, 0x02, 0x03 );

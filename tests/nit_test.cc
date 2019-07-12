@@ -114,6 +114,17 @@ namespace tests
       cld->addSubCell(22, 3002, 2002, 557, 668);
       nit.addXportStreamDesc(*cld);
 
+      // FrequencyListDesc
+      FrequencyListDesc *fld = new FrequencyListDesc( 0x2 );
+      fld->addFrequency( 0x1000 );
+      fld->addFrequency( 0x2000 );
+      fld->addFrequency( 0x3000 );
+      fld->addFrequency( 0x4000 );
+      fld->addFrequency( 0x5000 );
+      fld->addFrequency( 0x6000 );
+
+      nit.addXportStreamDesc( *fld );
+
       // add descriptors to a TS by id
       ui16 tsid = 0x20;
       ui16 onid = 0x30;

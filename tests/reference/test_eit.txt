@@ -3,7 +3,7 @@ Table id            : 0x4e
 Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
-Table length        : 110 (0x6e)
+Table length        : 162 (0xa2)
 Service id          : 100 (0x64)
 reserved            : 0x3
 Version number      : 0
@@ -49,7 +49,7 @@ Orig. network id    : 1092 (0x444)
   Duration            : 00:30:00
   Running status      : 1
   Free CA mode        : 1
-  Desc. loop len      : 26 (0x1a)
+  Desc. loop len      : 78 (0x4e)
 
    - DSNG Descriptor -
    Tag                 : 0x68
@@ -71,6 +71,57 @@ Orig. network id    : 1092 (0x444)
    Length              : 3 (0x3)
    Data                : "DVB"
 
+   - Content Descriptor -
+   Tag                 : 0x54
+   Length              : 12 (0xc)
+    Content nbl lvl 1   : 1
+    Content nbl lvl 2   : 1
+    User nibble 1       : 0xc
+    User nibble 2       : 0x1
+    Content nbl lvl 1   : 2
+    Content nbl lvl 2   : 1
+    User nibble 1       : 0xb
+    User nibble 2       : 0x1
+    Content nbl lvl 1   : 3
+    Content nbl lvl 2   : 1
+    User nibble 1       : 0xa
+    User nibble 2       : 0x1
+    Content nbl lvl 1   : 4
+    Content nbl lvl 2   : 1
+    User nibble 1       : 0x9
+    User nibble 2       : 0x1
+    Content nbl lvl 1   : 5
+    Content nbl lvl 2   : 1
+    User nibble 1       : 0x8
+    User nibble 2       : 0x1
+    Content nbl lvl 1   : 6
+    Content nbl lvl 2   : 1
+    User nibble 1       : 0x7
+    User nibble 2       : 0x1
+
+   - Short Smoothing Buffer Descriptor -
+   Tag                 : 0x61
+   Length              : 10 (0xa)
+   SB size             : 1
+   SB leak rate        : 4 (0x4)
+   reserved            : "xxxxxxxxx"
+
+   - Parental Rating Descriptor -
+   Tag                 : 0x55
+   Length              : 24 (0x18)
+    ISO 639 Code        : "eng"
+    Rating              : 1
+    ISO 639 Code        : "fre"
+    Rating              : 2
+    ISO 639 Code        : "deu"
+    Rating              : 1
+    ISO 639 Code        : "ita"
+    Rating              : 2
+    ISO 639 Code        : "gre"
+    Rating              : 3
+    ISO 639 Code        : "spa"
+    Rating              : 4
+
 
 
 - - EIT PF Dump (Other) - -
@@ -78,7 +129,7 @@ Table id            : 0x4f
 Section syn. ind.   : 1
 rsvrd. future use   : 0x1
 reserved            : 0x3
-Table length        : 23 (0x17)
+Table length        : 151 (0x97)
 Service id          : 101 (0x65)
 reserved            : 0x3
 Version number      : 0
@@ -92,7 +143,17 @@ Orig. network id    : 1365 (0x555)
   Duration            : 00:30:00
   Running status      : 1
   Free CA mode        : 1
-  Desc. loop len      : 0 (0)
+  Desc. loop len      : 128 (0x80)
+
+   - Short Event Descriptor -
+   Tag                 : 0x4d
+   Length              : 126 (0x7e)
+   ISO 639 Code        : "eng"
+   Event name len      : 10 (0xa)
+   Event name          : "Fight Club"
+   Text len            : 111 (0x6f)
+   Text                : "An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker."
+
 
 
  - -* Following Event List *- -
@@ -107,15 +168,26 @@ Orig. network id    : 1365 (0x555)
 [0064] 73 74 6f 79 20 63 61 6e 73 61 64 6f dc 00 33 be   stoy cansado..3.
 [0080]                                                   
 
-- sec: 1, length: 56, size (max): 300, data: 
-[0000] 4e f0 31 00 64 c1 01 01 03 33 04 44 01 4e 10 01   N.1.d....3.D.N..
-[0016] c8 26 09 30 00 00 30 00 30 1a 68 09 64 73 6e 67   .&.0..0.0.h.dsng
+- sec: 1, length: 108, size (max): 300, data: 
+[0000] 4e f0 65 00 64 c1 01 01 03 33 04 44 01 4e 10 01   N.e.d....3.D.N..
+[0016] c8 26 09 30 00 00 30 00 30 4e 68 09 64 73 6e 67   .&.0..0.0Nh.dsng
 [0032] 20 64 61 74 61 63 08 c0 30 00 c0 00 50 d0 00 67    datac..0...P..g
-[0048] 03 44 56 42 20 34 44 7a                           .DVB 4Dz
+[0048] 03 44 56 42 54 0c 11 c1 21 b1 31 a1 41 91 51 81   .DVBT...!.1.A.Q.
+[0064] 61 71 61 0a 44 78 78 78 78 78 78 78 78 78 55 18   aqa.DxxxxxxxxxU.
+[0080] 65 6e 67 01 66 72 65 02 64 65 75 01 69 74 61 02   eng.fre.deu.ita.
+[0096] 67 72 65 03 73 70 61 04 be da 81 1f               gre.spa.....
 
-- sec: 2, length: 30, size (max): 4096, data: 
-[0000] 4f f0 17 00 65 c1 00 01 04 44 05 55 01 4f 20 00   O...e....D.U.O .
-[0016] c8 26 09 00 00 00 30 00 30 00 c4 d0 f0 61         .&....0.0....a
+- sec: 2, length: 158, size (max): 4096, data: 
+[0000] 4f f0 97 00 65 c1 00 01 04 44 05 55 01 4f 20 00   O...e....D.U.O .
+[0016] c8 26 09 00 00 00 30 00 30 80 4d 7e 65 6e 67 0a   .&....0.0.M~eng.
+[0032] 46 69 67 68 74 20 43 6c 75 62 6f 41 6e 20 69 6e   Fight CluboAn in
+[0048] 73 6f 6d 6e 69 61 63 20 6f 66 66 69 63 65 20 77   somniac office w
+[0064] 6f 72 6b 65 72 20 6c 6f 6f 6b 69 6e 67 20 66 6f   orker looking fo
+[0080] 72 20 61 20 77 61 79 20 74 6f 20 63 68 61 6e 67   r a way to chang
+[0096] 65 20 68 69 73 20 6c 69 66 65 20 63 72 6f 73 73   e his life cross
+[0112] 65 73 20 70 61 74 68 73 20 77 69 74 68 20 61 20   es paths with a 
+[0128] 64 65 76 69 6c 2d 6d 61 79 2d 63 61 72 65 20 73   devil-may-care s
+[0144] 6f 61 70 20 6d 61 6b 65 72 2e 1a 44 0e 39         oap maker..D.9
 
 - sec: 3, length: 18, size (max): 4096, data: 
 [0000] 4f f0 0b 00 65 c1 01 01 04 44 05 55 01 4f a2 26   O...e....D.U.O.&
