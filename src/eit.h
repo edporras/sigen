@@ -219,6 +219,10 @@ namespace sigen {
     *  @{
     */
 
+   /*! \addtogroup DVB
+    *  @{
+    */
+
    /*!
     * \brief Event Information %Table, Present / Following - Actual, as per ETSI EN 300 468.
     */
@@ -252,6 +256,7 @@ namespace sigen {
       PF_EITOther(ui16 sid, ui16 xs_id, ui16 on_id, ui8 version_number, bool current_next_indicator = true)
          : PF_EIT(sid, xs_id, on_id, PF_EIT::OTHER, version_number, current_next_indicator) { }
    };
+   //! @}
    //! @}
 
 #if 0

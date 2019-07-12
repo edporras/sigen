@@ -131,6 +131,10 @@ namespace sigen {
     *  @{
     */
 
+   /*! \addtogroup DVB
+    *  @{
+    */
+
    /*!
     * \brief Service Description %Table - Actual, as per ETSI EN 300 468.
     */
@@ -161,4 +165,5 @@ namespace sigen {
          : SDT(SDT::OTHER_TID, xs_id, on_id, version_number, current_next_indicator) { }
    };
    //! @}
-} // sigen namespace
+   //! @}
+}

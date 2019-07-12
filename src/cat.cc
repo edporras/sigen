@@ -114,7 +114,7 @@ namespace sigen
 #ifdef ENABLE_DUMP
    //
    // debug dump
-   void CAT::dump(std::ostream &o) const
+   void CAT::dump(std::ostream& o) const
    {
       // table header
       dumpHeader( o, CAT_DUMP_S, RESERVED_S );

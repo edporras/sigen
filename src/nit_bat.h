@@ -17,7 +17,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// nit_bar.h: class definition for the NIT & BAT
+// nit_bat.h: class definition for the NIT & BAT
 // -----------------------------------
 
 #pragma once
@@ -161,6 +161,10 @@ namespace sigen {
     *  @{
     */
 
+   /*! \addtogroup DVB
+    *  @{
+    */
+
    /*!
     * \brief Network Information %Table - Actual, as per ETSI EN 300 468.
     */
@@ -219,6 +223,7 @@ namespace sigen {
       bool addBouquetDesc(Descriptor& desc) { return addDesc(desc); }
    };
 
+   //! @}
    //! @}
 
 } // sigen namespace

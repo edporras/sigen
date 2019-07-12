@@ -34,6 +34,10 @@ namespace sigen {
     *  @{
     */
 
+   /*! \addtogroup MPEG
+    *  @{
+    */
+
    /*!
     * \brief Program Map %Table, as per ISO 13818-1.
     */
@@ -157,5 +161,6 @@ namespace sigen {
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };
    //! @}
-} // sigen namespace
+   //! @}
+}
 

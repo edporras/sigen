@@ -34,6 +34,10 @@ namespace sigen {
     *  @{
     */
 
+   /*! \addtogroup DVB
+    *  @{
+    */
+
    /*!
     * \brief Time Offset %Table, as per ETSI EN 300 468.
     */
@@ -81,5 +85,6 @@ namespace sigen {
 
       DescList descriptors;
    };
+   //! @}
    //! @}
 } // namespace

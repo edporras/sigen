@@ -36,6 +36,10 @@ namespace sigen {
     *  @{
     */
 
+   /*! \addtogroup DVB
+    *  @{
+    */
+
    /*!
     * \brief Running Status %Table, as per ETSI EN 300 468.
     */
@@ -124,5 +128,6 @@ namespace sigen {
 
       enum { TID = 0x72, MAX_SEC_LEN = 4096, CAPACITY = 4093 };
    };
+   //! @}
    //! @}
 } // namespace

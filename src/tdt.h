@@ -33,6 +33,10 @@ namespace sigen
     *  @{
     */
 
+   /*! \addtogroup DVB
+    *  @{
+    */
+
    /*!
     * \brief Time and Date %Table, as per ETSI EN 300 468.
     */
@@ -71,5 +75,6 @@ namespace sigen
 
       enum { MAX_SEC_LEN = 8, TID = 0x70 };
    };
+   //! @}
    //! @}
 } // namespace
