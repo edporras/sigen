@@ -50,8 +50,12 @@ namespace sigen {
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const = 0;
       virtual void dumpHeader(std::ostream &, STRID) const = 0;
-#endif
 
+      friend std::ostream& operator<<(std::ostream& o, const Table& t) {
+         t.dump(o);
+         return o;
+      }
+#endif
       // for lists of inner structs
       struct ListItem {
          ListItem() = default;

@@ -62,6 +62,7 @@ namespace sigen {
 
    private:
       ui16 total_length; // 8-bit field but stored wider for computations
+
    protected:
       const ui8 tag;
 

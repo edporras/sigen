@@ -68,11 +68,8 @@ namespace sigen
          return;
 
       incOutLevel();
-
-      for (const std::unique_ptr<Descriptor>& dp : d_list) {
-         dp->dump(o);
-         o << std::endl;
-      }
+      for (const std::unique_ptr<Descriptor>& dp : d_list)
+         o << *dp << std::endl;
       o << std::endl;
       decOutLevel();
    }
@@ -108,7 +105,6 @@ namespace sigen
    }
 #endif
 
-
    //
    // formats the length 16-bit field (common in all tables)
    //
@@ -118,7 +114,6 @@ namespace sigen
          rbits(0x3000) |
          (len & LEN_MASK);
    }
-
 
 
    //
