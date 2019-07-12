@@ -49,8 +49,14 @@ namespace sigen {
        * \param prov_name Name of the service provider.
        * \param serv_name Name of the service.
        */
+      bool addInfo(const std::string& code, const std::string& prov_name,
+                   const std::string& serv_name);
+
+      [[deprecated("replaced by addInfo()")]]
       bool addLanguage(const std::string& code, const std::string& prov_name,
-                       const std::string& serv_name);
+                       const std::string& serv_name) {
+         return addInfo(code, prov_name, serv_name);
+      }
 
       virtual void buildSections(Section&) const;
 

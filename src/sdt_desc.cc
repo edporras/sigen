@@ -35,9 +35,9 @@ namespace sigen
 
    //
    // add a language to the list
-   bool MultilingualServiceNameDesc::addLanguage(const std::string &code,
-                                                 const std::string &prov_name,
-                                                 const std::string &name)
+   bool MultilingualServiceNameDesc::addInfo(const std::string &code,
+                                             const std::string &prov_name,
+                                             const std::string &name)
    {
       if (!incLength(Language::expected_length(prov_name, name)))
          return false;
