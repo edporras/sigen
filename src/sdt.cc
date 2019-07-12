@@ -22,8 +22,9 @@
 
 #include <iostream>
 #include <algorithm>
+#include <sstream>
+#include <stdexcept>
 #include <list>
-#include <utility>
 #include "table.h"
 #include "descriptor.h"
 #include "tstream.h"
@@ -36,6 +37,16 @@ namespace sigen
    //
    bool SDT::addService(ui16 sid, bool esf, bool epff, ui8 rs, bool fca)
    {
+#ifdef CHECK_DUPLICATES
+      if (service_list.end() !=
+          std::find_if(service_list.begin(), service_list.end(),
+                       [=](auto& s) { return s.equals(sid); })) {
+         std::stringstream err;
+         err << "Attempt to add duplicate service with id " << std::hex << sid;
+         throw std::range_error(err.str());
+      }
+#endif
+
       // make sure we can add it
       if ( !incLength( Service::BASE_LEN) )
          return false;

@@ -21,10 +21,11 @@
 // -----------------------------------
 
 #include <iostream>
-#include <utility>
-#include <list>
 #include <algorithm>
 #include <numeric>
+#include <sstream>
+#include <stdexcept>
+#include <list>
 #include "table.h"
 #include "descriptor.h"
 #include "tstream.h"
@@ -53,6 +54,13 @@ namespace sigen
    //
    bool NIT_BAT::addXportStream(ui16 xport_stream_id, ui16 original_network_id)
    {
+#ifdef CHECK_DUPLICATES
+      if (xport_streams.end() !=
+          std::find_if(xport_streams.begin(), xport_streams.end(),
+                       [=](auto& xs) { return xs.equals(xport_stream_id, original_network_id); }))
+         throw std::range_error("Attempt to add duplicate transort stream");
+#endif
+
       if ( !incLength(XportStream::BASE_LEN) )
          return false;
 

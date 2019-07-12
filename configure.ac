@@ -56,6 +56,12 @@ AS_IF([test "x$enable_text_dump" != "xno"], [
 # for the makefiles
 AM_CONDITIONAL([ENABLE_DUMP_SRC], [test "x$enable_text_dump" != "xno"])
 
+# prevent tables from storing duplicated items in loops
+AC_ARG_ENABLE([duplicate-checks], AS_HELP_STRING([--disable-duplicate-checks], [Disable checks to prevent duplicates in table loops]))
+AS_IF([test "x$enable_duplicate_checks" != "xno"], [
+   AC_DEFINE([CHECK_DUPLICATES], [1], [enable duplicate checks])
+])
+
 # Checks for library functions.
 AC_CHECK_FUNCS([memset])
 

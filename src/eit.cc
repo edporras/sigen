@@ -22,7 +22,8 @@
 
 #include <iostream>
 #include <algorithm>
-#include <utility>
+#include <sstream>
+#include <stdexcept>
 #include <list>
 #include "table.h"
 #include "descriptor.h"
@@ -41,6 +42,15 @@ namespace sigen
    //
    bool EIT::addEvent(std::list<Event> &e_list, ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs, bool fca)
    {
+#ifdef CHECK_DUPLICATES
+      if (e_list.end() !=
+          std::find_if(e_list.begin(), e_list.end(), [=](auto& s) { return s.equals(evid); })) {
+         std::stringstream err;
+         err << "Attempt to add duplicate event with id " << std::hex << evid;
+         throw std::range_error(err.str());
+      }
+#endif
+
       // make sure we can fit it
       if ( !incLength( Event::BASE_LEN) )
          return false;

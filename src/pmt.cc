@@ -4,7 +4,8 @@
 
 #include <iostream>
 #include <algorithm>
-#include <utility>
+#include <sstream>
+#include <stdexcept>
 #include <list>
 #include "table.h"
 #include "pmt.h"
@@ -30,6 +31,16 @@ namespace sigen
    // add an elementary stream
    bool PMT::addElemStream(ui8 type, ui16 elem_pid)
    {
+#ifdef CHECK_DUPLICATES
+      if (es_list.end() !=
+          std::find_if(es_list.begin(), es_list.end(),
+                       [=](auto& s) { return s.equals(elem_pid); })) {
+         std::stringstream err;
+         err << "Attempt to add duplicate elemtary stream with pid " << std::hex << elem_pid;
+         throw std::range_error(err.str());
+      }
+#endif
+
       if ( !incLength(ElementaryStream::BASE_LEN) )
          return false;
 
