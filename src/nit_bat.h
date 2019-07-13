@@ -65,10 +65,14 @@ namespace sigen {
       /*!
        * \brief Add a Descriptor to the transport stream specified.
        * \param xs_id Id of the transport stream.
-       * \param on_id Id of the originating network.
        * \param desc Descriptor to add.
        */
-      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor& desc);
+      bool addXportStreamDesc(ui16 xs_id, Descriptor& desc);
+
+      [[deprecated("replaced by addXportStreamDesc(xs_id, Descriptor&)")]]
+      bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor& desc) {
+         return addXportStreamDesc(xs_id, desc);
+      }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
@@ -90,7 +94,7 @@ namespace sigen {
             id(tsid), original_network_id(onid) { }
          XportStream() = delete;
 
-         bool equals(ui16 tsid, ui16 onid) const { return (tsid == id && onid == original_network_id); }
+         bool equals(ui16 tsid) const { return (tsid == id); }
 
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const;

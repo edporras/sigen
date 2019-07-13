@@ -57,8 +57,11 @@ namespace sigen
 #ifdef CHECK_DUPLICATES
       if (xport_streams.end() !=
           std::find_if(xport_streams.begin(), xport_streams.end(),
-                       [=](auto& xs) { return xs.equals(xport_stream_id, original_network_id); }))
-         throw std::range_error("Attempt to add duplicate transort stream");
+                       [=](auto& xs) { return xs.equals(xport_stream_id); })) {
+         std::stringstream err;
+         err << "Attempt to add duplicate transort stream with id " << std::hex << xport_stream_id;
+         throw std::range_error(err.str());
+      }
 #endif
 
       if ( !incLength(XportStream::BASE_LEN) )
@@ -73,11 +76,11 @@ namespace sigen
    //
    // add descriptors to the xport_stream loop
    //
-   bool NIT_BAT::addXportStreamDesc(ui16 xsid, ui16 on_id, Descriptor& d)
+   bool NIT_BAT::addXportStreamDesc(ui16 xsid, Descriptor& d)
    {
       // lookup the transport_stream by the passed id
       auto it = std::find_if(xport_streams.begin(), xport_streams.end(),
-                             [=](auto& xs) { return xs.equals(xsid, on_id); });
+                             [=](auto& xs) { return xs.equals(xsid); });
       if (it == xport_streams.end())
          return false;
 

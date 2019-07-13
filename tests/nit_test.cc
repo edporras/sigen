@@ -127,10 +127,9 @@ namespace tests
 
       // add descriptors to a TS by id
       ui16 tsid = 0x20;
-      ui16 onid = 0x30;
 
       auto ccd = new CableDeliverySystemDesc(1000, 2000, 0x01, 0x08, 0x02);
-      nit.addXportStreamDesc( tsid, onid, *ccd );
+      nit.addXportStreamDesc( tsid, *ccd );
 
       // TerrestrialDeliverySystemDesc - legacy constructor
       auto tdsd = new TerrestrialDeliverySystemDesc(0x88888888,
@@ -141,7 +140,7 @@ namespace tests
                                                     Dvb::Terr::GI_1_4,
                                                     Dvb::Terr::TM_4K,
                                                     false);
-      nit.addXportStreamDesc( tsid, onid, *tdsd );
+      nit.addXportStreamDesc( tsid, *tdsd );
 
       // TerrestrialDeliverySystemDesc - new constructor
       auto tdsd2 = new TerrestrialDeliverySystemDesc(0x55555555,
@@ -155,7 +154,7 @@ namespace tests
                                                      Dvb::Terr::PRI_HIGH,
                                                      false,
                                                      false);
-      nit.addXportStreamDesc( tsid, onid, *tdsd2 );
+      nit.addXportStreamDesc( tsid, *tdsd2 );
 
       DUMP(nit);
       nit.buildSections(t);

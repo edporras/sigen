@@ -31,11 +31,11 @@ namespace tests
       bat.addXportStream(99, 199);
       bat.addXportStream(98, 198);
       bat.addXportStream(100, 200);
-      bat.addXportStream(100, 201);
+      bat.addXportStream(101, 201);
 
       // add to the last TS
       StreamIdentifierDesc *sid = new StreamIdentifierDesc(0x02);
-      bat.addXportStreamDesc(100, 201, *sid);
+      bat.addXportStreamDesc(100, *sid);
 
       ServiceListDesc *sld1 = new ServiceListDesc;
       for (int i = 0; i < 50; i++)
@@ -48,7 +48,7 @@ namespace tests
       for (int i = 0; i < 50; i++)
          sld2->addService( i + 200, 0x02 );
 
-      bat.addXportStreamDesc(99, 199, *sld2 );
+      bat.addXportStreamDesc(99, *sld2 );
 
       DUMP(bat);
       bat.buildSections(t);
