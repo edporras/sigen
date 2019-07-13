@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <list>
+#include "descriptor.h"
 #include "table.h"
 #include "pat.h"
 #include "tstream.h"

@@ -41,7 +41,7 @@ namespace sigen {
    /*!
     * \brief Program Map %Table, as per ISO 13818-1.
     */
-   class PMT : public PSITable
+   class PMT : public ExtPSITable
    {
    public:
       /*!
@@ -81,9 +81,10 @@ namespace sigen {
        * \param current_next_indicator `true`: version curently applicable, `false`: next applicable.
        */
       PMT(ui16 program_number, ui16 PCR_PID, ui8 version_number, bool current_next_indicator = true)
-         : PSITable(TID, program_number, 9, MAX_SEC_LEN, version_number, current_next_indicator, D_BIT),
-         program_info_length(0),
-         pcr_pid(PCR_PID)
+         : ExtPSITable(1, TID, program_number, 9, MAX_SEC_LEN, version_number, current_next_indicator, D_BIT),
+           program_info_length(0),
+           pcr_pid(PCR_PID),
+           es_list(items[0])
       { }
 
       /*!
@@ -101,13 +102,13 @@ namespace sigen {
        * \brief Add a Descriptor to the last added elementary stream.
        * \param desc Descriptor to add.
        */
-      bool addElemStreamDesc(Descriptor& desc);
+      bool addElemStreamDesc(Descriptor& desc) { return addItemDesc(es_list, desc); }
       /*!
        * \brief Add a Descriptor to the elementary stream specified.
        * \param elem_pid PID identifying the lementary stream.
        * \param desc Descriptor to add.
        */
-      bool addElemStreamDesc(ui16 elem_pid, Descriptor& desc);
+      bool addElemStreamDesc(ui16 elem_pid, Descriptor& desc) { return addItemDesc(es_list, elem_pid, desc); }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
@@ -119,7 +120,7 @@ namespace sigen {
              MAX_SEC_LEN = 1024 };
 
       // the stream holder struct - private to the pmt
-      struct ElementaryStream : public PSITable::ListItem {
+      struct ElementaryStream : public ExtPSITable::ListItem {
          enum { BASE_LEN = 5 };
 
          ui16 elementary_pid : 13;
@@ -131,7 +132,8 @@ namespace sigen {
          { }
          ElementaryStream() = delete;
 
-         bool equals(ui16 pid) const { return pid == elementary_pid; }
+         virtual ui16 length() const { return 5; }
+         virtual bool equals(ui16 pid) const { return pid == elementary_pid; }
 
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const;
@@ -141,7 +143,7 @@ namespace sigen {
       ui16 program_info_length;
       ui16 pcr_pid : 13;
       DescList prog_desc;
-      std::list<ElementaryStream> es_list; // the list of streams
+      std::list<ListItem*>& es_list;
 
       enum State_t { INIT, WRITE_HEAD, GET_PROG_DESC, WRITE_PROG_DESC,
                      GET_XPORT_STREAM, WRITE_XPORT_STREAM };
@@ -150,14 +152,13 @@ namespace sigen {
 
          bool d_done;
          State_t op_state;
-         const Descriptor *pd;
-         const ElementaryStream *es;
+         const Descriptor* pd;
+         const ListItem* es;
          std::list<std::unique_ptr<Descriptor> >::const_iterator pd_iter;
-         std::list<ElementaryStream>::const_iterator es_iter;
+         std::list<ListItem*>::const_iterator es_iter;
       } run;
 
    protected:
-      bool addElemStreamDesc(ElementaryStream&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };
    //! @}

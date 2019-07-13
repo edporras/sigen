@@ -37,7 +37,7 @@ namespace sigen {
    /*!
     * \brief Abstract Service Description %Table base class.
     */
-   class SDT : public PSITable
+   class SDT : public ExtPSITable
    {
    public:
       enum {
@@ -59,13 +59,13 @@ namespace sigen {
        * \brief Add a Descriptor to the most recently added service.
        * \param desc Descriptor to add.
        */
-      bool addServiceDesc(Descriptor& desc);
+      bool addServiceDesc(Descriptor& desc) { return addItemDesc(serv_list, desc); }
       /*!
        * \brief Add a Descriptor to the transport stream specfied.
        * \param service_id Id of service to add descriptor to.
        * \param desc Descriptor to add.
        */
-      bool addServiceDesc(ui16 service_id, Descriptor& desc);
+      bool addServiceDesc(ui16 service_id, Descriptor& desc) { return addItemDesc(serv_list, service_id, desc); }
 
 #ifdef ENABLE_DUMP
       virtual void dump(std::ostream &) const;
@@ -75,7 +75,7 @@ namespace sigen {
       enum { MAX_SEC_LEN = 1024 };
 
       // the service holder class - private to the sdt
-      struct Service : public PSITable::ListItem {
+      struct Service : public ExtPSITable::ListItem {
          enum { BASE_LEN = 5 };
 
          ui16 id;
@@ -91,7 +91,8 @@ namespace sigen {
             free_ca_mode(fca) {}
          Service() = delete;
 
-         bool equals(ui16 sid) const { return sid == id; }
+         virtual ui16 length() const { return 5; }
+         virtual bool equals(ui16 sid) const { return sid == id; }
 
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const;
@@ -101,28 +102,26 @@ namespace sigen {
 
       // sdt data members begin here
       ui16 original_network_id;
-
-      // the list of services
-      std::list<Service> service_list;
+      std::list<ListItem*>& serv_list;
 
       enum State_t { INIT, WRITE_HEAD, GET_SERVICE, WRITE_SERVICE };
       mutable struct Context {
          Context() : op_state(INIT), serv(nullptr) {}
          
          State_t op_state;
-         const Service *serv;
-         std::list<Service>::const_iterator s_iter;
+         const ListItem* serv;
+         std::list<ListItem*>::const_iterator s_iter;
       } run;
 
    protected:
       // constructor
       SDT(ui8 type, ui16 xport_str_id, ui16 orig_network_id, ui8 ver,
           bool cni = true) :
-         PSITable(type, xport_str_id, 8, MAX_SEC_LEN, ver, cni),
-         original_network_id(orig_network_id)
+         ExtPSITable(1, type, xport_str_id, 8, MAX_SEC_LEN, ver, cni),
+         original_network_id(orig_network_id),
+         serv_list(items[0])
       { }
 
-      bool addServiceDesc(Service&, Descriptor &);
       virtual bool writeSection(Section&, ui8, ui16 &) const;
    };
    //! @}

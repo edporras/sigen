@@ -48,8 +48,8 @@ namespace sigen {
     */
    struct Table {
 #ifdef ENABLE_DUMP
-      virtual void dump(std::ostream &) const = 0;
-      virtual void dumpHeader(std::ostream &, STRID) const = 0;
+      virtual void dump(std::ostream& o) const = 0;
+      virtual void dumpHeader(std::ostream& o, STRID) const = 0;
 
       friend std::ostream& operator<<(std::ostream& o, const Table& t) {
          t.dump(o);
@@ -142,10 +142,10 @@ namespace sigen {
          std::list<std::unique_ptr<Descriptor> >::const_iterator end() const { return d_list.end(); }
 
          // only writes data loop - not length as it depends on the table
-         void buildSections(Section &s) const;
+         void buildSections(Section& s) const;
 #ifdef ENABLE_DUMP
          // as buildSections, only dumps data loop
-         void dump(std::ostream &) const;
+         void dump(std::ostream& o) const;
 #endif
 
       private:
@@ -156,7 +156,7 @@ namespace sigen {
       // used by the derived tables to check for available space for data
       virtual ui16 getMaxDataLen() const { return max_section_length - 3; }
 
-      void buildSections(Section &) const;
+      void buildSections(Section& s) const;
       ui16 buildLengthData(ui16) const;
 
       bool lengthFits(ui32 l) const {
@@ -165,7 +165,7 @@ namespace sigen {
       bool incLength(ui32 l);
 
 #ifdef ENABLE_DUMP
-      virtual void dumpHeader(std::ostream &o, STRID) const;
+      virtual void dumpHeader(std::ostream& o, STRID) const;
 #endif
 
    private:
@@ -189,7 +189,7 @@ namespace sigen {
    class PSITable : public STable
    {
    public:
-      virtual void buildSections(TStream &) const;
+      virtual void buildSections(TStream& ts) const;
 
       ui8 getVersionNumber() const { return version_number; }
       ui8 getCurrentNextIndicator() const { return current_next_indicator; }
@@ -200,7 +200,7 @@ namespace sigen {
 
    protected:
       PSITable(ui8 tid, ui16 tid_ext, ui8 min_len, ui16 max_sec_len,
-               ui8 ver, bool cni, bool data_bit = true) :
+               ui8 ver, bool cni, bool data_bit) :
          STable(tid, min_len, max_sec_len, true, data_bit),
          table_id_extension(tid_ext),
          version_number(ver),
@@ -211,20 +211,45 @@ namespace sigen {
       // utility
       virtual ui16 getMaxDataLen() const;
 
-      void writeSectionHeader(Section &) const;
-      virtual bool writeSection(Section& , ui8, ui16 &) const = 0;
+      void writeSectionHeader(Section& s) const;
+      virtual bool writeSection(Section& s, ui8, ui16& l) const = 0;
 
 #ifdef ENABLE_DUMP
-      virtual void dumpHeader(std::ostream &o, STRID table_label, STRID ext_label) const;
+      virtual void dumpHeader(std::ostream& o, STRID table_label, STRID ext_label) const;
 #endif
+
+   private:
+      ui16 table_id_extension;        // id extension for private tables
+      ui8 version_number : 5;         // ver_num (5)
+      bool current_next_indicator;    // cur_next (1)
+   };
+
+   //
+   //
+   class ExtPSITable : public PSITable
+   {
+   public:
+      virtual ~ExtPSITable();
+
+   protected:
+      ExtPSITable(ui8 size, ui8 tid, ui16 tid_ext, ui8 min_len, ui16 max_sec_len,
+                  ui8 ver, bool cni, bool data_bit = true)
+         : PSITable(tid, tid_ext, min_len, max_sec_len, ver, cni, data_bit),
+           items(size)
+      { }
 
       // for inner class with descriptor lists
       struct ListItem : public STable::ListItem {
+         virtual ~ListItem() {}
+
          DescList descriptors;
 
+         virtual ui16 length() const = 0;
+         virtual bool equals(ui16 id) const = 0;
+
          // controls the state machine for writing the loop's section data
-         bool write_section(Section& sec, ui16 max_data_len, ui16 &sec_bytes,
-                            ui16 *item_loop_len = nullptr) const;
+         bool write_section(Section& sec, ui16 max_data_len, ui16& sec_bytes,
+                            ui16* item_loop_len = nullptr) const;
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const = 0;
          // writes the 2-byte desc loop len
@@ -237,15 +262,21 @@ namespace sigen {
             Context() : op_state(INIT), d(nullptr) {}
 
             State_t op_state;
-            const Descriptor *d;
+            const Descriptor* d;
             std::list<std::unique_ptr<Descriptor> >::const_iterator d_iter;
          } run;
       };
 
+      static bool contains(const std::list<ListItem*>& list, ui16 id) {
+         return (nullptr != ExtPSITable::find(list, id));
+      }
+      static ListItem* find(const std::list<ListItem*>& list, ui16 id);
+      bool addItemDesc(std::list<ListItem*>& list, Descriptor& desc);
+      bool addItemDesc(std::list<ListItem*>& list, ui16 id, Descriptor& desc);
+
+      std::vector<std::list<ListItem*> > items;
    private:
-      ui16 table_id_extension;        // id extension for private tables
-      ui8 version_number : 5;         // ver_num (5)
-      bool current_next_indicator;    // cur_next (1)
+      bool addItemDesc(ListItem* item, Descriptor& d);
    };
 
    //! @}

@@ -41,7 +41,7 @@ namespace sigen {
     * handles all the logic but can't be instantiaited. Instead, use
     * NITActual, NITOther, and BAT classes below.
     */
-   class NIT_BAT : public PSITable
+   class NIT_BAT : public ExtPSITable
    {
    public:
       enum { NIT_ACTUAL_TID = 0x40, NIT_OTHER_TID = 0x41, BAT_TID = 0x4a };
@@ -61,13 +61,13 @@ namespace sigen {
        * \brief Add a Descriptor to last added transport stream.
        * \param desc Descriptor to add.
        */
-      bool addXportStreamDesc(Descriptor& desc);
+      bool addXportStreamDesc(Descriptor& desc) { return addItemDesc(xs_list, desc); }
       /*!
        * \brief Add a Descriptor to the transport stream specified.
        * \param xs_id Id of the transport stream.
        * \param desc Descriptor to add.
        */
-      bool addXportStreamDesc(ui16 xs_id, Descriptor& desc);
+      bool addXportStreamDesc(ui16 xs_id, Descriptor& desc) { return addItemDesc(xs_list, xs_id, desc); }
 
       [[deprecated("replaced by addXportStreamDesc(xs_id, Descriptor&)")]]
       bool addXportStreamDesc(ui16 xs_id, ui16 on_id, Descriptor& desc) {
@@ -82,7 +82,7 @@ namespace sigen {
       enum { MAX_SEC_LEN = 1024 };
 
       // the transport stream struct - public as the BAT uses it too
-      struct XportStream : public PSITable::ListItem
+      struct XportStream : public ExtPSITable::ListItem
       {
          enum { BASE_LEN = 6 };
 
@@ -94,7 +94,8 @@ namespace sigen {
             id(tsid), original_network_id(onid) { }
          XportStream() = delete;
 
-         bool equals(ui16 tsid) const { return (tsid == id); }
+         virtual ui16 length() const { return 6; }
+         virtual bool equals(ui16 tsid) const { return (tsid == id); }
 
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const;
@@ -102,10 +103,9 @@ namespace sigen {
 
       // NIT members
       DescList descriptors;
-      std::list<XportStream> xport_streams;
+      std::list<ListItem*>& xs_list;
 
       // private methods
-      bool addXportStreamDesc(XportStream& , Descriptor &);
       virtual bool writeSection(Section& , ui8, ui16 &) const;
 
 #ifdef ENABLE_DUMP
@@ -124,16 +124,17 @@ namespace sigen {
          State_t op_state;
 
          const Descriptor *nd;
-         const XportStream *ts;
          std::list<std::unique_ptr<Descriptor> >::const_iterator nd_iter;
-         std::list<XportStream>::const_iterator ts_iter;
+         const ListItem *ts;
+         std::list<ListItem*>::const_iterator ts_iter;
       } run;
 
    protected:
       // protected constructor - type refers to ACTUAL or OTHER,
       // reserved is the state of reserved bits
       NIT_BAT(ui8 type, ui16 id, ui8 ver, bool cni = true) :
-         PSITable(type, id, 9, MAX_SEC_LEN, ver, cni)
+         ExtPSITable(1, type, id, 9, MAX_SEC_LEN, ver, cni),
+         xs_list(items[0])
       { }
    };
 

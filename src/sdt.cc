@@ -38,9 +38,7 @@ namespace sigen
    bool SDT::addService(ui16 sid, bool esf, bool epff, ui8 rs, bool fca)
    {
 #ifdef CHECK_DUPLICATES
-      if (service_list.end() !=
-          std::find_if(service_list.begin(), service_list.end(),
-                       [=](auto& s) { return s.equals(sid); })) {
+      if (contains(serv_list, sid)) {
          std::stringstream err;
          err << "Attempt to add duplicate service with id " << std::hex << sid;
          throw std::range_error(err.str());
@@ -51,52 +49,9 @@ namespace sigen
       if ( !incLength( Service::BASE_LEN) )
          return false;
 
-      service_list.emplace_back(sid, esf, epff, rs, fca);
+      serv_list.push_back(new Service(sid, esf, epff, rs, fca));
       return true;
    }
-
-
-   //
-   // adds a descriptor to the specified service
-   //
-   bool SDT::addServiceDesc(ui16 sid, Descriptor &d)
-   {
-      // look for the id in the list
-      auto it = std::find_if(service_list.begin(), service_list.end(),
-                             [=](const auto& s) { return s.equals(sid); });
-      if (it == service_list.end())
-         return false;
-
-      return addServiceDesc(*it, d);
-   }
-
-
-   //
-   // adds a descriptor to the last service that was added
-   //
-   bool SDT::addServiceDesc(Descriptor &d)
-   {
-      if (service_list.empty())
-         return false;
-
-      return addServiceDesc(service_list.back(), d);
-   }
-
-
-   //
-   // actually adds the descriptor to the service's list
-   //
-   bool SDT::addServiceDesc(Service& serv, Descriptor &d)
-   {
-      ui16 d_len = d.length();
-      // make sure we can add it (max desc loop len = 2^16 - 1)
-      if ( !incLength(d_len) )
-         return false;
-
-      serv.descriptors.add(d, d_len);
-      return true;
-   }
-
 
    //
    // write to the stream
@@ -110,7 +65,7 @@ namespace sigen
          switch (run.op_state)
          {
            case INIT:
-              run.s_iter = service_list.begin();
+              run.s_iter = serv_list.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -135,8 +90,8 @@ namespace sigen
 
            case GET_SERVICE:
               // fetch the next service
-              if (run.s_iter != service_list.end()) {
-                 run.serv = &(*run.s_iter++);
+              if (run.s_iter != serv_list.end()) {
+                 run.serv = (*run.s_iter++);
 
                  if (!run.serv->descriptors.empty()) {
                     const Descriptor *d = run.serv->descriptors.front().get();
@@ -227,19 +182,20 @@ namespace sigen
       incOutLevel();
       headerStr(o, SERVICE_LIST_S);
 
-      for (const Service& service : service_list) {
+      for (const ListItem* item : serv_list) {
+         const Service* service = dynamic_cast<const Service*>(item);
          o << std::hex;
-         identStr(o, SERVICE_ID_S, service.id);
+         identStr(o, SERVICE_ID_S, service->id);
          identStr(o, RESERVED_FU_S, 0x3f); // reserved future use
-         identStr(o, EIT_SCHED_FLAG_S, service.eit_schedule);
-         identStr(o, EIT_PF_F_S, service.eit_present_following);
-         identStr(o, RUNNING_STATUS_S, service.running_status);
-         identStr(o, FREE_CA_MODE_S, service.free_ca_mode);
-         identStr(o, DESC_LOOP_LEN_S, service.descriptors.loop_length());
+         identStr(o, EIT_SCHED_FLAG_S, service->eit_schedule);
+         identStr(o, EIT_PF_F_S, service->eit_present_following);
+         identStr(o, RUNNING_STATUS_S, service->running_status);
+         identStr(o, FREE_CA_MODE_S, service->free_ca_mode);
+         identStr(o, DESC_LOOP_LEN_S, service->descriptors.loop_length());
          o << std::endl;
 
          // display the descriptors
-         service.descriptors.dump(o);
+         service->descriptors.dump(o);
 
          o << std::endl;
       }

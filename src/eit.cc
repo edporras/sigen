@@ -40,11 +40,10 @@ namespace sigen
    // adds an event to the passed list...
    // protected function to be used by the derived classes
    //
-   bool EIT::addEvent(std::list<Event> &e_list, ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs, bool fca)
+   bool EIT::addEvent(std::list<ListItem*>& list, ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs, bool fca)
    {
 #ifdef CHECK_DUPLICATES
-      if (e_list.end() !=
-          std::find_if(e_list.begin(), e_list.end(), [=](auto& s) { return s.equals(evid); })) {
+      if (contains(list, evid)) {
          std::stringstream err;
          err << "Attempt to add duplicate event with id " << std::hex << evid;
          throw std::range_error(err.str());
@@ -56,60 +55,9 @@ namespace sigen
          return false;
 
       // add the event to the list
-      e_list.emplace_back(evid, time, dur, rs, fca);
+      list.push_back(new Event(evid, time, dur, rs, fca));
       return true;
    }
-
-
-
-   //
-   // adds a descriptor to event with the specified id..
-   // protected function to be used by the derived classes
-   //
-   bool EIT::addEventDesc(std::list<Event> &e_list, ui16 evid, Descriptor &d)
-   {
-      // look for the id in the list.. if found, add the descriptor to it
-      auto it = std::find_if(e_list.begin(), e_list.end(),
-                             [=](const auto& e) { return e.equals(evid); });
-      if (it == e_list.end())
-         return false;
-
-      return addEventDesc(*it, d);
-   }
-
-
-
-   //
-   // adds the descriptor to the last event added
-   // protected function to be used by the derived classes
-   //
-   bool EIT::addEventDesc(std::list<Event> &e_list, Descriptor &d)
-   {
-      if (e_list.empty())
-         return false;
-
-      return addEventDesc( e_list.back(), d );
-   }
-
-
-   //
-   // actually adds the descriptor to an event..
-   // protected function to be used by the derived classes
-   //
-   bool EIT::addEventDesc(Event& event, Descriptor &d)
-   {
-      ui16 d_len = d.length();
-
-      // make sure we can add it (max desc loop len = 2^16 - 1)
-      if ( !incLength(d_len) )
-         return false;
-
-      // we don't check if it can fit here since it should have
-      // been done before we were called (protected function)
-      event.descriptors.add(d, d_len);
-      return true;
-   }
-
 
 #ifdef ENABLE_DUMP
    //
@@ -130,24 +78,25 @@ namespace sigen
    //
    // dumps the passed event list
    //
-   void EIT::dumpEventList(std::ostream &o, const std::list<Event> &e_list) const
+   void EIT::dumpEventList(std::ostream &o, const std::list<ListItem*>& list) const
    {
       // display the event list
       incOutLevel();
 
-      for (const Event& event : e_list) {
+      for (const ListItem* item : list) {
+         const Event* event = dynamic_cast<const Event*>(item);
          o << std::hex;
-         identStr(o, EVENT_ID_S, event.id);
-         identStr(o, START_TIME_S, event.utc);
-         identStr(o, DURATION_S, event.duration);
-         identStr(o, RUNNING_STATUS_S, event.running_status);
-         identStr(o, FREE_CA_MODE_S, event.free_CA_mode);
+         identStr(o, EVENT_ID_S, event->id);
+         identStr(o, START_TIME_S, event->utc);
+         identStr(o, DURATION_S, event->duration);
+         identStr(o, RUNNING_STATUS_S, event->running_status);
+         identStr(o, FREE_CA_MODE_S, event->free_CA_mode);
 
-         identStr(o, DESC_LOOP_LEN_S, event.descriptors.loop_length());
+         identStr(o, DESC_LOOP_LEN_S, event->descriptors.loop_length());
          o << std::endl;
 
          // display the descriptors
-         event.descriptors.dump(o);
+         event->descriptors.dump(o);
 
          o << std::endl;
       }
@@ -166,11 +115,9 @@ namespace sigen
    // we call this writeSection() from there and don't have to worry about
    // anybody calling the other one
    //
-   bool EIT::writeSection(Section& section,
-                          const std::list<Event> &event_list,
-                          ui8 last_tid,
-                          ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
-                          ui16 &sec_bytes) const
+   bool EIT::writeSection(Section& section, const std::list<ListItem*>& list,
+                          ui8 last_tid, ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
+                          ui16& sec_bytes) const
    {
       bool done = false, exit = false;
 
@@ -179,7 +126,7 @@ namespace sigen
          switch (run.op_state)
          {
            case INIT:
-              run.ev_iter = event_list.begin();
+              run.ev_iter = list.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -208,8 +155,8 @@ namespace sigen
 
            case GET_EVENT:
               // fetch the next event
-              if (run.ev_iter != event_list.end()) {
-                 run.event = &(*run.ev_iter++);
+              if (run.ev_iter != list.end()) {
+                 run.event = (*run.ev_iter++);
 
                  if (!run.event->descriptors.list().empty()) {
                     const Descriptor *d = run.event->descriptors.front().get();
@@ -298,18 +245,18 @@ namespace sigen
    // the total length of the section (returned by writeSection() and crc's
    // it
    //
-   void PF_EIT::buildSections(TStream &strm) const
+   void PF_EIT::buildSections(TStream& strm) const
    {
       ui16 sec_bytes;
 
       // build the present & following sections
-      for (ui8 cur_sec = PRESENT, last_sec = FOLLOWING; cur_sec <= FOLLOWING; cur_sec++) {
+      for (ui8 cur_sec = 0, last_sec = 1; cur_sec <= 1; cur_sec++) {
          // allocate space for the section (use getMaxSectionLen() to include
          // room for CRC)
          Section *s = strm.getNewSection(getMaxSectionLen());
 
          // write the section
-         writeSection(*s, event_list[cur_sec], getId(), // id is table_id
+         writeSection(*s, items[cur_sec], getId(), // id is table_id
                       cur_sec, last_sec, last_sec, sec_bytes);
 
          // adjust the length, and calculate the crc
@@ -328,13 +275,13 @@ namespace sigen
       // display the present event list
       incOutLevel();
       headerStr(o, P_EVENT_LIST_S);
-      dumpEventList(o, event_list[PRESENT]);
+      dumpEventList(o, present);
       decOutLevel();
 
       // display the following event list
       incOutLevel();
       headerStr(o, F_EVENT_LIST_S);
-      dumpEventList(o, event_list[FOLLOWING]);
+      dumpEventList(o, following);
       decOutLevel();
    }
 

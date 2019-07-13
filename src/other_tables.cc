@@ -24,6 +24,7 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include "descriptor.h"
 #include "table.h"
 #include "tstream.h"
 #include "other_tables.h"

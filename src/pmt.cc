@@ -32,9 +32,7 @@ namespace sigen
    bool PMT::addElemStream(ui8 type, ui16 elem_pid)
    {
 #ifdef CHECK_DUPLICATES
-      if (es_list.end() !=
-          std::find_if(es_list.begin(), es_list.end(),
-                       [=](auto& s) { return s.equals(elem_pid); })) {
+      if (contains(es_list, elem_pid)) {
          std::stringstream err;
          err << "Attempt to add duplicate elemtary stream with pid " << std::hex << elem_pid;
          throw std::range_error(err.str());
@@ -44,47 +42,7 @@ namespace sigen
       if ( !incLength(ElementaryStream::BASE_LEN) )
          return false;
 
-      es_list.emplace_back(elem_pid, type);
-      return true;
-   }
-
-
-   //
-   // add a descriptor to the stream specified by elem_pid
-   //
-   bool PMT::addElemStreamDesc(ui16 elem_pid, Descriptor &d)
-   {
-      // look for the stream
-      auto it = std::find_if(es_list.begin(), es_list.end(),
-                             [=](const auto& es) { return es.equals(elem_pid); });
-      if (it == es_list.end())
-         return false;
-
-      return addElemStreamDesc(*it, d);
-   }
-
-   //
-   // tries to add a descriptor to the last stream added
-   //
-   bool PMT::addElemStreamDesc(Descriptor &d)
-   {
-      if (es_list.empty())
-         return false;
-
-      return addElemStreamDesc( es_list.back(), d );
-   }
-
-   //
-   // actually adds the descriptor to the transport stream
-   //
-   bool PMT::addElemStreamDesc(ElementaryStream& stream, Descriptor &d)
-   {
-      ui16 d_len = d.length();
-      if ( !incLength( d_len ) )
-         return false;
-
-      // take ownership and store it
-      stream.descriptors.add(d, 0); // PMT output does not carry a loop length
+      es_list.push_back(new ElementaryStream(elem_pid, type));
       return true;
    }
 
@@ -183,7 +141,7 @@ namespace sigen
            case GET_XPORT_STREAM:
               // fetch a transport stream
               if (run.es_iter != es_list.end()) {
-                 run.es = &(*run.es_iter++);
+                 run.es = (*run.es_iter++);
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
@@ -270,17 +228,18 @@ namespace sigen
       incOutLevel(); // indent output
       headerStr(o, STREAM_LIST_S);
 
-      for (const ElementaryStream& stream : es_list) {
-         identStr(o, STREAM_TYPE_S, stream.type);
+      for (const ListItem* item : es_list) {
+         const ElementaryStream* stream = dynamic_cast<const ElementaryStream*>(item);
+         identStr(o, STREAM_TYPE_S, stream->type);
          identStr(o, RESERVED_S, 0x07);
-         identStr(o, ELEM_PID_S, stream.elementary_pid);
+         identStr(o, ELEM_PID_S, stream->elementary_pid);
          identStr(o, RESERVED_S, 0x0f);
-         identStr(o, ES_INFO_LEN_S, stream.descriptors.loop_length());
+         identStr(o, ES_INFO_LEN_S, stream->descriptors.loop_length());
 
          o << std::endl;
 
          // output the descriptors
-         stream.descriptors.dump(o);
+         stream->descriptors.dump(o);
       }
       decOutLevel();
       o << std::endl;

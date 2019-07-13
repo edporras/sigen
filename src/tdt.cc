@@ -21,6 +21,7 @@
 // -----------------------------------
 
 #include <iostream>
+#include "descriptor.h"
 #include "table.h"
 #include "tstream.h"
 #include "tdt.h"

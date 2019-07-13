@@ -55,9 +55,7 @@ namespace sigen
    bool NIT_BAT::addXportStream(ui16 xport_stream_id, ui16 original_network_id)
    {
 #ifdef CHECK_DUPLICATES
-      if (xport_streams.end() !=
-          std::find_if(xport_streams.begin(), xport_streams.end(),
-                       [=](auto& xs) { return xs.equals(xport_stream_id); })) {
+      if (contains(xs_list, xport_stream_id)) {
          std::stringstream err;
          err << "Attempt to add duplicate transort stream with id " << std::hex << xport_stream_id;
          throw std::range_error(err.str());
@@ -68,46 +66,7 @@ namespace sigen
          return false;
 
       // add it to the list
-      xport_streams.emplace_back(xport_stream_id, original_network_id);
-      return true;
-   }
-
-
-   //
-   // add descriptors to the xport_stream loop
-   //
-   bool NIT_BAT::addXportStreamDesc(ui16 xsid, Descriptor& d)
-   {
-      // lookup the transport_stream by the passed id
-      auto it = std::find_if(xport_streams.begin(), xport_streams.end(),
-                             [=](auto& xs) { return xs.equals(xsid); });
-      if (it == xport_streams.end())
-         return false;
-
-      return addXportStreamDesc(*it, d);
-   }
-
-   //
-   // adds a descriptor to the last transport stream that was added
-   //
-   bool NIT_BAT::addXportStreamDesc(Descriptor& d)
-   {
-      if (xport_streams.empty())
-         return false;
-
-      return addXportStreamDesc(xport_streams.back(), d);
-   }
-
-   //
-   // actually adds the descriptor to the transport stream
-   //
-   bool NIT_BAT::addXportStreamDesc(XportStream& xs, Descriptor& d)
-   {
-      ui16 d_len = d.length();
-      if ( !incLength(d_len) )
-         return false;
-
-      xs.descriptors.add(d, d_len);
+      xs_list.push_back(new XportStream(xport_stream_id, original_network_id));
       return true;
    }
 
@@ -129,7 +88,7 @@ namespace sigen
               // associate the iterators to the lists.. once they reach the
               // end, they'll take care to reset themselves
               run.nd_iter = descriptors.begin();
-              run.ts_iter = xport_streams.begin();
+              run.ts_iter = xs_list.begin();
               run.op_state = WRITE_HEAD;
 
            case WRITE_HEAD:
@@ -224,8 +183,8 @@ namespace sigen
            case GET_XPORT_STREAM:
 
               // fetch a transport stream
-              if (run.ts_iter != xport_streams.end()) {
-                 run.ts = &(*run.ts_iter++);
+              if (run.ts_iter != xs_list.end()) {
+                 run.ts = *(run.ts_iter++);
 
                  // first, check if it has any descriptors.. we'll try to fit
                  // at least one
@@ -334,25 +293,26 @@ namespace sigen
       o << std::hex;
       identStr(o, RESERVED_FU_S, 0xf);
 
-      ui16 xsl_len = std::accumulate(xport_streams.begin(), xport_streams.end(),
-                                     XportStream::BASE_LEN * xport_streams.size(),
-                                     [](int len, const auto& xs) { return len + xs.descriptors.loop_length(); });
+      ui16 xsl_len = std::accumulate(xs_list.begin(), xs_list.end(),
+                                     XportStream::BASE_LEN * xs_list.size(),
+                                     [](int len, const auto xs) { return len + xs->descriptors.loop_length(); });
       identStr(o, XS_LOOP_LEN_S, xsl_len);
       o << std::endl;
 
       // display each transport stream's data & descriptors
       incOutLevel();
-      for (const XportStream& xs : xport_streams) {
+      for (const ListItem* item : xs_list) {
+         const XportStream* xs = dynamic_cast<const XportStream*>(item);
          headerStr(o, XPORT_STREAM_S);
 
-         identStr(o, XPORT_STREAM_ID_S, xs.id);
-         identStr(o, ORIG_NETWORK_ID_S, xs.original_network_id);
+         identStr(o, XPORT_STREAM_ID_S, xs->id);
+         identStr(o, ORIG_NETWORK_ID_S, xs->original_network_id);
          identStr(o, RESERVED_FU_S, 0xf);
-         identStr(o, DESC_LEN_S, xs.descriptors.loop_length());
+         identStr(o, DESC_LEN_S, xs->descriptors.loop_length());
          o << std::endl;
 
          // dump the descriptors (inherited method)
-         xs.descriptors.dump(o);
+         xs->descriptors.dump(o);
       }
       decOutLevel();
    }

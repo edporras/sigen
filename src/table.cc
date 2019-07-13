@@ -218,8 +218,81 @@ namespace sigen
                    current_next_indicator );
    }
 
-   bool PSITable::ListItem::write_section(Section& section, ui16 max_data_len,
-                                          ui16& sec_bytes, ui16* loop_len_ptr) const
+#ifdef ENABLE_DUMP
+   //
+   // displays the reserved | version | current_next byte
+   void PSITable::dumpHeader(std::ostream &o, STRID table_label, STRID ext_label) const
+   {
+      // table header
+      STable::dumpHeader(o, table_label);
+
+      o << std::hex;
+      identStr(o, ext_label, table_id_extension);
+
+      identStr(o, RESERVED_S, 0x03);
+      identStr(o, VER_NUM_S, version_number);
+      identStr(o, CURR_NEXT_IND_S, current_next_indicator);
+   }
+#endif
+
+   //
+   // ExtPSITable destructor
+   ExtPSITable::~ExtPSITable()
+   {
+      for (auto l : items)
+         for (auto item : l)
+            delete item;
+   }
+
+   //
+   // returns the pointer to the item if found; nullptr otherwise
+   ExtPSITable::ListItem* ExtPSITable::find(const std::list<ListItem*>& item_list, ui16 id)
+   {
+      auto item = std::find_if(item_list.begin(), item_list.end(),
+                               [=](auto& item) { return item->equals(id); });
+      if (item == item_list.end())
+         return nullptr;
+
+      return *item;
+   }
+
+   //
+   // adds a descriptor to the last item added to the list
+   bool ExtPSITable::addItemDesc(std::list<ListItem*>& list, Descriptor& d)
+   {
+      if (list.empty())
+         return false;
+
+      return addItemDesc(list.back(), d);
+   }
+
+   //
+   // adds a descriptor to the item matching the given id
+   bool ExtPSITable::addItemDesc(std::list<ListItem*>& list, ui16 id, Descriptor& d)
+   {
+      ListItem* item = find(list, id);
+      if (!item)
+         return false;
+
+      return addItemDesc(item, d);
+   }
+
+   //
+   // adds the descriptor to the item
+   bool ExtPSITable::addItemDesc(ListItem* item, Descriptor& d)
+   {
+      ui16 d_len = d.length();
+      if ( !incLength(d_len) )
+         return false;
+
+      item->descriptors.add(d, d_len);
+      return true;
+   }
+
+   //
+   // write section data for the item
+   bool ExtPSITable::ListItem::write_section(Section& section, ui16 max_data_len,
+                                             ui16& sec_bytes, ui16* loop_len_ptr) const
    {
       ui8 header_len;
       ui8* desc_loop_len_pos = 0;
@@ -294,26 +367,9 @@ namespace sigen
 
    //
    // general case. Some tables will define their own (e.g., SDT, EIT)
-   void PSITable::ListItem::write_desc_loop_len(Section& section, ui8* pos, ui16 len) const
+   void ExtPSITable::ListItem::write_desc_loop_len(Section& section, ui8* pos, ui16 len) const
    {
       section.set16Bits( pos, rbits(~LEN_MASK) | (len & LEN_MASK) );
    }
-
-#ifdef ENABLE_DUMP
-   //
-   // displays the reserved | version | current_next byte
-   void PSITable::dumpHeader(std::ostream &o, STRID table_label, STRID ext_label) const
-   {
-      // table header
-      STable::dumpHeader(o, table_label);
-
-      o << std::hex;
-      identStr(o, ext_label, table_id_extension);
-
-      identStr(o, RESERVED_S, 0x03);
-      identStr(o, VER_NUM_S, version_number);
-      identStr(o, CURR_NEXT_IND_S, current_next_indicator);
-   }
-#endif
 
 } // namespace

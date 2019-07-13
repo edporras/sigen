@@ -38,7 +38,7 @@ namespace sigen {
    /*!
     * \brief Abstract Event Information %Table base class.
     */
-   class EIT : public PSITable
+   class EIT : public ExtPSITable
    {
    public:
       enum {
@@ -46,24 +46,24 @@ namespace sigen {
       };
 
       // utility
-      virtual void buildSections(TStream &) const = 0;
+      virtual void buildSections(TStream& ts) const = 0;
 
 #ifdef ENABLE_DUMP
-      virtual void dump(std::ostream &) const;
+      virtual void dump(std::ostream& o) const;
 #endif
 
    protected:
       enum { MAX_SEC_LEN = 4096 };
 
       // only derived classes can build this type
-      EIT(ui8 tid, ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni) :
-         PSITable(tid, sid, 11, MAX_SEC_LEN, ver, cni),
+      EIT(ui8 num_lists, ui8 tid, ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni) :
+         ExtPSITable(num_lists, tid, sid, 11, MAX_SEC_LEN, ver, cni),
          xport_stream_id(xsid),
          original_network_id(onid)
       { }
 
       // the private event class
-      struct Event : public PSITable::ListItem {
+      struct Event : public ExtPSITable::ListItem {
          enum { BASE_LEN = 12 };
 
          // instance variables
@@ -74,9 +74,8 @@ namespace sigen {
          bool free_CA_mode;
 
          // constructor
-         Event(ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs,
-               bool fcam) :
-            id(evid),
+         Event(ui16 evid, const UTC& time, const BCDTime& dur, ui8 rs, bool fcam)
+            : id(evid),
             utc(time),
             duration(dur),
             running_status(rs),
@@ -84,7 +83,8 @@ namespace sigen {
          { }
          Event() = delete;
 
-         bool equals(ui16 ev_id) const { return ev_id == id; }
+         virtual ui16 length() const { return 12; }
+         virtual bool equals(ui16 ev_id) const { return ev_id == id; }
 
          // writes item header bytes, returns num bytes written
          virtual ui8 write_header(Section& sec) const;
@@ -97,27 +97,24 @@ namespace sigen {
       ui16 original_network_id;
 
       // event/descriptor add routines
-      bool addEvent(std::list<Event> &l, ui16 id, const UTC& st, const BCDTime& d, ui8 rs, bool fca);
-      bool addEventDesc(std::list<Event> &, ui16, Descriptor &);
-      bool addEventDesc(std::list<Event> &, Descriptor &);
-      bool addEventDesc(Event& , Descriptor &);
+      bool addEvent(std::list<ListItem*>& list, ui16 id, const UTC& st, const BCDTime& d, ui8 rs, bool fca);
 
       // table builder routines
-      bool writeSection(Section& s, const std::list<Event> &e_list,
+      bool writeSection(Section& s, const std::list<ListItem*>& list,
                         ui8 last_tid,
                         ui8 cur_sec, ui8 last_sec_num, ui8 segm_last_sec_num,
-                        ui16 &sec_bytes) const;
+                        ui16& sec_bytes) const;
 
 #ifdef ENABLE_DUMP
-      virtual void dumpHeader(std::ostream &) const = 0;
-      virtual void dumpEvents(std::ostream &) const = 0;
-      void dumpEventList(std::ostream &, const std::list<Event> &) const;
+      virtual void dumpHeader(std::ostream& o) const = 0;
+      virtual void dumpEvents(std::ostream& o) const = 0;
+      void dumpEventList(std::ostream& o, const std::list<ListItem*>& list) const;
 #endif
 
       // dummy function - we use a different writeSection for EIT's,
       // but we need this one to satisfy inheritance from PSITable..
       // this one is never called
-      bool writeSection(Section& , ui8, ui16 &) const { return false; }
+      bool writeSection(Section& s, ui8, ui16& sec_bytes) const { return false; }
 
    private:
       enum State_t { INIT, WRITE_HEAD, GET_EVENT, WRITE_EVENT };
@@ -125,8 +122,8 @@ namespace sigen {
          Context() : op_state(INIT), event(nullptr) {}
 
          State_t op_state;
-         const Event *event;
-         std::list<Event>::const_iterator ev_iter;
+         const ListItem* event;
+         std::list<ListItem*>::const_iterator ev_iter;
       } run;
    };
 
@@ -139,8 +136,8 @@ namespace sigen {
       enum Type { ACTUAL = 0x4e, OTHER = 0x4f };
 
    private:
-      enum { PRESENT, FOLLOWING };
-      std::list<Event> event_list[2]; // present = 0, following = 1
+      std::list<ListItem*>& present;
+      std::list<ListItem*>& following;
 
    public:
       /*!
@@ -153,22 +150,20 @@ namespace sigen {
        */
       bool addPresentEvent(ui16 ev_id, const UTC& start_time, const BCDTime& duration,
                            ui8 running_status, bool free_CA_mode) {
-         return addEvent(event_list[PRESENT], ev_id, start_time, duration, running_status, free_CA_mode);
+         return addEvent(present, ev_id, start_time, duration, running_status, free_CA_mode);
       }
       /*!
        * \brief Add a Descriptor to the last added present event.
        * \param desc Descriptor to add.
        */
-      bool addPresentEventDesc(Descriptor& desc) {
-         return addEventDesc(event_list[PRESENT], desc);
-      }
+      bool addPresentEventDesc(Descriptor& desc) { return addItemDesc(present, desc); }
       /*!
        * \brief Add a Descriptor to the specified present event.
        * \param ev_id Id identifying the event.
        * \param desc Descriptor to add.
        */
       bool addPresentEventDesc(ui16 ev_id, Descriptor& desc) {
-         return addEventDesc(event_list[PRESENT], ev_id, desc);
+         return addItemDesc(present, ev_id, desc);
       }
       /*!
        * \brief Add a following event.
@@ -180,37 +175,36 @@ namespace sigen {
        */
       bool addFollowingEvent(ui16 ev_id, const UTC& start_time, const BCDTime& duration,
                              ui8 running_status, bool free_CA_mode) {
-         return addEvent(event_list[FOLLOWING], ev_id, start_time, duration, running_status, free_CA_mode);
+         return addEvent(following, ev_id, start_time, duration, running_status, free_CA_mode);
       }
       /*!
        * \brief Add a Descriptor to the last added following event.
        * \param desc Descriptor to add.
        */
-      bool addFollowingEventDesc(Descriptor& desc) {
-         return addEventDesc(event_list[FOLLOWING], desc);
-      }
+      bool addFollowingEventDesc(Descriptor& desc) { return addItemDesc(following, desc); }
       /*!
        * \brief Add a Descriptor to the specified following event.
        * \param ev_id Id identifying the event.
        * \param desc Descriptor to add.
        */
       bool addFollowingEventDesc(ui16 ev_id, Descriptor& desc) {
-         return addEventDesc(event_list[FOLLOWING], ev_id, desc);
+         return addItemDesc(following, ev_id, desc);
       }
 
       // top-level table builder
-      void buildSections(TStream &) const;
+      void buildSections(TStream& ts) const;
 
    protected:
       // protected constructor
       PF_EIT(ui16 sid, ui16 xsid, ui16 onid, PF_EIT::Type type, ui8 ver,
-             bool cni = true) :
-         EIT(type, sid, xsid, onid, ver, cni)
+             bool cni = true)
+         : EIT(2, type, sid, xsid, onid, ver, cni),
+           present(items[0]), following(items[1])
       { }
 
 #ifdef ENABLE_DUMP
-      void dumpHeader(std::ostream &) const;
-      void dumpEvents(std::ostream &) const;
+      void dumpHeader(std::ostream& o) const;
+      void dumpEvents(std::ostream& o) const;
 #endif
    };
    //! @}
@@ -270,14 +264,12 @@ namespace sigen {
    private:
       enum { ACTUAL_BASE = 0x50, OTHER_BASE_0x60 };
 
-      std::list<Event> event_list;
-
 //   ES_EIT(ui16 sid, ui16 xsid, ui16 onid, ui8 ver, bool cni = true) :
 //       EIT(TID, sid, xsid, onid, ver, cni) { }
    public:
 
 #ifdef ENABLE_DUMP
-      void dumpHeader(std::ostream &o) const;
+      void dumpHeader(std::ostream& o) const;
 #endif
    };
 #endif // if 0
