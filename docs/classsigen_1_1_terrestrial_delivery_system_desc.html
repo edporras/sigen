@@ -91,8 +91,11 @@ Inheritance diagram for sigen::TerrestrialDeliverySystemDesc:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a86edc9e60ace4fd9da897b5b8c07b907"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_terrestrial_delivery_system_desc.html#a86edc9e60ace4fd9da897b5b8c07b907">TerrestrialDeliverySystemDesc</a> (ui32 cfreq, ui8 bandw, ui8 constel, ui8 hier_i, ui8 cr_HP, ui8 cr_LP, ui8 guard_i, ui8 trans_m, bool other_f_f)</td></tr>
-<tr class="memdesc:a86edc9e60ace4fd9da897b5b8c07b907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a86edc9e60ace4fd9da897b5b8c07b907">More...</a><br /></td></tr>
+<tr class="memdesc:a86edc9e60ace4fd9da897b5b8c07b907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for legacy descriptor without new fields.  <a href="#a86edc9e60ace4fd9da897b5b8c07b907">More...</a><br /></td></tr>
 <tr class="separator:a86edc9e60ace4fd9da897b5b8c07b907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0f768b2651e9603fd3b8394b5800936"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_terrestrial_delivery_system_desc.html#aa0f768b2651e9603fd3b8394b5800936">TerrestrialDeliverySystemDesc</a> (ui32 cfreq, ui8 bandw, ui8 constel, ui8 hier_i, ui8 cr_HP, ui8 cr_LP, ui8 guard_i, ui8 trans_m, bool other_f_f, ui8 pri, bool t_s_i, bool mpe_fec_i)</td></tr>
+<tr class="memdesc:aa0f768b2651e9603fd3b8394b5800936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for descrtipro with Priority, Time Slicing + MPE-FEC Indicator fields.  <a href="#aa0f768b2651e9603fd3b8394b5800936">More...</a><br /></td></tr>
+<tr class="separator:aa0f768b2651e9603fd3b8394b5800936"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa643171f379509e754f18476ae7f8080"><td class="memItemLeft" align="right" valign="top"><a id="aa643171f379509e754f18476ae7f8080"></a>
 ui16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_descriptor.html#aa643171f379509e754f18476ae7f8080">length</a> () const</td></tr>
 <tr class="memdesc:aa643171f379509e754f18476ae7f8080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total length of the descriptor data. <br /></td></tr>
@@ -101,10 +104,10 @@ ui16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Terrestrial Delivery System <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00144">144</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00166">166</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a86edc9e60ace4fd9da897b5b8c07b907"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86edc9e60ace4fd9da897b5b8c07b907">&#9670;&nbsp;</a></span>TerrestrialDeliverySystemDesc()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a86edc9e60ace4fd9da897b5b8c07b907">&#9670;&nbsp;</a></span>TerrestrialDeliverySystemDesc() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -179,23 +182,140 @@ ui16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 </div><div class="memdoc">
 
-<p>Constructor. </p>
+<p>Constructor for legacy descriptor without new fields. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cfreq</td><td>Center frequency. </td></tr>
-    <tr><td class="paramname">bandw</td><td>Bandwidth. </td></tr>
-    <tr><td class="paramname">constel</td><td>Constellation pattern. </td></tr>
-    <tr><td class="paramname">hier_i</td><td>Hierarchy information specifying the α value. </td></tr>
-    <tr><td class="paramname">cr_HP</td><td>Code Rate HP stream. </td></tr>
-    <tr><td class="paramname">cr_LP</td><td>Code Rate LP stream. </td></tr>
-    <tr><td class="paramname">guard_i</td><td>Guard interval. </td></tr>
-    <tr><td class="paramname">trans_m</td><td>Transmission mode. </td></tr>
+    <tr><td class="paramname">bandw</td><td>Bandwidth, as per Dvb::Terr::Bandwidth_t. </td></tr>
+    <tr><td class="paramname">constel</td><td>Constellation pattern, as per Dvb::Terr::Constellation_t. </td></tr>
+    <tr><td class="paramname">hier_i</td><td>Hierarchy information specifying the α value, as per Dvb::Terr::HierarchyInfo_t. </td></tr>
+    <tr><td class="paramname">cr_HP</td><td>Code Rate HP stream, as per Dvb::Terr::CodeRate_t. </td></tr>
+    <tr><td class="paramname">cr_LP</td><td>Code Rate LP stream, as per Dvb::Terr::CodeRate_t. </td></tr>
+    <tr><td class="paramname">guard_i</td><td>Guard interval, as per Dvb::Terr::GuardInterval_t. </td></tr>
+    <tr><td class="paramname">trans_m</td><td>Transmission mode, as per Dvb::Terr::TransmissionMode_t. </td></tr>
     <tr><td class="paramname">other_f_f</td><td><code>false</code>: no other freq. in use. <code>true</code>: One or more other freqs. in use. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00161">161</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00183">183</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
+
+</div>
+</div>
+<a id="aa0f768b2651e9603fd3b8394b5800936"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0f768b2651e9603fd3b8394b5800936">&#9670;&nbsp;</a></span>TerrestrialDeliverySystemDesc() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sigen::TerrestrialDeliverySystemDesc::TerrestrialDeliverySystemDesc </td>
+          <td>(</td>
+          <td class="paramtype">ui32&#160;</td>
+          <td class="paramname"><em>cfreq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>bandw</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>constel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>hier_i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>cr_HP</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>cr_LP</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>guard_i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>trans_m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>other_f_f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>pri</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>t_s_i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mpe_fec_i</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor for descrtipro with Priority, Time Slicing + MPE-FEC Indicator fields. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfreq</td><td>Center frequency. </td></tr>
+    <tr><td class="paramname">bandw</td><td>Bandwidth, as per Dvb::Terr::Bandwidth_t. </td></tr>
+    <tr><td class="paramname">constel</td><td>Constellation pattern, as per Dvb::Terr::Constellation_t. </td></tr>
+    <tr><td class="paramname">hier_i</td><td>Hierarchy information specifying the α value, as per Dvb::Terr::HierarchyInfo_t. </td></tr>
+    <tr><td class="paramname">cr_HP</td><td>Code Rate HP stream, as per Dvb::Terr::CodeRate_t. </td></tr>
+    <tr><td class="paramname">cr_LP</td><td>Code Rate LP stream, as per Dvb::Terr::CodeRate_t. </td></tr>
+    <tr><td class="paramname">guard_i</td><td>Guard interval, as per Dvb::Terr::GuardInterval_t. </td></tr>
+    <tr><td class="paramname">trans_m</td><td>Transmission mode, as per Dvb::Terr::TransmissionMode_t. </td></tr>
+    <tr><td class="paramname">other_f_f</td><td><code>false</code>: no other freq. in use. <code>true</code>: One or more other freqs. in use. </td></tr>
+    <tr><td class="paramname">pri</td><td>Hierarchical prioriy of the stream, as per Dvb::Terr::Priority_t. </td></tr>
+    <tr><td class="paramname">t_s_i</td><td>Time Slicing Indicator. <code>true</code>: time slicing not used; <code>false</code>: otherwise. (really? Seems opposite). </td></tr>
+    <tr><td class="paramname">mpe_fec_i</td><td>MPE-FEC Indicator. <code>true</code>: MPE-FEC not used; <code>false</code>: otherwise. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00204">204</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
 
 </div>
 </div>

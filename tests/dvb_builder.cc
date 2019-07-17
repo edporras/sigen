@@ -18,12 +18,15 @@ namespace tests
 {
    bool write_bin(const TStream& ts, const std::string& basename)
    {
-      ts.write(basename + ".ts");
+      ts.write(basename);
       return true;
    }
 
    int cmp_bin(const TStream& ts, const std::string& filename)
    {
+      // write_bin(ts, filename);
+      // return 0;
+
       std::ifstream inf(filename.c_str(), std::ifstream::binary);
       if (!inf.is_open()) {
          std::stringstream s;

@@ -396,7 +396,7 @@ namespace sigen {
 
 
    /*!
-    * \brief Stuffing Descriptor.
+    * \brief %Stuffing Descriptor.
     */
    struct StuffingDesc : public StringDataDesc
    {

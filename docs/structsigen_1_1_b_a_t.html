@@ -70,7 +70,7 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">sigen::BAT Struct Reference<div class="ingroups"><a class="el" href="group__table.html">Tables</a></div></div>  </div>
+<div class="title">sigen::BAT Struct Reference<div class="ingroups"><a class="el" href="group__table.html">Tables</a> &raquo; <a class="el" href="group___d_v_b.html">DVB</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -84,18 +84,15 @@ Inheritance diagram for sigen::BAT:</div>
  <div class="center">
   <img src="structsigen_1_1_b_a_t.png" usemap="#sigen::BAT_map" alt=""/>
   <map id="sigen::BAT_map" name="sigen::BAT_map">
-<area href="classsigen_1_1_n_i_t___b_a_t.html" title="Abstract class for the NIT &amp; BAT classes." alt="sigen::NIT_BAT" shape="rect" coords="0,168,98,192"/>
-<area href="classsigen_1_1_p_s_i_table.html" title="Abstract class for the sectionale tables." alt="sigen::PSITable" shape="rect" coords="0,112,98,136"/>
-<area href="classsigen_1_1_s_table.html" title="Abstract class for tables." alt="sigen::STable" shape="rect" coords="0,56,98,80"/>
-<area href="structsigen_1_1_table.html" title="Abstract base class for all tables and descriptors." alt="sigen::Table" shape="rect" coords="0,0,98,24"/>
+<area href="classsigen_1_1_n_i_t___b_a_t.html" title="Abstract class for the NIT &amp; BAT classes." alt="sigen::NIT_BAT" shape="rect" coords="0,0,98,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a1f0208f07a0802d0533ce61a7cc99488"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="structsigen_1_1_b_a_t.html#a1f0208f07a0802d0533ce61a7cc99488a8467769930512798c8250473d12f961c">PID</a> = 0x11
+<tr class="memitem:aba82b03cfc51575195ee13e712ea3b87"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="structsigen_1_1_b_a_t.html#aba82b03cfc51575195ee13e712ea3b87a8467769930512798c8250473d12f961c">PID</a> = 0x11
  }</td></tr>
-<tr class="separator:a1f0208f07a0802d0533ce61a7cc99488"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:aba82b03cfc51575195ee13e712ea3b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -111,20 +108,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac221eaee8c8b97d461619d24e4927789"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_n_i_t___b_a_t.html#ac221eaee8c8b97d461619d24e4927789">addXportStreamDesc</a> (<a class="el" href="classsigen_1_1_descriptor.html">Descriptor</a> &amp;desc)</td></tr>
 <tr class="memdesc:ac221eaee8c8b97d461619d24e4927789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a> to last added transport stream.  <a href="#ac221eaee8c8b97d461619d24e4927789">More...</a><br /></td></tr>
 <tr class="separator:ac221eaee8c8b97d461619d24e4927789"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9adfd2b917cb2c9646b880cc3918b6a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_n_i_t___b_a_t.html#ab9adfd2b917cb2c9646b880cc3918b6a">addXportStreamDesc</a> (ui16 xs_id, ui16 on_id, <a class="el" href="classsigen_1_1_descriptor.html">Descriptor</a> &amp;desc)</td></tr>
-<tr class="memdesc:ab9adfd2b917cb2c9646b880cc3918b6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a> to the transport stream specified.  <a href="#ab9adfd2b917cb2c9646b880cc3918b6a">More...</a><br /></td></tr>
-<tr class="separator:ab9adfd2b917cb2c9646b880cc3918b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a806832645d71583b86fbdce5ce816a17"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_p_s_i_table.html#a806832645d71583b86fbdce5ce816a17">buildSections</a> (<a class="el" href="classsigen_1_1_t_stream.html">TStream</a> &amp;) const</td></tr>
-<tr class="memdesc:a806832645d71583b86fbdce5ce816a17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write table data to the specified stream.  <a href="#a806832645d71583b86fbdce5ce816a17">More...</a><br /></td></tr>
-<tr class="separator:a806832645d71583b86fbdce5ce816a17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b78d9bd6ba2200eac113feef991a396"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_n_i_t___b_a_t.html#a3b78d9bd6ba2200eac113feef991a396">addXportStreamDesc</a> (ui16 xs_id, <a class="el" href="classsigen_1_1_descriptor.html">Descriptor</a> &amp;desc)</td></tr>
+<tr class="memdesc:a3b78d9bd6ba2200eac113feef991a396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a> to the transport stream specified.  <a href="#a3b78d9bd6ba2200eac113feef991a396">More...</a><br /></td></tr>
+<tr class="separator:a3b78d9bd6ba2200eac113feef991a396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34c3f7fe7a517f668485626b41dc04b1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_p_s_i_table.html#a34c3f7fe7a517f668485626b41dc04b1">buildSections</a> (<a class="el" href="classsigen_1_1_t_stream.html">TStream</a> &amp;ts) const</td></tr>
+<tr class="memdesc:a34c3f7fe7a517f668485626b41dc04b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write table data to the specified stream.  <a href="#a34c3f7fe7a517f668485626b41dc04b1">More...</a><br /></td></tr>
+<tr class="separator:a34c3f7fe7a517f668485626b41dc04b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Bouquet Association Table, as per ETSI EN 300 468. </p>
 
-<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00199">199</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00208">208</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a1f0208f07a0802d0533ce61a7cc99488"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f0208f07a0802d0533ce61a7cc99488">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="aba82b03cfc51575195ee13e712ea3b87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba82b03cfc51575195ee13e712ea3b87">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,11 +132,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1f0208f07a0802d0533ce61a7cc99488a8467769930512798c8250473d12f961c"></a>PID&#160;</td><td class="fielddoc"><p>Packet PID for transmission. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aba82b03cfc51575195ee13e712ea3b87a8467769930512798c8250473d12f961c"></a>PID&#160;</td><td class="fielddoc"><p>Packet PID for transmission. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00201">201</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00210">210</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
 
 </div>
 </div>
@@ -194,7 +191,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00211">211</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00220">220</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
 
 </div>
 </div>
@@ -231,7 +228,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00219">219</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00228">228</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
 
 </div>
 </div>
@@ -278,7 +275,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nit__bat_8cc_source.html#l00054">54</a> of file <a class="el" href="nit__bat_8cc_source.html">nit_bat.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__bat_8cc_source.html#l00055">55</a> of file <a class="el" href="nit__bat_8cc_source.html">nit_bat.cc</a>.</p>
 
 </div>
 </div>
@@ -301,7 +298,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -314,12 +311,12 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nit__bat_8cc_source.html#l00082">82</a> of file <a class="el" href="nit__bat_8cc_source.html">nit_bat.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00064">64</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
 
 </div>
 </div>
-<a id="ab9adfd2b917cb2c9646b880cc3918b6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9adfd2b917cb2c9646b880cc3918b6a">&#9670;&nbsp;</a></span>addXportStreamDesc() <span class="overload">[2/2]</span></h2>
+<a id="a3b78d9bd6ba2200eac113feef991a396"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b78d9bd6ba2200eac113feef991a396">&#9670;&nbsp;</a></span>addXportStreamDesc() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -336,12 +333,6 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ui16&#160;</td>
-          <td class="paramname"><em>on_id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="classsigen_1_1_descriptor.html">Descriptor</a> &amp;&#160;</td>
           <td class="paramname"><em>desc</em>&#160;</td>
         </tr>
@@ -353,7 +344,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -362,18 +353,17 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs_id</td><td>Id of the transport stream. </td></tr>
-    <tr><td class="paramname">on_id</td><td>Id of the originating network. </td></tr>
     <tr><td class="paramname">desc</td><td><a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a> to add. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nit__bat_8cc_source.html#l00068">68</a> of file <a class="el" href="nit__bat_8cc_source.html">nit_bat.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__bat_8h_source.html#l00070">70</a> of file <a class="el" href="nit__bat_8h_source.html">nit_bat.h</a>.</p>
 
 </div>
 </div>
-<a id="a806832645d71583b86fbdce5ce816a17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a806832645d71583b86fbdce5ce816a17">&#9670;&nbsp;</a></span>buildSections()</h2>
+<a id="a34c3f7fe7a517f668485626b41dc04b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34c3f7fe7a517f668485626b41dc04b1">&#9670;&nbsp;</a></span>buildSections()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -406,9 +396,9 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classsigen_1_1_s_table.html#af4f93ab63345003bf326b96fd4870f65">sigen::STable</a>.</p>
 
-<p>Reimplemented in <a class="el" href="classsigen_1_1_p_f___e_i_t.html#a7a350d52248c081df5966aaee03a82e7">sigen::PF_EIT</a>, and <a class="el" href="classsigen_1_1_e_i_t.html#a8225a6be56aaaddd662c2828d54470cf">sigen::EIT</a>.</p>
+<p>Reimplemented in <a class="el" href="classsigen_1_1_p_f___e_i_t.html#ae19434f97bfb4e7ece85103eab26a47e">sigen::PF_EIT</a>, and <a class="el" href="classsigen_1_1_e_i_t.html#a1eda630df586abc9bdc9a7948e4dc607">sigen::EIT</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="table_8cc_source.html#l00156">156</a> of file <a class="el" href="table_8cc_source.html">table.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="table_8cc_source.html#l00151">151</a> of file <a class="el" href="table_8cc_source.html">table.cc</a>.</p>
 
 </div>
 </div>

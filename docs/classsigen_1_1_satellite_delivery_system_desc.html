@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Satellite Delivery System <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a>.  
+<p>Satellite Delivery System <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a>, as per ETSI EN 300 468 1.15.1 (2016-03).  
  <a href="classsigen_1_1_satellite_delivery_system_desc.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>&gt;</code></p>
@@ -82,21 +82,24 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af0523a4bd3e94ca0609c48fd279cd88c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_satellite_delivery_system_desc.html#af0523a4bd3e94ca0609c48fd279cd88c">SatelliteDeliverySystemDesc</a> (ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef=false, ui8 pol=<a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a957b805cd9c41a0986b17af8fec46feda993aa9f4c326d3463a091f4170fae8ad">Dvb::Sat::LINEAR_HOR_POL</a>, ui8 mod=<a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a517b66d84fae859105be14c869eecf0ca47e013abf60b8936192f697d0118a792">Dvb::Sat::AUTO_MOD</a>, ui8 fec_i=<a class="el" href="namespacesigen_1_1_dvb.html#a1c272a3714db34e50edaf036b670862aa3cb33191da0b00d06cf2d33d13da7464">Dvb::UNDEF_FECI</a>)</td></tr>
-<tr class="memdesc:af0523a4bd3e94ca0609c48fd279cd88c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#af0523a4bd3e94ca0609c48fd279cd88c">More...</a><br /></td></tr>
-<tr class="separator:af0523a4bd3e94ca0609c48fd279cd88c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7375015c7917476473711fe33f4c6727"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_satellite_delivery_system_desc.html#a7375015c7917476473711fe33f4c6727">SatelliteDeliverySystemDesc</a> (ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef, ui8 pol, ui8 mod_type, ui8 fec_i)</td></tr>
+<tr class="memdesc:a7375015c7917476473711fe33f4c6727"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for DVB-S modulation systems.  <a href="#a7375015c7917476473711fe33f4c6727">More...</a><br /></td></tr>
+<tr class="separator:a7375015c7917476473711fe33f4c6727"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4deb593bfb16b6fe65747af00f70075a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_satellite_delivery_system_desc.html#a4deb593bfb16b6fe65747af00f70075a">SatelliteDeliverySystemDesc</a> (ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef, ui8 pol, ui8 mod_type, ui8 fec_i, ui8 rof)</td></tr>
+<tr class="memdesc:a4deb593bfb16b6fe65747af00f70075a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for DVB-S2 modulation systems.  <a href="#a4deb593bfb16b6fe65747af00f70075a">More...</a><br /></td></tr>
+<tr class="separator:a4deb593bfb16b6fe65747af00f70075a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa643171f379509e754f18476ae7f8080"><td class="memItemLeft" align="right" valign="top"><a id="aa643171f379509e754f18476ae7f8080"></a>
 ui16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_descriptor.html#aa643171f379509e754f18476ae7f8080">length</a> () const</td></tr>
 <tr class="memdesc:aa643171f379509e754f18476ae7f8080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total length of the descriptor data. <br /></td></tr>
 <tr class="separator:aa643171f379509e754f18476ae7f8080"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Satellite Delivery System <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a>. </p>
+<div class="textblock"><p>Satellite Delivery System <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a>, as per ETSI EN 300 468 1.15.1 (2016-03). </p>
 
-<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00095">95</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00092">92</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af0523a4bd3e94ca0609c48fd279cd88c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0523a4bd3e94ca0609c48fd279cd88c">&#9670;&nbsp;</a></span>SatelliteDeliverySystemDesc()</h2>
+<a id="a7375015c7917476473711fe33f4c6727"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7375015c7917476473711fe33f4c6727">&#9670;&nbsp;</a></span>SatelliteDeliverySystemDesc() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -126,25 +129,25 @@ ui16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>wef</em> = <code>false</code>, </td>
+          <td class="paramname"><em>wef</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">ui8&#160;</td>
-          <td class="paramname"><em>pol</em> = <code><a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a957b805cd9c41a0986b17af8fec46feda993aa9f4c326d3463a091f4170fae8ad">Dvb::Sat::LINEAR_HOR_POL</a></code>, </td>
+          <td class="paramname"><em>pol</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">ui8&#160;</td>
-          <td class="paramname"><em>mod</em> = <code><a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a517b66d84fae859105be14c869eecf0ca47e013abf60b8936192f697d0118a792">Dvb::Sat::AUTO_MOD</a></code>, </td>
+          <td class="paramname"><em>mod_type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">ui8&#160;</td>
-          <td class="paramname"><em>fec_i</em> = <code><a class="el" href="namespacesigen_1_1_dvb.html#a1c272a3714db34e50edaf036b670862aa3cb33191da0b00d06cf2d33d13da7464">Dvb::UNDEF_FECI</a></code>&#160;</td>
+          <td class="paramname"><em>fec_i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -159,7 +162,7 @@ ui16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 </div><div class="memdoc">
 
-<p>Constructor. </p>
+<p>Constructor for DVB-S modulation systems. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">freq</td><td>BCD frequency. </td></tr>
@@ -167,13 +170,102 @@ ui16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
     <tr><td class="paramname">sym_rate</td><td>Symbol rate in Msymbol/s. </td></tr>
     <tr><td class="paramname">wef</td><td>West-East flag. <code>false</code>: western position, <code>true</code>: eastern position. </td></tr>
     <tr><td class="paramname">pol</td><td>Polarization of the transmitted signal, as per <a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a957b805cd9c41a0986b17af8fec46fed" title="Satellite modulation scheme values.">sigen::Dvb::Sat::Pol_t</a>. </td></tr>
-    <tr><td class="paramname">mod</td><td>Modulation scheme, as per <a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a517b66d84fae859105be14c869eecf0c" title="Satellite modulation scheme values.">sigen::Dvb::Sat::Mod_t</a>. </td></tr>
+    <tr><td class="paramname">mod_type</td><td>Modulation type, as per <a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a517b66d84fae859105be14c869eecf0c" title="Satellite modulation scheme values.">sigen::Dvb::Sat::Mod_t</a>. </td></tr>
     <tr><td class="paramname">fec_i</td><td>Inner Foward Error Correction scheme, as per <a class="el" href="namespacesigen_1_1_dvb.html#a1c272a3714db34e50edaf036b670862a" title="Inner FEC Scheme.">sigen::Dvb::FecInner_t</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00110">110</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00107">107</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
+
+</div>
+</div>
+<a id="a4deb593bfb16b6fe65747af00f70075a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4deb593bfb16b6fe65747af00f70075a">&#9670;&nbsp;</a></span>SatelliteDeliverySystemDesc() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sigen::SatelliteDeliverySystemDesc::SatelliteDeliverySystemDesc </td>
+          <td>(</td>
+          <td class="paramtype">ui32&#160;</td>
+          <td class="paramname"><em>freq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui16&#160;</td>
+          <td class="paramname"><em>orb_pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui32&#160;</td>
+          <td class="paramname"><em>sym_rate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>wef</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>pol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>mod_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>fec_i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ui8&#160;</td>
+          <td class="paramname"><em>rof</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor for DVB-S2 modulation systems. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">freq</td><td>BCD frequency. </td></tr>
+    <tr><td class="paramname">orb_pos</td><td>BCD orbital position. </td></tr>
+    <tr><td class="paramname">sym_rate</td><td>Symbol rate in Msymbol/s. </td></tr>
+    <tr><td class="paramname">wef</td><td>West-East flag. <code>false</code>: western position, <code>true</code>: eastern position. </td></tr>
+    <tr><td class="paramname">pol</td><td>Polarization of the transmitted signal, as per <a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a957b805cd9c41a0986b17af8fec46fed" title="Satellite modulation scheme values.">sigen::Dvb::Sat::Pol_t</a>. </td></tr>
+    <tr><td class="paramname">mod_type</td><td>Modulation type, as per <a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#a517b66d84fae859105be14c869eecf0c" title="Satellite modulation scheme values.">sigen::Dvb::Sat::Mod_t</a>. </td></tr>
+    <tr><td class="paramname">fec_i</td><td>Inner Foward Error Correction scheme, as per <a class="el" href="namespacesigen_1_1_dvb.html#a1c272a3714db34e50edaf036b670862a" title="Inner FEC Scheme.">sigen::Dvb::FecInner_t</a>. </td></tr>
+    <tr><td class="paramname">rof</td><td>Roll-off factor, as per <a class="el" href="namespacesigen_1_1_dvb_1_1_sat.html#ad408ca25974b26cbe7e719d6dc63ecb9" title="Satellite rolloff factor.">sigen::Dvb::Sat::RolloffFactor_t</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="nit__desc_8h_source.html#l00123">123</a> of file <a class="el" href="nit__desc_8h_source.html">nit_desc.h</a>.</p>
 
 </div>
 </div>

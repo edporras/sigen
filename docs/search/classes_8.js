@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ibpdesc',['IBPDesc',['../classsigen_1_1_i_b_p_desc.html',1,'sigen']]],
-  ['iso639languagedesc',['ISO639LanguageDesc',['../classsigen_1_1_i_s_o639_language_desc.html',1,'sigen']]]
+  ['linkagedesc',['LinkageDesc',['../classsigen_1_1_linkage_desc.html',1,'sigen']]],
+  ['localtimeoffsetdesc',['LocalTimeOffsetDesc',['../classsigen_1_1_local_time_offset_desc.html',1,'sigen']]]
 ];

@@ -84,12 +84,9 @@ Inheritance diagram for sigen::PF_EIT:</div>
  <div class="center">
   <img src="classsigen_1_1_p_f___e_i_t.png" usemap="#sigen::PF_5FEIT_map" alt=""/>
   <map id="sigen::PF_5FEIT_map" name="sigen::PF_5FEIT_map">
-<area href="classsigen_1_1_e_i_t.html" title="Abstract Event Information Table base class." alt="sigen::EIT" shape="rect" coords="67,168,192,192"/>
-<area href="classsigen_1_1_p_s_i_table.html" title="Abstract class for the sectionale tables." alt="sigen::PSITable" shape="rect" coords="67,112,192,136"/>
-<area href="classsigen_1_1_s_table.html" title="Abstract class for tables." alt="sigen::STable" shape="rect" coords="67,56,192,80"/>
-<area href="structsigen_1_1_table.html" title="Abstract base class for all tables and descriptors." alt="sigen::Table" shape="rect" coords="67,0,192,24"/>
-<area href="structsigen_1_1_p_f___e_i_t_actual.html" title="Event Information Table, Present / Following - Actual, as per ETSI EN 300 468." alt="sigen::PF_EITActual" shape="rect" coords="0,280,125,304"/>
-<area href="structsigen_1_1_p_f___e_i_t_other.html" title="Event Information Table, Present / Following - Other, as per ETSI EN 300 468." alt="sigen::PF_EITOther" shape="rect" coords="135,280,260,304"/>
+<area href="classsigen_1_1_e_i_t.html" title="Abstract Event Information Table base class." alt="sigen::EIT" shape="rect" coords="67,0,192,24"/>
+<area href="structsigen_1_1_p_f___e_i_t_actual.html" title="Event Information Table, Present / Following - Actual, as per ETSI EN 300 468." alt="sigen::PF_EITActual" shape="rect" coords="0,112,125,136"/>
+<area href="structsigen_1_1_p_f___e_i_t_other.html" title="Event Information Table, Present / Following - Other, as per ETSI EN 300 468." alt="sigen::PF_EITOther" shape="rect" coords="135,112,260,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -119,14 +116,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af4a69384d793991310d3194058b312f9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_p_f___e_i_t.html#af4a69384d793991310d3194058b312f9">addFollowingEventDesc</a> (ui16 ev_id, <a class="el" href="classsigen_1_1_descriptor.html">Descriptor</a> &amp;desc)</td></tr>
 <tr class="memdesc:af4a69384d793991310d3194058b312f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a <a class="el" href="classsigen_1_1_descriptor.html" title="Abstract base class for all descriptor types.">Descriptor</a> to the specified following event.  <a href="#af4a69384d793991310d3194058b312f9">More...</a><br /></td></tr>
 <tr class="separator:af4a69384d793991310d3194058b312f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a350d52248c081df5966aaee03a82e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_p_f___e_i_t.html#a7a350d52248c081df5966aaee03a82e7">buildSections</a> (<a class="el" href="classsigen_1_1_t_stream.html">TStream</a> &amp;) const</td></tr>
-<tr class="memdesc:a7a350d52248c081df5966aaee03a82e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write table data to the specified stream.  <a href="#a7a350d52248c081df5966aaee03a82e7">More...</a><br /></td></tr>
-<tr class="separator:a7a350d52248c081df5966aaee03a82e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae19434f97bfb4e7ece85103eab26a47e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsigen_1_1_p_f___e_i_t.html#ae19434f97bfb4e7ece85103eab26a47e">buildSections</a> (<a class="el" href="classsigen_1_1_t_stream.html">TStream</a> &amp;ts) const</td></tr>
+<tr class="memdesc:ae19434f97bfb4e7ece85103eab26a47e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write table data to the specified stream.  <a href="#ae19434f97bfb4e7ece85103eab26a47e">More...</a><br /></td></tr>
+<tr class="separator:ae19434f97bfb4e7ece85103eab26a47e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class for EIT-Present / -Following. </p>
 
-<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00136">136</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00133">133</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a8983de04c54e85e28f94d758b2cdb858"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8983de04c54e85e28f94d758b2cdb858">&#9670;&nbsp;</a></span>anonymous enum</h2>
@@ -221,7 +218,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00154">154</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00151">151</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
 
 </div>
 </div>
@@ -257,7 +254,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00162">162</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00159">159</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
 
 </div>
 </div>
@@ -304,7 +301,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00170">170</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00165">165</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
 
 </div>
 </div>
@@ -372,7 +369,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00181">181</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00176">176</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
 
 </div>
 </div>
@@ -408,7 +405,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00189">189</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00184">184</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
 
 </div>
 </div>
@@ -455,12 +452,12 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00197">197</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="eit_8h_source.html#l00190">190</a> of file <a class="el" href="eit_8h_source.html">eit.h</a>.</p>
 
 </div>
 </div>
-<a id="a7a350d52248c081df5966aaee03a82e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a350d52248c081df5966aaee03a82e7">&#9670;&nbsp;</a></span>buildSections()</h2>
+<a id="ae19434f97bfb4e7ece85103eab26a47e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae19434f97bfb4e7ece85103eab26a47e">&#9670;&nbsp;</a></span>buildSections()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -491,9 +488,9 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classsigen_1_1_e_i_t.html#a8225a6be56aaaddd662c2828d54470cf">sigen::EIT</a>.</p>
+<p>Implements <a class="el" href="classsigen_1_1_e_i_t.html#a1eda630df586abc9bdc9a7948e4dc607">sigen::EIT</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="eit_8cc_source.html#l00291">291</a> of file <a class="el" href="eit_8cc_source.html">eit.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="eit_8cc_source.html#l00248">248</a> of file <a class="el" href="eit_8cc_source.html">eit.cc</a>.</p>
 
 </div>
 </div>

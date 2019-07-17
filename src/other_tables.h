@@ -96,7 +96,7 @@ namespace sigen {
 
 
    /*!
-    * \brief Stuffing %Table, as per ETSI EN 300 468.
+    * \brief %Stuffing %Table, as per ETSI EN 300 468.
     */
    class Stuffing : public STable
    {

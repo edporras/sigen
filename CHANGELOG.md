@@ -1,5 +1,25 @@
 # Change Log
 
+## 2.7.3 - 2019-07-17
+### Changed
+* SatelliteDeliverySystemDesc updated to 300 468 1.15.1 spec.
+* TerrestrialDeliverySystemDesc updated to 300 468 1.15.1 spec.
+* Renamed some enums in dvb_defs.h for consistency.
+* Dump id/string dual array replaced w/ std::map. Cleanup of interface.
+* MultilingualServiceNameSesc::addLanguage deprecated in favor off
+  addInfo.
+* Relocated descriptor tests to tables that make more sense.
+* Deprecated various NIT/BAT methods that took onid argument for to
+  match transport stream as it's not required. Replaced with methods
+  that don't take it.
+
+### Added
+* DUPLICATE_CHECKS option to prevent adding duplicates to table loop
+  entries (service loops in SDT, etc). Can be disabled via configure
+  option.
+* New ExtPSITable to refactor methods for adding descriptors to table
+  loop entries.
+
 ## 2.7.2 - 2019-06-27
 ### Changed
 * Improvements to some tests.

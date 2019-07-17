@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['frequencylistdesc',['FrequencyListDesc',['../classsigen_1_1_frequency_list_desc.html',1,'sigen']]]
+  ['hierarchydesc',['HierarchyDesc',['../classsigen_1_1_hierarchy_desc.html',1,'sigen']]]
 ];

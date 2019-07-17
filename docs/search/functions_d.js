@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['satellitedeliverysystemdesc',['SatelliteDeliverySystemDesc',['../classsigen_1_1_satellite_delivery_system_desc.html#af0523a4bd3e94ca0609c48fd279cd88c',1,'sigen::SatelliteDeliverySystemDesc']]],
+  ['satellitedeliverysystemdesc',['SatelliteDeliverySystemDesc',['../classsigen_1_1_satellite_delivery_system_desc.html#a7375015c7917476473711fe33f4c6727',1,'sigen::SatelliteDeliverySystemDesc::SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef, ui8 pol, ui8 mod_type, ui8 fec_i)'],['../classsigen_1_1_satellite_delivery_system_desc.html#a4deb593bfb16b6fe65747af00f70075a',1,'sigen::SatelliteDeliverySystemDesc::SatelliteDeliverySystemDesc(ui32 freq, ui16 orb_pos, ui32 sym_rate, bool wef, ui8 pol, ui8 mod_type, ui8 fec_i, ui8 rof)']]],
   ['sdtactual',['SDTActual',['../structsigen_1_1_s_d_t_actual.html#a6de3f216066837aaf6fa155155600472',1,'sigen::SDTActual']]],
   ['sdtother',['SDTOther',['../structsigen_1_1_s_d_t_other.html#ab3b83a4fd37d404274e54f5860c05a98',1,'sigen::SDTOther']]],
   ['servicedesc',['ServiceDesc',['../classsigen_1_1_service_desc.html#a1353b3ee55c0b9c3d5b4c289191fd365',1,'sigen::ServiceDesc']]],

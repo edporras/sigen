@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['ibpdesc',['IBPDesc',['../classsigen_1_1_i_b_p_desc.html',1,'sigen::IBPDesc'],['../classsigen_1_1_i_b_p_desc.html#a0e4069e8382837aceeba6674aa4566f0',1,'sigen::IBPDesc::IBPDesc()']]],
-  ['info_5fserv',['INFO_SERV',['../classsigen_1_1_linkage_desc.html#a1ec0b34f14d2db7bf1f9e19b384fa50aad738d79ce2a078763755b21ef43daa6b',1,'sigen::LinkageDesc']]],
-  ['initial',['INITIAL',['../classsigen_1_1_teletext_desc.html#a202adc3f3351e791d132ea1109fd0542aa5ddedeed296d5f9c59212e1fa3c1296',1,'sigen::TeletextDesc']]],
-  ['ipmac_5fnotif_5fservice',['IPMAC_NOTIF_SERVICE',['../classsigen_1_1_linkage_desc.html#a1ec0b34f14d2db7bf1f9e19b384fa50aabec71ea1a5fcce8a0b29c5482946ce56',1,'sigen::LinkageDesc']]],
-  ['iso639languagedesc',['ISO639LanguageDesc',['../classsigen_1_1_i_s_o639_language_desc.html',1,'sigen::ISO639LanguageDesc'],['../classsigen_1_1_i_s_o639_language_desc.html#a55c0da4007d8cc88060b3a5822220bcb',1,'sigen::ISO639LanguageDesc::ISO639LanguageDesc()']]]
+  ['length',['length',['../classsigen_1_1_descriptor.html#aa643171f379509e754f18476ae7f8080',1,'sigen::Descriptor']]],
+  ['linear_5fhor_5fpol',['LINEAR_HOR_POL',['../namespacesigen_1_1_dvb_1_1_sat.html#a957b805cd9c41a0986b17af8fec46feda993aa9f4c326d3463a091f4170fae8ad',1,'sigen::Dvb::Sat']]],
+  ['linear_5fver_5fpol',['LINEAR_VER_POL',['../namespacesigen_1_1_dvb_1_1_sat.html#a957b805cd9c41a0986b17af8fec46fedab41bef615e704a037a52dcb41b8df545',1,'sigen::Dvb::Sat']]],
+  ['linkage_20descriptors',['Linkage Descriptors',['../group__linkage__d.html',1,'']]],
+  ['linkage_5ft',['Linkage_t',['../classsigen_1_1_linkage_desc.html#a1ec0b34f14d2db7bf1f9e19b384fa50a',1,'sigen::LinkageDesc']]],
+  ['linkagedesc',['LinkageDesc',['../classsigen_1_1_linkage_desc.html',1,'sigen::LinkageDesc'],['../classsigen_1_1_linkage_desc.html#aabdd528c973721fdeee323ad018fa857',1,'sigen::LinkageDesc::LinkageDesc()']]],
+  ['localtimeoffsetdesc',['LocalTimeOffsetDesc',['../classsigen_1_1_local_time_offset_desc.html',1,'sigen::LocalTimeOffsetDesc'],['../classsigen_1_1_local_time_offset_desc.html#ace26b025bd36a7a13b0280ee72dbdd8b',1,'sigen::LocalTimeOffsetDesc::LocalTimeOffsetDesc()']]]
 ];
