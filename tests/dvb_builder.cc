@@ -94,7 +94,8 @@ int main(int argc, char* argv[])
       { "-tdt", tests::tdt },
       { "-tot", tests::tot },
       { "-rst", tests::rst },
-      { "-st", tests::st }
+      { "-st", tests::st },
+      { "-eacem", tests::eacem },
    };
 
    // search for the given argument

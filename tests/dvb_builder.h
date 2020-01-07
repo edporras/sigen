@@ -15,6 +15,7 @@ namespace tests {
    int tdt(sigen::TStream& t);
    int rst(sigen::TStream& t);
    int st(sigen::TStream& t);
+   int eacem(sigen::TStream& t);
 
    int cmp_bin(const sigen::TStream& ts, const std::string& filename);
    bool write_bin(const sigen::TStream& ts, const std::string& basename);

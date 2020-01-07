@@ -7,7 +7,7 @@ namespace tests
 {
    int nit(TStream& t)
    {
-      // NIT test
+      // NIT Actual test
       NITActual nit(0x100, 0x01);
 
       nit.setMaxSectionLen( 300 ); // to test sectionizing

@@ -15,6 +15,7 @@ dvb_builder_SOURCES = \
 	tdt_test.cc \
 	rst_test.cc \
 	st_test.cc \
+	eacem_test.cc \
 	$(top_builddir)/src/sigen.h
 
 
@@ -29,7 +30,8 @@ TESTS = \
 	test_sdt.sh \
 	test_st.sh \
 	test_tdt.sh \
-	test_tot.sh
+	test_tot.sh \
+	test_eacem.sh
 
 distclean-local:
 	-rm -f Makefile.in

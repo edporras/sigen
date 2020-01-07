@@ -12,6 +12,7 @@ libsigen_la_SOURCES = \
 	cat.cc \
 	descriptor.cc \
 	dvb_desc.cc \
+	eacem_desc.cc \
 	eit.cc \
 	eit_desc.cc \
 	language_code.cc \
@@ -41,6 +42,7 @@ libsigeninclude_HEADERS = \
 	dump.h \
 	dvb_defs.h \
 	dvb_desc.h \
+	eacem_desc.h \
 	eit.h \
 	eit_desc.h \
 	language_code.h \

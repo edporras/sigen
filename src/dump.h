@@ -1,4 +1,4 @@
-// Copyright 1999-2019 Ed Porras
+// Copyright 1999-2020 Ed Porras
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -147,6 +147,7 @@ namespace sigen {
       LENGTH_OF_ITEMS_S,  // Length of items
       LINKAGE_TYPE_S,     // Linkage type
       LOCAL_TIME_OFFSET_S, // Local time offset
+      LOGICAL_CHAN_NUM_S, // Logical channel number
       LTO_POLARITY_S,     // Lcl time offset pol
       LTW_OFFSET_LB_S,    // LTW offset low bnd
       LTW_OFFSET_UB_S,    // LTW offset upp bnd
@@ -251,6 +252,7 @@ namespace sigen {
       VER_NUM_S,          // Version number,
       VERT_OFFSET_S,      // Vertical offset
       VERT_SIZE_S,        // Vertical size
+      VISIBLE_SERV_F_S,   // Visible service flag
       WEST_EAST_S,        // West/east flag
       WIN_PRIORITY_S,     // Window priority
       XPORT_DESC_LEN_S,   // Xport desc len
@@ -302,6 +304,7 @@ namespace sigen {
       DATA_BCAST_ID_D_S,  // - Data Broadcast Id Descriptor -
       DATA_STREAM_ALIGNMENT_D_S, // - Data Stream Alignment Descriptor -
       DSNG_D_S,           // - DSNG Descriptor -
+      EACEM_STREAM_IDENT_D_S, // - EACEM Stream Identifier -
       EXTENDED_AC3_D_S,   // - Extended AC-3 Descriptor -
       EXTENDED_EVENT_D_S, // - Extended Event Descriptor -
       FREQ_LIST_D_S,      // - Frequency List Descriptor -
@@ -310,6 +313,7 @@ namespace sigen {
       ISO_639_LANG_D_S,   // - ISO 639 Language Descriptor -
       LINKAGE_D_S,        // - Linkage Descriptor -
       LOCAL_TIME_OFFSET_D_S, // - Local Time Offset Descriptor -
+      LOGICAL_CHAN_D_S,   // - Logical Channel Descriptor -
       MAXIMUM_BITRATE_D_S,// - Maximum Bitrate Descriptor -
       MULTILING_BOUQUET_NAME_D_S, // - Multilingual Bouquet Name Descriptor -
       MULTILING_COMPONENT_D_S, // - Multilingual Component Descriptor -

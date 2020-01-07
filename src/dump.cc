@@ -1,4 +1,4 @@
-// Copyright 1999-2019 Ed Porras
+// Copyright 1999-2020 Ed Porras
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -152,6 +152,7 @@ namespace sigen
       { LENGTH_OF_ITEMS_S, { "Length of items", DECHEX } },
       { LINKAGE_TYPE_S, { "Linkage type" } },
       { LOCAL_TIME_OFFSET_S, { "Local time offset", DECHEX } },
+      { LOGICAL_CHAN_NUM_S, { "Logical chan num", DECHEX } },
       { LTO_POLARITY_S, { "Lcl time offset pol" } },
       { LTW_OFFSET_LB_S, { "LTW offset low bnd" } },
       { LTW_OFFSET_UB_S, { "LTW offset upp bnd" } },
@@ -252,11 +253,12 @@ namespace sigen
       { USER_NL_1, { "User nibble 1", HEX } },
       { USER_NL_2, { "User nibble 2", HEX } },
       { UTC_S, { "UTC" } },
-      { VAR_RATE_AUD_IND_S, { "Variable rate audio ind." } },
+      { VAR_RATE_AUD_IND_S, { "Var rate audio ind." } },
       { VER_NUM_S, { "Version number" } },
       { VERT_OFFSET_S, { "Vertical offset" } },
       { VERT_SIZE_S, { "Vertical size" } },
       { WEST_EAST_S, { "West/east flag" } },
+      { VISIBLE_SERV_F_S, { "Visible serv flag" } },
       { WIN_PRIORITY_S, { "Window priority" } },
       { XPORT_DESC_LEN_S, { "Xport desc len", DECHEX } },
       { XPORT_STREAM_ID_S, { "Xport stream id", DECHEX } },
@@ -307,6 +309,7 @@ namespace sigen
       { DATA_BCAST_ID_D_S, { "Data Broadcast Id", DESC } },
       { DATA_STREAM_ALIGNMENT_D_S, { "Data Stream Alignment", DESC } },
       { DSNG_D_S, { "DSNG", DESC } },
+      { EACEM_STREAM_IDENT_D_S, { "EACEM Stream Identifier Desc", DESC } },
       { EXTENDED_AC3_D_S, { "Extended AC-3", DESC } },
       { EXTENDED_EVENT_D_S, { "Extended Event", DESC } },
       { FREQ_LIST_D_S, { "Frequency List", DESC } },
@@ -315,6 +318,7 @@ namespace sigen
       { ISO_639_LANG_D_S, { "ISO 639 Language", DESC } },
       { LINKAGE_D_S, { "Linkage", DESC } },
       { LOCAL_TIME_OFFSET_D_S, { "Local Time Offset", DESC } },
+      { LOGICAL_CHAN_D_S, { "Logical Channel Descriptor", DESC } },
       { MAXIMUM_BITRATE_D_S, { "Maximum Bitrate", DESC } },
       { MULTILING_BOUQUET_NAME_D_S, { "Multilingual Bouquet Name", DESC } },
       { MULTILING_COMPONENT_D_S, { "Multilingual Component", DESC } },
