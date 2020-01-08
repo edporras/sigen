@@ -354,6 +354,8 @@ namespace sigen
       { VIDEO_STREAM_D_S, { "Video Stream", DESC } },
       { VIDEO_WINDOW_D_S, { "Video Window", DESC } },
       { XPORT_STREAM_D_S, { "Transport Stream", DESC } },
+
+      { UTIL_DESC_D_S, { "Utility Pseudo", DESC } },
    };
 
    //

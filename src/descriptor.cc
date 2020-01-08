@@ -44,9 +44,11 @@ namespace sigen
    {
       headerStr(o, id_str);
 
-      o << std::hex;
-      identStr(o, TAG_S, tag);
-      identStr(o, LEN_S, total_length - 2);
+      if (tag != 0) {
+         o << std::hex;
+         identStr(o, TAG_S, tag);
+         identStr(o, LEN_S, total_length - 2);
+      }
    }
 #endif
 

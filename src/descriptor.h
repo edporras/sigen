@@ -60,6 +60,8 @@ namespace sigen {
       //! \brief  Write data bytes to the section. Used by the sectionizer.
       virtual void buildSections(Section &s) const;
 
+      virtual ui32 type() const { return 0; } // 0 = standard data desc
+
    private:
       ui16 total_length; // 8-bit field but stored wider for computations
 

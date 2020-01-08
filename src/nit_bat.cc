@@ -28,6 +28,7 @@
 #include <list>
 #include "table.h"
 #include "descriptor.h"
+#include "util_desc.h"
 #include "tstream.h"
 #include "nit_bat.h"
 
@@ -127,17 +128,27 @@ namespace sigen
                  if (run.nd_iter != descriptors.end()) {
                     run.nd = (*run.nd_iter++).get();
 
-                    // check if we can fit it in this section
-                    if (sec_bytes + run.nd->length() > getMaxDataLen()) {
-                       // holy crap, this is a special case! if the
-                       // section is filled with net descriptors, we
-                       // must sitll write the XS loop length!
+                    // check if we need to move to a new section -
+                    // either a forced break or we can't fit the
+                    // descriptor in this section
+                    if (run.nd->type() == UtilityDesc::SECTION_END_MARK ||
+                        (sec_bytes + run.nd->length() > getMaxDataLen())) {
+                       // if the section is filled with net
+                       // descriptors, we must sitll write an empty XS
+                       // loop length!
                        ts_loop_len_pos = section.getCurDataPosition();
-                       section.set16Bits( 0 ); //xport_stream_loop_length);
+                       section.set16Bits( 0 );
 
                        // we can't.. return so we can get a new section
                        // we'll add it when we come back
                        run.op_state = WRITE_HEAD;
+
+                       // if using a utility desc to force a break,
+                       // clear the pointer so the next one is fetched
+                       if (run.nd->type() == UtilityDesc::SECTION_END_MARK) {
+                          run.nd = nullptr;
+                       }
+
                        exit = true;
                     }
                     else  // found one

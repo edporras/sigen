@@ -33,6 +33,7 @@ libsigen_la_SOURCES = \
 	tot.cc \
 	tstream.cc \
 	utc.cc \
+	util_desc.cc \
 	version.cc
 
 libsigenincludedir = $(includedir)/sigen
@@ -65,6 +66,7 @@ libsigeninclude_HEADERS = \
 	tstream.h \
 	types.h \
 	utc.h \
+	util_desc.h \
 	version.h
 
 

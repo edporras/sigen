@@ -17,43 +17,19 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// sigen.h: global header file for user includes
+// util_desc.cc
 // -----------------------------------
 
-#pragma once
-
-#include "config.h"
-
-#include "types.h"
-#include "dvb_defs.h"
-#include "version.h"
-
-#include "tstream.h"
-#include "packetizer.h"
-#include "utc.h"
-#include "language_code.h"
-#include "dump.h"
-
-#include "table.h"
-#include "nit_bat.h"
-#include "sdt.h"
-#include "pat.h"
-#include "pmt.h"
-#include "cat.h"
-#include "eit.h"
-#include "tdt.h"
-#include "tot.h"
-#include "other_tables.h"
-
-#include "descriptor.h"
-#include "dvb_desc.h"
-#include "mpeg_desc.h"
-#include "nit_desc.h"
-#include "linkage_desc.h"
-#include "sdt_desc.h"
-#include "pmt_desc.h"
-#include "ssu_desc.h"
-#include "eit_desc.h"
 #include "util_desc.h"
 
-#include "eacem_desc.h"
+namespace sigen
+{
+#ifdef ENABLE_DUMP
+      //
+      // debug
+      void UtilityDesc::dump(std::ostream &o) const
+      {
+         dumpHeader(o, UTIL_DESC_D_S);
+      }
+#endif
+} // namespace sigen

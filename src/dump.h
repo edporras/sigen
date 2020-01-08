@@ -349,6 +349,8 @@ namespace sigen {
       VIDEO_STREAM_D_S,   // - Video Stream Descriptor -
       VIDEO_WINDOW_D_S,   // - Video Window Descriptor -
       XPORT_STREAM_D_S,   // - Transport Stream Descriptor -
+
+      UTIL_DESC_D_S,      // - Utility Desc -
    };
 
    // output utility functions

@@ -17,43 +17,52 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// sigen.h: global header file for user includes
+// util_desc.h
 // -----------------------------------
 
 #pragma once
 
-#include "config.h"
-
-#include "types.h"
-#include "dvb_defs.h"
-#include "version.h"
-
-#include "tstream.h"
-#include "packetizer.h"
-#include "utc.h"
-#include "language_code.h"
-#include "dump.h"
-
-#include "table.h"
-#include "nit_bat.h"
-#include "sdt.h"
-#include "pat.h"
-#include "pmt.h"
-#include "cat.h"
-#include "eit.h"
-#include "tdt.h"
-#include "tot.h"
-#include "other_tables.h"
-
 #include "descriptor.h"
-#include "dvb_desc.h"
-#include "mpeg_desc.h"
-#include "nit_desc.h"
-#include "linkage_desc.h"
-#include "sdt_desc.h"
-#include "pmt_desc.h"
-#include "ssu_desc.h"
-#include "eit_desc.h"
-#include "util_desc.h"
 
-#include "eacem_desc.h"
+namespace sigen {
+   /*! \addtogroup utility
+    *  @{
+    */
+
+   /*!
+    * \brief Utility pseudo-descriptor that doesn't generate section
+    * data. To be used in the NIT/BAT's network descriptors loop.
+    */
+   class UtilityDesc : public Descriptor
+   {
+   public:
+
+      /*!
+       * \enum  Type
+       *
+       * \brief Identifier for the type of descriptor to instantiate.
+       */
+      enum Type {
+         SECTION_END_MARK = 1   //!< Section-End marker. Force the current section to end.
+      };
+
+      /*!
+       * \brief Constructor.
+       */
+      UtilityDesc(Type t) : Descriptor(0), u_type(t) {}
+
+      virtual ui32 type() const { return u_type; }
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream &o) const;
+#endif
+
+   private:
+      Type u_type;
+
+      virtual void buildSections(Section&) {}
+      virtual ui16 length() const { return 0; }
+   };
+
+   //! @}
+} // sigen namespace
