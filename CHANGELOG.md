@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.8.0 - 2020-01-13
+### Added
+* Initial set of EACEM descriptors.
+* New Utility "Descriptor" to force section break.
+
 ## 2.7.3 - 2019-07-17
 ### Changed
 * SatelliteDeliverySystemDesc updated to 300 468 1.15.1 spec.

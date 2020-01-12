@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Ed Porras
+# Copyright 1999-2020 Ed Porras
 # 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -18,10 +18,10 @@
 # SOFTWARE.
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-m4_define([sigen_version],[2.7.3])
+m4_define([sigen_version],[2.8.0])
 
 AC_PREREQ([2.69])
-AC_INIT([sigen], [sigen_version], [ep@digressed.net])
+AC_INIT([sigen], [sigen_version], [github@digressed.net])
 AM_INIT_AUTOMAKE
 LT_INIT
 
