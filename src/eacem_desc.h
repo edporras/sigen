@@ -32,12 +32,13 @@ namespace sigen {
     *  @{
     */
 
-   /*!
-    * \defgroup mpeg_d EACEM Descriptors
-    *  @{
-    */
-
    namespace EACEM {
+      /*!
+       * \defgroup eacem_d EACEM Descriptors
+       * \addtogroup eacem_d
+       *  @{
+       */
+
       /*!
        * \brief EACEM Stream Identifier descriptor
        */
@@ -115,8 +116,8 @@ namespace sigen {
          std::list<LogicalChan> channel_list;
       };
 
+      //! @}
    }
 
-   //! @}
    //! @}
 } // sigen namespace

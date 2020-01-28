@@ -100,70 +100,70 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;dvb_desc.h&quot;</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>sigen {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   <span class="keyword">namespace </span>EACEM {</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html">   44</a></span>&#160;      <span class="keyword">struct </span><a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html">PrivateDataSpecifierDesc</a> : <span class="keyword">public</span> <a class="code" href="structsigen_1_1_private_data_specifier_desc.html">sigen::PrivateDataSpecifierDesc</a></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;         <span class="keyword">enum</span> { EACEM_PDSD = 0x00000028 };</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html#a214385faf07aa43c1f23e3142ccb6541">   51</a></span>&#160;         <a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html#a214385faf07aa43c1f23e3142ccb6541">PrivateDataSpecifierDesc</a>() : sigen::<a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html">PrivateDataSpecifierDesc</a>(EACEM_PDSD) {}</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      };</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html">   57</a></span>&#160;      <span class="keyword">struct </span><a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html">StreamIdentifierDesc</a> : <span class="keyword">public</span> PrimitiveDatatypeDesc&lt;ui8&gt;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;         <span class="keyword">enum</span> { TAG = 0x86 };</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html#adcb02aa16c7c4a4e75cbaee338932575">   65</a></span>&#160;         <a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html#adcb02aa16c7c4a4e75cbaee338932575">StreamIdentifierDesc</a>(ui8 version = 1) : PrimitiveDatatypeDesc&lt;ui8&gt;(TAG, version) {}</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#ifdef ENABLE_DUMP</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;         <span class="keyword">virtual</span> <span class="keywordtype">void</span> dump(std::ostream&amp; o)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            dumpData(o, EACEM_STREAM_IDENT_D_S, VER_NUM_S);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      };</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   <span class="keyword">namespace </span>EACEM {</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html">   45</a></span>&#160;      <span class="keyword">struct </span><a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html">PrivateDataSpecifierDesc</a> : <span class="keyword">public</span> <a class="code" href="structsigen_1_1_private_data_specifier_desc.html">sigen::PrivateDataSpecifierDesc</a></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;         <span class="keyword">enum</span> { EACEM_PDSD = 0x00000028 };</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html#a214385faf07aa43c1f23e3142ccb6541">   52</a></span>&#160;         <a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html#a214385faf07aa43c1f23e3142ccb6541">PrivateDataSpecifierDesc</a>() : sigen::<a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html">PrivateDataSpecifierDesc</a>(EACEM_PDSD) {}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      };</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html">   58</a></span>&#160;      <span class="keyword">struct </span><a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html">StreamIdentifierDesc</a> : <span class="keyword">public</span> PrimitiveDatatypeDesc&lt;ui8&gt;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;         <span class="keyword">enum</span> { TAG = 0x86 };</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html#adcb02aa16c7c4a4e75cbaee338932575">   66</a></span>&#160;         <a class="code" href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html#adcb02aa16c7c4a4e75cbaee338932575">StreamIdentifierDesc</a>(ui8 version = 1) : PrimitiveDatatypeDesc&lt;ui8&gt;(TAG, version) {}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#ifdef ENABLE_DUMP</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;         <span class="keyword">virtual</span> <span class="keywordtype">void</span> dump(std::ostream&amp; o)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            dumpData(o, EACEM_STREAM_IDENT_D_S, VER_NUM_S);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;         }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      };</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html">   78</a></span>&#160;      <span class="keyword">class </span><a class="code" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html">LogicalChannelDesc</a> : <span class="keyword">public</span> <a class="code" href="classsigen_1_1_descriptor.html">Descriptor</a></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;         <span class="keyword">enum</span> { TAG = 0x83 };</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ae525c4b267af6e9fb753901f9f47d2c5">   86</a></span>&#160;         <a class="code" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ae525c4b267af6e9fb753901f9f47d2c5">LogicalChannelDesc</a>() : <a class="code" href="classsigen_1_1_descriptor.html">Descriptor</a>(TAG) {}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         <span class="keywordtype">bool</span> <a class="code" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ab85481d807c693f58e6299e839fa2f41">addLogicalChan</a>(ui16 sid, ui16 logical_channel_num = 0, <span class="keywordtype">bool</span> visible_service_flag = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;         <span class="keyword">virtual</span> <span class="keywordtype">void</span> buildSections(Section &amp;s) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#ifdef ENABLE_DUMP</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;         <span class="keyword">virtual</span> <span class="keywordtype">void</span> dump(std::ostream&amp; o) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;         <span class="keyword">struct </span>LogicalChan {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keyword">enum</span> { BASE_LEN = 4 };</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            LogicalChan(ui16 service_id, <span class="keywordtype">bool</span> visible_serv_flag, ui16 LCN)</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;               : sid(service_id), visible_service_flag(visible_serv_flag), logical_channel_number(LCN)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            {}</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            ui16 sid;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            ui16 visible_service_flag : 1,</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                 logical_channel_number : 10;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;         };</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;         std::list&lt;LogicalChan&gt; channel_list;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      };</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;   }</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;} <span class="comment">// sigen namespace</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html">   79</a></span>&#160;      <span class="keyword">class </span><a class="code" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html">LogicalChannelDesc</a> : <span class="keyword">public</span> <a class="code" href="classsigen_1_1_descriptor.html">Descriptor</a></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;         <span class="keyword">enum</span> { TAG = 0x83 };</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ae525c4b267af6e9fb753901f9f47d2c5">   87</a></span>&#160;         <a class="code" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ae525c4b267af6e9fb753901f9f47d2c5">LogicalChannelDesc</a>() : <a class="code" href="classsigen_1_1_descriptor.html">Descriptor</a>(TAG) {}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;         <span class="keywordtype">bool</span> <a class="code" href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ab85481d807c693f58e6299e839fa2f41">addLogicalChan</a>(ui16 sid, ui16 logical_channel_num = 0, <span class="keywordtype">bool</span> visible_service_flag = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;         <span class="keyword">virtual</span> <span class="keywordtype">void</span> buildSections(Section &amp;s) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#ifdef ENABLE_DUMP</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;         <span class="keyword">virtual</span> <span class="keywordtype">void</span> dump(std::ostream&amp; o) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;         <span class="keyword">struct </span>LogicalChan {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keyword">enum</span> { BASE_LEN = 4 };</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            LogicalChan(ui16 service_id, <span class="keywordtype">bool</span> visible_serv_flag, ui16 LCN)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;               : sid(service_id), visible_service_flag(visible_serv_flag), logical_channel_number(LCN)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            {}</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            ui16 sid;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            ui16 visible_service_flag : 1,</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                 logical_channel_number : 10;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;         };</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;         std::list&lt;LogicalChan&gt; channel_list;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      };</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;   }</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;} <span class="comment">// sigen namespace</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="astructsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc_html"><div class="ttname"><a href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html">sigen::EACEM::PrivateDataSpecifierDesc</a></div><div class="ttdoc">EACEM Stream Identifier descriptor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00044">eacem_desc.h:44</a></div></div>
-<div class="ttc" id="astructsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc_html_a214385faf07aa43c1f23e3142ccb6541"><div class="ttname"><a href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html#a214385faf07aa43c1f23e3142ccb6541">sigen::EACEM::PrivateDataSpecifierDesc::PrivateDataSpecifierDesc</a></div><div class="ttdeci">PrivateDataSpecifierDesc()</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00051">eacem_desc.h:51</a></div></div>
+<div class="ttc" id="astructsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc_html"><div class="ttname"><a href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html">sigen::EACEM::PrivateDataSpecifierDesc</a></div><div class="ttdoc">EACEM Stream Identifier descriptor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00045">eacem_desc.h:45</a></div></div>
+<div class="ttc" id="astructsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc_html_a214385faf07aa43c1f23e3142ccb6541"><div class="ttname"><a href="structsigen_1_1_e_a_c_e_m_1_1_private_data_specifier_desc.html#a214385faf07aa43c1f23e3142ccb6541">sigen::EACEM::PrivateDataSpecifierDesc::PrivateDataSpecifierDesc</a></div><div class="ttdeci">PrivateDataSpecifierDesc()</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00052">eacem_desc.h:52</a></div></div>
 <div class="ttc" id="aclasssigen_1_1_descriptor_html"><div class="ttname"><a href="classsigen_1_1_descriptor.html">sigen::Descriptor</a></div><div class="ttdoc">Abstract base class for all descriptor types.</div><div class="ttdef"><b>Definition:</b> <a href="descriptor_8h_source.html#l00051">descriptor.h:51</a></div></div>
-<div class="ttc" id="aclasssigen_1_1_e_a_c_e_m_1_1_logical_channel_desc_html_ae525c4b267af6e9fb753901f9f47d2c5"><div class="ttname"><a href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ae525c4b267af6e9fb753901f9f47d2c5">sigen::EACEM::LogicalChannelDesc::LogicalChannelDesc</a></div><div class="ttdeci">LogicalChannelDesc()</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00086">eacem_desc.h:86</a></div></div>
-<div class="ttc" id="astructsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc_html_adcb02aa16c7c4a4e75cbaee338932575"><div class="ttname"><a href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html#adcb02aa16c7c4a4e75cbaee338932575">sigen::EACEM::StreamIdentifierDesc::StreamIdentifierDesc</a></div><div class="ttdeci">StreamIdentifierDesc(ui8 version=1)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00065">eacem_desc.h:65</a></div></div>
-<div class="ttc" id="astructsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc_html"><div class="ttname"><a href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html">sigen::EACEM::StreamIdentifierDesc</a></div><div class="ttdoc">EACEM Stream Identifier descriptor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00057">eacem_desc.h:57</a></div></div>
-<div class="ttc" id="aclasssigen_1_1_e_a_c_e_m_1_1_logical_channel_desc_html"><div class="ttname"><a href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html">sigen::EACEM::LogicalChannelDesc</a></div><div class="ttdoc">Logical Channel Desc.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00078">eacem_desc.h:78</a></div></div>
+<div class="ttc" id="aclasssigen_1_1_e_a_c_e_m_1_1_logical_channel_desc_html_ae525c4b267af6e9fb753901f9f47d2c5"><div class="ttname"><a href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ae525c4b267af6e9fb753901f9f47d2c5">sigen::EACEM::LogicalChannelDesc::LogicalChannelDesc</a></div><div class="ttdeci">LogicalChannelDesc()</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00087">eacem_desc.h:87</a></div></div>
+<div class="ttc" id="astructsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc_html_adcb02aa16c7c4a4e75cbaee338932575"><div class="ttname"><a href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html#adcb02aa16c7c4a4e75cbaee338932575">sigen::EACEM::StreamIdentifierDesc::StreamIdentifierDesc</a></div><div class="ttdeci">StreamIdentifierDesc(ui8 version=1)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00066">eacem_desc.h:66</a></div></div>
+<div class="ttc" id="astructsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc_html"><div class="ttname"><a href="structsigen_1_1_e_a_c_e_m_1_1_stream_identifier_desc.html">sigen::EACEM::StreamIdentifierDesc</a></div><div class="ttdoc">EACEM Stream Identifier descriptor.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00058">eacem_desc.h:58</a></div></div>
+<div class="ttc" id="aclasssigen_1_1_e_a_c_e_m_1_1_logical_channel_desc_html"><div class="ttname"><a href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html">sigen::EACEM::LogicalChannelDesc</a></div><div class="ttdoc">Logical Channel Desc.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8h_source.html#l00079">eacem_desc.h:79</a></div></div>
 <div class="ttc" id="astructsigen_1_1_private_data_specifier_desc_html"><div class="ttname"><a href="structsigen_1_1_private_data_specifier_desc.html">sigen::PrivateDataSpecifierDesc</a></div><div class="ttdoc">Private Data Specifier Descriptor.</div><div class="ttdef"><b>Definition:</b> <a href="dvb__desc_8h_source.html#l00338">dvb_desc.h:338</a></div></div>
 <div class="ttc" id="aclasssigen_1_1_e_a_c_e_m_1_1_logical_channel_desc_html_ab85481d807c693f58e6299e839fa2f41"><div class="ttname"><a href="classsigen_1_1_e_a_c_e_m_1_1_logical_channel_desc.html#ab85481d807c693f58e6299e839fa2f41">sigen::EACEM::LogicalChannelDesc::addLogicalChan</a></div><div class="ttdeci">bool addLogicalChan(ui16 sid, ui16 logical_channel_num=0, bool visible_service_flag=true)</div><div class="ttdoc">Add a logical channel entry to the loop.</div><div class="ttdef"><b>Definition:</b> <a href="eacem__desc_8cc_source.html#l00040">eacem_desc.cc:40</a></div></div>
 <!-- start footer part -->
