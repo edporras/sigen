@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.8.1 - 2020-02-07
+### Fixed
+* Missing include header for std::find_if in table.cc
+
 ## 2.8.0 - 2020-01-13
 ### Added
 * Initial set of EACEM descriptors.
