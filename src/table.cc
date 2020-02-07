@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <list>
+#include <algorithm>
 #include "types.h"
 #include "table.h"
 #include "descriptor.h"
