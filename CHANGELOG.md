@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.8.2 - 2020-02-25
+### Added
+* ClonedDataDesc utility for cloning a vector of descriptor data.
+
 ## 2.8.1 - 2020-02-07
 ### Fixed
 * Missing include header for std::find_if in table.cc

@@ -18,7 +18,7 @@
 # SOFTWARE.
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-m4_define([sigen_version],[2.8.1])
+m4_define([sigen_version],[2.8.2])
 
 AC_PREREQ([2.69])
 AC_INIT([sigen], [sigen_version], [github@digressed.net])
