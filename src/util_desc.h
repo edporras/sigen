@@ -64,5 +64,33 @@ namespace sigen {
       virtual ui16 length() const { return 0; }
    };
 
+   /*!
+    * \brief Cloned Data Descriptor
+    */
+   struct ClonedDataDesc : public Descriptor
+   {
+      /*!
+       * \brief Constructor.
+       * \param data complete body of the descriptor, including tag
+       * and length bytes. Throws std::out_of_range if data size is
+       * greater than 255 or less than 2
+       */
+      ClonedDataDesc(const std::vector<ui8>& data);
+      ClonedDataDesc() = delete;
+
+      // utility functions
+      virtual void buildSections(Section &s) const {
+         Descriptor::buildSections(s);
+         s.setBits( body );
+      }
+
+#ifdef ENABLE_DUMP
+      virtual void dump(std::ostream& o) const;
+#endif
+
+   private:
+      std::vector<ui8> body;
+   };
+
    //! @}
 } // sigen namespace

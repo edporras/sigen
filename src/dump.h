@@ -55,6 +55,7 @@ namespace sigen {
       ASVC_FLAG_S,        // asvc flag
       AUDIO_TYPE_S,       // Audio type
       BANDWIDTH_S,        // Bandwidth
+      BODY_S,             // Body
       BOUND_VALID_F_S,    // Bound valid flag
       BOUQUET_ID_S,       // Bouquet id
       BOUQUET_DESC_LEN_S, // Bouquet desc len
@@ -350,7 +351,9 @@ namespace sigen {
       VIDEO_WINDOW_D_S,   // - Video Window Descriptor -
       XPORT_STREAM_D_S,   // - Transport Stream Descriptor -
 
+      // special types
       UTIL_DESC_D_S,      // - Utility Desc -
+      CLONED_DESC_D_S,    // - Cloned Desc -
    };
 
    // output utility functions

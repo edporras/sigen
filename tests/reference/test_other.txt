@@ -1,0 +1,46 @@
+- - NIT Dump (Actual) - -
+Table id            : 0x40
+Section syn. ind.   : 1
+rsvrd. future use   : 0x1
+reserved            : 0x3
+Table length        : 31 (0x1f)
+Network id          : 256 (0x100)
+reserved            : 0x3
+Version number      : 1
+Current next ind.   : 1
+rsvrd. future use   : 0xf
+Network desc. len   : 22 (0x16)
+
+ - Network Name Descriptor -
+ Tag                 : 0x40
+ Length              : 10 (0xa)
+ Network name        : "my network"
+
+ - Cloned Descriptor -
+ Tag                 : 0xa0
+ Length              : 0 (0)
+
+ - Cloned Descriptor -
+ Tag                 : 0xa1
+ Length              : 1 (0x1)
+  Body                : 23
+
+ - Cloned Descriptor -
+ Tag                 : 0xa2
+ Length              : 3 (0x3)
+  Body                : 456789
+
+
+rsvrd. future use   : 0xf
+Xprt str loop len   : 0 (0)
+
+
+
+-- Section dump - num_sections: 1 --
+
+- sec: 0, length: 38, size (max): 1024, data: 
+[0000] 40 f0 23 01 00 c3 00 00 f0 16 40 0a 6d 79 20 6e   @.#.......@.my n
+[0016] 65 74 77 6f 72 6b a0 00 a1 01 23 a2 03 45 67 89   etwork....#..Eg.
+[0032] f0 00 cb 20 6d 20                                 ... m 
+
+PASS test_other.sh (exit status: 0)

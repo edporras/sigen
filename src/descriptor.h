@@ -1,4 +1,4 @@
-// Copyright 1999-2019 Ed Porras
+// Copyright 1999-2020 Ed Porras
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation

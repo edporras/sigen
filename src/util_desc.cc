@@ -32,4 +32,30 @@ namespace sigen
          dumpHeader(o, UTIL_DESC_D_S);
       }
 #endif
+
+   // ---------------------------------------
+   // cloned descriptor special type
+   //
+   ClonedDataDesc::ClonedDataDesc(const std::vector<ui8>& data)
+      : Descriptor(data.at(0), data.at(1))
+   {
+      if (data.size() > MAX_LEN || data.size() != length()) {
+         throw std::out_of_range("Invalid data length for argument to ClonedDataDesc");
+      }
+      if (data.size() > 2) {
+         std::copy(data.begin() + 2, data.end(), std::back_inserter(body));
+      }
+   }
+
+#ifdef ENABLE_DUMP
+   void ClonedDataDesc::dump(std::ostream &o) const
+   {
+      dumpHeader( o, CLONED_DESC_D_S );
+
+      incOutLevel();
+      identStr(o, BODY_S, body);
+      decOutLevel();
+   }
+#endif
+
 } // namespace sigen

@@ -60,6 +60,7 @@ namespace sigen
       { ASVC_FLAG_S, { "asvc flag" } },
       { AUDIO_TYPE_S, { "Audio type" } },
       { BANDWIDTH_S, { "Bandwidth" } },
+      { BODY_S, { "Body" } },
       { BOUND_VALID_F_S, { "Bound valid flag" } },
       { BOUQUET_ID_S, { "Bouquet id" } },
       { BOUQUET_DESC_LEN_S, { "Bouquet desc len", DECHEX } },
@@ -356,6 +357,7 @@ namespace sigen
       { XPORT_STREAM_D_S, { "Transport Stream", DESC } },
 
       { UTIL_DESC_D_S, { "Utility Pseudo", DESC } },
+      { CLONED_DESC_D_S, { "Cloned", DESC } },
    };
 
    //
