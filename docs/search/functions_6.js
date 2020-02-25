@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['hierarchydesc_417',['HierarchyDesc',['../classsigen_1_1_hierarchy_desc.html#a9e10ffa1220a5fe375163573867d6181',1,'sigen::HierarchyDesc']]]
-];
