@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['updatetype_496',['UpdateType',['../classsigen_1_1_s_s_u_data_broadcast_id_desc.html#a19108a24b3ccd5f7a8fa8aa4212fa145',1,'sigen::SSUDataBroadcastIdDesc']]]
+  ['updatetype_499',['UpdateType',['../classsigen_1_1_s_s_u_data_broadcast_id_desc.html#a19108a24b3ccd5f7a8fa8aa4212fa145',1,'sigen::SSUDataBroadcastIdDesc']]]
 ];

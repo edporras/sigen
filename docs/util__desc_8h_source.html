@@ -120,11 +120,31 @@ $(function() {
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keyword">virtual</span> ui16 length()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> 0; }</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;   };</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;} <span class="comment">// sigen namespace</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="structsigen_1_1_cloned_data_desc.html">   70</a></span>&#160;   <span class="keyword">struct </span><a class="code" href="structsigen_1_1_cloned_data_desc.html">ClonedDataDesc</a> : <span class="keyword">public</span> <a class="code" href="classsigen_1_1_descriptor.html">Descriptor</a></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;   {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      <a class="code" href="structsigen_1_1_cloned_data_desc.html">ClonedDataDesc</a>(<span class="keyword">const</span> std::vector&lt;ui8&gt;&amp; data);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <a class="code" href="structsigen_1_1_cloned_data_desc.html">ClonedDataDesc</a>() = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="comment">// utility functions</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> buildSections(Section &amp;s)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;         Descriptor::buildSections(s);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;         s.setBits( body );</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#ifdef ENABLE_DUMP</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> dump(std::ostream&amp; o) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;   <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      std::vector&lt;ui8&gt; body;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;   };</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;} <span class="comment">// sigen namespace</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclasssigen_1_1_utility_desc_html_a344b7ad5ef60e488689b38bac369fd11"><div class="ttname"><a href="classsigen_1_1_utility_desc.html#a344b7ad5ef60e488689b38bac369fd11">sigen::UtilityDesc::UtilityDesc</a></div><div class="ttdeci">UtilityDesc(Type t)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> <a href="util__desc_8h_source.html#l00052">util_desc.h:52</a></div></div>
 <div class="ttc" id="aclasssigen_1_1_descriptor_html"><div class="ttname"><a href="classsigen_1_1_descriptor.html">sigen::Descriptor</a></div><div class="ttdoc">Abstract base class for all descriptor types.</div><div class="ttdef"><b>Definition:</b> <a href="descriptor_8h_source.html#l00051">descriptor.h:51</a></div></div>
 <div class="ttc" id="aclasssigen_1_1_utility_desc_html_a0badc8c90745c014905abe4e35a78760"><div class="ttname"><a href="classsigen_1_1_utility_desc.html#a0badc8c90745c014905abe4e35a78760">sigen::UtilityDesc::Type</a></div><div class="ttdeci">Type</div><div class="ttdoc">Identifier for the type of descriptor to instantiate.</div><div class="ttdef"><b>Definition:</b> <a href="util__desc_8h_source.html#l00045">util_desc.h:45</a></div></div>
+<div class="ttc" id="astructsigen_1_1_cloned_data_desc_html"><div class="ttname"><a href="structsigen_1_1_cloned_data_desc.html">sigen::ClonedDataDesc</a></div><div class="ttdoc">Cloned Data Descriptor.</div><div class="ttdef"><b>Definition:</b> <a href="util__desc_8h_source.html#l00070">util_desc.h:70</a></div></div>
 <div class="ttc" id="aclasssigen_1_1_utility_desc_html_a0badc8c90745c014905abe4e35a78760adc7d8f944f81871be994d8c2a92fdbf8"><div class="ttname"><a href="classsigen_1_1_utility_desc.html#a0badc8c90745c014905abe4e35a78760adc7d8f944f81871be994d8c2a92fdbf8">sigen::UtilityDesc::SECTION_END_MARK</a></div><div class="ttdeci">@ SECTION_END_MARK</div><div class="ttdoc">Section-End marker. Force the current section to end.</div><div class="ttdef"><b>Definition:</b> <a href="util__desc_8h_source.html#l00046">util_desc.h:46</a></div></div>
 <div class="ttc" id="aclasssigen_1_1_utility_desc_html"><div class="ttname"><a href="classsigen_1_1_utility_desc.html">sigen::UtilityDesc</a></div><div class="ttdoc">Utility pseudo-descriptor that doesn't generate section data. To be used in the NIT/BAT's network des...</div><div class="ttdef"><b>Definition:</b> <a href="util__desc_8h_source.html#l00036">util_desc.h:36</a></div></div>
 <!-- start footer part -->
