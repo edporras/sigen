@@ -1,9 +1,0 @@
-version: "3"
-services:
-
-  sigen:
-    image: digressed/test:sigen
-    stdin_open: true
-    tty: true
-    volumes:
-      - /Volumes/homes/ep/work/sigen:/home/ned/app
