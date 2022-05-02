@@ -6,6 +6,7 @@
 *.log
 *.old
 *.trs
+*.bak
 lib*.a
 lib*.so
 lib*.dylib

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-make distclean 2> /dev/null
-
-set -e
-
-docker-compose -f docker/docker-compose.yml run sigen docker/make-check
